@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Procore ERP Connector Map</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Procore ERP Connector Map</h1>
+    <p class="subtitle">Click any node to see its connections and support documentation. Drag nodes to rearrange.</p>
+    <div class="legend">
+      <span class="legend-item"><span class="legend-dot legend-core"></span>Procore</span>
+      <span class="legend-item"><span class="legend-dot legend-erp"></span>ERP Connector</span>
+      <span class="legend-item"><span class="legend-dot legend-module"></span>Data Object / Module</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="graph"></div>
+    <aside id="details" class="details details-empty">
+      <h2 id="details-title">Select a node</h2>
+      <p id="details-empty-text">Click any node in the graph to see connector details, data flow, and support documentation.</p>
+      <div id="details-content" hidden>
+        <p id="details-type" class="details-type"></p>
+        <p id="details-connector" class="details-connector"></p>
+        <a id="details-link" class="details-link" href="#" target="_blank" rel="noopener">Open support documentation &rarr;</a>
+        <h3>Data Flow &amp; Connections</h3>
+        <ul id="details-connections"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
