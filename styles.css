@@ -69,6 +69,21 @@ header h1 {
 .legend-erp    { background: var(--color-erp); }
 .legend-module { background: var(--color-module); }
 
+.legend-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--color-border);
+  margin: 0 4px;
+}
+
+.legend-symbol {
+  display: inline-block;
+  min-width: 14px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
 main {
   flex: 1;
   display: grid;
@@ -156,6 +171,14 @@ main {
 
 .details li:hover { background: #e6eaf0; }
 
+.direction-symbol {
+  display: inline-block;
+  min-width: 18px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
 .details-empty #details-content { display: none; }
 
 #details-empty-text {
@@ -188,10 +211,23 @@ main {
   stroke-opacity: 0.6;
 }
 
+.link.link-structural {
+  stroke-dasharray: 3 3;
+  stroke-opacity: 0.35;
+}
+
 .link.highlighted {
   stroke: var(--color-link-line-active);
   stroke-opacity: 0.9;
   stroke-width: 2px;
+}
+
+.link.highlighted[marker-end] {
+  marker-end: url(#arrow-active);
+}
+
+.link.highlighted[marker-start] {
+  marker-start: url(#arrow-active);
 }
 
 .dimmed { opacity: 0.15; }

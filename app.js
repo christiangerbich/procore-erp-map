@@ -2,6 +2,15 @@
   const NODE_RADIUS = { core: 26, erp: 16, module: 12 };
   const NODE_COLOR = { core: "#f59e0b", erp: "#2563eb", module: "#10b981" };
 
+  // Direction symbols shown next to each item in the side panel.
+  // Symbol is rendered from the perspective of the currently-selected node.
+  const DIRECTION_SYMBOLS = {
+    both: "↔",      // ↔
+    outbound: "→",  // → (this node sends data out to the neighbor)
+    inbound: "←",   // ← (this node receives data from the neighbor)
+    structural: "○" // ○ (no data direction — Procore-to-module link)
+  };
+
   const data = await fetch("data.json").then((r) => {
     if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
     return r.json();
@@ -12,12 +21,13 @@
   const height = container.clientHeight;
 
   const nodesById = new Map(data.nodes.map((n) => [n.id, n]));
-  // Build adjacency for quick lookups when a node is selected.
-  const adjacency = new Map();
-  for (const n of data.nodes) adjacency.set(n.id, new Set());
+  // Index links by node id so we can look up direction relative to the
+  // currently selected node.
+  const linksByNode = new Map();
+  for (const n of data.nodes) linksByNode.set(n.id, []);
   for (const l of data.links) {
-    adjacency.get(l.source).add(l.target);
-    adjacency.get(l.target).add(l.source);
+    linksByNode.get(l.source).push(l);
+    linksByNode.get(l.target).push(l);
   }
 
   const svg = d3
@@ -25,6 +35,27 @@
     .append("svg")
     .attr("viewBox", [0, 0, width, height])
     .attr("preserveAspectRatio", "xMidYMid meet");
+
+  // Arrow marker definitions. Using orient="auto-start-reverse" so the
+  // same marker definition works for both marker-end and marker-start —
+  // SVG flips the marker 180° automatically when used as marker-start.
+  const defs = svg.append("defs");
+  function defineArrow(id, color) {
+    defs
+      .append("marker")
+      .attr("id", id)
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 9)
+      .attr("refY", 5)
+      .attr("markerWidth", 7)
+      .attr("markerHeight", 7)
+      .attr("orient", "auto-start-reverse")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 z")
+      .attr("fill", color);
+  }
+  defineArrow("arrow", "#52606d");
+  defineArrow("arrow-active", "#1f2933");
 
   const zoomLayer = svg.append("g");
   svg.call(
@@ -63,8 +94,18 @@
     .selectAll("line")
     .data(data.links)
     .join("line")
-    .attr("class", "link")
-    .attr("stroke-width", 1.2);
+    .attr("class", (d) => "link" + (d.direction ? " link-data" : " link-structural"))
+    .attr("stroke-width", 1.2)
+    .attr("marker-end", (d) => {
+      if (!d.direction) return null;
+      if (d.direction === "from-erp" || d.direction === "both") return "url(#arrow)";
+      return null;
+    })
+    .attr("marker-start", (d) => {
+      if (!d.direction) return null;
+      if (d.direction === "to-erp" || d.direction === "both") return "url(#arrow)";
+      return null;
+    });
 
   const node = nodeGroup
     .selectAll("g")
@@ -85,12 +126,32 @@
     .attr("y", 4)
     .text((d) => d.label);
 
+  // On each tick, shorten lines so endpoints sit at the edges of the
+  // node circles rather than at their centers. This makes arrow tips
+  // visible and not buried inside the target node.
   simulation.on("tick", () => {
     link
-      .attr("x1", (d) => d.source.x)
-      .attr("y1", (d) => d.source.y)
-      .attr("x2", (d) => d.target.x)
-      .attr("y2", (d) => d.target.y);
+      .each(function (d) {
+        const sourceRadius = NODE_RADIUS[d.source.type];
+        const targetRadius = NODE_RADIUS[d.target.type];
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const ux = dx / dist;
+        const uy = dy / dist;
+        // For lines with a start marker, leave a tiny extra gap so the
+        // arrowhead doesn't kiss the source circle.
+        const startPad = d.direction === "to-erp" || d.direction === "both" ? 2 : 0;
+        const endPad = d.direction === "from-erp" || d.direction === "both" ? 2 : 0;
+        d.__sx = d.source.x + ux * (sourceRadius + startPad);
+        d.__sy = d.source.y + uy * (sourceRadius + startPad);
+        d.__tx = d.target.x - ux * (targetRadius + endPad);
+        d.__ty = d.target.y - uy * (targetRadius + endPad);
+      })
+      .attr("x1", (d) => d.__sx)
+      .attr("y1", (d) => d.__sy)
+      .attr("x2", (d) => d.__tx)
+      .attr("y2", (d) => d.__ty);
 
     node.attr("transform", (d) => `translate(${d.x},${d.y})`);
   });
@@ -104,6 +165,27 @@
   const connectorEl = document.getElementById("details-connector");
   const linkEl = document.getElementById("details-link");
   const connectionsEl = document.getElementById("details-connections");
+
+  // Compute the arrow symbol from the selected node's perspective.
+  // direction in JSON is named relative to the ERP-as-source orientation:
+  //   "to-erp"   = data flows from module (Procore) to ERP
+  //   "from-erp" = data flows from ERP to module (Procore)
+  //   "both"     = bidirectional
+  // The link.source is always the ERP (or Procore for structural links).
+  function symbolFor(link, fromNodeId) {
+    if (!link.direction) return DIRECTION_SYMBOLS.structural;
+    if (link.direction === "both") return DIRECTION_SYMBOLS.both;
+    const isSource = link.source.id === fromNodeId || link.source === fromNodeId;
+    if (link.direction === "from-erp") {
+      // ERP -> module. Outbound from ERP side, inbound on module side.
+      return isSource ? DIRECTION_SYMBOLS.outbound : DIRECTION_SYMBOLS.inbound;
+    }
+    if (link.direction === "to-erp") {
+      // module -> ERP. Inbound on ERP side, outbound from module side.
+      return isSource ? DIRECTION_SYMBOLS.inbound : DIRECTION_SYMBOLS.outbound;
+    }
+    return DIRECTION_SYMBOLS.both;
+  }
 
   function selectNode(id) {
     const n = nodesById.get(id);
@@ -131,20 +213,30 @@
       linkEl.style.display = "none";
     }
 
-    const neighborIds = Array.from(adjacency.get(n.id));
+    const incidentLinks = linksByNode.get(n.id);
     connectionsEl.innerHTML = "";
-    neighborIds
-      .map((nid) => nodesById.get(nid))
-      .sort((a, b) => a.label.localeCompare(b.label))
-      .forEach((neighbor) => {
+    incidentLinks
+      .map((l) => {
+        const otherId =
+          (l.source.id || l.source) === n.id ? (l.target.id || l.target) : (l.source.id || l.source);
+        return { link: l, neighbor: nodesById.get(otherId) };
+      })
+      .sort((a, b) => a.neighbor.label.localeCompare(b.neighbor.label))
+      .forEach(({ link, neighbor }) => {
         const li = document.createElement("li");
-        li.textContent = neighbor.label;
+        const sym = document.createElement("span");
+        sym.className = "direction-symbol";
+        sym.textContent = symbolFor(link, n.id);
+        const label = document.createElement("span");
+        label.textContent = " " + neighbor.label;
+        li.appendChild(sym);
+        li.appendChild(label);
         li.addEventListener("click", () => selectNode(neighbor.id));
         connectionsEl.appendChild(li);
       });
 
     // Visual highlight on the graph
-    const neighborSet = new Set(neighborIds);
+    const neighborSet = new Set(incidentLinks.map((l) => (l.source.id || l.source) === n.id ? (l.target.id || l.target) : (l.source.id || l.source)));
     neighborSet.add(n.id);
 
     node.classed("selected", (d) => d.id === n.id);
