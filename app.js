@@ -36,6 +36,14 @@
     .attr("viewBox", [0, 0, width, height])
     .attr("preserveAspectRatio", "xMidYMid meet");
 
+  // Line + arrow colors, keyed by link direction. Kept in sync with the
+  // CSS variables in styles.css and the legend swatches in index.html.
+  const LINK_COLORS = {
+    both: "#6366f1",     // indigo  — bidirectional
+    "to-erp": "#d97706", // amber   — export (Procore → ERP)
+    "from-erp": "#0d9488"// teal    — import (ERP → Procore)
+  };
+
   // Arrow marker definitions. Using orient="auto-start-reverse" so the
   // same marker definition works for both marker-end and marker-start —
   // SVG flips the marker 180° automatically when used as marker-start.
@@ -54,8 +62,9 @@
       .attr("d", "M 0 0 L 10 5 L 0 10 z")
       .attr("fill", color);
   }
-  defineArrow("arrow", "#52606d");
-  defineArrow("arrow-active", "#1f2933");
+  defineArrow("arrow-both",     LINK_COLORS.both);
+  defineArrow("arrow-to-erp",   LINK_COLORS["to-erp"]);
+  defineArrow("arrow-from-erp", LINK_COLORS["from-erp"]);
 
   const zoomLayer = svg.append("g");
   svg.call(
@@ -78,32 +87,37 @@
         .distance((l) => {
           const a = nodesById.get(typeof l.source === "object" ? l.source.id : l.source);
           const b = nodesById.get(typeof l.target === "object" ? l.target.id : l.target);
-          if (a.type === "core" || b.type === "core") return 140;
-          return 90;
+          if (a.type === "core" || b.type === "core") return 220;
+          return 150;
         })
-        .strength(0.5)
+        .strength(0.3)
     )
-    .force("charge", d3.forceManyBody().strength(-260))
+    .force("charge", d3.forceManyBody().strength(-520))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force(
       "collision",
-      d3.forceCollide().radius((d) => NODE_RADIUS[d.type] + 6)
+      d3.forceCollide().radius((d) => NODE_RADIUS[d.type] + 14)
     );
 
   const link = linkGroup
     .selectAll("line")
     .data(data.links)
     .join("line")
-    .attr("class", (d) => "link" + (d.direction ? " link-data" : " link-structural"))
-    .attr("stroke-width", 1.2)
+    .attr("class", (d) =>
+      "link " + (d.direction ? "link-data link-" + d.direction : "link-structural")
+    )
+    .attr("stroke", (d) => (d.direction ? LINK_COLORS[d.direction] : null))
+    .attr("stroke-width", 1.4)
     .attr("marker-end", (d) => {
       if (!d.direction) return null;
-      if (d.direction === "from-erp" || d.direction === "both") return "url(#arrow)";
+      const id = d.direction === "to-erp" ? "arrow-to-erp" : d.direction === "from-erp" ? "arrow-from-erp" : "arrow-both";
+      if (d.direction === "from-erp" || d.direction === "both") return `url(#${id})`;
       return null;
     })
     .attr("marker-start", (d) => {
       if (!d.direction) return null;
-      if (d.direction === "to-erp" || d.direction === "both") return "url(#arrow)";
+      const id = d.direction === "to-erp" ? "arrow-to-erp" : d.direction === "from-erp" ? "arrow-from-erp" : "arrow-both";
+      if (d.direction === "to-erp" || d.direction === "both") return `url(#${id})`;
       return null;
     });
 
@@ -225,7 +239,8 @@
       .forEach(({ link, neighbor }) => {
         const li = document.createElement("li");
         const sym = document.createElement("span");
-        sym.className = "direction-symbol";
+        const dirClass = link.direction ? "direction-" + link.direction : "direction-structural";
+        sym.className = "direction-symbol " + dirClass;
         sym.textContent = symbolFor(link, n.id);
         const label = document.createElement("span");
         label.textContent = " " + neighbor.label;

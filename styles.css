@@ -10,6 +10,12 @@
   --color-module: #10b981;
   --color-link-line: #cbd2d9;
   --color-link-line-active: #1f2933;
+
+  /* Data-flow line colors. Kept in sync with LINK_COLORS in app.js. */
+  --color-flow-both: #6366f1;     /* indigo  — bidirectional sync */
+  --color-flow-to-erp: #d97706;   /* amber   — export (Procore → ERP) */
+  --color-flow-from-erp: #0d9488; /* teal    — import (ERP → Procore) */
+
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
@@ -80,9 +86,13 @@ header h1 {
   display: inline-block;
   min-width: 14px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
 }
+
+.legend-symbol.legend-symbol-both     { color: var(--color-flow-both); }
+.legend-symbol.legend-symbol-to-erp   { color: var(--color-flow-to-erp); }
+.legend-symbol.legend-symbol-from-erp { color: var(--color-flow-from-erp); }
 
 main {
   flex: 1;
@@ -175,9 +185,13 @@ main {
   display: inline-block;
   min-width: 18px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text-muted);
 }
+
+.direction-symbol.direction-both     { color: var(--color-flow-both); }
+.direction-symbol.direction-to-erp   { color: var(--color-flow-to-erp); }
+.direction-symbol.direction-from-erp { color: var(--color-flow-from-erp); }
 
 .details-empty #details-content { display: none; }
 
@@ -208,26 +222,26 @@ main {
 
 .link {
   stroke: var(--color-link-line);
-  stroke-opacity: 0.6;
+  stroke-opacity: 0.75;
 }
 
 .link.link-structural {
+  stroke: var(--color-link-line);
   stroke-dasharray: 3 3;
   stroke-opacity: 0.35;
 }
 
+.link.link-data {
+  stroke-opacity: 0.75;
+}
+
 .link.highlighted {
-  stroke: var(--color-link-line-active);
-  stroke-opacity: 0.9;
-  stroke-width: 2px;
+  stroke-opacity: 1;
+  stroke-width: 2.4px;
 }
 
-.link.highlighted[marker-end] {
-  marker-end: url(#arrow-active);
-}
-
-.link.highlighted[marker-start] {
-  marker-start: url(#arrow-active);
+.link.dimmed {
+  stroke-opacity: 0.12;
 }
 
 .dimmed { opacity: 0.15; }
