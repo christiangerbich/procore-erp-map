@@ -12,9 +12,9 @@
   --color-link-line-active: #1f2933;
 
   /* Data-flow line colors. Kept in sync with LINK_COLORS in app.js. */
-  --color-flow-both: #6366f1;     /* indigo  — bidirectional sync */
-  --color-flow-to-erp: #d97706;   /* amber   — export (Procore → ERP) */
-  --color-flow-from-erp: #0d9488; /* teal    — import (ERP → Procore) */
+  --color-flow-both: #d97706;     /* solid orange  — bidirectional sync */
+  --color-flow-to-erp: #d97706;   /* dashed orange — export (Procore → ERP) */
+  --color-flow-from-erp: #1f2933; /* dashed black  — import (ERP → Procore) */
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
 }
@@ -82,17 +82,11 @@ header h1 {
   margin: 0 4px;
 }
 
-.legend-symbol {
+.legend-line {
   display: inline-block;
-  min-width: 14px;
-  text-align: center;
-  font-weight: 700;
-  color: var(--color-text);
+  vertical-align: middle;
+  margin-right: 2px;
 }
-
-.legend-symbol.legend-symbol-both     { color: var(--color-flow-both); }
-.legend-symbol.legend-symbol-to-erp   { color: var(--color-flow-to-erp); }
-.legend-symbol.legend-symbol-from-erp { color: var(--color-flow-from-erp); }
 
 main {
   flex: 1;
@@ -247,12 +241,22 @@ main {
 }
 
 .link.link-data {
-  stroke-opacity: 0.75;
+  stroke-opacity: 0.85;
+}
+
+/* Dash patterns indicate one-way data flow. */
+.link.link-to-erp,
+.link.link-from-erp {
+  stroke-dasharray: 6 4;
+}
+
+.link.link-both {
+  stroke-dasharray: none;
 }
 
 .link.highlighted {
   stroke-opacity: 1;
-  stroke-width: 2.4px;
+  stroke-width: 2.6px;
 }
 
 .link.dimmed {

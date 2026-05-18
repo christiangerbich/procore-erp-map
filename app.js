@@ -7,12 +7,13 @@
   const NODE_RADIUS = { erp: 14, module: 12 };
   const NODE_COLOR = { erp: "#2563eb", module: "#10b981" };
 
-  // Line + arrow colors keyed by link direction. Kept in sync with the
-  // CSS variables in styles.css and the legend swatches in index.html.
+  // Line colors keyed by link direction. Solid vs dashed treatment lives
+  // in CSS (.link-to-erp / .link-from-erp). Kept in sync with the CSS
+  // variables in styles.css and the legend swatches in index.html.
   const LINK_COLORS = {
-    both: "#6366f1",      // indigo  — bidirectional
-    "to-erp": "#d97706",  // amber   — Procore → ERP (export)
-    "from-erp": "#0d9488" // teal    — ERP → Procore (import)
+    both: "#d97706",      // solid orange  — bidirectional
+    "to-erp": "#d97706",  // dashed orange — Procore → ERP (export)
+    "from-erp": "#1f2933" // dashed black  — ERP → Procore (import)
   };
 
   // The arrow symbol shown next to each item in the side panel.
@@ -100,24 +101,7 @@
     .attr("viewBox", [0, 0, width, height])
     .attr("preserveAspectRatio", "xMidYMin meet");
 
-  const defs = svg.append("defs");
-  function defineArrow(id, color) {
-    defs
-      .append("marker")
-      .attr("id", id)
-      .attr("viewBox", "0 0 10 10")
-      .attr("refX", 9)
-      .attr("refY", 5)
-      .attr("markerWidth", 7)
-      .attr("markerHeight", 7)
-      .attr("orient", "auto-start-reverse")
-      .append("path")
-      .attr("d", "M 0 0 L 10 5 L 0 10 z")
-      .attr("fill", color);
-  }
-  defineArrow("arrow-both", LINK_COLORS.both);
-  defineArrow("arrow-to-erp", LINK_COLORS["to-erp"]);
-  defineArrow("arrow-from-erp", LINK_COLORS["from-erp"]);
+  // No arrow markers — direction is conveyed by line color + dash pattern.
 
   // Pan & zoom — useful when the column has been resized smaller than its
   // natural height, so the user can scroll/zoom inside the SVG.
@@ -150,17 +134,9 @@
   // Links
   // ---------------------------------------------------------------------
 
-  function arrowIdFor(direction) {
-    return direction === "to-erp"
-      ? "arrow-to-erp"
-      : direction === "from-erp"
-      ? "arrow-from-erp"
-      : "arrow-both";
-  }
-
   // Compute line endpoints that sit at the edges of the node circles
-  // rather than at their centers. This is what lets the arrow tips
-  // render cleanly without being buried inside the node fill.
+  // rather than at their centers, so lines don't visually slide under the
+  // node fill.
   function endpoint(d) {
     const dx = d.target.x - d.source.x;
     const dy = d.target.y - d.source.y;
@@ -169,13 +145,11 @@
     const uy = dy / dist;
     const sr = NODE_RADIUS[d.source.type];
     const tr = NODE_RADIUS[d.target.type];
-    const startPad = d.direction === "to-erp" || d.direction === "both" ? 2 : 0;
-    const endPad = d.direction === "from-erp" || d.direction === "both" ? 2 : 0;
     return {
-      x1: d.source.x + ux * (sr + startPad),
-      y1: d.source.y + uy * (sr + startPad),
-      x2: d.target.x - ux * (tr + endPad),
-      y2: d.target.y - uy * (tr + endPad)
+      x1: d.source.x + ux * sr,
+      y1: d.source.y + uy * sr,
+      x2: d.target.x - ux * tr,
+      y2: d.target.y - uy * tr
     };
   }
 
@@ -186,22 +160,11 @@
     .join("line")
     .attr("class", (d) => "link link-data link-" + d.direction)
     .attr("stroke", (d) => LINK_COLORS[d.direction])
-    .attr("stroke-width", 1.4)
+    .attr("stroke-width", 1.6)
     .each(function (d) {
       const e = endpoint(d);
-      const sel = d3.select(this);
-      sel.attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
-    })
-    .attr("marker-end", (d) =>
-      d.direction === "from-erp" || d.direction === "both"
-        ? `url(#${arrowIdFor(d.direction)})`
-        : null
-    )
-    .attr("marker-start", (d) =>
-      d.direction === "to-erp" || d.direction === "both"
-        ? `url(#${arrowIdFor(d.direction)})`
-        : null
-    );
+      d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
+    });
 
   // ---------------------------------------------------------------------
   // Nodes
