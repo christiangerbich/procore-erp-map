@@ -1,14 +1,28 @@
 (async function () {
-  const NODE_RADIUS = { core: 26, erp: 16, module: 12 };
-  const NODE_COLOR = { core: "#f59e0b", erp: "#2563eb", module: "#10b981" };
+  // Fixed bipartite layout: ERPs in a column on the left, Procore modules
+  // in a column on the right. The "core" Procore node and structural
+  // Procore-to-module links are intentionally hidden in this view — they
+  // become visual noise once the columns make the hub structure explicit.
 
-  // Direction symbols shown next to each item in the side panel.
-  // Symbol is rendered from the perspective of the currently-selected node.
+  const NODE_RADIUS = { erp: 14, module: 12 };
+  const NODE_COLOR = { erp: "#2563eb", module: "#10b981" };
+
+  // Line + arrow colors keyed by link direction. Kept in sync with the
+  // CSS variables in styles.css and the legend swatches in index.html.
+  const LINK_COLORS = {
+    both: "#6366f1",      // indigo  — bidirectional
+    "to-erp": "#d97706",  // amber   — Procore → ERP (export)
+    "from-erp": "#0d9488" // teal    — ERP → Procore (import)
+  };
+
+  // The arrow symbol shown next to each item in the side panel.
+  // Rendered from the perspective of the currently-selected node:
+  //   "outbound" means data leaves the selected node
+  //   "inbound"  means data arrives at the selected node
   const DIRECTION_SYMBOLS = {
-    both: "↔",      // ↔
-    outbound: "→",  // → (this node sends data out to the neighbor)
-    inbound: "←",   // ← (this node receives data from the neighbor)
-    structural: "○" // ○ (no data direction — Procore-to-module link)
+    both: "↔",
+    outbound: "→",
+    inbound: "←"
   };
 
   const data = await fetch("data.json").then((r) => {
@@ -16,37 +30,76 @@
     return r.json();
   });
 
+  // Filter to just the nodes we render in this view. Drop the "core"
+  // Procore node, and drop the Procore-to-module structural links.
+  const erpNodes = data.nodes
+    .filter((n) => n.type === "erp")
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const moduleNodes = data.nodes
+    .filter((n) => n.type === "module")
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const visibleNodes = [...erpNodes, ...moduleNodes];
+  const visibleLinks = data.links.filter((l) => !!l.direction);
+
+  const nodesById = new Map(visibleNodes.map((n) => [n.id, n]));
+
+  // Resolve string ids in links to node references (D3 force normally does
+  // this for us; we have to do it ourselves since we're not using force).
+  visibleLinks.forEach((l) => {
+    l.source = nodesById.get(l.source);
+    l.target = nodesById.get(l.target);
+  });
+
+  // Build adjacency index for quick "what is this node connected to" lookups.
+  const linksByNode = new Map();
+  for (const n of visibleNodes) linksByNode.set(n.id, []);
+  for (const l of visibleLinks) {
+    linksByNode.get(l.source.id).push(l);
+    linksByNode.get(l.target.id).push(l);
+  }
+
+  // ---------------------------------------------------------------------
+  // Layout
+  // ---------------------------------------------------------------------
+
   const container = document.getElementById("graph");
   const width = container.clientWidth;
-  const height = container.clientHeight;
+  // Make sure we have enough vertical room to fit all ERP rows comfortably.
+  const ROW_HEIGHT = 36;
+  const HEADER_HEIGHT = 56;
+  const FOOTER_PAD = 24;
+  const minHeight =
+    HEADER_HEIGHT + FOOTER_PAD + Math.max(erpNodes.length, moduleNodes.length) * ROW_HEIGHT;
+  const height = Math.max(container.clientHeight, minHeight);
 
-  const nodesById = new Map(data.nodes.map((n) => [n.id, n]));
-  // Index links by node id so we can look up direction relative to the
-  // currently selected node.
-  const linksByNode = new Map();
-  for (const n of data.nodes) linksByNode.set(n.id, []);
-  for (const l of data.links) {
-    linksByNode.get(l.source).push(l);
-    linksByNode.get(l.target).push(l);
-  }
+  // Reserve gutter space on each side for the labels.
+  const LABEL_GUTTER = 170;
+  const leftX = LABEL_GUTTER;
+  const rightX = width - LABEL_GUTTER;
+
+  const erpSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(erpNodes.length, 1);
+  const moduleSpacing =
+    (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(moduleNodes.length, 1);
+
+  erpNodes.forEach((n, i) => {
+    n.x = leftX;
+    n.y = HEADER_HEIGHT + erpSpacing * (i + 0.5);
+  });
+  moduleNodes.forEach((n, i) => {
+    n.x = rightX;
+    n.y = HEADER_HEIGHT + moduleSpacing * (i + 0.5);
+  });
+
+  // ---------------------------------------------------------------------
+  // SVG scaffolding
+  // ---------------------------------------------------------------------
 
   const svg = d3
     .select("#graph")
     .append("svg")
     .attr("viewBox", [0, 0, width, height])
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("preserveAspectRatio", "xMidYMin meet");
 
-  // Line + arrow colors, keyed by link direction. Kept in sync with the
-  // CSS variables in styles.css and the legend swatches in index.html.
-  const LINK_COLORS = {
-    both: "#6366f1",     // indigo  — bidirectional
-    "to-erp": "#d97706", // amber   — export (Procore → ERP)
-    "from-erp": "#0d9488"// teal    — import (ERP → Procore)
-  };
-
-  // Arrow marker definitions. Using orient="auto-start-reverse" so the
-  // same marker definition works for both marker-end and marker-start —
-  // SVG flips the marker 180° automatically when used as marker-start.
   const defs = svg.append("defs");
   function defineArrow(id, color) {
     defs
@@ -62,115 +115,128 @@
       .attr("d", "M 0 0 L 10 5 L 0 10 z")
       .attr("fill", color);
   }
-  defineArrow("arrow-both",     LINK_COLORS.both);
-  defineArrow("arrow-to-erp",   LINK_COLORS["to-erp"]);
+  defineArrow("arrow-both", LINK_COLORS.both);
+  defineArrow("arrow-to-erp", LINK_COLORS["to-erp"]);
   defineArrow("arrow-from-erp", LINK_COLORS["from-erp"]);
 
+  // Pan & zoom — useful when the column has been resized smaller than its
+  // natural height, so the user can scroll/zoom inside the SVG.
   const zoomLayer = svg.append("g");
   svg.call(
     d3
       .zoom()
-      .scaleExtent([0.4, 3])
+      .scaleExtent([0.5, 2.5])
       .on("zoom", (event) => zoomLayer.attr("transform", event.transform))
   );
 
+  // Column headers
+  zoomLayer
+    .append("text")
+    .attr("class", "column-header")
+    .attr("x", leftX)
+    .attr("y", 28)
+    .attr("text-anchor", "middle")
+    .text("ERP Connectors");
+
+  zoomLayer
+    .append("text")
+    .attr("class", "column-header")
+    .attr("x", rightX)
+    .attr("y", 28)
+    .attr("text-anchor", "middle")
+    .text("Procore Modules");
+
+  // ---------------------------------------------------------------------
+  // Links
+  // ---------------------------------------------------------------------
+
+  function arrowIdFor(direction) {
+    return direction === "to-erp"
+      ? "arrow-to-erp"
+      : direction === "from-erp"
+      ? "arrow-from-erp"
+      : "arrow-both";
+  }
+
+  // Compute line endpoints that sit at the edges of the node circles
+  // rather than at their centers. This is what lets the arrow tips
+  // render cleanly without being buried inside the node fill.
+  function endpoint(d) {
+    const dx = d.target.x - d.source.x;
+    const dy = d.target.y - d.source.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const ux = dx / dist;
+    const uy = dy / dist;
+    const sr = NODE_RADIUS[d.source.type];
+    const tr = NODE_RADIUS[d.target.type];
+    const startPad = d.direction === "to-erp" || d.direction === "both" ? 2 : 0;
+    const endPad = d.direction === "from-erp" || d.direction === "both" ? 2 : 0;
+    return {
+      x1: d.source.x + ux * (sr + startPad),
+      y1: d.source.y + uy * (sr + startPad),
+      x2: d.target.x - ux * (tr + endPad),
+      y2: d.target.y - uy * (tr + endPad)
+    };
+  }
+
   const linkGroup = zoomLayer.append("g").attr("class", "links");
-  const nodeGroup = zoomLayer.append("g").attr("class", "nodes");
-
-  const simulation = d3
-    .forceSimulation(data.nodes)
-    .force(
-      "link",
-      d3
-        .forceLink(data.links)
-        .id((d) => d.id)
-        .distance((l) => {
-          const a = nodesById.get(typeof l.source === "object" ? l.source.id : l.source);
-          const b = nodesById.get(typeof l.target === "object" ? l.target.id : l.target);
-          if (a.type === "core" || b.type === "core") return 220;
-          return 150;
-        })
-        .strength(0.3)
-    )
-    .force("charge", d3.forceManyBody().strength(-520))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force(
-      "collision",
-      d3.forceCollide().radius((d) => NODE_RADIUS[d.type] + 14)
-    );
-
   const link = linkGroup
     .selectAll("line")
-    .data(data.links)
+    .data(visibleLinks)
     .join("line")
-    .attr("class", (d) =>
-      "link " + (d.direction ? "link-data link-" + d.direction : "link-structural")
-    )
-    .attr("stroke", (d) => (d.direction ? LINK_COLORS[d.direction] : null))
+    .attr("class", (d) => "link link-data link-" + d.direction)
+    .attr("stroke", (d) => LINK_COLORS[d.direction])
     .attr("stroke-width", 1.4)
-    .attr("marker-end", (d) => {
-      if (!d.direction) return null;
-      const id = d.direction === "to-erp" ? "arrow-to-erp" : d.direction === "from-erp" ? "arrow-from-erp" : "arrow-both";
-      if (d.direction === "from-erp" || d.direction === "both") return `url(#${id})`;
-      return null;
+    .each(function (d) {
+      const e = endpoint(d);
+      const sel = d3.select(this);
+      sel.attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
     })
-    .attr("marker-start", (d) => {
-      if (!d.direction) return null;
-      const id = d.direction === "to-erp" ? "arrow-to-erp" : d.direction === "from-erp" ? "arrow-from-erp" : "arrow-both";
-      if (d.direction === "to-erp" || d.direction === "both") return `url(#${id})`;
-      return null;
-    });
+    .attr("marker-end", (d) =>
+      d.direction === "from-erp" || d.direction === "both"
+        ? `url(#${arrowIdFor(d.direction)})`
+        : null
+    )
+    .attr("marker-start", (d) =>
+      d.direction === "to-erp" || d.direction === "both"
+        ? `url(#${arrowIdFor(d.direction)})`
+        : null
+    );
 
+  // ---------------------------------------------------------------------
+  // Nodes
+  // ---------------------------------------------------------------------
+
+  const nodeGroup = zoomLayer.append("g").attr("class", "nodes");
   const node = nodeGroup
     .selectAll("g")
-    .data(data.nodes)
+    .data(visibleNodes)
     .join("g")
-    .attr("class", "node")
-    .call(drag(simulation))
-    .on("click", (_event, d) => selectNode(d.id));
+    .attr("class", (d) => "node node-" + d.type)
+    .attr("transform", (d) => `translate(${d.x},${d.y})`)
+    .on("click", (event, d) => {
+      event.stopPropagation();
+      selectNode(d.id);
+    });
 
   node
     .append("circle")
     .attr("r", (d) => NODE_RADIUS[d.type])
     .attr("fill", (d) => NODE_COLOR[d.type]);
 
+  // Labels read outward from the column: ERPs to the left, modules to
+  // the right. The text-anchor mirrors that.
   node
     .append("text")
-    .attr("x", (d) => NODE_RADIUS[d.type] + 4)
+    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 8) : NODE_RADIUS.module + 8))
     .attr("y", 4)
+    .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
     .text((d) => d.label);
 
-  // On each tick, shorten lines so endpoints sit at the edges of the
-  // node circles rather than at their centers. This makes arrow tips
-  // visible and not buried inside the target node.
-  simulation.on("tick", () => {
-    link
-      .each(function (d) {
-        const sourceRadius = NODE_RADIUS[d.source.type];
-        const targetRadius = NODE_RADIUS[d.target.type];
-        const dx = d.target.x - d.source.x;
-        const dy = d.target.y - d.source.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const ux = dx / dist;
-        const uy = dy / dist;
-        // For lines with a start marker, leave a tiny extra gap so the
-        // arrowhead doesn't kiss the source circle.
-        const startPad = d.direction === "to-erp" || d.direction === "both" ? 2 : 0;
-        const endPad = d.direction === "from-erp" || d.direction === "both" ? 2 : 0;
-        d.__sx = d.source.x + ux * (sourceRadius + startPad);
-        d.__sy = d.source.y + uy * (sourceRadius + startPad);
-        d.__tx = d.target.x - ux * (targetRadius + endPad);
-        d.__ty = d.target.y - uy * (targetRadius + endPad);
-      })
-      .attr("x1", (d) => d.__sx)
-      .attr("y1", (d) => d.__sy)
-      .attr("x2", (d) => d.__tx)
-      .attr("y2", (d) => d.__ty);
+  // ---------------------------------------------------------------------
+  // Side panel
+  // ---------------------------------------------------------------------
 
-    node.attr("transform", (d) => `translate(${d.x},${d.y})`);
-  });
-
-  // Side-panel wiring
   const detailsEl = document.getElementById("details");
   const titleEl = document.getElementById("details-title");
   const emptyTextEl = document.getElementById("details-empty-text");
@@ -180,22 +246,13 @@
   const linkEl = document.getElementById("details-link");
   const connectionsEl = document.getElementById("details-connections");
 
-  // Compute the arrow symbol from the selected node's perspective.
-  // direction in JSON is named relative to the ERP-as-source orientation:
-  //   "to-erp"   = data flows from module (Procore) to ERP
-  //   "from-erp" = data flows from ERP to module (Procore)
-  //   "both"     = bidirectional
-  // The link.source is always the ERP (or Procore for structural links).
   function symbolFor(link, fromNodeId) {
-    if (!link.direction) return DIRECTION_SYMBOLS.structural;
     if (link.direction === "both") return DIRECTION_SYMBOLS.both;
-    const isSource = link.source.id === fromNodeId || link.source === fromNodeId;
+    const isSource = link.source.id === fromNodeId;
     if (link.direction === "from-erp") {
-      // ERP -> module. Outbound from ERP side, inbound on module side.
       return isSource ? DIRECTION_SYMBOLS.outbound : DIRECTION_SYMBOLS.inbound;
     }
     if (link.direction === "to-erp") {
-      // module -> ERP. Inbound on ERP side, outbound from module side.
       return isSource ? DIRECTION_SYMBOLS.inbound : DIRECTION_SYMBOLS.outbound;
     }
     return DIRECTION_SYMBOLS.both;
@@ -210,8 +267,7 @@
     emptyTextEl.hidden = true;
     contentEl.hidden = false;
 
-    typeEl.textContent =
-      n.type === "core" ? "Core" : n.type === "erp" ? "ERP Connector" : "Data Object / Module";
+    typeEl.textContent = n.type === "erp" ? "ERP Connector" : "Procore Module";
 
     if (n.connector) {
       connectorEl.textContent = "Connector type: " + n.connector;
@@ -230,17 +286,15 @@
     const incidentLinks = linksByNode.get(n.id);
     connectionsEl.innerHTML = "";
     incidentLinks
-      .map((l) => {
-        const otherId =
-          (l.source.id || l.source) === n.id ? (l.target.id || l.target) : (l.source.id || l.source);
-        return { link: l, neighbor: nodesById.get(otherId) };
-      })
+      .map((l) => ({
+        link: l,
+        neighbor: l.source.id === n.id ? l.target : l.source
+      }))
       .sort((a, b) => a.neighbor.label.localeCompare(b.neighbor.label))
       .forEach(({ link, neighbor }) => {
         const li = document.createElement("li");
         const sym = document.createElement("span");
-        const dirClass = link.direction ? "direction-" + link.direction : "direction-structural";
-        sym.className = "direction-symbol " + dirClass;
+        sym.className = "direction-symbol direction-" + link.direction;
         sym.textContent = symbolFor(link, n.id);
         const label = document.createElement("span");
         label.textContent = " " + neighbor.label;
@@ -250,45 +304,28 @@
         connectionsEl.appendChild(li);
       });
 
-    // Visual highlight on the graph
-    const neighborSet = new Set(incidentLinks.map((l) => (l.source.id || l.source) === n.id ? (l.target.id || l.target) : (l.source.id || l.source)));
-    neighborSet.add(n.id);
+    const neighborIds = new Set(
+      incidentLinks.map((l) => (l.source.id === n.id ? l.target.id : l.source.id))
+    );
+    neighborIds.add(n.id);
 
     node.classed("selected", (d) => d.id === n.id);
-    node.classed("dimmed", (d) => !neighborSet.has(d.id));
+    node.classed("dimmed", (d) => !neighborIds.has(d.id));
     link
       .classed("highlighted", (d) => d.source.id === n.id || d.target.id === n.id)
       .classed("dimmed", (d) => d.source.id !== n.id && d.target.id !== n.id);
   }
 
-  // Click on empty space clears selection
-  svg.on("click", function (event) {
-    if (event.target === this || event.target.tagName === "svg") {
-      detailsEl.classList.add("details-empty");
-      emptyTextEl.hidden = false;
-      contentEl.hidden = true;
-      titleEl.textContent = "Select a node";
-      node.classed("selected", false).classed("dimmed", false);
-      link.classed("highlighted", false).classed("dimmed", false);
-    }
-  });
-
-  function drag(sim) {
-    return d3
-      .drag()
-      .on("start", (event, d) => {
-        if (!event.active) sim.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-      })
-      .on("drag", (event, d) => {
-        d.fx = event.x;
-        d.fy = event.y;
-      })
-      .on("end", (event, d) => {
-        if (!event.active) sim.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-      });
+  function deselect() {
+    detailsEl.classList.add("details-empty");
+    emptyTextEl.hidden = false;
+    contentEl.hidden = true;
+    titleEl.textContent = "Select a node";
+    node.classed("selected", false).classed("dimmed", false);
+    link.classed("highlighted", false).classed("dimmed", false);
   }
+
+  svg.on("click", function (event) {
+    if (event.target === this || event.target.tagName === "svg") deselect();
+  });
 })();

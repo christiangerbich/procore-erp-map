@@ -1,6 +1,6 @@
 # Procore ERP Connector Map
 
-An interactive force-directed graph showing Procore's ERP connectors, the Procore modules / data objects they sync, and links to each connector's support documentation.
+An interactive bipartite diagram showing Procore's ERP connectors (left column), the Procore modules / data objects they sync with (right column), and the direction of data flow (export-only, import-only, or bidirectional) between them. Click any node for support documentation and connection details.
 
 Built with vanilla HTML + [D3.js v7](https://d3js.org/). No build step. Designed to be hosted on GitHub Pages and embedded in Confluence via an Iframe macro.
 
