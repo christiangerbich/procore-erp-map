@@ -244,6 +244,14 @@ main {
   stroke-opacity: 0.85;
 }
 
+/* Per-direction line colors. These selectors (two classes each) outrank
+ * the base `.link { stroke: ... }` rule above, so they win even though
+ * D3 also sets stroke as an SVG attribute (presentation attributes lose
+ * to CSS in SVG cascade). */
+.link.link-both     { stroke: var(--color-flow-both); }
+.link.link-to-erp   { stroke: var(--color-flow-to-erp); }
+.link.link-from-erp { stroke: var(--color-flow-from-erp); }
+
 /* Dash patterns indicate one-way data flow. */
 .link.link-to-erp,
 .link.link-from-erp {
