@@ -4,7 +4,8 @@
     { "id": "procore",        "label": "Procore",                  "type": "core" },
 
     { "id": "vendors",        "label": "Companies / Directory",    "type": "module", "tier": "company" },
-    { "id": "cost-codes",     "label": "Cost Codes / WBS",         "type": "module", "tier": "company" },
+    { "id": "cost-codes",     "label": "Standard Cost Codes / WBS","type": "module", "tier": "company" },
+    { "id": "project-wbs",    "label": "Project WBS / Sub Jobs",   "type": "module", "tier": "project" },
     { "id": "jobs",           "label": "Jobs / Projects",          "type": "module", "tier": "project" },
     { "id": "budgets",        "label": "Budgets",                  "type": "module", "tier": "project" },
     { "id": "commitments",    "label": "Commitments (Subs/POs)",   "type": "module", "tier": "project" },
@@ -407,6 +408,7 @@
   "links": [
     { "source": "procore", "target": "vendors" },
     { "source": "procore", "target": "cost-codes" },
+    { "source": "procore", "target": "project-wbs" },
     { "source": "procore", "target": "jobs" },
     { "source": "procore", "target": "budgets" },
     { "source": "procore", "target": "commitments" },
@@ -427,6 +429,7 @@
 
     { "source": "viewpoint-vista", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID entered manually by approver; used for all vendor-related exports.", "Payment address fields sync to Vista AP Vendor Master."] },
     { "source": "viewpoint-vista", "target": "cost-codes", "direction": "both", "notes": ["Standard cost codes must be created in Vista; project-specific codes sync bidirectionally.", "New cost codes cannot be created in Procore."] },
+    { "source": "viewpoint-vista", "target": "project-wbs", "direction": "both", "notes": ["Project-specific cost codes sync bidirectionally between Vista and Procore.", "Sub jobs supported on Vista-connected projects."] },
     { "source": "viewpoint-vista", "target": "jobs", "direction": "both", "notes": ["Vista Job ID entered manually by approver; maps to Procore Project Name / Address.", "Status, phone, mailing details sync via JC Job Master form.", "Job names capped at 60 characters."] },
     { "source": "viewpoint-vista", "target": "budgets", "direction": "both", "notes": ["Original Budget exports as JC Original Estimate with Cost Code, Cost Type, amount.", "$0-value line items supported.", "Once exported, that job's import direction is disabled."] },
     { "source": "viewpoint-vista", "target": "commitments", "direction": "to-erp", "notes": ["Commitment type (PO vs Subcontract) determines Vista destination (POHD/POIT or SLHD/SLIT).", "Contract Company must have an ERP Vendor ID.", "Line-level: Phase, Cost Type, Qty, Unit Cost, Amount."] },
@@ -446,6 +449,7 @@
 
     { "source": "sage-300-cre", "target": "vendors", "direction": "both", "notes": ["ERP Company ID → Vendor ID, entered manually by approver during export.", "Name, address, phone, fax sync bidirectionally."] },
     { "source": "sage-300-cre", "target": "cost-codes", "direction": "both", "notes": ["Standard cost codes and categories import automatically from Sage into Procore WBS.", "Custom WBS Segments are NOT supported."] },
+    { "source": "sage-300-cre", "target": "project-wbs", "direction": "both", "notes": ["Sub jobs can be imported from Sage 300 CRE or exported from Procore.", "Custom WBS segments are NOT supported — Project WBS limited to sub jobs and standard codes."] },
     { "source": "sage-300-cre", "target": "jobs", "direction": "both", "notes": ["Sage Job ID assigned manually by approver at export; drives all downstream project exports.", "Name, address, location export to create Job records in Sage Job Cost."] },
     { "source": "sage-300-cre", "target": "budgets", "direction": "both", "notes": ["Original estimate cost and units export from Procore.", "Optional forecast data (ECC, FTC) can be enabled.", "$0-value line items supported."] },
     { "source": "sage-300-cre", "target": "commitments", "direction": "to-erp", "notes": ["Commitment type (PO or Subcontract) determines how units / unit costs are used.", "Contract Company Vendor ID required; cost codes, categories, retainage exported."] },
@@ -456,6 +460,7 @@
 
     { "source": "yardi-voyager", "target": "vendors", "direction": "both", "notes": ["Active Yardi vendors import with name, address, state, email, phone.", "Credit Card Vendors are NOT supported."] },
     { "source": "yardi-voyager", "target": "cost-codes", "direction": "both", "notes": ["Procore cost codes ↔ Yardi cost categories/codes for consistent budget tracking."] },
+    { "source": "yardi-voyager", "target": "project-wbs", "direction": "from-erp", "notes": ["Import Yardi Jobs as Sub Jobs into a Procore project (export of sub jobs is NOT supported)."] },
     { "source": "yardi-voyager", "target": "jobs", "direction": "both", "notes": ["Projects must originate from Procore Estimating & Bidding tools.", "Job ID and Property ID link records bidirectionally.", "Job IDs capped at 16 characters."] },
     { "source": "yardi-voyager", "target": "budgets", "direction": "to-erp", "notes": ["Original budget amounts export as 'New Amount'.", "Job ID and Cost Code anchor the connection for budget tracking."] },
     { "source": "yardi-voyager", "target": "commitments", "direction": "to-erp", "notes": ["Contract name, vendor, status, dates, retainage %, cost codes, amounts export.", "Work retainage sync requires Interfaces Plug-in Version 25.", "Titles capped at 30 characters (longer titles truncate)."] },
@@ -473,6 +478,7 @@
 
     { "source": "acumatica-edge", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID links Procore companies to Acumatica vendors; entered manually by approver.", "Address, phone, email sync."] },
     { "source": "acumatica-edge", "target": "cost-codes", "direction": "both", "notes": ["Procore WBS cost codes map directly to Acumatica cost codes with descriptions.", "Custom WBS segments are NOT supported."] },
+    { "source": "acumatica-edge", "target": "project-wbs", "direction": "both", "notes": ["Sub Jobs / Project Tasks sync bidirectionally.", "A default 'Empty Sub Job' task is auto-created and cannot be deleted or edited."] },
     { "source": "acumatica-edge", "target": "jobs", "direction": "both", "notes": ["Project number → Acumatica Project ID, entered manually by approver.", "Location data (address, coordinates) and timeline sync automatically.", "Names capped at 30 characters."] },
     { "source": "acumatica-edge", "target": "budgets", "direction": "both", "notes": ["Original budgeted amounts flow from Procore to Acumatica cost budgets.", "Budget line items tie to project tasks, cost codes, account groups.", "Amount-based only — UOM/qty do not transfer."] },
     { "source": "acumatica-edge", "target": "commitments", "direction": "to-erp", "notes": ["Subcontracts/POs export with status 'Open' to Acumatica.", "SOV details (quantities, unit costs, extended costs) map to commitment line items.", "Commitments must originate in Procore."] },
@@ -484,6 +490,7 @@
 
     { "source": "acumatica-vision", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID entered manually by approver during export; used across vendor-related exports.", "Address, phone, email sync bidirectionally."] },
     { "source": "acumatica-vision", "target": "cost-codes", "direction": "both", "notes": ["Codes and descriptions map from WBS Standard Cost Codes to Acumatica.", "Custom segments unsupported; one-way export relationship."] },
+    { "source": "acumatica-vision", "target": "project-wbs", "direction": "to-erp", "notes": ["Sub Jobs / Project Tasks export with the Project record.", "Project syncing is Export only — project WBS originates in Procore."] },
     { "source": "acumatica-vision", "target": "jobs", "direction": "to-erp", "notes": ["Project number/name, address, dates → Acumatica Project ID / Description.", "Includes location coordinates and template mapping.", "Export only — projects must originate in Procore."] },
     { "source": "acumatica-vision", "target": "budgets", "direction": "both", "notes": ["Organized by project task, cost code, account group with original budgeted amounts.", "$0 values supported; UOM/qty values do NOT sync."] },
     { "source": "acumatica-vision", "target": "commitments", "direction": "both", "notes": ["Subcontracts/POs export with vendor, dates, SOV detail (cost codes, quantities, amounts).", "Retainage percentages and CCOs also sync."] },
@@ -505,6 +512,7 @@
 
     { "source": "sage-intacct", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID maps bidirectionally; entered manually during export, then stored for use.", "Name, address, phone, email, website sync both ways."] },
     { "source": "sage-intacct", "target": "cost-codes", "direction": "both", "notes": ["Standard and project-specific cost codes sync from Sage Intacct to Procore.", "New codes must be created in the ERP system, not Procore.", "Cost Type IDs link to cost codes bidirectionally."] },
+    { "source": "sage-intacct", "target": "project-wbs", "direction": "both", "notes": ["Sub Jobs import and sync between systems.", "Project-specific cost codes flow from Sage Intacct into the project's WBS."] },
     { "source": "sage-intacct", "target": "jobs", "direction": "both", "notes": ["Sage Job ID entered manually by approver at export; used on budget/commitment exports.", "Name, Start Date, Completion Date map bidirectionally."] },
     { "source": "sage-intacct", "target": "budgets", "direction": "both", "notes": ["Original budgets export as 'Original Estimate' workflow type with cost codes and types.", "$0-value line items supported; UOM/qty do NOT sync."] },
     { "source": "sage-intacct", "target": "commitments", "direction": "to-erp", "notes": ["Contract number, type (PO vs Subcontract), vendor info map during export.", "Line items: Sage Job ID, cost code/type, quantity, unit cost, retainage %."] },
@@ -515,6 +523,7 @@
 
     { "source": "sage-100", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID bidirectional; name, address, city, state, ZIP map to AP Vendors.", "Identifier entered manually by approver during export."] },
     { "source": "sage-100", "target": "cost-codes", "direction": "both", "notes": ["Exported from Procore to Sage 100 when projects sync.", "Custom WBS Segments are NOT supported.", "Use the refresh function to add codes to previously synced projects."] },
+    { "source": "sage-100", "target": "project-wbs", "direction": "from-erp", "notes": ["Phases in Sage 100 import as Sub Jobs in Procore.", "Custom WBS segments are NOT supported — Project WBS limited to imported phases."] },
     { "source": "sage-100", "target": "jobs", "direction": "both", "notes": ["Project Number and Name sync bidirectionally; includes address info.", "Sage Job ID entered manually by approver during export."] },
     { "source": "sage-100", "target": "budgets", "direction": "both", "notes": ["Original budget amounts and cost codes/types sync both directions.", "Modifications export from Procore only — appear as negative/positive line adjustments in Sage."] },
     { "source": "sage-100", "target": "commitments", "direction": "to-erp", "notes": ["Subcontracts and POs export with contract amounts, vendors, cost codes, quantities.", "System date at commitment creation → subcontract date in Sage.", "POs must be quantity-based."] },
@@ -524,6 +533,7 @@
 
     { "source": "cmic", "target": "vendors", "direction": "both", "notes": ["ERP Vendor ID entered manually by approver when exporting a company.", "Address, phone, email, website sync bidirectionally."] },
     { "source": "cmic", "target": "cost-codes", "direction": "both", "notes": ["Project-level codes must originate from the company's standard list — can't create in Procore.", "Codes and types sync automatically during job import/export and budget operations."] },
+    { "source": "cmic", "target": "project-wbs", "direction": "both", "notes": ["Sub Jobs sync bidirectionally between CMiC and Procore.", "Multi-company setups require matching division/tier counts across cost code lists."] },
     { "source": "cmic", "target": "jobs", "direction": "both", "notes": ["Project basics (name, address, dates) export to CMiC.", "Note: this creates a 'project' in CMiC, not a 'job'.", "Company ID assignment enables multi-company project tracking."] },
     { "source": "cmic", "target": "budgets", "direction": "both", "notes": ["Original budget amounts and line-item cost code/type detail transfer via PCI export.", "$0-value line items are supported."] },
     { "source": "cmic", "target": "commitments", "direction": "to-erp", "notes": ["Header (number, dates, vendor, retainage) and line items (quantity, rate, amount) → subcontracts or POs.", "Vendor must have an ERP Vendor ID to export."] },
@@ -535,6 +545,7 @@
 
     { "source": "quickbooks-online", "target": "vendors", "direction": "both", "notes": ["Company name, address (city/state/ZIP/country), phone, fax, email, website sync both ways.", "Entity Type / EIN → QBO Business ID No.", "Edits after initial creation do NOT propagate — change must be made in both systems."] },
     { "source": "quickbooks-online", "target": "cost-codes", "direction": "to-erp", "notes": ["Procore cost codes export as QBO service items, formatted [project number]-[cost code].[cost type].", "Cost code descriptions map to QBO line item descriptions on purchase transactions.", "Custom WBS segments supported.", "If project number is blank in Procore, QBO ID field value is used instead."] },
+    { "source": "quickbooks-online", "target": "project-wbs", "direction": "to-erp", "notes": ["Custom WBS segments are supported on export to QBO.", "Per-project service-item naming includes the project number prefix."] },
     { "source": "quickbooks-online", "target": "jobs", "direction": "both", "notes": ["Project names sync bidirectionally between Procore projects and QBO projects.", "Procore project numbers map to QBO project names (import direction only).", "QBO Customers and Sub-Customers CANNOT be imported into Procore.", "Projects must originate in QBO — Procore-created projects don't export."] },
     { "source": "quickbooks-online", "target": "direct-costs", "direction": "from-erp", "notes": ["Bills, expenses, and vendor credits from QBO import as Direct Costs in Procore.", "Invoice amount → direct cost amount; transaction date → received date.", "Status defaults to Approved on import.", "QBO vendor bills created by the integration (synced sub invoices) are excluded — no duplicates.", "Imported direct costs are read-only in Procore."] },
     { "source": "quickbooks-online", "target": "invoices", "direction": "to-erp", "notes": ["Subcontractor Invoices → QBO Vendor Bills (billing date → Bill Date, invoice number → Bill No.).", "Owner Invoices → QBO Customer Invoices (project info → QBO customer, subtotal → summary line).", "Contractor → QBO Vendor; cost codes → QBO service items; quantities and unit prices sync.", "Retainage is coded to a designated retainage service item, not synced cost codes.", "Negative-value invoices do NOT sync.", "Bill No. field has a 21-character limit in QBO."] },
@@ -542,6 +553,7 @@
 
     { "source": "workday", "target": "vendors", "direction": "both", "notes": ["Name syncs bidirectionally; Workday Vendor Code → Supplier ID.", "Address and Business Phone import from Workday as Supplier data."] },
     { "source": "workday", "target": "cost-codes", "direction": "both", "notes": ["Cost Code + Cost Type automatically generates Project Tasks in Workday on export.", "Task descriptions derive from cost code descriptions."] },
+    { "source": "workday", "target": "project-wbs", "direction": "both", "notes": ["Custom WBS segments are supported.", "Project-specific structures sync via Project Tasks in Workday."] },
     { "source": "workday", "target": "jobs", "direction": "both", "notes": ["Project Name, Number, Start Date sync bidirectionally.", "Project Finish Date → End Date in Workday."] },
     { "source": "workday", "target": "commitments", "direction": "to-erp", "notes": ["Commitment # → Contract Reference; Contract Company → Supplier ID.", "Cost codes link to Project Tasks; titles → Contract Names.", "Must have a Contract Date to export."] },
     { "source": "workday", "target": "direct-costs", "direction": "from-erp", "notes": ["3 transaction types import: Invoices (Supplier Invoices), Expenses (Expense Reports), Payroll (Journal Entries with Employee Worktags).", "Amount, Received Date, Description, Budget Code flow into Procore Direct Costs."] },
