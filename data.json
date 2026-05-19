@@ -3,16 +3,16 @@
   "nodes": [
     { "id": "procore",        "label": "Procore",                  "type": "core" },
 
-    { "id": "vendors",        "label": "Vendors / Companies",      "type": "module" },
-    { "id": "cost-codes",     "label": "Standard Cost Codes (WBS)","type": "module" },
-    { "id": "jobs",           "label": "Jobs / Projects",          "type": "module" },
-    { "id": "budgets",        "label": "Budgets",                  "type": "module" },
-    { "id": "commitments",    "label": "Commitments (Subs/POs)",   "type": "module" },
-    { "id": "direct-costs",   "label": "Direct Costs / Job Costs", "type": "module" },
-    { "id": "invoices",       "label": "Invoices (Sub & Owner)",   "type": "module" },
-    { "id": "change-orders",  "label": "Change Orders (CCO/PCCO)", "type": "module" },
-    { "id": "payments",       "label": "Payments",                 "type": "module" },
-    { "id": "prime-contracts","label": "Prime Contracts",          "type": "module" },
+    { "id": "vendors",        "label": "Companies / Directory",    "type": "module", "tier": "company" },
+    { "id": "cost-codes",     "label": "Cost Codes / WBS",         "type": "module", "tier": "company" },
+    { "id": "jobs",           "label": "Jobs / Projects",          "type": "module", "tier": "project" },
+    { "id": "budgets",        "label": "Budgets",                  "type": "module", "tier": "project" },
+    { "id": "commitments",    "label": "Commitments (Subs/POs)",   "type": "module", "tier": "project" },
+    { "id": "direct-costs",   "label": "Direct Costs / Job Costs", "type": "module", "tier": "project" },
+    { "id": "invoices",       "label": "Invoices (Sub & Owner)",   "type": "module", "tier": "project" },
+    { "id": "change-orders",  "label": "Change Orders (CCO/PCCO)", "type": "module", "tier": "project" },
+    { "id": "payments",       "label": "Payments",                 "type": "module", "tier": "project" },
+    { "id": "prime-contracts","label": "Prime Contracts",          "type": "module", "tier": "project" },
 
     {
       "id": "viewpoint-spectrum",

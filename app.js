@@ -59,9 +59,18 @@
   const erpNodes = data.nodes
     .filter((n) => n.type === "erp")
     .sort((a, b) => a.label.localeCompare(b.label));
-  const moduleNodes = data.nodes
-    .filter((n) => n.type === "module")
+
+  // Procore modules are split into two tiers (Company-level vs
+  // Project-level) so the column can be grouped. Each group is sorted
+  // alphabetically within itself.
+  const companyModules = data.nodes
+    .filter((n) => n.type === "module" && n.tier === "company")
     .sort((a, b) => a.label.localeCompare(b.label));
+  const projectModules = data.nodes
+    .filter((n) => n.type === "module" && n.tier === "project")
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const moduleNodes = [...companyModules, ...projectModules];
+
   const visibleNodes = [...erpNodes, ...moduleNodes];
   const visibleLinks = data.links.filter((l) => !!l.direction);
 
@@ -88,30 +97,55 @@
 
   const container = document.getElementById("graph");
   const width = container.clientWidth;
-  // Make sure we have enough vertical room to fit all ERP rows comfortably.
+
+  // Layout constants — same scale for ERPs and modules, with extra room
+  // for the tier section labels and divider on the modules side.
   const ROW_HEIGHT = 36;
   const HEADER_HEIGHT = 56;
-  const FOOTER_PAD = 24;
-  const minHeight =
-    HEADER_HEIGHT + FOOTER_PAD + Math.max(erpNodes.length, moduleNodes.length) * ROW_HEIGHT;
+  const FOOTER_PAD = 28;
+  const TIER_LABEL_HEIGHT = 22;
+  const TIER_GAP = 18;
+
+  // The modules side needs space for two tier labels + a gap between
+  // sections; the ERP side just stacks evenly. We compute both heights
+  // and take the taller as the canvas height.
+  const erpStackHeight = erpNodes.length * ROW_HEIGHT;
+  const moduleStackHeight =
+    TIER_LABEL_HEIGHT + companyModules.length * ROW_HEIGHT +
+    TIER_GAP + TIER_LABEL_HEIGHT + projectModules.length * ROW_HEIGHT;
+  const minHeight = HEADER_HEIGHT + Math.max(erpStackHeight, moduleStackHeight) + FOOTER_PAD;
   const height = Math.max(container.clientHeight, minHeight);
 
   // Reserve gutter space on each side for the labels.
-  const LABEL_GUTTER = 170;
+  const LABEL_GUTTER = 180;
   const leftX = LABEL_GUTTER;
   const rightX = width - LABEL_GUTTER;
 
+  // ERPs distribute evenly down the column.
   const erpSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(erpNodes.length, 1);
-  const moduleSpacing =
-    (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(moduleNodes.length, 1);
-
   erpNodes.forEach((n, i) => {
     n.x = leftX;
     n.y = HEADER_HEIGHT + erpSpacing * (i + 0.5);
   });
-  moduleNodes.forEach((n, i) => {
+
+  // Modules: stack the company-level group, leave a gap, then the
+  // project-level group. Section header positions are stored on the
+  // outer scope so the render code below can place text labels.
+  const companyLabelY = HEADER_HEIGHT;
+  let y = HEADER_HEIGHT + TIER_LABEL_HEIGHT + ROW_HEIGHT / 2;
+  companyModules.forEach((n) => {
     n.x = rightX;
-    n.y = HEADER_HEIGHT + moduleSpacing * (i + 0.5);
+    n.y = y;
+    y += ROW_HEIGHT;
+  });
+  const tierDividerY = y - ROW_HEIGHT / 2 + TIER_GAP / 2;
+  const projectLabelY = y + TIER_GAP - TIER_LABEL_HEIGHT / 2;
+  y += TIER_GAP + TIER_LABEL_HEIGHT;
+  y += ROW_HEIGHT / 2 - TIER_LABEL_HEIGHT / 2; // align first project row baseline
+  projectModules.forEach((n) => {
+    n.x = rightX;
+    n.y = y;
+    y += ROW_HEIGHT;
   });
 
   // ---------------------------------------------------------------------
@@ -152,6 +186,32 @@
     .attr("y", 28)
     .attr("text-anchor", "middle")
     .text("Procore Modules");
+
+  // Tier section labels on the modules side (Company / Project).
+  zoomLayer
+    .append("text")
+    .attr("class", "tier-label")
+    .attr("x", rightX)
+    .attr("y", companyLabelY + TIER_LABEL_HEIGHT / 2 + 4)
+    .attr("text-anchor", "middle")
+    .text("Company Level");
+
+  zoomLayer
+    .append("text")
+    .attr("class", "tier-label")
+    .attr("x", rightX)
+    .attr("y", projectLabelY + TIER_LABEL_HEIGHT / 2 + 4)
+    .attr("text-anchor", "middle")
+    .text("Project Level");
+
+  // Subtle divider between tier sections, centered on the modules column.
+  zoomLayer
+    .append("line")
+    .attr("class", "tier-divider")
+    .attr("x1", rightX - LABEL_GUTTER * 0.55)
+    .attr("y1", tierDividerY)
+    .attr("x2", rightX + LABEL_GUTTER * 0.55)
+    .attr("y2", tierDividerY);
 
   // ---------------------------------------------------------------------
   // Links
@@ -207,8 +267,18 @@
 
   node
     .append("polygon")
+    .attr("class", "node-hex")
     .attr("points", (d) => hexPoints(NODE_RADIUS[d.type]))
     .attr("fill", (d) => NODE_COLOR[d.type]);
+
+  // Inset orange hex on company-level modules — mirrors the Procore
+  // logomark (black hex with orange center) per the Identity guide.
+  node
+    .filter((d) => d.type === "module" && d.tier === "company")
+    .append("polygon")
+    .attr("class", "node-hex-inner")
+    .attr("points", hexPoints(NODE_RADIUS.module * 0.42))
+    .attr("fill", "#FF5200");
 
   // Labels read outward from the column: ERPs to the left, modules to
   // the right. The text-anchor mirrors that.
@@ -258,7 +328,10 @@
     emptyTextEl.hidden = true;
     contentEl.hidden = false;
 
-    typeEl.textContent = n.type === "erp" ? "ERP Connector" : "Procore Module";
+    typeEl.textContent =
+      n.type === "erp" ? "ERP Connector"
+      : n.tier === "company" ? "Procore Tool · Company Level"
+      : "Procore Tool · Project Level";
 
     if (n.connector) {
       connectorEl.textContent = "Connector type: " + n.connector;
