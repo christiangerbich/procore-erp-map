@@ -462,7 +462,18 @@ main {
   letter-spacing: 0;
 }
 
+/* Tool eyebrow above the entity label — Pitch Sans treatment, smaller
+ * and muted so it reads as a parent/grouping for the hex below it. */
+.node text.node-tool-label {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  fill: rgba(0, 0, 0, 0.55);
+}
+
 .node.dimmed text { fill: rgba(0, 0, 0, 0.35); }
+.node.dimmed text.node-tool-label { fill: rgba(0, 0, 0, 0.25); }
 .node.dimmed polygon { opacity: 0.35; }
 
 /* Links — defaults & state classes */

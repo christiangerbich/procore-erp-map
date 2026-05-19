@@ -3,9 +3,9 @@
   "nodes": [
     { "id": "procore",        "label": "Procore",                  "type": "core" },
 
-    { "id": "vendors",        "label": "Companies / Directory",    "type": "module", "tier": "company" },
-    { "id": "cost-codes",     "label": "Standard Cost Codes / WBS","type": "module", "tier": "company" },
-    { "id": "project-wbs",    "label": "Project WBS / Sub Jobs",   "type": "module", "tier": "project" },
+    { "id": "vendors",        "label": "Companies",                "type": "module", "tier": "company", "tool": "Directory" },
+    { "id": "cost-codes",     "label": "Cost Codes",               "type": "module", "tier": "company", "tool": "WBS" },
+    { "id": "project-wbs",    "label": "Sub Jobs",                 "type": "module", "tier": "project", "tool": "Project WBS" },
     { "id": "jobs",           "label": "Jobs / Projects",          "type": "module", "tier": "project" },
     { "id": "budgets",        "label": "Budgets",                  "type": "module", "tier": "project" },
     { "id": "commitments",    "label": "Commitments (Subs/POs)",   "type": "module", "tier": "project" },

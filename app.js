@@ -99,8 +99,9 @@
   const width = container.clientWidth;
 
   // Layout constants — same scale for ERPs and modules, with extra room
-  // for the tier section labels and divider on the modules side.
-  const ROW_HEIGHT = 36;
+  // for the tier section labels and divider on the modules side. Slightly
+  // taller rows so two-line labels (tool eyebrow + entity name) fit.
+  const ROW_HEIGHT = 42;
   const HEADER_HEIGHT = 56;
   const FOOTER_PAD = 28;
   const TIER_LABEL_HEIGHT = 22;
@@ -282,10 +283,25 @@
 
   // Labels read outward from the column: ERPs to the left, modules to
   // the right. The text-anchor mirrors that.
+  //
+  // When a module has a `tool` field (Directory, WBS, Project WBS, etc.)
+  // we render it as a small DM Mono "eyebrow" label above the main
+  // entity label — making the tool-architecture relationship visible
+  // (Directory ▸ Companies, WBS ▸ Cost Codes, etc.).
+  node
+    .filter((d) => !!d.tool)
+    .append("text")
+    .attr("class", "node-tool-label")
+    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 10) : NODE_RADIUS.module + 10))
+    .attr("y", -6)
+    .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
+    .text((d) => d.tool);
+
   node
     .append("text")
+    .attr("class", "node-label")
     .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 10) : NODE_RADIUS.module + 10))
-    .attr("y", 4)
+    .attr("y", (d) => (d.tool ? 10 : 4))
     .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
     .text((d) => d.label);
 
