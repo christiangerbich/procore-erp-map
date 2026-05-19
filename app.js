@@ -67,9 +67,19 @@
 
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
-  const erpNodes = data.nodes
-    .filter((n) => n.type === "erp")
+  //
+  // ERPs are split into two columns based on connector source:
+  //   - via "procore" (default) — Procore-native connectors (left column)
+  //   - via "agave"             — Agave Sync connectors      (right column)
+  // The two are different companies with different sync semantics, so
+  // they live in separate columns of the bipartite layout.
+  const procoreERPs = data.nodes
+    .filter((n) => n.type === "erp" && (!n.via || n.via === "procore"))
     .sort((a, b) => a.label.localeCompare(b.label));
+  const agaveERPs = data.nodes
+    .filter((n) => n.type === "erp" && n.via === "agave")
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const erpNodes = [...procoreERPs, ...agaveERPs];
 
   // Procore modules are split into two tiers (Company-level vs
   // Project-level) so the column can be grouped. Each group is sorted
@@ -109,35 +119,47 @@
   const container = document.getElementById("graph");
   const width = container.clientWidth;
 
-  // Layout constants — same scale for ERPs and modules, with extra room
-  // for the tier section labels and divider on the modules side. Slightly
-  // taller rows so two-line labels (tool eyebrow + entity name) fit.
-  const ROW_HEIGHT = 42;
+  // Layout constants. Larger ROW_HEIGHT than before so module rows can
+  // fit a tool eyebrow ABOVE the hex + a main label BELOW the hex
+  // (since the module column sits in the middle of two ERP columns
+  // and can't put labels on either side without colliding with lines).
+  const ROW_HEIGHT = 50;
   const HEADER_HEIGHT = 56;
   const FOOTER_PAD = 28;
   const TIER_LABEL_HEIGHT = 22;
   const TIER_GAP = 18;
 
-  // The modules side needs space for two tier labels + a gap between
-  // sections; the ERP side just stacks evenly. We compute both heights
-  // and take the taller as the canvas height.
-  const erpStackHeight = erpNodes.length * ROW_HEIGHT;
+  // Heights of each column (taller wins for canvas sizing).
+  const procoreERPHeight = procoreERPs.length * ROW_HEIGHT;
+  const agaveERPHeight = agaveERPs.length * ROW_HEIGHT;
   const moduleStackHeight =
     TIER_LABEL_HEIGHT + companyModules.length * ROW_HEIGHT +
     TIER_GAP + TIER_LABEL_HEIGHT + projectModules.length * ROW_HEIGHT;
-  const minHeight = HEADER_HEIGHT + Math.max(erpStackHeight, moduleStackHeight) + FOOTER_PAD;
+  const minHeight =
+    HEADER_HEIGHT +
+    Math.max(procoreERPHeight, moduleStackHeight, agaveERPHeight) +
+    FOOTER_PAD;
   const height = Math.max(container.clientHeight, minHeight);
 
-  // Reserve gutter space on each side for the labels.
-  const LABEL_GUTTER = 180;
-  const leftX = LABEL_GUTTER;
-  const rightX = width - LABEL_GUTTER;
+  // Three-column layout. Reserve outer gutters for labels and inner
+  // gaps for line-routing space between ERP and module columns.
+  const LABEL_GUTTER = 170;
+  const leftX = LABEL_GUTTER;                 // Procore-native ERP hexes
+  const rightX = width - LABEL_GUTTER;        // Agave Sync ERP hexes
+  const middleX = Math.round(width / 2);      // Procore Modules
 
-  // ERPs distribute evenly down the column.
-  const erpSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(erpNodes.length, 1);
-  erpNodes.forEach((n, i) => {
+  // Procore ERPs distribute evenly down the left column.
+  const procoreSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(procoreERPs.length, 1);
+  procoreERPs.forEach((n, i) => {
     n.x = leftX;
-    n.y = HEADER_HEIGHT + erpSpacing * (i + 0.5);
+    n.y = HEADER_HEIGHT + procoreSpacing * (i + 0.5);
+  });
+
+  // Agave ERPs distribute evenly down the right column.
+  const agaveSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(agaveERPs.length, 1);
+  agaveERPs.forEach((n, i) => {
+    n.x = rightX;
+    n.y = HEADER_HEIGHT + agaveSpacing * (i + 0.5);
   });
 
   // Modules: stack the company-level group, leave a gap, then the
@@ -146,7 +168,7 @@
   const companyLabelY = HEADER_HEIGHT;
   let y = HEADER_HEIGHT + TIER_LABEL_HEIGHT + ROW_HEIGHT / 2;
   companyModules.forEach((n) => {
-    n.x = rightX;
+    n.x = middleX;
     n.y = y;
     y += ROW_HEIGHT;
   });
@@ -155,7 +177,7 @@
   y += TIER_GAP + TIER_LABEL_HEIGHT;
   y += ROW_HEIGHT / 2 - TIER_LABEL_HEIGHT / 2; // align first project row baseline
   projectModules.forEach((n) => {
-    n.x = rightX;
+    n.x = middleX;
     n.y = y;
     y += ROW_HEIGHT;
   });
@@ -182,28 +204,36 @@
       .on("zoom", (event) => zoomLayer.attr("transform", event.transform))
   );
 
-  // Column headers
+  // Column headers (three columns now)
   zoomLayer
     .append("text")
     .attr("class", "column-header")
     .attr("x", leftX)
     .attr("y", 28)
     .attr("text-anchor", "middle")
-    .text("ERP Connectors");
+    .text("Procore Native");
 
   zoomLayer
     .append("text")
     .attr("class", "column-header")
-    .attr("x", rightX)
+    .attr("x", middleX)
     .attr("y", 28)
     .attr("text-anchor", "middle")
     .text("Procore Modules");
+
+  zoomLayer
+    .append("text")
+    .attr("class", "column-header column-header-agave")
+    .attr("x", rightX)
+    .attr("y", 28)
+    .attr("text-anchor", "middle")
+    .text("Agave Sync");
 
   // Tier section labels on the modules side (Company / Project).
   zoomLayer
     .append("text")
     .attr("class", "tier-label")
-    .attr("x", rightX)
+    .attr("x", middleX)
     .attr("y", companyLabelY + TIER_LABEL_HEIGHT / 2 + 4)
     .attr("text-anchor", "middle")
     .text("Company Level");
@@ -211,7 +241,7 @@
   zoomLayer
     .append("text")
     .attr("class", "tier-label")
-    .attr("x", rightX)
+    .attr("x", middleX)
     .attr("y", projectLabelY + TIER_LABEL_HEIGHT / 2 + 4)
     .attr("text-anchor", "middle")
     .text("Project Level");
@@ -220,9 +250,9 @@
   zoomLayer
     .append("line")
     .attr("class", "tier-divider")
-    .attr("x1", rightX - LABEL_GUTTER * 0.55)
+    .attr("x1", middleX - 100)
     .attr("y1", tierDividerY)
-    .attr("x2", rightX + LABEL_GUTTER * 0.55)
+    .attr("x2", middleX + 100)
     .attr("y2", tierDividerY);
 
   // ---------------------------------------------------------------------
@@ -296,42 +326,50 @@
     .attr("points", hexPoints(NODE_RADIUS.module * 0.42))
     .attr("fill", "#FF5200");
 
-  // Metal outline ring on "both" ERPs — visually signals that this ERP
-  // is available BOTH as a Procore-native connector AND via Agave Sync.
-  // Drawn as a slightly larger hex outline behind the orange fill so it
-  // reads as a halo. The fill stays orange (Procore-native primary),
-  // the stroke is Metal (Agave secondary).
-  node
-    .filter((d) => d.type === "erp" && d.via === "both")
-    .insert("polygon", ":first-child")
-    .attr("class", "node-hex-ring")
-    .attr("points", hexPoints(NODE_RADIUS.erp + 4))
-    .attr("fill", "none")
-    .attr("stroke", COLOR_AGAVE)
-    .attr("stroke-width", 2);
+  // (Dual-source "both" ERPs are no longer rendered as a single node
+  // with a metal ring — they now exist as two separate nodes, one in
+  // the Procore-native column and one in the Agave column.)
 
-  // Labels read outward from the column: ERPs to the left, modules to
-  // the right. The text-anchor mirrors that.
+  // Labels read OUTWARD from each ERP column (Procore-native = label to
+  // the left; Agave Sync = label to the right). Module labels sit
+  // BELOW the hex (centered) because the middle column can't put
+  // labels on either side without colliding with incoming lines from
+  // the ERPs on both sides.
   //
-  // When a module has a `tool` field (Directory, WBS, Project WBS, etc.)
-  // we render it as a small DM Mono "eyebrow" label above the main
-  // entity label — making the tool-architecture relationship visible
-  // (Directory ▸ Companies, WBS ▸ Cost Codes, etc.).
+  // When a module has a `tool` field (Directory, WBS, Project WBS) we
+  // render it as a small DM Mono "eyebrow" label ABOVE the hex — making
+  // the tool-architecture relationship visible (Directory ▸ Companies,
+  // WBS ▸ Cost Codes, etc.).
+  function labelX(d) {
+    if (d.type === "module") return 0;
+    if (d.via === "agave") return NODE_RADIUS.erp + 10;
+    return -(NODE_RADIUS.erp + 10);
+  }
+  function labelY(d) {
+    if (d.type === "module") return NODE_RADIUS.module + 16;
+    return 4;
+  }
+  function labelAnchor(d) {
+    if (d.type === "module") return "middle";
+    if (d.via === "agave") return "start";
+    return "end";
+  }
+
   node
     .filter((d) => !!d.tool)
     .append("text")
     .attr("class", "node-tool-label")
-    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 10) : NODE_RADIUS.module + 10))
-    .attr("y", -6)
-    .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
+    .attr("x", (d) => (d.type === "module" ? 0 : labelX(d)))
+    .attr("y", (d) => (d.type === "module" ? -(NODE_RADIUS.module + 8) : -8))
+    .attr("text-anchor", (d) => (d.type === "module" ? "middle" : labelAnchor(d)))
     .text((d) => d.tool);
 
   node
     .append("text")
     .attr("class", "node-label")
-    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 10) : NODE_RADIUS.module + 10))
-    .attr("y", (d) => (d.tool ? 10 : 4))
-    .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
+    .attr("x", labelX)
+    .attr("y", labelY)
+    .attr("text-anchor", labelAnchor)
     .text((d) => d.label);
 
   // ---------------------------------------------------------------------
@@ -352,15 +390,17 @@
   const ttkEl = document.getElementById("details-ttk");
   const connectionsEl = document.getElementById("details-connections");
 
-  // Build a deep link from a connection card to the relevant section of
-  // the ERP's "Detailed Data Mapping" page, using the Text Fragments
-  // syntax (#:~:text=). Each ERP node carries a `dataMappingSections`
-  // map (module id → literal section heading text on that ERP's page)
-  // because section names vary widely — Acumatica Edge has "Commitment
-  // Change Orders", QBO has "Project WBS Codes", NetSuite has "Vendors"
-  // (singular), etc. Using the exact heading skips the overview tables
-  // and column labels at the top of each page that would otherwise
-  // match a generic search like "Change Orders" first.
+  // Build a deep link from a connection card to the relevant docs.
+  //
+  // Procore-native ERPs: link to the ERP's "Detailed Data Mapping" page
+  // on v2.support.procore.com, scrolled to the exact section heading
+  // via the Text Fragments syntax (#:~:text=). Each ERP carries a
+  // `dataMappingSections` map (module id → literal heading text).
+  //
+  // Agave ERPs: each data type has its own dedicated page on
+  // sync-docs.agaveapi.com, so we link directly via the ERP's
+  // `connectionUrls` map (module id → specific page URL). No text
+  // fragment needed — the whole page is the section.
   function buildMappingUrl(link) {
     const a = link.source;
     const b = link.target;
@@ -368,6 +408,14 @@
     const mod = a.type === "module" ? a : b.type === "module" ? b : null;
     if (!erp || !mod) return null;
 
+    // Agave path — direct URL per data type.
+    if (erp.via === "agave") {
+      const direct = (erp.connectionUrls || {})[mod.id];
+      if (direct) return direct;
+      return erp.agaveResourceUrl || erp.supportUrl || null;
+    }
+
+    // Procore-native path — Text Fragments anchor to the section heading.
     const dm = (erp.resources || []).find((r) => r.label === "Data Mapping");
     const baseUrl = dm ? dm.url : erp.supportUrl;
     if (!baseUrl) return null;
@@ -416,12 +464,21 @@
     emptyTextEl.hidden = true;
     contentEl.hidden = false;
 
+    // Retool the side panel based on what kind of node was selected.
+    // - For Agave ERPs: type chip says "Agave Sync · [ERP Name]" and
+    //   the panel gets a Metal accent class so CSS can paint it.
+    // - For Procore-native ERPs: type chip says "Procore Native";
+    //   panel gets the orange accent.
+    // - For Procore modules: type chip says the tier.
+    detailsEl.classList.remove("details-agave", "details-procore-native");
     if (n.type === "erp") {
-      const via =
-        n.via === "agave" ? "Via Agave Sync"
-        : n.via === "both" ? "Procore Native + Agave Sync"
-        : "Procore Native";
-      typeEl.textContent = "ERP Connector · " + via;
+      if (n.via === "agave") {
+        typeEl.textContent = "Agave Sync · " + n.label;
+        detailsEl.classList.add("details-agave");
+      } else {
+        typeEl.textContent = "Procore Native · " + n.label;
+        detailsEl.classList.add("details-procore-native");
+      }
     } else {
       typeEl.textContent =
         n.tier === "company" ? "Procore Tool · Company Level"
@@ -545,6 +602,7 @@
 
   function deselect() {
     detailsEl.classList.add("details-empty");
+    detailsEl.classList.remove("details-agave", "details-procore-native");
     emptyTextEl.hidden = false;
     contentEl.hidden = true;
     overviewEl.hidden = true;

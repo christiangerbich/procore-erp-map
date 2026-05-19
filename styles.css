@@ -227,6 +227,12 @@ main {
   fill: var(--color-black);
 }
 
+/* The Agave column header is colored Metal so the right column reads
+ * unmistakably as the Agave-sourced side of the bipartite split. */
+.column-header-agave {
+  fill: var(--color-metal);
+}
+
 /* Tier section labels on the modules side — slightly smaller than the
  * column header to read as a subordinate grouping. */
 .tier-label {
@@ -252,7 +258,15 @@ main {
   padding: 24px 24px 32px;
   overflow-y: auto;
   background: var(--color-surface);
+  border-top: 4px solid transparent;
+  transition: border-color 0.15s ease;
 }
+
+/* Source-of-truth accent at the top of the side panel — Orange when a
+ * Procore-native ERP is selected, Metal when an Agave ERP is selected.
+ * Modules don't add a class so the border stays transparent. */
+.details.details-procore-native { border-top-color: var(--color-orange); }
+.details.details-agave          { border-top-color: var(--color-metal); }
 
 .details h2 {
   margin: 0 0 8px;
