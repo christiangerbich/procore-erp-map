@@ -39,7 +39,17 @@
         "Budgets must be locked before export and stay locked during sync.",
         "After commitments sync, you cannot edit contract company, status, or SOV line items.",
         "Unit of Measure (UOM) and Unit Qty values do NOT sync — must be entered manually in both systems."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "cost-codes": "Cost Codes",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Job Costs",
+        "change-orders": "Commitment Change Orders",
+        "prime-contracts": "Prime Contract"
+      }
     },
     {
       "id": "viewpoint-vista",
@@ -65,7 +75,18 @@
         "Commitment identifiers must be ≤30 characters and cannot include slashes.",
         "Vista only allows modifying the same contract line item once per change order — Procore aggregates multiple changes into one.",
         "Vendor address changes only sync if the 'Vendors will be automatically updated' setting is enabled."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Direct Cost Item Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Procore Pay Payments",
+        "prime-contracts": "Prime Contract"
+      }
     },
     {
       "id": "quickbooks-desktop",
@@ -91,7 +112,17 @@
         "Cost transactions must be coded to synced Service Items — items coded to unsynced accounts won't transfer.",
         "Cost codes cannot exceed 96 characters.",
         "Existing Procore projects cannot be linked to existing QBD jobs — records must originate in one system."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "cost-codes": "Cost Codes",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets/Budget Modifications",
+        "commitments": "Commitments",
+        "direct-costs": "Job Costs",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders"
+      }
     },
     {
       "id": "sage-300-cre",
@@ -116,7 +147,20 @@
         "Budget unlocking is restricted after export; requires manual posting and sync via the hh2 client.",
         "Address changes only sync if the auto-update setting is enabled.",
         "Sage 300 CRE limits modifying the same commitment line item once per CCO — Procore aggregates multiple changes."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies",
+        "cost-codes": "Standard Cost Codes/Types",
+        "project-wbs": "Sub Jobs/Extras",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Procore Pay Payments",
+        "prime-contracts": "Prime Contract"
+      }
     },
     {
       "id": "yardi-voyager",
@@ -142,7 +186,18 @@
         "Cost codes in a project template must already exist in the Yardi project before applying.",
         "Purchase Orders require Implementation Specialist configuration before syncing.",
         "Tax codes do NOT export with commitments."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "project-wbs": "Sub Jobs",
+        "jobs": "Projects/Jobs",
+        "budgets": "Original Budget Estimate",
+        "commitments": "Commitments",
+        "direct-costs": "Direct Costs",
+        "invoices": "Subcontractor Invoice",
+        "change-orders": "Commitment Change Orders (CCOs)",
+        "payments": "Paid Invoices"
+      }
     },
     {
       "id": "netsuite",
@@ -168,7 +223,15 @@
         "In-progress projects can't be onboarded without professional services.",
         "Vendor edits flow NetSuite → Procore only — Procore changes don't update synced NetSuite vendors.",
         "Job costs entered in NetSuite must use the integration-created project-specific items to come back to Procore."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "cost-codes": "Project WBS Codes",
+        "jobs": "Projects",
+        "direct-costs": "Direct Cost Transactions",
+        "invoices": "Subcontractor Invoices",
+        "payments": "Commitment Payments Issued"
+      }
     },
     {
       "id": "acumatica-edge",
@@ -194,7 +257,20 @@
         "Sub Jobs require a default 'Empty Sub Job' task that cannot be deleted or edited.",
         "All cost codes need at least one cost type assignment before exporting a project.",
         "Budget sync is amount-based only — UOM and quantities do not transfer."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "cost-codes": "Standard Cost Codes/Cost Codes",
+        "project-wbs": "Sub Jobs/Project Task",
+        "jobs": "Projects",
+        "budgets": "Budgets/Cost Budget",
+        "commitments": "Commitments",
+        "direct-costs": "Job Costs",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Commitment Payments Issued",
+        "prime-contracts": "Prime Contracts"
+      }
     },
     {
       "id": "acumatica-vision",
@@ -220,7 +296,19 @@
         "Acumatica enforces a 30-character maximum on project names.",
         "All project-level cost codes must come from the ERP-synced standard list.",
         "Manual ERP Vendor ID entry required by an accounting approver when exporting companies."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "cost-codes": "Standard Cost Codes/Cost Codes",
+        "jobs": "Projects",
+        "budgets": "Budgets/Cost Budget",
+        "commitments": "Commitments",
+        "direct-costs": "Job Costs",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Commitment Payments Issued",
+        "prime-contracts": "Prime Contracts"
+      }
     },
     {
       "id": "mri-platform-x",
@@ -246,7 +334,16 @@
         "Retainage release will NOT occur automatically — must be processed manually in MRI.",
         "Verify duplicate company records don't exist before adding MRI vendors.",
         "Tax codes do NOT export with commitments."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Companies/Vendors",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Direct Cost Item Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders"
+      }
     },
     {
       "id": "sage-intacct",
@@ -271,7 +368,19 @@
         "Companies must be created at top level in Sage Intacct — entity-level companies aren't detected.",
         "After commitments sync, Procore restricts editing synced fields.",
         "Prime Contract Change Orders won't create corresponding line items in Sage Intacct even when created in Procore."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "project-wbs": "Sub Jobs",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Commitment Payments Issued",
+        "prime-contracts": "Prime Contract"
+      }
     },
     {
       "id": "sage-100",
@@ -297,7 +406,17 @@
         "Retainage handling differs between systems — released retainage cannot sync.",
         "In-progress projects cannot sync without professional services.",
         "Vendors need invoice defaults / ledger accounts configured in Sage 100 before subcontractor invoice export."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "project-wbs": "Sub Jobs/Phases",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders"
+      }
     },
     {
       "id": "cmic",
@@ -323,7 +442,19 @@
         "Vendor address changes don't sync — CMiC addresses are billing, Procore addresses are project mailing.",
         "Multi-company setups require matching division/tier counts across cost code lists.",
         "Every project cost code must have a cost type assignment before budget export."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "project-wbs": "Sub Jobs",
+        "jobs": "Projects/Jobs",
+        "budgets": "Budgets",
+        "commitments": "Commitments",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Procore Pay Payments",
+        "prime-contracts": "Prime Contracts"
+      }
     },
     {
       "id": "quickbooks-online",
@@ -350,7 +481,16 @@
         "Vendor/Company edits don't sync after initial creation — changes in one system don't propagate to the other.",
         "Multi-currency invoices only export if vendor/customer uses the QBO home currency.",
         "Budgets, Commitments, Timesheets, Prime Contracts, and PCCOs do NOT sync."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "cost-codes": "Project WBS Codes",
+        "project-wbs": "Project WBS Codes",
+        "jobs": "Projects",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "payments": "Commitment Payments Issued"
+      }
     },
     {
       "id": "workday",
@@ -376,7 +516,18 @@
         "Cost codes must use at least a 2-tier hierarchical structure.",
         "Unbudgeted line items won't transmit WBS codes to Workday unless added to the budget.",
         "Tax code data does NOT export with commitments."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "cost-codes": "WBS Codes",
+        "project-wbs": "WBS Codes",
+        "jobs": "Projects/Jobs",
+        "commitments": "Commitments",
+        "direct-costs": "Direct Costs Transactions",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "prime-contracts": "Prime Contracts"
+      }
     },
     {
       "id": "xero",
@@ -402,7 +553,17 @@
         "Purchase and sales accounts must be assigned manually in Xero after cost codes are created.",
         "Prime contracts, budgets, and timecards do NOT sync.",
         "Xero blocks multiple modifications to the same contract line item — Procore aggregates them."
-      ]
+      ],
+      "dataMappingSections": {
+        "vendors": "Vendors",
+        "cost-codes": "Cost Codes",
+        "jobs": "Projects/Jobs",
+        "commitments": "Commitments (Optional)",
+        "direct-costs": "Job Cost Transaction Details",
+        "invoices": "Subcontractor Invoices",
+        "change-orders": "Commitment Change Orders",
+        "payments": "Commitment Payments Issued"
+      }
     }
   ],
   "links": [

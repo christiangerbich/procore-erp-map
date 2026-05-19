@@ -325,11 +325,13 @@
 
   // Build a deep link from a connection card to the relevant section of
   // the ERP's "Detailed Data Mapping" page, using the Text Fragments
-  // syntax (#:~:text=). We pass multiple candidate strings — the tool
-  // name (e.g. "Project WBS", "Directory") and the cleaned entity label
-  // (e.g. "Cost Codes", "Companies") — because section headings vary
-  // across ERPs (QBO uses "Project WBS Codes" where NetSuite uses
-  // "Cost Codes"). The browser scrolls to whichever string it finds first.
+  // syntax (#:~:text=). Each ERP node carries a `dataMappingSections`
+  // map (module id → literal section heading text on that ERP's page)
+  // because section names vary widely — Acumatica Edge has "Commitment
+  // Change Orders", QBO has "Project WBS Codes", NetSuite has "Vendors"
+  // (singular), etc. Using the exact heading skips the overview tables
+  // and column labels at the top of each page that would otherwise
+  // match a generic search like "Change Orders" first.
   function buildMappingUrl(link) {
     const a = link.source;
     const b = link.target;
@@ -341,6 +343,15 @@
     const baseUrl = dm ? dm.url : erp.supportUrl;
     if (!baseUrl) return null;
 
+    const sections = erp.dataMappingSections || {};
+    const exactHeading = sections[mod.id];
+
+    if (exactHeading) {
+      return baseUrl + "#:~:text=" + encodeURIComponent(exactHeading);
+    }
+
+    // Fallback for any link not covered by an explicit mapping: try the
+    // tool name and cleaned label as candidate text fragments.
     const cleanLabel = mod.label
       .replace(/\s*\([^)]*\)/g, "")
       .split(/\s*\/\s*/)[0]
