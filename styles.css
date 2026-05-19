@@ -22,6 +22,13 @@
   --color-stone:  #ECE0D6;
   --color-white:  #FFFFFF;
 
+  /* Secondary brand palette (Color guide page 4). Metal is used to mark
+   * ERPs that come via Agave Sync — keeps everything inside the official
+   * Procore palette while clearly distinguishing the connector source. */
+  --color-metal:  #566578;
+  --color-lumber: #CEC4A1;
+  --color-earth:  #8D6E5B;
+
   /* Surfaces & borders */
   --color-bg: var(--color-stone);
   --color-surface: var(--color-white);
@@ -139,8 +146,17 @@ h1 {
   clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0, 75% 0);
 }
 
-.legend-erp    { background: var(--color-orange); }
-.legend-module { background: var(--color-black); }
+.legend-erp        { background: var(--color-orange); }
+.legend-erp-agave  { background: var(--color-metal); }
+.legend-module     { background: var(--color-black); }
+
+/* "Both" ERP legend swatch — orange hex with metal ring around it. The
+ * markup uses inline SVG (in index.html) so the ring follows the hex
+ * outline; this CSS just aligns it like the other legend swatches. */
+.legend-hex-svg {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 /* Company-level module legend swatch — black hex with inset orange hex,
  * mirroring the actual node rendering and the Procore logomark. */
@@ -460,10 +476,15 @@ main {
   transition: stroke 0.15s ease, stroke-width 0.15s ease;
 }
 
-.node.selected polygon {
+.node.selected polygon.node-hex {
   stroke: var(--color-orange);
   stroke-width: 3px;
 }
+
+/* "Both" ERPs (Procore-native + Agave) — the JS adds a metal ring as a
+ * separate hex polygon under .node-hex-ring. Keep its stroke as Metal
+ * even when the node is dimmed, just at lower opacity. */
+.node.dimmed polygon.node-hex-ring { opacity: 0.35; }
 
 .node text {
   font-family: "Inter Tight", sans-serif;

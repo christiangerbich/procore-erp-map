@@ -4,6 +4,7 @@
     { "id": "procore",        "label": "Procore",                  "type": "core" },
 
     { "id": "vendors",        "label": "Companies",                "type": "module", "tier": "company", "tool": "Directory" },
+    { "id": "employees",      "label": "Employees",                "type": "module", "tier": "company", "tool": "Directory" },
     { "id": "cost-codes",     "label": "Cost Codes",               "type": "module", "tier": "company", "tool": "WBS" },
     { "id": "project-wbs",    "label": "Sub Jobs",                 "type": "module", "tier": "project", "tool": "Project WBS" },
     { "id": "jobs",           "label": "Jobs / Projects",          "type": "module", "tier": "project" },
@@ -14,6 +15,7 @@
     { "id": "change-orders",  "label": "Change Orders (CCO/PCCO)", "type": "module", "tier": "project" },
     { "id": "payments",       "label": "Payments",                 "type": "module", "tier": "project" },
     { "id": "prime-contracts","label": "Prime Contracts",          "type": "module", "tier": "project" },
+    { "id": "timecards",      "label": "Timecards / Timesheets",   "type": "module", "tier": "project" },
 
     {
       "id": "viewpoint-spectrum",
@@ -21,7 +23,9 @@
       "type": "erp",
       "connector": "Integration by Procore",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/viewpoint-spectrum",
-      "overview": "Integration by Procore that connects Procore project financials with Trimble Viewpoint Spectrum accounting. Targeted at construction firms using Spectrum for AP, job cost, and prime contracts.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum",
+      "overview": "Integration by Procore that connects Procore project financials with Trimble Viewpoint Spectrum accounting. Targeted at construction firms using Spectrum for AP, job cost, and prime contracts. Also available via Agave Sync — useful for adding employee + timecard sync.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/viewpoint-spectrum" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/viewpoint-spectrum/tutorials" },
@@ -57,7 +61,9 @@
       "type": "erp",
       "connector": "Integration by Procore",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/vista",
-      "overview": "Integration by Procore that connects Procore with Trimble Viewpoint Vista, an enterprise construction ERP. Supports a wide range of bidirectional flows including budgets, prime contracts, direct costs, and payments.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-vista",
+      "overview": "Integration by Procore that connects Procore with Trimble Viewpoint Vista, an enterprise construction ERP. Supports a wide range of bidirectional flows including budgets, prime contracts, direct costs, and payments. Also available via Agave Sync.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/vista" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/vista/tutorials" },
@@ -94,7 +100,9 @@
       "type": "erp",
       "connector": "Direct connector",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/quickbooks",
-      "overview": "Direct connector that links Procore with a QuickBooks Desktop company file via the QuickBooks Web Connector. Targeted at smaller construction firms running QuickBooks Desktop for AP, job costing, and budgets.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop",
+      "overview": "Direct connector that links Procore with a QuickBooks Desktop company file via the QuickBooks Web Connector. Targeted at smaller construction firms running QuickBooks Desktop for AP, job costing, and budgets. Also available via Agave Sync — adds employee + timecard sync that Procore-native QBD doesn't support.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/quickbooks-desktop" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/quickbooks-desktop/tutorials" },
@@ -239,7 +247,9 @@
       "type": "erp",
       "connector": "Procore Edge",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/acumatica-construction",
-      "overview": "Procore Edge connector for Acumatica Construction Edition. Provides one of the deepest integration scopes: bidirectional vendors, cost codes, jobs, budgets, direct costs, and payments; plus exported commitments, invoices, change orders, and prime contracts.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica",
+      "overview": "Procore Edge connector for Acumatica Construction Edition. Provides one of the deepest integration scopes: bidirectional vendors, cost codes, jobs, budgets, direct costs, and payments; plus exported commitments, invoices, change orders, and prime contracts. Also available via Agave Sync.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/acumatica-construction" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/acumatica-construction/tutorials" },
@@ -351,7 +361,9 @@
       "type": "erp",
       "connector": "Direct connector",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/sage-intacct",
-      "overview": "Direct connector for Sage Intacct, a popular cloud-based financial management platform. Deep bidirectional sync of master data and budgets with one-way export of commitments, invoices, and change orders.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct",
+      "overview": "Direct connector for Sage Intacct, a popular cloud-based financial management platform. Deep bidirectional sync of master data and budgets with one-way export of commitments, invoices, and change orders. Also available via Agave Sync.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/sage-intacct" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/sage-intacct/tutorials" },
@@ -388,7 +400,9 @@
       "type": "erp",
       "connector": "Direct connector",
       "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/sage-100",
-      "overview": "Direct connector for Sage 100 Contractor (formerly Master Builder), a mid-market construction accounting platform. Bidirectional master data with one-way export for commitments, invoices, and change orders.",
+      "via": "both",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor",
+      "overview": "Direct connector for Sage 100 Contractor (formerly Master Builder), a mid-market construction accounting platform. Bidirectional master data with one-way export for commitments, invoices, and change orders. Also available via Agave Sync.",
       "resources": [
         { "label": "Overview",       "url": "https://v2.support.procore.com/product-manuals/sage-100" },
         { "label": "Tutorials",      "url": "https://v2.support.procore.com/product-manuals/sage-100/tutorials" },
@@ -564,10 +578,69 @@
         "change-orders": "Commitment Change Orders",
         "payments": "Commitment Payments Issued"
       }
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "type": "erp",
+      "connector": "Agave Sync",
+      "via": "agave",
+      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-foundation",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-foundation",
+      "overview": "Construction accounting ERP from Foundation Software. Available for Procore only via Agave Sync — Agave provides the integration layer including AP/AR Invoices, Payments, Vendors, Employees, Timecards, Budgets, Commitments, and Job Costs.",
+      "resources": [
+        { "label": "Overview",       "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation" },
+        { "label": "Vendors",        "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/vendors" },
+        { "label": "Projects",       "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/projects-jobs" },
+        { "label": "Budgets",        "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/budget-line-items-budgets" },
+        { "label": "Subcontracts",   "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/subcontracts" },
+        { "label": "AP Invoices",    "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ap-invoices" },
+        { "label": "Job Costs",      "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/job-costs-direct-costs" },
+        { "label": "Timecards",      "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/timecard-entries-timesheets" },
+        { "label": "Known Limits",   "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/known-limitations" }
+      ],
+      "thingsToKnow": [
+        "Available only through Agave Sync — there is no Procore-native Foundation connector.",
+        "Vendor sync from Procore → Foundation requires the FSI Importer + Microsoft ODBC driver + Agave Connector installed on a Windows machine.",
+        "Vendor edits sync via Agave's 'Update Linked Records' automation — must be explicitly enabled.",
+        "Customers and Vendors are separate Foundation entities — Agave can suffix synced Customers with '(Customer)' for clarity in Procore.",
+        "Agave Sync syncs on a configurable cadence (hourly default for project-level data).",
+        "Equipment, Production Quantities, and Units of Measure also sync but are not in this map."
+      ]
+    },
+    {
+      "id": "computerease",
+      "label": "Deltek ComputerEase",
+      "type": "erp",
+      "connector": "Agave Sync",
+      "via": "agave",
+      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-computerease",
+      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-computerease",
+      "overview": "Construction accounting ERP (formerly ComputerEase, now under Deltek). Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, commitments, job costs, and timecards — no AP/AR invoice sync.",
+      "resources": [
+        { "label": "Overview",      "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease" },
+        { "label": "Vendors",       "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/vendors" },
+        { "label": "Projects",      "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/projects-jobs" },
+        { "label": "Cost Codes",    "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/cost-codes-category-codes" },
+        { "label": "Budgets",       "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/budget-line-items-categories" },
+        { "label": "Purchase Orders","url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/purchase-orders" },
+        { "label": "Job Costs",     "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/job-costs-direct-costs" },
+        { "label": "Timecards",     "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/timecard-entries-labor-distribution" },
+        { "label": "FAQs",          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/common-errors-and-faqs" }
+      ],
+      "thingsToKnow": [
+        "Available only through Agave Sync — there is no Procore-native ComputerEase connector.",
+        "No AP Invoice sync — Subcontractor Invoices from Procore don't push back to ComputerEase.",
+        "No AR Invoice (Owner Invoice) or AP Payment sync.",
+        "Only Prime Contract Change Orders (PCCOs) sync — Commitment Change Orders (CCOs) do not.",
+        "No Prime Contract sync — only PCCOs.",
+        "Cost Codes in ComputerEase are called 'Category Codes'; Sub Jobs are called 'Phases'."
+      ]
     }
   ],
   "links": [
     { "source": "procore", "target": "vendors" },
+    { "source": "procore", "target": "employees" },
     { "source": "procore", "target": "cost-codes" },
     { "source": "procore", "target": "project-wbs" },
     { "source": "procore", "target": "jobs" },
@@ -578,6 +651,7 @@
     { "source": "procore", "target": "change-orders" },
     { "source": "procore", "target": "payments" },
     { "source": "procore", "target": "prime-contracts" },
+    { "source": "procore", "target": "timecards" },
 
     { "source": "viewpoint-spectrum", "target": "vendors", "direction": "both", "notes": ["Company Name → Spectrum Name; address, phone, fax, email sync both ways.", "Vendor Type and ERP Vendor ID are entered manually by an accounting approver during export."] },
     { "source": "viewpoint-spectrum", "target": "cost-codes", "direction": "from-erp", "notes": ["Spectrum Phases import as Procore cost codes; descriptions and Cost Type sync.", "Custom WBS segments are NOT supported."] },
@@ -729,6 +803,31 @@
     { "source": "xero", "target": "direct-costs", "direction": "from-erp", "notes": ["Invoice and expense types from Xero import as Bills and Spend Money transactions.", "Transaction details (date, vendor, amount, budget codes) flow into Procore Budget tool."] },
     { "source": "xero", "target": "invoices", "direction": "to-erp", "notes": ["Invoice data exports to Bills in Xero with contractor company, dates, PO/invoice numbers.", "SOV items map to line item details (quantities and pricing)."] },
     { "source": "xero", "target": "change-orders", "direction": "to-erp", "notes": ["New line items append to existing POs rather than creating separate records.", "Cost code, descriptions, quantities, unit costs add to the original commitment PO."] },
-    { "source": "xero", "target": "payments", "direction": "from-erp", "notes": ["Bill payments from Xero import as commitment payment records with amount, date, reference info.", "Bill Payments do NOT reflect tax when pulled into Procore."] }
+    { "source": "xero", "target": "payments", "direction": "from-erp", "notes": ["Bill payments from Xero import as commitment payment records with amount, date, reference info.", "Bill Payments do NOT reflect tax when pulled into Procore."] },
+
+    { "source": "foundation", "target": "vendors",        "direction": "both",     "notes": ["Vendors sync bidirectionally via Agave; auto-link uses Name, Address, Code, Email, Phone, Tax ID.", "Procore → Foundation requires FSI Importer + ODBC + Agave Connector setup.", "Procore lacks Vendor/Customer split — Agave can suffix Customers with '(Customer)'."] },
+    { "source": "foundation", "target": "employees",      "direction": "both",     "notes": ["Foundation employee records sync to Procore Directory people.", "Used in conjunction with Timecard Entries for project labor reporting."] },
+    { "source": "foundation", "target": "cost-codes",     "direction": "both",     "notes": ["Company Cost Codes sync as Procore Standard Cost Codes.", "Cost Types (called Cost Classes in Foundation) sync alongside."] },
+    { "source": "foundation", "target": "project-wbs",    "direction": "both",     "notes": ["Sub Jobs in Procore map to Foundation Phases.", "Per-project WBS structure preserved through sync."] },
+    { "source": "foundation", "target": "jobs",           "direction": "both",     "notes": ["Foundation Jobs ↔ Procore Projects via Agave's project linking.", "Set a per-project cutoff date in Agave to avoid re-syncing pre-existing records."] },
+    { "source": "foundation", "target": "budgets",        "direction": "both",     "notes": ["Budget Line Items sync as Foundation Budgets.", "Budget Transfers sync as Budget Changes."] },
+    { "source": "foundation", "target": "commitments",    "direction": "both",     "notes": ["Subcontracts and Purchase Orders both sync as Foundation commitments."] },
+    { "source": "foundation", "target": "direct-costs",   "direction": "both",     "notes": ["Job Costs sync as Procore Direct Costs.", "Foundation Cost Code IDs must be aligned to avoid Error-0372."] },
+    { "source": "foundation", "target": "invoices",       "direction": "both",     "notes": ["AP Invoices sync as Subcontractor Invoices in Procore.", "AR Invoices sync as Owner Invoices in Procore."] },
+    { "source": "foundation", "target": "change-orders",  "direction": "both",     "notes": ["Subcontractor Change Orders sync as Commitment Change Orders (CCOs).", "Prime Contract Change Orders (PCCOs) also sync."] },
+    { "source": "foundation", "target": "payments",       "direction": "from-erp", "notes": ["AP Payments import from Foundation to Procore.", "Contracts/invoices are one-time sync at approval per Agave best practice."] },
+    { "source": "foundation", "target": "prime-contracts","direction": "both",     "notes": ["Prime Contracts sync between Foundation and Procore."] },
+    { "source": "foundation", "target": "timecards",      "direction": "both",     "notes": ["Timecard Entries sync from Foundation as Procore Timesheets.", "Tied to Employees and Cost Codes for proper project allocation."] },
+
+    { "source": "computerease", "target": "vendors",       "direction": "both",     "notes": ["Vendors sync bidirectionally via Agave."] },
+    { "source": "computerease", "target": "employees",     "direction": "both",     "notes": ["ComputerEase Employees sync to Procore Directory."] },
+    { "source": "computerease", "target": "cost-codes",    "direction": "both",     "notes": ["ComputerEase Category Codes sync as Procore Cost Codes.", "Cost Types sync alongside."] },
+    { "source": "computerease", "target": "project-wbs",   "direction": "both",     "notes": ["ComputerEase Phases sync as Procore Sub Jobs."] },
+    { "source": "computerease", "target": "jobs",          "direction": "both",     "notes": ["ComputerEase Jobs ↔ Procore Projects via Agave."] },
+    { "source": "computerease", "target": "budgets",       "direction": "both",     "notes": ["ComputerEase Categories sync as Procore Budget Line Items."] },
+    { "source": "computerease", "target": "commitments",   "direction": "both",     "notes": ["Purchase Orders sync as Procore Commitments — Subcontracts and POs both flow through this entity."] },
+    { "source": "computerease", "target": "direct-costs",  "direction": "both",     "notes": ["Job Costs sync as Procore Direct Costs."] },
+    { "source": "computerease", "target": "change-orders", "direction": "to-erp",   "notes": ["Only Prime Contract Change Orders (PCCOs) sync — Commitment Change Orders are NOT supported."] },
+    { "source": "computerease", "target": "timecards",     "direction": "both",     "notes": ["ComputerEase Labor Distribution entries sync as Procore Timecards."] }
   ]
 }

@@ -11,8 +11,19 @@
 
   // Procore primary palette — see Color guide page 3. The hex is the
   // central brand mark (Identity guide pages 24-28); using it filled in
-  // primary colors is on-brand. ERPs in orange, modules in black.
+  // primary colors is on-brand. Modules are always black.
+  //
+  // ERP color depends on which service provides the connector:
+  //   via: "procore" (default) → Procore Orange (primary brand color)
+  //   via: "agave"              → Metal #566578 (Procore secondary palette)
+  //   via: "both"               → Orange fill + Metal stroke ring
   const NODE_COLOR = { erp: "#FF5200", module: "#000000" };
+  const COLOR_PROCORE = "#FF5200"; // Procore Orange
+  const COLOR_AGAVE = "#566578";   // Procore Metal (secondary palette)
+
+  function erpFillFor(d) {
+    return d.via === "agave" ? COLOR_AGAVE : COLOR_PROCORE;
+  }
 
   // Line colors keyed by link direction. Solid vs dashed treatment lives
   // in CSS (.link-to-erp / .link-from-erp). Kept in sync with the CSS
@@ -268,9 +279,13 @@
 
   node
     .append("polygon")
-    .attr("class", "node-hex")
+    .attr("class", (d) => {
+      const cls = ["node-hex"];
+      if (d.via) cls.push("via-" + d.via);
+      return cls.join(" ");
+    })
     .attr("points", (d) => hexPoints(NODE_RADIUS[d.type]))
-    .attr("fill", (d) => NODE_COLOR[d.type]);
+    .attr("fill", (d) => (d.type === "erp" ? erpFillFor(d) : NODE_COLOR[d.type]));
 
   // Inset orange hex on company-level modules — mirrors the Procore
   // logomark (black hex with orange center) per the Identity guide.
@@ -280,6 +295,20 @@
     .attr("class", "node-hex-inner")
     .attr("points", hexPoints(NODE_RADIUS.module * 0.42))
     .attr("fill", "#FF5200");
+
+  // Metal outline ring on "both" ERPs — visually signals that this ERP
+  // is available BOTH as a Procore-native connector AND via Agave Sync.
+  // Drawn as a slightly larger hex outline behind the orange fill so it
+  // reads as a halo. The fill stays orange (Procore-native primary),
+  // the stroke is Metal (Agave secondary).
+  node
+    .filter((d) => d.type === "erp" && d.via === "both")
+    .insert("polygon", ":first-child")
+    .attr("class", "node-hex-ring")
+    .attr("points", hexPoints(NODE_RADIUS.erp + 4))
+    .attr("fill", "none")
+    .attr("stroke", COLOR_AGAVE)
+    .attr("stroke-width", 2);
 
   // Labels read outward from the column: ERPs to the left, modules to
   // the right. The text-anchor mirrors that.
@@ -387,10 +416,17 @@
     emptyTextEl.hidden = true;
     contentEl.hidden = false;
 
-    typeEl.textContent =
-      n.type === "erp" ? "ERP Connector"
-      : n.tier === "company" ? "Procore Tool · Company Level"
-      : "Procore Tool · Project Level";
+    if (n.type === "erp") {
+      const via =
+        n.via === "agave" ? "Via Agave Sync"
+        : n.via === "both" ? "Procore Native + Agave Sync"
+        : "Procore Native";
+      typeEl.textContent = "ERP Connector · " + via;
+    } else {
+      typeEl.textContent =
+        n.tier === "company" ? "Procore Tool · Company Level"
+        : "Procore Tool · Project Level";
+    }
 
     if (n.connector) {
       connectorEl.textContent = "Connector type: " + n.connector;
