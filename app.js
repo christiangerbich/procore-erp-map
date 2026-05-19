@@ -323,6 +323,38 @@
   const ttkEl = document.getElementById("details-ttk");
   const connectionsEl = document.getElementById("details-connections");
 
+  // Build a deep link from a connection card to the relevant section of
+  // the ERP's "Detailed Data Mapping" page, using the Text Fragments
+  // syntax (#:~:text=). We pass multiple candidate strings — the tool
+  // name (e.g. "Project WBS", "Directory") and the cleaned entity label
+  // (e.g. "Cost Codes", "Companies") — because section headings vary
+  // across ERPs (QBO uses "Project WBS Codes" where NetSuite uses
+  // "Cost Codes"). The browser scrolls to whichever string it finds first.
+  function buildMappingUrl(link) {
+    const a = link.source;
+    const b = link.target;
+    const erp = a.type === "erp" ? a : b.type === "erp" ? b : null;
+    const mod = a.type === "module" ? a : b.type === "module" ? b : null;
+    if (!erp || !mod) return null;
+
+    const dm = (erp.resources || []).find((r) => r.label === "Data Mapping");
+    const baseUrl = dm ? dm.url : erp.supportUrl;
+    if (!baseUrl) return null;
+
+    const cleanLabel = mod.label
+      .replace(/\s*\([^)]*\)/g, "")
+      .split(/\s*\/\s*/)[0]
+      .trim();
+
+    const candidates = [];
+    if (mod.tool) candidates.push(mod.tool);
+    if (cleanLabel && cleanLabel !== mod.tool) candidates.push(cleanLabel);
+
+    if (!candidates.length) return baseUrl;
+    const fragments = candidates.map((c) => "text=" + encodeURIComponent(c)).join("&");
+    return baseUrl + "#:~:" + fragments;
+  }
+
   function symbolFor(link, fromNodeId) {
     if (link.direction === "both") return DIRECTION_SYMBOLS.both;
     const isSource = link.source.id === fromNodeId;
@@ -414,9 +446,13 @@
         const card = document.createElement("li");
         card.className = "connection-card";
 
-        const header = document.createElement("div");
+        const mappingUrl = buildMappingUrl(link);
+        const header = document.createElement("a");
         header.className = "connection-header";
-        header.title = "Click to view " + neighbor.label;
+        header.href = mappingUrl || "#";
+        header.target = "_blank";
+        header.rel = "noopener noreferrer";
+        header.title = "Open data mapping for " + neighbor.label + " in a new tab";
 
         const sym = document.createElement("span");
         sym.className = "direction-symbol direction-" + link.direction;
@@ -424,9 +460,14 @@
         const label = document.createElement("span");
         label.className = "connection-label";
         label.textContent = neighbor.label;
+        const externalIcon = document.createElement("span");
+        externalIcon.className = "connection-external";
+        externalIcon.setAttribute("aria-hidden", "true");
+        externalIcon.textContent = "↗";
+
         header.appendChild(sym);
         header.appendChild(label);
-        header.addEventListener("click", () => selectNode(neighbor.id));
+        header.appendChild(externalIcon);
         card.appendChild(header);
 
         if (Array.isArray(link.notes) && link.notes.length) {

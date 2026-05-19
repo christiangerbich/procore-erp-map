@@ -384,11 +384,24 @@ main {
   background: var(--color-stone);
   transition: background 0.12s ease;
   color: var(--color-black);
+  text-decoration: none;
 }
 
-.connection-header:hover { background: var(--color-orange); color: var(--color-black); }
+.connection-header:hover { background: var(--color-orange); color: var(--color-black); text-decoration: none; }
+.connection-header:focus-visible { outline: 2px solid var(--color-black); outline-offset: -2px; }
 
 .connection-label { flex: 1; }
+
+.connection-external {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+  margin-left: auto;
+  padding-left: 6px;
+  transition: color 0.12s ease;
+}
+
+.connection-header:hover .connection-external { color: var(--color-black); }
 
 .connection-notes {
   padding: 8px 14px 12px 36px;
