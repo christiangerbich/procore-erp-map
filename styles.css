@@ -461,6 +461,40 @@ main {
   stroke-opacity: 0.1;
 }
 
+/* Marching-ants animation on highlighted one-way lines. The SVG line goes
+ * source (ERP) → target (module), so:
+ *   - "from-erp" (ERP → Procore) wants dashes flowing TOWARD the target →
+ *      animate dashoffset toward negative.
+ *   - "to-erp" (Procore → ERP)   wants dashes flowing TOWARD the source →
+ *      animate dashoffset toward positive.
+ * Cycle length matches stroke-dasharray total (6 + 4 = 10) so the loop
+ * point is invisible. */
+@keyframes flow-forward {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -10; }
+}
+
+@keyframes flow-backward {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: 10; }
+}
+
+.link.link-from-erp.highlighted {
+  animation: flow-forward 0.8s linear infinite;
+}
+
+.link.link-to-erp.highlighted {
+  animation: flow-backward 0.8s linear infinite;
+}
+
+/* Respect the user's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  .link.link-from-erp.highlighted,
+  .link.link-to-erp.highlighted {
+    animation: none;
+  }
+}
+
 /* ---------------------------------------------------------------------
  * Responsive
  * --------------------------------------------------------------------- */
