@@ -87,9 +87,17 @@
   const companyModules = data.nodes
     .filter((n) => n.type === "module" && n.tier === "company")
     .sort((a, b) => a.label.localeCompare(b.label));
+  // Project-tier modules are sorted alphabetically EXCEPT Projects,
+  // which is pinned to the top of the project-level list. The Project
+  // record itself is conceptually the parent of every other project-
+  // level entity, so listing it first reads more naturally.
   const projectModules = data.nodes
     .filter((n) => n.type === "module" && n.tier === "project")
-    .sort((a, b) => a.label.localeCompare(b.label));
+    .sort((a, b) => {
+      if (a.id === "jobs" && b.id !== "jobs") return -1;
+      if (b.id === "jobs" && a.id !== "jobs") return 1;
+      return a.label.localeCompare(b.label);
+    });
   const moduleNodes = [...companyModules, ...projectModules];
 
   const visibleNodes = [...erpNodes, ...moduleNodes];
