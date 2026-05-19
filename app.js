@@ -4,17 +4,40 @@
   // Procore-to-module links are intentionally hidden in this view — they
   // become visual noise once the columns make the hub structure explicit.
 
-  const NODE_RADIUS = { erp: 14, module: 12 };
-  const NODE_COLOR = { erp: "#2563eb", module: "#10b981" };
+  // Node sizes are the hexagon circumradius (distance from center to a
+  // vertex). The hex extends ±NODE_RADIUS horizontally to its left/right
+  // vertices, which is also where the bipartite-layout lines connect.
+  const NODE_RADIUS = { erp: 17, module: 14 };
+
+  // Procore primary palette — see Color guide page 3. The hex is the
+  // central brand mark (Identity guide pages 24-28); using it filled in
+  // primary colors is on-brand. ERPs in orange, modules in black.
+  const NODE_COLOR = { erp: "#FF5200", module: "#000000" };
 
   // Line colors keyed by link direction. Solid vs dashed treatment lives
   // in CSS (.link-to-erp / .link-from-erp). Kept in sync with the CSS
   // variables in styles.css and the legend swatches in index.html.
   const LINK_COLORS = {
-    both: "#d97706",      // solid orange  — bidirectional
-    "to-erp": "#d97706",  // dashed orange — Procore → ERP (export)
-    "from-erp": "#1f2933" // dashed black  — ERP → Procore (import)
+    both: "#FF5200",      // solid Procore Orange  — bidirectional
+    "to-erp": "#FF5200",  // dashed Procore Orange — Procore → ERP (export)
+    "from-erp": "#000000" // dashed Procore Black  — ERP → Procore (import)
   };
+
+  // Vertices of a regular hexagon with flat top/bottom edges (per the
+  // Identity guide — "Do use the hex with the flat sides at the top and
+  // bottom"), centered at origin, with circumradius r. Returned as the
+  // SVG `points` attribute for <polygon>.
+  function hexPoints(r) {
+    const h = r * Math.sqrt(3) / 2; // half-height (apothem from horizontal axis)
+    return [
+      [ r, 0 ],         // far right
+      [ r / 2, h ],     // bottom-right
+      [ -r / 2, h ],    // bottom-left
+      [ -r, 0 ],        // far left
+      [ -r / 2, -h ],   // top-left
+      [ r / 2, -h ]     // top-right
+    ].map((p) => p.join(",")).join(" ");
+  }
 
   // The arrow symbol shown next to each item in the side panel.
   // Rendered from the perspective of the currently-selected node:
@@ -183,15 +206,15 @@
     });
 
   node
-    .append("circle")
-    .attr("r", (d) => NODE_RADIUS[d.type])
+    .append("polygon")
+    .attr("points", (d) => hexPoints(NODE_RADIUS[d.type]))
     .attr("fill", (d) => NODE_COLOR[d.type]);
 
   // Labels read outward from the column: ERPs to the left, modules to
   // the right. The text-anchor mirrors that.
   node
     .append("text")
-    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 8) : NODE_RADIUS.module + 8))
+    .attr("x", (d) => (d.type === "erp" ? -(NODE_RADIUS.erp + 10) : NODE_RADIUS.module + 10))
     .attr("y", 4)
     .attr("text-anchor", (d) => (d.type === "erp" ? "end" : "start"))
     .text((d) => d.label);

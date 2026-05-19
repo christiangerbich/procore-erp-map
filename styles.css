@@ -1,22 +1,41 @@
+/*
+ * Procore ERP Connector Map — styled to the Procore brand guide.
+ *
+ * Primary palette only (Color guide page 3): Procore Orange #FF5200,
+ * Procore Black #000000, Procore Stone #ECE0D6. White used sparingly
+ * for surfaces and contrast.
+ *
+ * Typography (Typography guide pages 4-9): Procore Sans and Pitch Sans
+ * are proprietary; the guide explicitly names Inter Tight and DM Mono
+ * as the sanctioned fallbacks. We use Inter Tight for headlines and
+ * body and DM Mono ALL CAPS for labels/eyebrows (the Pitch Sans role).
+ * Letter-spacing always 0; left-aligned per the Grid section.
+ *
+ * Text is always Procore Black or White per the Color Accessibility
+ * section of the Typography guide.
+ */
+
 :root {
-  --color-bg: #f7f8fa;
-  --color-surface: #ffffff;
-  --color-border: #e4e7eb;
-  --color-text: #1f2933;
-  --color-text-muted: #52606d;
-  --color-link: #2563eb;
-  --color-core: #f59e0b;
-  --color-erp: #2563eb;
-  --color-module: #10b981;
-  --color-link-line: #cbd2d9;
-  --color-link-line-active: #1f2933;
+  /* Primary brand palette */
+  --color-orange: #FF5200;
+  --color-black:  #000000;
+  --color-stone:  #ECE0D6;
+  --color-white:  #FFFFFF;
 
-  /* Data-flow line colors. Kept in sync with LINK_COLORS in app.js. */
-  --color-flow-both: #d97706;     /* solid orange  — bidirectional sync */
-  --color-flow-to-erp: #d97706;   /* dashed orange — export (Procore → ERP) */
-  --color-flow-from-erp: #1f2933; /* dashed black  — import (ERP → Procore) */
+  /* Surfaces & borders */
+  --color-bg: var(--color-stone);
+  --color-surface: var(--color-white);
+  --color-border: rgba(0, 0, 0, 0.12);
+  --color-border-strong: rgba(0, 0, 0, 0.28);
 
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
+  /* Text — always black or white per brand */
+  --color-text: var(--color-black);
+  --color-text-muted: rgba(0, 0, 0, 0.62);
+
+  /* Data-flow line colors — kept in sync with LINK_COLORS in app.js. */
+  --color-flow-both: var(--color-orange);     /* solid orange  — bidirectional */
+  --color-flow-to-erp: var(--color-orange);   /* dashed orange — Procore → ERP */
+  --color-flow-from-erp: var(--color-black);  /* dashed black  — ERP → Procore */
 }
 
 * { box-sizing: border-box; }
@@ -25,9 +44,13 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
   color: var(--color-text);
   background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0;
 }
 
 body {
@@ -36,49 +59,93 @@ body {
   min-height: 100vh;
 }
 
+/* ---------------------------------------------------------------------
+ * Header
+ * ---------------------------------------------------------------------
+ * Stone background per Color guide ("expanded" usage — stone as background
+ * in owned channels). Eyebrow uses DM Mono ALL CAPS (Pitch Sans role).
+ * Headline uses Inter Tight Bold with tight 90% leading (Procore Sans role).
+ */
+
 header {
-  padding: 16px 24px 12px;
+  padding: 28px 32px 20px;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-stone);
 }
 
-header h1 {
+.eyebrow {
+  font-family: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--color-black);
+  margin: 0 0 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Orange hex bullet next to the eyebrow — a small accent per
+ * "Do use the hex paired with Pitch Sans as a small caption or point of data." */
+.hex-bullet {
+  display: inline-block;
+  width: 10px;
+  height: 11px;
+  background: var(--color-orange);
+  clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0, 75% 0);
+}
+
+h1 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 800;
+  font-size: 38px;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--color-black);
 }
 
 .subtitle {
-  margin: 4px 0 8px;
-  color: var(--color-text-muted);
-  font-size: 13px;
+  margin: 12px 0 16px;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 760px;
 }
+
+/* ---------------------------------------------------------------------
+ * Legend
+ * --------------------------------------------------------------------- */
 
 .legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  font-size: 12px;
-  color: var(--color-text-muted);
+  gap: 18px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-black);
 }
 
-.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-item { display: inline-flex; align-items: center; gap: 8px; }
 
-.legend-dot {
+/* Brand-correct hex swatch (flat top/bottom) */
+.legend-hex {
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 14px;
+  height: 16px;
+  clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0, 75% 0);
 }
 
-.legend-core   { background: var(--color-core); }
-.legend-erp    { background: var(--color-erp); }
-.legend-module { background: var(--color-module); }
+.legend-erp    { background: var(--color-orange); }
+.legend-module { background: var(--color-black); }
 
 .legend-sep {
   width: 1px;
-  height: 14px;
-  background: var(--color-border);
+  height: 16px;
+  background: var(--color-border-strong);
   margin: 0 4px;
 }
 
@@ -88,11 +155,16 @@ header h1 {
   margin-right: 2px;
 }
 
+/* ---------------------------------------------------------------------
+ * Main layout
+ * --------------------------------------------------------------------- */
+
 main {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr 360px;
   min-height: 0;
+  background: var(--color-bg);
 }
 
 #graph {
@@ -110,62 +182,83 @@ main {
   display: block;
 }
 
+/* Column headers (top of each node column) — DM Mono ALL CAPS */
 .column-header {
+  font-family: "DM Mono", ui-monospace, monospace;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  fill: var(--color-text-muted);
+  letter-spacing: 0;
+  fill: var(--color-black);
 }
 
+/* ---------------------------------------------------------------------
+ * Side panel
+ * --------------------------------------------------------------------- */
+
 .details {
-  padding: 20px;
+  padding: 24px 24px 32px;
   overflow-y: auto;
   background: var(--color-surface);
 }
 
 .details h2 {
   margin: 0 0 8px;
-  font-size: 16px;
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  color: var(--color-black);
 }
 
 .details h3 {
-  margin: 20px 0 8px;
-  font-size: 13px;
+  margin: 20px 0 10px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--color-text-muted);
 }
 
 .details-type {
   display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 600;
+  padding: 3px 9px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: #eef2f7;
-  color: var(--color-text-muted);
-  margin: 0 0 8px;
+  letter-spacing: 0;
+  background: transparent;
+  color: var(--color-black);
+  margin: 0 0 10px;
 }
 
 .details-connector {
   margin: 0 0 12px;
   font-size: 13px;
-  color: var(--color-text-muted);
+  font-weight: 500;
+  color: var(--color-text);
 }
 
 .details-link {
   display: inline-block;
   margin: 4px 0 8px;
-  color: var(--color-link);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
+  color: var(--color-black);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  font-size: 13px;
 }
 
-.details-link:hover { text-decoration: underline; }
+.details-link:hover {
+  color: var(--color-orange);
+  text-decoration-color: var(--color-orange);
+}
 
 .details ul {
   list-style: none;
@@ -173,18 +266,16 @@ main {
   padding: 0;
 }
 
-.details-section {
-  margin-top: 18px;
-}
+.details-section { margin-top: 22px; }
 
 .details-overview {
   margin: 14px 0 0;
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.5;
-  color: var(--color-text);
+  color: var(--color-black);
 }
 
-/* Technical Resources — horizontal pill row */
+/* Technical Resources — pills, but squared to match brand (no rounded brand elements) */
 .resource-pills {
   display: flex;
   flex-wrap: wrap;
@@ -193,52 +284,55 @@ main {
 
 .resource-pill {
   display: inline-block;
-  padding: 4px 10px;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: #f7f8fa;
-  color: var(--color-link);
+  padding: 5px 11px;
+  border: 1px solid var(--color-black);
+  background: transparent;
+  color: var(--color-black);
   text-decoration: none;
-  font-size: 12px;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  transition: background 0.12s ease, color 0.12s ease;
 }
 
 .resource-pill:hover {
-  background: #eef2f7;
-  border-color: #c5cdd6;
-  text-decoration: none;
+  background: var(--color-black);
+  color: var(--color-white);
 }
 
-/* Things to Know — compact bulleted list */
+/* Things to Know — orange left-bar callout, on stone background */
 .ttk-list {
-  border-left: 3px solid #f59e0b;
-  padding: 4px 0 4px 12px;
-  background: #fffaf0;
-  border-radius: 0 4px 4px 0;
+  border-left: 4px solid var(--color-orange);
+  padding: 6px 0 6px 14px;
+  background: var(--color-stone);
 }
 
 .ttk-list li {
   font-size: 12.5px;
-  line-height: 1.45;
-  color: var(--color-text);
-  padding: 4px 6px 4px 12px;
+  line-height: 1.5;
+  color: var(--color-black);
+  padding: 4px 8px 4px 14px;
   position: relative;
 }
 
 .ttk-list li::before {
-  content: "•";
+  content: "";
   position: absolute;
   left: 0;
-  color: #f59e0b;
-  font-weight: 700;
+  top: 11px;
+  width: 7px;
+  height: 8px;
+  background: var(--color-orange);
+  clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0, 75% 0);
 }
 
-/* Connection cards — header (clickable) + optional notes body */
-.connections-list { display: flex; flex-direction: column; gap: 6px; }
+/* Connection cards */
+.connections-list { display: flex; flex-direction: column; gap: 8px; }
 
 .connection-card {
   border: 1px solid var(--color-border);
-  border-radius: 6px;
   background: var(--color-surface);
   overflow: hidden;
 }
@@ -246,28 +340,30 @@ main {
 .connection-header {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 10px 12px;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 500;
-  background: #f7f8fa;
+  font-weight: 600;
+  background: var(--color-stone);
   transition: background 0.12s ease;
+  color: var(--color-black);
 }
 
-.connection-header:hover { background: #eef2f7; }
+.connection-header:hover { background: var(--color-orange); color: var(--color-black); }
 
 .connection-label { flex: 1; }
 
 .connection-notes {
-  padding: 6px 12px 10px 32px;
+  padding: 8px 14px 12px 36px;
   border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .connection-notes li {
   font-size: 12px;
-  line-height: 1.45;
-  color: var(--color-text-muted);
+  line-height: 1.5;
+  color: var(--color-black);
   padding: 3px 0 3px 12px;
   position: relative;
 }
@@ -276,7 +372,8 @@ main {
   content: "•";
   position: absolute;
   left: 0;
-  color: var(--color-text-muted);
+  color: var(--color-orange);
+  font-weight: 700;
 }
 
 .direction-symbol {
@@ -284,7 +381,7 @@ main {
   min-width: 18px;
   text-align: center;
   font-weight: 700;
-  color: var(--color-text-muted);
+  font-family: "Inter Tight", sans-serif;
 }
 
 .direction-symbol.direction-both     { color: var(--color-flow-both); }
@@ -296,65 +393,64 @@ main {
 #details-empty-text {
   color: var(--color-text-muted);
   font-size: 13px;
+  margin-top: 4px;
 }
 
-/* graph node + link styles */
-.node {
-  cursor: pointer;
-}
+/* ---------------------------------------------------------------------
+ * Graph nodes & links
+ * --------------------------------------------------------------------- */
 
-.node circle {
-  stroke: #fff;
+.node { cursor: pointer; }
+
+/* The node fill is set per-type in app.js (orange for ERPs, black for
+ * Procore modules). On selection we add a thin orange ring; on dim we
+ * fade nodes that aren't connected to the selection. */
+.node polygon {
+  stroke: var(--color-white);
   stroke-width: 1.5px;
-  transition: stroke-width 0.15s ease;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
 }
 
-.node.selected circle {
-  stroke: var(--color-link-line-active);
+.node.selected polygon {
+  stroke: var(--color-orange);
   stroke-width: 3px;
 }
 
 .node text {
-  font-size: 12px;
-  fill: var(--color-text);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--color-black);
   pointer-events: none;
   user-select: none;
+  letter-spacing: 0;
 }
 
-.node.dimmed text { fill: #9aa5b1; }
+.node.dimmed text { fill: rgba(0, 0, 0, 0.35); }
+.node.dimmed polygon { opacity: 0.35; }
 
+/* Links — defaults & state classes */
 .link {
-  stroke: var(--color-link-line);
-  stroke-opacity: 0.75;
-}
-
-.link.link-structural {
-  stroke: var(--color-link-line);
-  stroke-dasharray: 3 3;
-  stroke-opacity: 0.35;
-}
-
-.link.link-data {
+  stroke: var(--color-border-strong);
   stroke-opacity: 0.85;
 }
 
-/* Per-direction line colors. These selectors (two classes each) outrank
- * the base `.link { stroke: ... }` rule above, so they win even though
- * D3 also sets stroke as an SVG attribute (presentation attributes lose
- * to CSS in SVG cascade). */
+.link.link-data {
+  stroke-opacity: 0.9;
+}
+
+/* Per-direction line colors (two-class selectors beat the base `.link`
+ * rule, so they win even though D3 also sets `stroke` as an attribute). */
 .link.link-both     { stroke: var(--color-flow-both); }
 .link.link-to-erp   { stroke: var(--color-flow-to-erp); }
 .link.link-from-erp { stroke: var(--color-flow-from-erp); }
 
-/* Dash patterns indicate one-way data flow. */
+/* Dashed treatment for one-way data flows */
 .link.link-to-erp,
 .link.link-from-erp {
   stroke-dasharray: 6 4;
 }
-
-.link.link-both {
-  stroke-dasharray: none;
-}
+.link.link-both { stroke-dasharray: none; }
 
 .link.highlighted {
   stroke-opacity: 1;
@@ -362,13 +458,15 @@ main {
 }
 
 .link.dimmed {
-  stroke-opacity: 0.12;
+  stroke-opacity: 0.1;
 }
 
-.dimmed { opacity: 0.15; }
+/* ---------------------------------------------------------------------
+ * Responsive
+ * --------------------------------------------------------------------- */
 
-@media (max-width: 800px) {
+@media (max-width: 880px) {
   main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
   #graph { border-right: none; border-bottom: 1px solid var(--color-border); }
-  .details { max-height: 40vh; }
+  .details { max-height: 45vh; }
 }

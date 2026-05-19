@@ -4,22 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Procore ERP Connector Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1>Procore ERP Connector Map</h1>
+    <p class="eyebrow"><span class="hex-bullet" aria-hidden="true"></span>Procore &middot; ERP Integrations</p>
+    <h1>ERP Connector Map</h1>
     <p class="subtitle">ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.</p>
     <div class="legend">
-      <span class="legend-item"><span class="legend-dot legend-erp"></span>ERP Connector</span>
-      <span class="legend-item"><span class="legend-dot legend-module"></span>Procore Module</span>
+      <span class="legend-item"><span class="legend-hex legend-erp"></span>ERP Connector</span>
+      <span class="legend-item"><span class="legend-hex legend-module"></span>Procore Module</span>
       <span class="legend-sep"></span>
       <span class="legend-item">
-        <svg class="legend-line" width="36" height="6" viewBox="0 0 36 6" aria-hidden="true"><line x1="0" y1="3" x2="36" y2="3" stroke="#d97706" stroke-width="2"/></svg>
+        <svg class="legend-line" width="36" height="6" viewBox="0 0 36 6" aria-hidden="true"><line x1="0" y1="3" x2="36" y2="3" stroke="#FF5200" stroke-width="2"/></svg>
         Bidirectional sync
       </span>
       <span class="legend-item">
-        <svg class="legend-line" width="36" height="6" viewBox="0 0 36 6" aria-hidden="true"><line x1="0" y1="3" x2="36" y2="3" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4"/></svg>
+        <svg class="legend-line" width="36" height="6" viewBox="0 0 36 6" aria-hidden="true"><line x1="0" y1="3" x2="36" y2="3" stroke="#FF5200" stroke-width="2" stroke-dasharray="6 4"/></svg>
         Procore &rarr; ERP (export only)
       </span>
       <span class="legend-item">
