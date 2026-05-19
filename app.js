@@ -207,6 +207,11 @@
   const typeEl = document.getElementById("details-type");
   const connectorEl = document.getElementById("details-connector");
   const linkEl = document.getElementById("details-link");
+  const overviewEl = document.getElementById("details-overview");
+  const resourcesSectionEl = document.getElementById("details-resources-section");
+  const resourcesEl = document.getElementById("details-resources");
+  const ttkSectionEl = document.getElementById("details-ttk-section");
+  const ttkEl = document.getElementById("details-ttk");
   const connectionsEl = document.getElementById("details-connections");
 
   function symbolFor(link, fromNodeId) {
@@ -246,6 +251,45 @@
       linkEl.style.display = "none";
     }
 
+    // Overview paragraph (ERP nodes only, when populated)
+    if (n.overview) {
+      overviewEl.textContent = n.overview;
+      overviewEl.hidden = false;
+    } else {
+      overviewEl.hidden = true;
+    }
+
+    // Technical resources pill row
+    resourcesEl.innerHTML = "";
+    if (Array.isArray(n.resources) && n.resources.length) {
+      n.resources.forEach((r) => {
+        const a = document.createElement("a");
+        a.className = "resource-pill";
+        a.href = r.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = r.label;
+        resourcesEl.appendChild(a);
+      });
+      resourcesSectionEl.hidden = false;
+    } else {
+      resourcesSectionEl.hidden = true;
+    }
+
+    // Things-to-Know list
+    ttkEl.innerHTML = "";
+    if (Array.isArray(n.thingsToKnow) && n.thingsToKnow.length) {
+      n.thingsToKnow.forEach((t) => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        ttkEl.appendChild(li);
+      });
+      ttkSectionEl.hidden = false;
+    } else {
+      ttkSectionEl.hidden = true;
+    }
+
+    // Connections — each one rendered as a card with optional notes.
     const incidentLinks = linksByNode.get(n.id);
     connectionsEl.innerHTML = "";
     incidentLinks
@@ -255,16 +299,36 @@
       }))
       .sort((a, b) => a.neighbor.label.localeCompare(b.neighbor.label))
       .forEach(({ link, neighbor }) => {
-        const li = document.createElement("li");
+        const card = document.createElement("li");
+        card.className = "connection-card";
+
+        const header = document.createElement("div");
+        header.className = "connection-header";
+        header.title = "Click to view " + neighbor.label;
+
         const sym = document.createElement("span");
         sym.className = "direction-symbol direction-" + link.direction;
         sym.textContent = symbolFor(link, n.id);
         const label = document.createElement("span");
-        label.textContent = " " + neighbor.label;
-        li.appendChild(sym);
-        li.appendChild(label);
-        li.addEventListener("click", () => selectNode(neighbor.id));
-        connectionsEl.appendChild(li);
+        label.className = "connection-label";
+        label.textContent = neighbor.label;
+        header.appendChild(sym);
+        header.appendChild(label);
+        header.addEventListener("click", () => selectNode(neighbor.id));
+        card.appendChild(header);
+
+        if (Array.isArray(link.notes) && link.notes.length) {
+          const notes = document.createElement("ul");
+          notes.className = "connection-notes";
+          link.notes.forEach((noteText) => {
+            const noteLi = document.createElement("li");
+            noteLi.textContent = noteText;
+            notes.appendChild(noteLi);
+          });
+          card.appendChild(notes);
+        }
+
+        connectionsEl.appendChild(card);
       });
 
     const neighborIds = new Set(
@@ -283,6 +347,9 @@
     detailsEl.classList.add("details-empty");
     emptyTextEl.hidden = false;
     contentEl.hidden = true;
+    overviewEl.hidden = true;
+    resourcesSectionEl.hidden = true;
+    ttkSectionEl.hidden = true;
     titleEl.textContent = "Select a node";
     node.classed("selected", false).classed("dimmed", false);
     link.classed("highlighted", false).classed("dimmed", false);

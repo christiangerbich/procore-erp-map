@@ -173,17 +173,111 @@ main {
   padding: 0;
 }
 
-.details li {
-  padding: 8px 10px;
-  margin-bottom: 4px;
-  border-radius: 6px;
-  background: #f3f5f8;
+.details-section {
+  margin-top: 18px;
+}
+
+.details-overview {
+  margin: 14px 0 0;
   font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+/* Technical Resources — horizontal pill row */
+.resource-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.resource-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #f7f8fa;
+  color: var(--color-link);
+  text-decoration: none;
+  font-size: 12px;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.resource-pill:hover {
+  background: #eef2f7;
+  border-color: #c5cdd6;
+  text-decoration: none;
+}
+
+/* Things to Know — compact bulleted list */
+.ttk-list {
+  border-left: 3px solid #f59e0b;
+  padding: 4px 0 4px 12px;
+  background: #fffaf0;
+  border-radius: 0 4px 4px 0;
+}
+
+.ttk-list li {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--color-text);
+  padding: 4px 6px 4px 12px;
+  position: relative;
+}
+
+.ttk-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* Connection cards — header (clickable) + optional notes body */
+.connections-list { display: flex; flex-direction: column; gap: 6px; }
+
+.connection-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.connection-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  background: #f7f8fa;
   transition: background 0.12s ease;
 }
 
-.details li:hover { background: #e6eaf0; }
+.connection-header:hover { background: #eef2f7; }
+
+.connection-label { flex: 1; }
+
+.connection-notes {
+  padding: 6px 12px 10px 32px;
+  border-top: 1px solid var(--color-border);
+}
+
+.connection-notes li {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  padding: 3px 0 3px 12px;
+  position: relative;
+}
+
+.connection-notes li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-text-muted);
+}
 
 .direction-symbol {
   display: inline-block;
