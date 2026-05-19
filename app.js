@@ -119,11 +119,12 @@
   const container = document.getElementById("graph");
   const width = container.clientWidth;
 
-  // Layout constants. Larger ROW_HEIGHT than before so module rows can
-  // fit a tool eyebrow ABOVE the hex + a main label BELOW the hex
-  // (since the module column sits in the middle of two ERP columns
-  // and can't put labels on either side without colliding with lines).
-  const ROW_HEIGHT = 50;
+  // Layout constants. Module rows fit a tool eyebrow ABOVE the hex +
+  // a main label BELOW the hex (the middle column can't put labels on
+  // either side without colliding with incoming lines from both ERP
+  // columns). Empirical minimum to avoid one row's label overlapping
+  // the next row's tool eyebrow: ~62px. We use 66 for breathing room.
+  const ROW_HEIGHT = 66;
   const HEADER_HEIGHT = 56;
   const FOOTER_PAD = 28;
   const TIER_LABEL_HEIGHT = 22;
