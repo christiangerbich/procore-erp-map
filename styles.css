@@ -364,6 +364,8 @@ main {
 }
 #assistant-ai-agave:hover   { background: var(--color-metal);  border-color: var(--color-metal);  color: #fff; }
 #assistant-ai-procore:hover { background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black); }
+.assistant-ai-btn-vertex { cursor: pointer; }
+.assistant-ai-btn-vertex:hover { background: var(--color-black); border-color: var(--color-black); color: #fff; }
 
 /* Contextual NotebookLM link inside a selected node's details. */
 .details-ai-link {
@@ -424,6 +426,26 @@ main {
 }
 .assistant-result-kind.kind-connection     { color: #fff; background: var(--color-metal); }
 .assistant-result-kind.kind-things-to-know  { color: var(--color-black); background: var(--color-orange); }
+.assistant-result-kind.kind-procore-doc     { color: #fff; background: var(--color-black); }
+
+/* Expanded full passage for a Procore-doc result. */
+.assistant-result-body {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--color-text);
+  padding: 10px 12px 12px;
+  margin: -4px 0 2px;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background: #fafbfc;
+  white-space: pre-wrap;
+}
+.assistant-result-body mark {
+  background: rgba(255, 82, 0, 0.22);
+  padding: 0 1px;
+  border-radius: 2px;
+}
 
 .assistant-result-title {
   display: block;

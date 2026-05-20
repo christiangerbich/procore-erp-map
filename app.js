@@ -65,6 +65,13 @@
     return r.json();
   });
 
+  // Procore ERP support-doc chunks for the in-page finder (built by
+  // tools/build-docs-index.py). Optional — the finder still works on the
+  // data.json corpus alone if this file is missing.
+  const extraDocs = await fetch("docs-index.json")
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => []);
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -740,6 +747,24 @@
   if (NOTEBOOKS.agave) aiAgaveEl.href = NOTEBOOKS.agave; else aiAgaveEl.hidden = true;
   if (NOTEBOOKS.procore) aiProcoreEl.href = NOTEBOOKS.procore; else aiProcoreEl.hidden = true;
 
+  // Vertex AI Search widget (Layer 2): conversational search over the FULL
+  // Procore corpus. Activates only when a Config ID is present in
+  // data.assistants.vertexConfigId — otherwise the trigger stays hidden so
+  // the page works with no Google Cloud dependency. The widget binds to the
+  // trigger button via triggerId and opens a modal search overlay.
+  const vertexTriggerEl = document.getElementById("vertex-trigger");
+  if (NOTEBOOKS.vertexConfigId && vertexTriggerEl) {
+    const s = document.createElement("script");
+    s.src = "https://cloud.google.com/ai/gen-app-builder/client?hl=en_US";
+    s.async = true;
+    document.head.appendChild(s);
+    const widget = document.createElement("gen-search-widget");
+    widget.setAttribute("configId", NOTEBOOKS.vertexConfigId);
+    widget.setAttribute("triggerId", "vertex-trigger");
+    document.body.appendChild(widget);
+    vertexTriggerEl.hidden = false;
+  }
+
   function describeDirection(dir) {
     if (dir === "both") return "bidirectional two-way sync";
     if (dir === "to-erp") return "Procore to ERP export outbound one-way";
@@ -778,6 +803,13 @@
         title: erp.label + " · " + mod.label, snippet: mod.label + " — " + dir, text: base });
     }
   });
+  // Full Procore ERP support-doc chunks (deeper than the data.json notes).
+  (extraDocs || []).forEach((d) => {
+    const title = d.title + (d.heading ? " · " + d.heading : "");
+    searchDocs.push({ erpId: null, moduleId: null, kind: "Procore Doc", isDoc: true,
+      title: title, snippet: d.text, body: d.text, text: title + " " + d.text });
+  });
+
   searchDocs.forEach((d) => (d._t = d.text.toLowerCase()));
 
   const STOP = new Set(["the","a","an","and","or","to","of","in","on","for","is","are","with",
@@ -815,6 +847,21 @@
 
   function escapeHtml(s) {
     return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  }
+  // For long doc chunks, show a window around the first matched term.
+  function excerpt(text, terms, span) {
+    span = span || 180;
+    if (text.length <= span) return text;
+    const lower = text.toLowerCase();
+    let pos = -1;
+    for (const t of terms) {
+      const i = lower.indexOf(t);
+      if (i !== -1 && (pos === -1 || i < pos)) pos = i;
+    }
+    if (pos === -1) return text.slice(0, span) + "…";
+    const start = Math.max(0, pos - 60);
+    const end = Math.min(text.length, start + span);
+    return (start > 0 ? "…" : "") + text.slice(start, end).trim() + (end < text.length ? "…" : "");
   }
   function highlight(text, terms) {
     const safe = escapeHtml(text);
@@ -872,12 +919,22 @@
 
       const snip = document.createElement("span");
       snip.className = "assistant-result-snippet";
-      snip.innerHTML = highlight(d.snippet, terms);
+      snip.innerHTML = highlight(d.isDoc ? excerpt(d.snippet, terms) : d.snippet, terms);
 
       item.appendChild(kind);
       item.appendChild(ttl);
       item.appendChild(snip);
       item.addEventListener("click", () => {
+        if (d.isDoc) {
+          // Toggle the full passage inline (no node / public URL to open).
+          const next = item.nextElementSibling;
+          if (next && next.classList.contains("assistant-result-body")) { next.remove(); return; }
+          const body = document.createElement("div");
+          body.className = "assistant-result-body";
+          body.innerHTML = highlight(d.body, terms);
+          item.after(body);
+          return;
+        }
         clearSearch();
         selectNode(d.erpId);
         if (d.moduleId) flashConnection(d.moduleId);
