@@ -5,7 +5,7 @@
     "agave": "https://notebooklm.google.com/notebook/9954ce7f-ca15-438f-8524-1da830ac5447",
     "procore": "https://notebooklm.google.com/notebook/8a93a1ce-34d6-4315-b3f5-3d53c18ba78f",
     "_vertexComment": "Paste the Vertex AI Search widget Config ID here to activate the 'Full docs' conversational search over the entire Procore corpus. Get it from Google Cloud → Agent Builder → your Search app → Integration → Widget. Leave blank to hide the button. Also add your site's domain (e.g. *.github.io) to the widget's allowed domains in the console.",
-    "vertexConfigId": ""
+    "vertexConfigId": "aa1690cf-ef0b-4c4a-a4c7-752ccde6823e"
   },
   "nodes": [
     { "id": "procore",        "label": "Procore",                  "type": "core" },
