@@ -300,6 +300,19 @@
       d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
     });
 
+  // Re-apply a single link's directional styling (stroke color + the
+  // dash-pattern class) after its direction has been toggled. Only the
+  // direction tokens are touched, so highlighted/dimmed state set by the
+  // current selection is preserved.
+  function restyleLinkDirection(d) {
+    link
+      .filter((l) => l === d)
+      .attr("stroke", LINK_COLORS[d.direction])
+      .classed("link-to-erp", d.direction === "to-erp")
+      .classed("link-from-erp", d.direction === "from-erp")
+      .classed("link-both", d.direction === "both");
+  }
+
   // ---------------------------------------------------------------------
   // Nodes
   // ---------------------------------------------------------------------
@@ -582,6 +595,71 @@
         header.appendChild(label);
         header.appendChild(externalIcon);
         card.appendChild(header);
+
+        // Configurable-direction toggle. Agave lets you choose which way
+        // certain objects sync (the "one green + one grey arrow" rows in
+        // Agave's sync matrix). For those links we render a 3-state
+        // segmented control; flipping it updates the graph line and the
+        // card's direction symbol live, in-session.
+        if (link.configurable) {
+          const erpNode = link.source.type === "erp" ? link.source : link.target;
+          const erpName = erpNode ? erpNode.label : "ERP";
+
+          const toggle = document.createElement("div");
+          toggle.className = "direction-toggle";
+
+          const cap = document.createElement("span");
+          cap.className = "direction-toggle-cap";
+          cap.textContent = "Agave-configurable direction";
+          toggle.appendChild(cap);
+
+          const group = document.createElement("div");
+          group.className = "direction-toggle-buttons";
+          group.setAttribute("role", "group");
+          group.setAttribute("aria-label", "Sync direction for " + neighbor.label);
+
+          const OPTIONS = [
+            { dir: "to-erp",   glyph: "→", text: "Export", title: "Procore → " + erpName },
+            { dir: "both",     glyph: "↔", text: "Both",   title: "Procore ↔ " + erpName },
+            { dir: "from-erp", glyph: "←", text: "Import", title: erpName + " → Procore" }
+          ];
+
+          const btns = [];
+          OPTIONS.forEach((opt) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "direction-toggle-btn";
+            b.dataset.dir = opt.dir;
+            b.title = opt.title;
+            b.innerHTML =
+              '<span class="dt-glyph">' + opt.glyph + '</span>' +
+              '<span class="dt-text">' + opt.text + "</span>";
+            b.setAttribute("aria-pressed", String(link.direction === opt.dir));
+            b.classList.toggle("is-active", link.direction === opt.dir);
+            b.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              if (link.direction === opt.dir) return;
+              link.direction = opt.dir;
+              // Update graph line
+              restyleLinkDirection(link);
+              // Update this card's direction symbol
+              sym.className = "direction-symbol direction-" + link.direction;
+              sym.textContent = symbolFor(link, n.id);
+              // Update button active states
+              btns.forEach((bb) => {
+                const on = bb.dataset.dir === link.direction;
+                bb.classList.toggle("is-active", on);
+                bb.setAttribute("aria-pressed", String(on));
+              });
+            });
+            btns.push(b);
+            group.appendChild(b);
+          });
+
+          toggle.appendChild(group);
+          card.appendChild(toggle);
+        }
 
         if (Array.isArray(link.notes) && link.notes.length) {
           const notes = document.createElement("ul");
