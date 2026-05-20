@@ -412,6 +412,16 @@
   const ttkEl = document.getElementById("details-ttk");
   const connectionsEl = document.getElementById("details-connections");
 
+  // In-page assistant elements + NotebookLM config (data.assistants).
+  const NOTEBOOKS = data.assistants || {};
+  const aiContextEl = document.getElementById("details-ai-link");
+  const aiAgaveEl = document.getElementById("assistant-ai-agave");
+  const aiProcoreEl = document.getElementById("assistant-ai-procore");
+  const searchEl = document.getElementById("assistant-search");
+  const searchClearEl = document.getElementById("assistant-search-clear");
+  const resultsEl = document.getElementById("assistant-results");
+  const detailsMainEl = document.getElementById("details-main");
+
   // Build a deep link from a connection card to the relevant docs.
   //
   // Procore-native ERPs: link to the ERP's "Detailed Data Mapping" page
@@ -521,6 +531,19 @@
       linkEl.style.display = "none";
     }
 
+    // Context-aware NotebookLM link: Agave nodes → Agave notebook;
+    // Procore-native ERPs and Procore modules → Procore notebook.
+    let nbUrl = null;
+    if (n.type === "erp") nbUrl = n.via === "agave" ? NOTEBOOKS.agave : NOTEBOOKS.procore;
+    else nbUrl = NOTEBOOKS.procore;
+    if (nbUrl) {
+      aiContextEl.href = nbUrl;
+      aiContextEl.textContent = "Ask the AI assistant about " + n.label + " ↗";
+      aiContextEl.hidden = false;
+    } else {
+      aiContextEl.hidden = true;
+    }
+
     // Overview paragraph (ERP nodes only, when populated)
     if (n.overview) {
       overviewEl.textContent = n.overview;
@@ -571,6 +594,7 @@
       .forEach(({ link, neighbor }) => {
         const card = document.createElement("li");
         card.className = "connection-card";
+        card.dataset.moduleId = neighbor.id;
 
         const mappingUrl = buildMappingUrl(link);
         const header = document.createElement("a");
@@ -703,4 +727,177 @@
   svg.on("click", function (event) {
     if (event.target === this || event.target.tagName === "svg") deselect();
   });
+
+  // ---------------------------------------------------------------------
+  // In-page assistant: doc finder + NotebookLM links
+  // ---------------------------------------------------------------------
+  // No backend or API key: a static, client-side search over the connector
+  // knowledge already in data.json (overviews, things-to-know, and
+  // per-connection notes). For conversational follow-up, the Ask-AI links
+  // hand off to the NotebookLM notebooks (Agave / Procore corpora).
+
+  // Wire the always-visible Ask-AI buttons.
+  if (NOTEBOOKS.agave) aiAgaveEl.href = NOTEBOOKS.agave; else aiAgaveEl.hidden = true;
+  if (NOTEBOOKS.procore) aiProcoreEl.href = NOTEBOOKS.procore; else aiProcoreEl.hidden = true;
+
+  function describeDirection(dir) {
+    if (dir === "both") return "bidirectional two-way sync";
+    if (dir === "to-erp") return "Procore to ERP export outbound one-way";
+    if (dir === "from-erp") return "ERP to Procore import inbound one-way";
+    return "";
+  }
+
+  // Build the searchable corpus: one document per overview, per
+  // thing-to-know, and per connection note (or per bare connection).
+  const searchDocs = [];
+  erpNodes.forEach((erp) => {
+    const via = erp.via === "agave" ? "Agave Sync" : "Procore native";
+    if (erp.overview) {
+      searchDocs.push({ erpId: erp.id, moduleId: null, kind: "Overview", title: erp.label,
+        snippet: erp.overview, text: [erp.label, erp.connector, via, erp.overview].join(" ") });
+    }
+    (erp.thingsToKnow || []).forEach((t) => {
+      searchDocs.push({ erpId: erp.id, moduleId: null, kind: "Things to Know", title: erp.label,
+        snippet: t, text: erp.label + " " + via + " " + t });
+    });
+  });
+  visibleLinks.forEach((l) => {
+    const erp = l.source.type === "erp" ? l.source : l.target;
+    const mod = l.source.type === "module" ? l.source : l.target;
+    if (!erp || !mod) return;
+    const dir = describeDirection(l.direction);
+    const flags = l.configurable ? "configurable selectable direction" : "";
+    const base = [erp.label, mod.label, dir, flags].join(" ");
+    if (Array.isArray(l.notes) && l.notes.length) {
+      l.notes.forEach((n) => {
+        searchDocs.push({ erpId: erp.id, moduleId: mod.id, kind: "Connection",
+          title: erp.label + " · " + mod.label, snippet: n, text: base + " " + n });
+      });
+    } else {
+      searchDocs.push({ erpId: erp.id, moduleId: mod.id, kind: "Connection",
+        title: erp.label + " · " + mod.label, snippet: mod.label + " — " + dir, text: base });
+    }
+  });
+  searchDocs.forEach((d) => (d._t = d.text.toLowerCase()));
+
+  const STOP = new Set(["the","a","an","and","or","to","of","in","on","for","is","are","with",
+    "how","do","does","i","my","can","when","what","why","it","this","that","from","at","be"]);
+  function tokenize(q) {
+    return q.toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length >= 2 && !STOP.has(t));
+  }
+
+  function runSearch(query) {
+    const terms = tokenize(query);
+    if (!terms.length) return [];
+    const phrase = query.trim().toLowerCase();
+    const scored = [];
+    for (const d of searchDocs) {
+      let score = 0;
+      let matchedTerms = 0;
+      for (const term of terms) {
+        let idx = d._t.indexOf(term), occ = 0;
+        while (idx !== -1) { occ++; idx = d._t.indexOf(term, idx + term.length); }
+        if (occ) {
+          matchedTerms++;
+          score += occ;
+          if (d.title.toLowerCase().includes(term)) score += 4;
+        }
+      }
+      if (!matchedTerms) continue;
+      // Reward documents that match more of the distinct query terms.
+      score += matchedTerms * 2;
+      if (phrase.length >= 4 && d._t.includes(phrase)) score += 8;
+      scored.push({ d, score });
+    }
+    scored.sort((a, b) => b.score - a.score || a.d.title.localeCompare(b.d.title));
+    return scored.slice(0, 16).map((s) => s.d);
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  }
+  function highlight(text, terms) {
+    const safe = escapeHtml(text);
+    if (!terms.length) return safe;
+    const re = new RegExp("(" + terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+    return safe.replace(re, "<mark>$1</mark>");
+  }
+
+  function flashConnection(moduleId) {
+    const card = connectionsEl.querySelector('[data-module-id="' + (window.CSS && CSS.escape ? CSS.escape(moduleId) : moduleId) + '"]');
+    if (!card) return;
+    card.scrollIntoView({ block: "center", behavior: "smooth" });
+    card.classList.add("flash");
+    setTimeout(() => card.classList.remove("flash"), 1500);
+  }
+
+  function showResults() { resultsEl.hidden = false; detailsMainEl.hidden = true; }
+  function hideResults() { resultsEl.hidden = true; resultsEl.innerHTML = ""; detailsMainEl.hidden = false; }
+
+  function renderResults(query) {
+    if (!query.trim()) { hideResults(); return; }
+    const hits = runSearch(query);
+    const terms = tokenize(query);
+    resultsEl.innerHTML = "";
+    showResults();
+
+    const head = document.createElement("div");
+    head.className = "assistant-results-head";
+    head.textContent = hits.length
+      ? hits.length + " match" + (hits.length > 1 ? "es" : "") + " in connector data"
+      : "No matches in connector data";
+    resultsEl.appendChild(head);
+
+    if (!hits.length) {
+      const hint = document.createElement("p");
+      hint.className = "assistant-results-empty";
+      hint.textContent = "Nothing in the connector knowledge base matched “" + query.trim() +
+        "”. Try the Ask-AI links above for a conversational answer from the support docs.";
+      resultsEl.appendChild(hint);
+      return;
+    }
+
+    hits.forEach((d) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "assistant-result";
+
+      const kind = document.createElement("span");
+      kind.className = "assistant-result-kind kind-" + d.kind.toLowerCase().replace(/\s+/g, "-");
+      kind.textContent = d.kind;
+
+      const ttl = document.createElement("span");
+      ttl.className = "assistant-result-title";
+      ttl.textContent = d.title;
+
+      const snip = document.createElement("span");
+      snip.className = "assistant-result-snippet";
+      snip.innerHTML = highlight(d.snippet, terms);
+
+      item.appendChild(kind);
+      item.appendChild(ttl);
+      item.appendChild(snip);
+      item.addEventListener("click", () => {
+        clearSearch();
+        selectNode(d.erpId);
+        if (d.moduleId) flashConnection(d.moduleId);
+      });
+      resultsEl.appendChild(item);
+    });
+  }
+
+  function clearSearch() {
+    searchEl.value = "";
+    searchClearEl.hidden = true;
+    hideResults();
+  }
+
+  searchEl.addEventListener("input", () => {
+    searchClearEl.hidden = !searchEl.value;
+    renderResults(searchEl.value);
+  });
+  searchEl.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { clearSearch(); searchEl.blur(); }
+  });
+  searchClearEl.addEventListener("click", () => { clearSearch(); searchEl.focus(); });
 })();

@@ -39,12 +39,30 @@
   <main>
     <div id="graph"></div>
     <aside id="details" class="details details-empty">
+      <div class="assistant-bar">
+        <div class="assistant-search-wrap">
+          <span class="assistant-search-icon" aria-hidden="true">&#9906;</span>
+          <input id="assistant-search" type="search" autocomplete="off" spellcheck="false"
+                 placeholder="Search connectors, data objects, errors&hellip;" aria-label="Search the ERP connector knowledge base" />
+          <button id="assistant-search-clear" type="button" aria-label="Clear search" hidden>&times;</button>
+        </div>
+        <div class="assistant-ai">
+          <span class="assistant-ai-label">Ask AI</span>
+          <a id="assistant-ai-agave" class="assistant-ai-btn" href="#" target="_blank" rel="noopener">Agave &#8599;</a>
+          <a id="assistant-ai-procore" class="assistant-ai-btn" href="#" target="_blank" rel="noopener">Procore &#8599;</a>
+        </div>
+      </div>
+
+      <div id="assistant-results" class="assistant-results" hidden></div>
+
+      <div id="details-main">
       <h2 id="details-title">Select a node</h2>
-      <p id="details-empty-text">Click any node in the graph to see connector details, data flow, and support documentation.</p>
+      <p id="details-empty-text">Click any node in the graph to see connector details, data flow, and support documentation. Or use the search box above to look up a data object, error, or behavior across every connector.</p>
       <div id="details-content" hidden>
         <p id="details-type" class="details-type"></p>
         <p id="details-connector" class="details-connector"></p>
         <a id="details-link" class="details-link" href="#" target="_blank" rel="noopener">Open support documentation &rarr;</a>
+        <a id="details-ai-link" class="details-ai-link" href="#" target="_blank" rel="noopener" hidden>Troubleshoot with AI assistant &#8599;</a>
 
         <p id="details-overview" class="details-overview" hidden></p>
 
@@ -62,6 +80,7 @@
           <h3>Data Flow &amp; Connections</h3>
           <ul id="details-connections" class="connections-list"></ul>
         </section>
+      </div>
       </div>
     </aside>
   </main>
