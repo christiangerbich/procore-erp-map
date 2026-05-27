@@ -20,6 +20,9 @@
  * el.hidden has no visual effect and overlays can't be dismissed. */
 [hidden] { display: none !important; }
 
+/* Connector-source filter: hide the inactive company's nodes + links. */
+.src-hidden { display: none; }
+
 :root {
   /* Primary brand palette */
   --color-orange: #FF5200;
@@ -875,6 +878,37 @@ main {
 /* ---------------------------------------------------------------------
  * SOP Builder: button, modal, and form
  * --------------------------------------------------------------------- */
+/* Connector-source segmented toggle (header). */
+.source-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 14px 0 4px;
+}
+.source-toggle-label {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-right: 2px;
+}
+.source-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-black);
+  cursor: pointer;
+}
+.source-btn:first-of-type { border-radius: 6px 0 0 6px; }
+.source-btn:last-of-type { border-radius: 0 6px 6px 0; border-left: none; }
+.source-btn:hover { background: var(--color-stone); }
+#src-procore.is-active { background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black); }
+#src-agave.is-active { background: var(--color-metal); border-color: var(--color-metal); color: #fff; }
+
 /* Persistent SOP Builder entry point in the header (top-right). */
 .sop-open-top {
   position: absolute;

@@ -218,17 +218,16 @@
   // Pan & zoom — useful when the column has been resized smaller than its
   // natural height, so the user can scroll/zoom inside the SVG.
   const zoomLayer = svg.append("g");
-  svg.call(
-    d3
-      .zoom()
-      .scaleExtent([0.5, 2.5])
-      .on("zoom", (event) => zoomLayer.attr("transform", event.transform))
-  );
+  const zoom = d3
+    .zoom()
+    .scaleExtent([0.5, 2.5])
+    .on("zoom", (event) => zoomLayer.attr("transform", event.transform));
+  svg.call(zoom);
 
   // Column headers (three columns now)
   zoomLayer
     .append("text")
-    .attr("class", "column-header")
+    .attr("class", "column-header column-header-procore")
     .attr("x", leftX)
     .attr("y", 28)
     .attr("text-anchor", "middle")
@@ -439,6 +438,12 @@
   const sopModal = document.getElementById("sop-modal");
   let sopErpNode = null; // the ERP node the builder is scoped to
 
+  // Connector-source filter. The map shows one company's connectors at a
+  // time (Procore-native vs Agave Sync), defaulting to Procore, so the
+  // canvas stays readable as more connectors are added.
+  let activeSource = "procore";
+  let activeErpIds = new Set(procoreERPs.map((n) => n.id));
+
   // Build a deep link from a connection card to the relevant docs.
   //
   // Procore-native ERPs: link to the ERP's "Detailed Data Mapping" page
@@ -609,7 +614,12 @@
     }
 
     // Connections — each one rendered as a card with optional notes.
-    const incidentLinks = linksByNode.get(n.id);
+    // Only show connections to the currently-active connector source so
+    // the panel matches what's on the map.
+    const incidentLinks = linksByNode.get(n.id).filter((l) => {
+      const erp = l.source.type === "erp" ? l.source : l.target;
+      return erp && activeErpIds.has(erp.id);
+    });
     connectionsEl.innerHTML = "";
     incidentLinks
       .map((l) => ({
@@ -753,6 +763,54 @@
   svg.on("click", function (event) {
     if (event.target === this || event.target.tagName === "svg") deselect();
   });
+
+  // ---------------------------------------------------------------------
+  // Connector-source filter (Procore-native vs Agave Sync)
+  // ---------------------------------------------------------------------
+  // Show one company's connectors at a time. We hide the other source's
+  // nodes + links and crop the viewBox to the active half of the bipartite
+  // layout, so the empty column disappears and the modules stay in view.
+  function applySource(source) {
+    activeSource = source === "agave" ? "agave" : "procore";
+    const activeErps = activeSource === "agave" ? agaveERPs : procoreERPs;
+    activeErpIds = new Set(activeErps.map((n) => n.id));
+
+    node.classed("src-hidden", (d) => d.type === "erp" && !activeErpIds.has(d.id));
+    link.classed("src-hidden", (d) => {
+      const erp = d.source.type === "erp" ? d.source : d.target;
+      return erp && !activeErpIds.has(erp.id);
+    });
+
+    // Hide the inactive column's header; show the active one.
+    d3.select(".column-header-procore").attr("display", activeSource === "procore" ? null : "none");
+    d3.select(".column-header-agave").attr("display", activeSource === "agave" ? null : "none");
+
+    const pad = 175;
+    if (activeSource === "agave") {
+      svg.attr("viewBox", [middleX - pad, 0, width - (middleX - pad), height].join(" "));
+    } else {
+      svg.attr("viewBox", [0, 0, middleX + pad, height].join(" "));
+    }
+    svg.call(zoom.transform, d3.zoomIdentity);
+    deselect();
+  }
+
+  const srcProcoreBtn = document.getElementById("src-procore");
+  const srcAgaveBtn = document.getElementById("src-agave");
+  function setSource(source) {
+    applySource(source);
+    if (srcProcoreBtn && srcAgaveBtn) {
+      srcProcoreBtn.classList.toggle("is-active", activeSource === "procore");
+      srcAgaveBtn.classList.toggle("is-active", activeSource === "agave");
+      srcProcoreBtn.setAttribute("aria-pressed", String(activeSource === "procore"));
+      srcAgaveBtn.setAttribute("aria-pressed", String(activeSource === "agave"));
+    }
+  }
+  if (srcProcoreBtn) srcProcoreBtn.addEventListener("click", () => setSource("procore"));
+  if (srcAgaveBtn) srcAgaveBtn.addEventListener("click", () => setSource("agave"));
+
+  // Default the map to Procore's connectors.
+  setSource("procore");
 
   // ---------------------------------------------------------------------
   // In-page assistant: doc finder + NotebookLM links
