@@ -1,5 +1,5 @@
 {
-  "_comment": "SOP Builder catalog. Each tool maps to one or more Procore module ids (matching data.json) so the builder only shows tools the selected ERP actually syncs. {ERP} is replaced with the selected connector's label at render time. Actions become the default 'Roles & Responsibilities' rows; users assign Name + Project Role + Permission Level and can edit/add rows. Sync direction + best-practice notes are pulled live from data.json per ERP.",
+  "_comment": "SOP Builder catalog. Each tool maps to one or more Procore module ids (matching data.json) so the builder only shows tools the selected ERP actually syncs. {ERP} is replaced with the selected connector's label at render time. Actions become the default 'Roles & Responsibilities' rows; users assign Name + Project Role + Permission Level and can edit/add rows. keyConfigs and fieldsets are tool-specific and apply to whichever connector (Procore-native or Agave) syncs that tool. Sync direction + best-practice notes are pulled live from data.json per ERP.",
   "roleOptions": [
     "Project Executive",
     "Project Manager",
@@ -27,6 +27,13 @@
         "Take budget snapshots on the agreed cadence (biweekly / monthly).",
         "Create internal budget changes (net-zero) and run the Budget Changes report.",
         "Review and Accept / Reject the budget for export to {ERP}."
+      ],
+      "fieldsets": true,
+      "keyConfigs": [
+        { "setting": "Auto-calculate Forecast to Complete", "default": "On", "note": "Assumes the full budget line item will be spent unless a manual or lump-sum forecast is entered." },
+        { "setting": "Advanced Forecasting", "default": "Enable", "note": "Unlocks the Forecasting view and lump-sum forecast entry." },
+        { "setting": "Require net-zero Budget Change amounts", "default": "On", "note": "Forces internal budget changes to balance to zero." },
+        { "setting": "ERP budget settings (Transaction Detail, Forecast sync, Billed Rate, Accumulate As)", "default": "Per ERP", "note": "Confirm how transaction detail and billed rate accumulate from the connected ERP." }
       ]
     },
     {
@@ -42,6 +49,14 @@
         "Send commitments to subcontractors / vendors and update status when issued and signed.",
         "Approve subcontractor invoices.",
         "Send commitments to {ERP} and sync once compliance is met."
+      ],
+      "fieldsets": true,
+      "keyConfigs": [
+        { "setting": "Number of Commitment Change Order tiers", "default": "1 tier", "note": "Cannot be changed after the first change order is created on the project." },
+        { "setting": "RFQs due after", "default": "7 working days", "note": "Default deadline for vendor RFQ responses." },
+        { "setting": "Enable Field Initiated Change Orders", "default": "Off (beta)", "note": "Opt in to allow field-initiated change orders." },
+        { "setting": "Subcontractor SOV tab", "default": "Off", "note": "Enable per commitment to let subcontractors enter their own SOV breakdown for approval." },
+        { "setting": "Default distributions (Commitment CO / RFQ / invoices)", "default": "Blank", "note": "Add users for automatic distribution and invoice 'Under Review' notifications." }
       ]
     },
     {
@@ -56,6 +71,15 @@
         "Create the Potential Change Order (PCO) and Prime Contract Change Order (PCCO).",
         "Create the Commitment Change Order (CCO).",
         "Accept / Reject the PCCO for export to {ERP}."
+      ],
+      "fieldsets": true,
+      "keyConfigs": [
+        { "setting": "Number of Prime Contract Change Order tiers", "default": "2 tier", "note": "1-tier: Change Event to PCCO. 2-tier: Change Event to PCO to PCCO. Cannot change after the first CO." },
+        { "setting": "Show Line Items on PCCO / CCO PDFs", "default": "On", "note": "Includes change-order line items on exported PDFs." },
+        { "setting": "Allow Standard users to create PCOs", "default": "Off", "note": "Leave off unless standard-permission users must create Potential Change Orders." },
+        { "setting": "Copy attachments from RFQ responses to PCOs / CCOs", "default": "On", "note": "Carries RFQ attachments into new change orders." },
+        { "setting": "Maintain Budget Codes across line items in sync", "default": "Off (beta)", "note": "Keeps budget code and description synced across linked change objects." },
+        { "setting": "Default distributions (PCCO / COR / PCO)", "default": "Blank", "note": "Add users for automatic change-order distribution." }
       ]
     },
     {
@@ -67,6 +91,13 @@
         "Import or create cost postings in the Direct Cost tool.",
         "Review and validate all project direct costs.",
         "Reconcile {ERP}-synced costs (payroll, expenses, non-commitment invoices) on the agreed cadence."
+      ],
+      "fieldsets": true,
+      "keyConfigs": [
+        { "setting": "Enable the Direct Costs tool", "default": "On", "note": "Disable if the ERP posts costs directly to the budget Job-To-Date column instead of the Direct Cost tool." },
+        { "setting": "ERP Transaction Detail", "default": "On", "note": "Pulls payroll, expenses, and non-commitment invoices from the ERP into Direct Costs." },
+        { "setting": "Billed Rate / Accumulate As", "default": "Per ERP", "note": "Defines how labor posts (owner billing rate vs. average cost) and how costs accumulate." },
+        { "setting": "Upload cadence", "default": "Define", "note": "Set how often direct costs are imported to keep budget forecasting accurate." }
       ]
     },
     {
@@ -79,6 +110,15 @@
         "Manage owner invoices / billings against the Prime Contract.",
         "Obtain owner signatures (DocuSign or manual) and track execution.",
         "Send the Prime Contract and PCCOs to {ERP} and Accept / Reject for export."
+      ],
+      "fieldsets": true,
+      "keyConfigs": [
+        { "setting": "Number of Prime Contract Change Order tiers", "default": "2 tier", "note": "Determines owner change-order steps; cannot be changed after the first owner CO." },
+        { "setting": "Allow Standard users to create PCOs", "default": "Off", "note": "Grants standard users the ability to create PCOs on the Prime Contract." },
+        { "setting": "Enable Always Editable Schedule of Values", "default": "Off", "note": "Allows the SOV to be edited after invoices exist — use with caution." },
+        { "setting": "Show Markup on Invoice PDF and CSV", "default": "Per client", "note": "Controls whether financial markup is exposed to the owner on invoices." },
+        { "setting": "Default Distributions", "default": "Blank", "note": "Add users for automatic prime-contract distribution." },
+        { "setting": "Funding Sources", "default": "Optional", "note": "Configure if tracking multiple funding sources on the contract." }
       ]
     },
     {
@@ -92,6 +132,12 @@
         "Mark timesheets as Approved (project / company level).",
         "Mark timesheets as Completed (company level).",
         "Import Completed timesheets to {ERP} on the agreed cadence."
+      ],
+      "fieldsets": false,
+      "keyConfigs": [
+        { "setting": "Time Types matched to ERP Payroll / Earn Codes", "default": "Mapping required", "note": "Procore Time Types must match the ERP's payroll items / earn codes for timecards to export." },
+        { "setting": "Review then Approve then Complete workflow", "default": "Define owners + cadence", "note": "Reviewed (foreman/super, project or company), Approved (admin), Completed (company level)." },
+        { "setting": "Project vs. Company level timesheets", "default": "Per client", "note": "Company-level Standard permission is needed to review/approve at the company level." }
       ]
     }
   ]

@@ -1226,6 +1226,24 @@
         });
         h += "</ul>";
 
+        if (Array.isArray(tool.keyConfigs) && tool.keyConfigs.length) {
+          h += "<h2>Key Configurations</h2>";
+          h += "<table class='cfg'><tr><th>Setting</th><th>Default</th><th>Notes</th></tr>";
+          tool.keyConfigs.forEach((c) => {
+            h += "<tr><td>" + esc(c.setting) + "</td><td>" + esc(c.default || "") + "</td><td>" + esc(c.note || "") + "</td></tr>";
+          });
+          h += "</table>";
+        }
+
+        if (tool.fieldsets) {
+          h += "<h2>Fieldsets</h2>";
+          h += "<p>Configurable fieldsets let you set fields in the " + esc(tool.title) +
+            " tool to optional, required, or hidden (requires Company Admin permissions). Add any project-specific custom fields below.</p>";
+          h += "<table class='fs'><tr><th>Custom Field Name</th><th>Type</th><th>Required?</th><th>Desired Outcome</th></tr>";
+          h += "<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>".repeat(3);
+          h += "</table>";
+        }
+
         h += "<h2>Permissions by Project Role</h2>";
         h += "<table class='perm'><tr><th>Read Only</th><th>Standard</th><th>Admin</th></tr>" +
           "<tr><td>[Insert client permission template]</td><td>[Insert client permission template]</td><td>[Insert client permission template]</td></tr></table>";
@@ -1240,6 +1258,8 @@
         "th,td{border:1px solid #999;padding:5pt 7pt;text-align:left;vertical-align:top;font-size:10pt;}" +
         "th{background:#ECE0D6;}" +
         "table.rr th:first-child{width:46%;}" +
+        "table.cfg th:first-child{width:34%;}table.cfg th:nth-child(2){width:18%;}" +
+        "table.fs th{width:25%;}" +
         "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
 
       return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
