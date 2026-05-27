@@ -72,6 +72,11 @@
     .then((r) => (r.ok ? r.json() : []))
     .catch(() => []);
 
+  // SOP Builder catalog (tools, standard actions, role/permission options).
+  const sopTemplates = await fetch("sop-templates.json")
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null);
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -429,6 +434,11 @@
   const resultsEl = document.getElementById("assistant-results");
   const detailsMainEl = document.getElementById("details-main");
 
+  // SOP Builder elements + state.
+  const sopBuildBtn = document.getElementById("sop-build-btn");
+  const sopModal = document.getElementById("sop-modal");
+  let sopErpNode = null; // the ERP node the builder is scoped to
+
   // Build a deep link from a connection card to the relevant docs.
   //
   // Procore-native ERPs: link to the ERP's "Detailed Data Mapping" page
@@ -549,6 +559,15 @@
       aiContextEl.hidden = false;
     } else {
       aiContextEl.hidden = true;
+    }
+
+    // SOP Builder is connector-scoped: show the button only for ERP nodes.
+    if (n.type === "erp" && sopTemplates && sopBuildBtn) {
+      sopErpNode = n;
+      sopBuildBtn.hidden = false;
+      sopBuildBtn.textContent = "Build SOP document for " + n.label + " →";
+    } else if (sopBuildBtn) {
+      sopBuildBtn.hidden = true;
     }
 
     // Overview paragraph (ERP nodes only, when populated)
@@ -957,4 +976,246 @@
     if (e.key === "Escape") { clearSearch(); searchEl.blur(); }
   });
   searchClearEl.addEventListener("click", () => { clearSearch(); searchEl.focus(); });
+
+  // ---------------------------------------------------------------------
+  // SOP Builder: assign responsibilities per financial tool, then generate
+  // a Word document that also embeds the live sync direction + best-practice
+  // notes for this connector. Word doc is built client-side (HTML/.doc).
+  // ---------------------------------------------------------------------
+  if (sopTemplates && sopBuildBtn) {
+    // Lookup: which modules each ERP syncs, with direction + notes.
+    const linksByErp = {};
+    visibleLinks.forEach((l) => {
+      const erp = l.source.type === "erp" ? l.source : l.target;
+      const mod = l.source.type === "module" ? l.source : l.target;
+      if (!erp || !mod || erp.type !== "erp" || mod.type !== "module") return;
+      (linksByErp[erp.id] = linksByErp[erp.id] || {})[mod.id] = l;
+    });
+
+    const sopToolsEl = document.getElementById("sop-tools");
+    const sopTitleEl = document.getElementById("sop-modal-title");
+    const sopFootNote = document.getElementById("sop-foot-note");
+
+    function directionPhrase(dir, erpLabel) {
+      if (dir === "both") return "syncs bidirectionally (Procore ↔ " + erpLabel + ")";
+      if (dir === "to-erp") return "exports one-way from Procore to " + erpLabel;
+      if (dir === "from-erp") return "imports one-way from " + erpLabel + " into Procore";
+      return "sync direction not specified";
+    }
+    function moduleOf(link) {
+      return link.source.type === "module" ? link.source : link.target;
+    }
+
+    function makeRow(actionText) {
+      const row = document.createElement("div");
+      row.className = "sop-row";
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.checked = true; cb.className = "sop-row-inc";
+      const act = document.createElement("textarea");
+      act.className = "sop-act"; act.rows = 2; act.value = actionText;
+      const name = document.createElement("input");
+      name.type = "text"; name.className = "sop-name"; name.placeholder = "Name";
+      const role = document.createElement("input");
+      role.type = "text"; role.className = "sop-role"; role.placeholder = "Role";
+      role.setAttribute("list", "sop-role-list");
+      const perm = document.createElement("select");
+      perm.className = "sop-perm";
+      perm.appendChild(new Option("—", ""));
+      sopTemplates.permissionOptions.forEach((p) => perm.appendChild(new Option(p, p)));
+      row.appendChild(cb); row.appendChild(act); row.appendChild(name); row.appendChild(role); row.appendChild(perm);
+      return row;
+    }
+
+    function renderSopTool(tool, erp, erpLinks) {
+      const sec = document.createElement("section");
+      sec.className = "sop-tool";
+      sec.dataset.toolKey = tool.key;
+
+      const head = document.createElement("div");
+      head.className = "sop-tool-head";
+      const h = document.createElement("h3");
+      h.textContent = tool.title;
+      const inc = document.createElement("label");
+      inc.className = "sop-tool-include";
+      const incCb = document.createElement("input");
+      incCb.type = "checkbox"; incCb.checked = true; incCb.className = "sop-tool-toggle";
+      inc.appendChild(incCb);
+      inc.appendChild(document.createTextNode(" Include"));
+      head.appendChild(h); head.appendChild(inc);
+      sec.appendChild(head);
+
+      const sync = document.createElement("p");
+      sync.className = "sop-tool-sync";
+      const parts = tool.modules.filter((m) => erpLinks[m]).map((m) => {
+        const mod = moduleOf(erpLinks[m]);
+        return "<strong>" + escapeHtml(mod.label) + "</strong>: " + escapeHtml(directionPhrase(erpLinks[m].direction, erp.label));
+      });
+      sync.innerHTML = "Sync — " + parts.join("; ") + ".";
+      sec.appendChild(sync);
+
+      const table = document.createElement("div");
+      table.className = "sop-rows";
+      const hdr = document.createElement("div");
+      hdr.className = "sop-row sop-row-hdr";
+      hdr.innerHTML = "<span></span><span>Action</span><span>Name</span><span>Project role</span><span>Permission</span>";
+      table.appendChild(hdr);
+      tool.actions.forEach((a) => table.appendChild(makeRow(a.replace(/\{ERP\}/g, erp.label))));
+      sec.appendChild(table);
+
+      const add = document.createElement("button");
+      add.type = "button"; add.className = "sop-add-row"; add.textContent = "+ Add action";
+      add.addEventListener("click", () => table.appendChild(makeRow("")));
+      sec.appendChild(add);
+      return sec;
+    }
+
+    function openSopModal(erp) {
+      if (!erp) return;
+      sopErpNode = erp;
+      sopTitleEl.textContent = "SOP — Procore + " + erp.label;
+      document.getElementById("sop-date").value =
+        new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+
+      // shared role datalist (build once)
+      if (!document.getElementById("sop-role-list")) {
+        const dl = document.createElement("datalist");
+        dl.id = "sop-role-list";
+        sopTemplates.roleOptions.forEach((r) => dl.appendChild(new Option(r, r)));
+        document.body.appendChild(dl);
+      }
+
+      sopToolsEl.innerHTML = "";
+      const erpLinks = linksByErp[erp.id] || {};
+      const applicable = sopTemplates.tools.filter((t) => t.modules.some((m) => erpLinks[m]));
+      if (!applicable.length) {
+        sopToolsEl.innerHTML = "<p class='sop-empty'>This connector has no financial tools mapped for an SOP.</p>";
+      } else {
+        applicable.forEach((t) => sopToolsEl.appendChild(renderSopTool(t, erp, erpLinks)));
+      }
+      sopFootNote.textContent = applicable.length + " tool" + (applicable.length !== 1 ? "s" : "") +
+        " · uncheck rows or tools to exclude them";
+      sopModal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    function closeSopModal() {
+      sopModal.hidden = true;
+      document.body.style.overflow = "";
+    }
+
+    function buildSopHtml(ctx) {
+      const esc = escapeHtml;
+      const erp = ctx.erp;
+      const via = erp.via === "agave" ? "Agave Sync" : "Integration by Procore";
+      let h = "";
+      h += "<h1 class='doc-title'>" + esc(ctx.client) + " — Procore + " + esc(erp.label) + "</h1>";
+      h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; ERP integration via " + esc(via) +
+        (ctx.preparer ? " &nbsp;·&nbsp; Prepared by " + esc(ctx.preparer) : "") +
+        (ctx.dateStr ? " &nbsp;·&nbsp; " + esc(ctx.dateStr) : "") + "</p>";
+      if (erp.overview) h += "<p>" + esc(erp.overview) + "</p>";
+      if (Array.isArray(erp.thingsToKnow) && erp.thingsToKnow.length) {
+        h += "<h2>Connector Notes &amp; Limitations</h2><ul>";
+        erp.thingsToKnow.forEach((t) => (h += "<li>" + esc(t) + "</li>"));
+        h += "</ul>";
+      }
+
+      ctx.sections.forEach((s) => {
+        const tool = s.tool;
+        h += "<h1>" + esc(tool.title) + "</h1>";
+        h += "<p>" + esc(tool.overview.replace(/\{ERP\}/g, erp.label)) + "</p>";
+
+        h += "<h2>Roles &amp; Responsibilities</h2>";
+        h += "<table class='rr'><tr><th>Action — responsible for…</th><th>Name</th><th>Project Role</th><th>Permission</th></tr>";
+        s.rows.forEach((r) => {
+          h += "<tr><td>" + esc(r.action) + "</td><td>" + esc(r.name || "&nbsp;") +
+            "</td><td>" + esc(r.role || "&nbsp;") + "</td><td>" + esc(r.perm || "&nbsp;") + "</td></tr>";
+        });
+        h += "</table>";
+
+        h += "<h2>Sync Process &amp; Best Practices</h2><ul>";
+        tool.modules.filter((m) => ctx.erpLinks[m]).forEach((m) => {
+          const link = ctx.erpLinks[m];
+          const mod = moduleOf(link);
+          h += "<li><strong>" + esc(mod.label) + ":</strong> " + esc(directionPhrase(link.direction, erp.label)) + ".";
+          if (Array.isArray(link.notes) && link.notes.length) {
+            h += "<ul>";
+            link.notes.forEach((n) => (h += "<li>" + esc(n) + "</li>"));
+            h += "</ul>";
+          }
+          h += "</li>";
+        });
+        h += "</ul>";
+
+        h += "<h2>Permissions by Project Role</h2>";
+        h += "<table class='perm'><tr><th>Read Only</th><th>Standard</th><th>Admin</th></tr>" +
+          "<tr><td>[Insert client permission template]</td><td>[Insert client permission template]</td><td>[Insert client permission template]</td></tr></table>";
+      });
+
+      const css = "body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#1a1a1a;}" +
+        "h1.doc-title{font-size:22pt;margin:0 0 4pt;color:#000;}" +
+        ".doc-sub{color:#566578;font-size:9.5pt;margin:0 0 16pt;}" +
+        "h1{font-size:15pt;color:#FF5200;border-bottom:2px solid #FF5200;padding-bottom:2pt;margin:22pt 0 8pt;}" +
+        "h2{font-size:11.5pt;color:#000;margin:14pt 0 6pt;}" +
+        "table{border-collapse:collapse;width:100%;margin:6pt 0 10pt;}" +
+        "th,td{border:1px solid #999;padding:5pt 7pt;text-align:left;vertical-align:top;font-size:10pt;}" +
+        "th{background:#ECE0D6;}" +
+        "table.rr th:first-child{width:46%;}" +
+        "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
+
+      return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+        "xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
+        "<head><meta charset='utf-8'><title>" + esc(ctx.client) + " Procore " + esc(erp.label) + " SOP</title>" +
+        "<style>" + css + "</style></head><body>" + h + "</body></html>";
+    }
+
+    function generateSop() {
+      const erp = sopErpNode;
+      if (!erp) return;
+      const client = (document.getElementById("sop-client").value || "[Client]").trim() || "[Client]";
+      const preparer = document.getElementById("sop-preparer").value.trim();
+      const dateStr = document.getElementById("sop-date").value.trim();
+      const erpLinks = linksByErp[erp.id] || {};
+
+      const sections = [];
+      sopToolsEl.querySelectorAll(".sop-tool").forEach((sec) => {
+        if (!sec.querySelector(".sop-tool-toggle").checked) return;
+        const tool = sopTemplates.tools.find((t) => t.key === sec.dataset.toolKey);
+        const rows = [];
+        sec.querySelectorAll(".sop-rows .sop-row:not(.sop-row-hdr)").forEach((r) => {
+          if (!r.querySelector(".sop-row-inc").checked) return;
+          const action = r.querySelector(".sop-act").value.trim();
+          if (!action) return;
+          rows.push({
+            action: action,
+            name: r.querySelector(".sop-name").value.trim(),
+            role: r.querySelector(".sop-role").value.trim(),
+            perm: r.querySelector(".sop-perm").value.trim()
+          });
+        });
+        if (rows.length) sections.push({ tool: tool, rows: rows });
+      });
+
+      if (!sections.length) {
+        sopFootNote.textContent = "Add at least one action (with the row checked) before generating.";
+        return;
+      }
+
+      const html = buildSopHtml({ erp, client, preparer, dateStr, sections, erpLinks });
+      const blob = new Blob(["﻿", html], { type: "application/msword" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = client.replace(/[^\w \-]/g, "").trim() + " - Procore " + erp.label + " SOP.doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      sopFootNote.textContent = "Generated " + a.download;
+    }
+
+    sopBuildBtn.addEventListener("click", () => openSopModal(sopErpNode));
+    document.getElementById("sop-close").addEventListener("click", closeSopModal);
+    document.getElementById("sop-cancel").addEventListener("click", closeSopModal);
+    document.getElementById("sop-generate").addEventListener("click", generateSop);
+    sopModal.addEventListener("click", (e) => { if (e.target === sopModal) closeSopModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sopModal.hidden) closeSopModal(); });
+  }
 })();

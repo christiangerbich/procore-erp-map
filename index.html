@@ -64,6 +64,7 @@
         <p id="details-connector" class="details-connector"></p>
         <a id="details-link" class="details-link" href="#" target="_blank" rel="noopener">Open support documentation &rarr;</a>
         <a id="details-ai-link" class="details-ai-link" href="#" target="_blank" rel="noopener" hidden>Troubleshoot with AI assistant &#8599;</a>
+        <button id="sop-build-btn" class="sop-build-btn" type="button" hidden>Build SOP document &rarr;</button>
 
         <p id="details-overview" class="details-overview" hidden></p>
 
@@ -85,6 +86,38 @@
       </div>
     </aside>
   </main>
+
+  <div id="sop-modal" class="sop-modal" hidden>
+    <div class="sop-dialog" role="dialog" aria-modal="true" aria-labelledby="sop-modal-title">
+      <header class="sop-modal-head">
+        <div>
+          <p class="sop-modal-eyebrow">SOP Builder</p>
+          <h2 id="sop-modal-title">Standard Operating Procedure</h2>
+        </div>
+        <button id="sop-close" class="sop-close" type="button" aria-label="Close">&times;</button>
+      </header>
+
+      <div class="sop-modal-body">
+        <p class="sop-intro">Assign who is responsible for each action, then generate a Word document. The sync process and best practices for this connector are added automatically.</p>
+
+        <div class="sop-meta">
+          <label>Client / Company<input id="sop-client" type="text" placeholder="e.g. Acme Construction" /></label>
+          <label>Prepared by<input id="sop-preparer" type="text" placeholder="Your name" /></label>
+          <label>Date<input id="sop-date" type="text" /></label>
+        </div>
+
+        <div id="sop-tools"></div>
+      </div>
+
+      <footer class="sop-modal-foot">
+        <span id="sop-foot-note" class="sop-foot-note"></span>
+        <div class="sop-foot-actions">
+          <button id="sop-cancel" class="sop-btn-secondary" type="button">Cancel</button>
+          <button id="sop-generate" class="sop-btn-primary" type="button">Generate Word document</button>
+        </div>
+      </footer>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="app.js"></script>

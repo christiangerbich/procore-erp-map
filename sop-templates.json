@@ -1,0 +1,98 @@
+{
+  "_comment": "SOP Builder catalog. Each tool maps to one or more Procore module ids (matching data.json) so the builder only shows tools the selected ERP actually syncs. {ERP} is replaced with the selected connector's label at render time. Actions become the default 'Roles & Responsibilities' rows; users assign Name + Project Role + Permission Level and can edit/add rows. Sync direction + best-practice notes are pulled live from data.json per ERP.",
+  "roleOptions": [
+    "Project Executive",
+    "Project Manager",
+    "Assistant Project Manager",
+    "Project Engineer",
+    "Project Accountant",
+    "Controller / Accounting",
+    "Superintendent",
+    "Foreman",
+    "ERP / Integrations Admin",
+    "Procore Administrator"
+  ],
+  "permissionOptions": ["Read Only", "Standard", "Admin", "None"],
+  "tools": [
+    {
+      "key": "budget",
+      "title": "Budget",
+      "modules": ["budgets"],
+      "overview": "Real-time comparison of the project budget against committed cost across the construction lifecycle, aggregating budget and cost-tool data for accurate cost-to-complete analysis and over/under forecasting.",
+      "actions": [
+        "Add cost codes at the Project level.",
+        "Import or create the internal project budget (Excel import, manual line items, or {ERP} sync).",
+        "Confirm budget accuracy and lock the budget.",
+        "Own ongoing budget performance and the Forecast-to-Complete.",
+        "Take budget snapshots on the agreed cadence (biweekly / monthly).",
+        "Create internal budget changes (net-zero) and run the Budget Changes report.",
+        "Review and Accept / Reject the budget for export to {ERP}."
+      ]
+    },
+    {
+      "key": "commitment",
+      "title": "Commitments (Subcontracts & Purchase Orders)",
+      "modules": ["subcontracts", "purchase-orders"],
+      "overview": "Track and manage the real-time status and value of all subcontracts and purchase orders, including schedules of values, compliance items, and subcontractor invoicing.",
+      "actions": [
+        "Add companies / vendors receiving a contract to the Project Directory.",
+        "Create Commitments (Subcontracts and Purchase Orders).",
+        "Check compliance items (insurance, permits, licenses) before release.",
+        "Create the Schedule of Values (SOV) per contract.",
+        "Send commitments to subcontractors / vendors and update status when issued and signed.",
+        "Approve subcontractor invoices.",
+        "Send commitments to {ERP} and sync once compliance is met."
+      ]
+    },
+    {
+      "key": "change-management",
+      "title": "Change Management",
+      "modules": ["change-orders"],
+      "overview": "Track potential scope impacts and manage the full change process — Change Events, RFQs, Potential Change Orders (PCO), Prime Contract Change Orders (PCCO), and Commitment Change Orders (CCO).",
+      "actions": [
+        "Manage project Change Orders and verify accuracy (status, amounts, schedule impact).",
+        "Create Change Events.",
+        "Create and send Requests for Quote (RFQs) and review responses.",
+        "Create the Potential Change Order (PCO) and Prime Contract Change Order (PCCO).",
+        "Create the Commitment Change Order (CCO).",
+        "Accept / Reject the PCCO for export to {ERP}."
+      ]
+    },
+    {
+      "key": "direct-cost",
+      "title": "Direct Costs",
+      "modules": ["direct-costs"],
+      "overview": "Track direct costs (expenses and invoices) not associated with commitments — such as general conditions and self-performed work — for a complete picture of project costs impacting the budget.",
+      "actions": [
+        "Import or create cost postings in the Direct Cost tool.",
+        "Review and validate all project direct costs.",
+        "Reconcile {ERP}-synced costs (payroll, expenses, non-commitment invoices) on the agreed cadence."
+      ]
+    },
+    {
+      "key": "prime-contract",
+      "title": "Prime Contract",
+      "modules": ["prime-contracts", "owner-invoices"],
+      "overview": "Manage the upstream owner contract, its schedule of values, owner invoices / billings, and prime contract change orders.",
+      "actions": [
+        "Create and maintain the Prime Contract and its Schedule of Values.",
+        "Manage owner invoices / billings against the Prime Contract.",
+        "Obtain owner signatures (DocuSign or manual) and track execution.",
+        "Send the Prime Contract and PCCOs to {ERP} and Accept / Reject for export."
+      ]
+    },
+    {
+      "key": "timesheets",
+      "title": "Timesheets",
+      "modules": ["timecards"],
+      "overview": "Capture, review, approve, and complete field time (Timesheets and MyTime) for export to the accounting system.",
+      "actions": [
+        "Enter crew time via Timesheets and track production quantities daily.",
+        "Mark timesheets as Reviewed (project / company level).",
+        "Mark timesheets as Approved (project / company level).",
+        "Mark timesheets as Completed (company level).",
+        "Import Completed timesheets to {ERP} on the agreed cadence."
+      ]
+    }
+  ]
+}
