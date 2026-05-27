@@ -75,6 +75,7 @@ body {
  */
 
 header {
+  position: relative;
   padding: 28px 32px 20px;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-stone);
@@ -869,6 +870,52 @@ main {
 /* ---------------------------------------------------------------------
  * SOP Builder: button, modal, and form
  * --------------------------------------------------------------------- */
+/* Persistent SOP Builder entry point in the header (top-right). */
+.sop-open-top {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--color-orange);
+  color: var(--color-black);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: filter 0.12s ease;
+}
+.sop-open-top:hover { filter: brightness(0.94); }
+.sop-open-top-icon { font-size: 15px; line-height: 1; }
+
+/* ERP picker inside the modal. */
+.sop-erp-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.sop-erp-row select {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 5px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-black);
+  background: var(--color-surface);
+}
+
 .sop-build-btn {
   display: block;
   width: 100%;
@@ -1070,6 +1117,7 @@ main {
 .sop-btn-primary:hover { filter: brightness(0.94); }
 
 @media (max-width: 880px) {
+  .sop-open-top { position: static; margin: 0 0 12px; }
   .sop-meta { grid-template-columns: 1fr; }
   .sop-row { grid-template-columns: 20px 1fr; }
   .sop-row-hdr { display: none; }

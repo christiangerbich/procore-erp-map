@@ -11,6 +11,9 @@
 </head>
 <body>
   <header>
+    <button id="sop-open-top" class="sop-open-top" type="button" hidden>
+      <span class="sop-open-top-icon" aria-hidden="true">&#9783;</span> SOP Builder
+    </button>
     <p class="eyebrow"><span class="hex-bullet" aria-hidden="true"></span>Procore &middot; ERP Integrations</p>
     <h1>ERP Connector Map</h1>
     <p class="subtitle">ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.</p>
@@ -99,6 +102,8 @@
 
       <div class="sop-modal-body">
         <p class="sop-intro">Assign who is responsible for each action, then generate a Word document. The sync process and best practices for this connector are added automatically.</p>
+
+        <label class="sop-erp-row">ERP connector<select id="sop-erp-pick"></select></label>
 
         <div class="sop-meta">
           <label>Client / Company<input id="sop-client" type="text" placeholder="e.g. Acme Construction" /></label>

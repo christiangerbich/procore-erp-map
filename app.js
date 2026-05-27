@@ -1069,10 +1069,42 @@
       return sec;
     }
 
-    function openSopModal(erp) {
-      if (!erp) return;
+    const sopErpPick = document.getElementById("sop-erp-pick");
+    let sopPickerInit = false;
+
+    function renderSopFor(erp) {
       sopErpNode = erp;
       sopTitleEl.textContent = "SOP — Procore + " + erp.label;
+      sopToolsEl.innerHTML = "";
+      const erpLinks = linksByErp[erp.id] || {};
+      const applicable = sopTemplates.tools.filter((t) => t.modules.some((m) => erpLinks[m]));
+      if (!applicable.length) {
+        sopToolsEl.innerHTML = "<p class='sop-empty'>This connector has no financial tools mapped for an SOP.</p>";
+      } else {
+        applicable.forEach((t) => sopToolsEl.appendChild(renderSopTool(t, erp, erpLinks)));
+      }
+      sopFootNote.textContent = applicable.length + " tool" + (applicable.length !== 1 ? "s" : "") +
+        " · uncheck rows or tools to exclude them";
+    }
+
+    function openSopModal(erp) {
+      // Populate the ERP picker once (lets the builder run from the top button
+      // without first selecting a node).
+      if (!sopPickerInit && sopErpPick) {
+        erpNodes.slice()
+          .sort((a, b) => a.label.localeCompare(b.label))
+          .forEach((e) => sopErpPick.appendChild(new Option(e.label + (e.via === "agave" ? " · Agave" : ""), e.id)));
+        sopErpPick.addEventListener("change", () => {
+          const e = erpNodes.find((x) => x.id === sopErpPick.value);
+          if (e) renderSopFor(e);
+        });
+        sopPickerInit = true;
+      }
+
+      const target = erp || erpNodes.find((x) => x.id === sopErpPick.value) || erpNodes[0];
+      if (!target) return;
+      if (sopErpPick) sopErpPick.value = target.id;
+
       document.getElementById("sop-date").value =
         new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
 
@@ -1084,16 +1116,7 @@
         document.body.appendChild(dl);
       }
 
-      sopToolsEl.innerHTML = "";
-      const erpLinks = linksByErp[erp.id] || {};
-      const applicable = sopTemplates.tools.filter((t) => t.modules.some((m) => erpLinks[m]));
-      if (!applicable.length) {
-        sopToolsEl.innerHTML = "<p class='sop-empty'>This connector has no financial tools mapped for an SOP.</p>";
-      } else {
-        applicable.forEach((t) => sopToolsEl.appendChild(renderSopTool(t, erp, erpLinks)));
-      }
-      sopFootNote.textContent = applicable.length + " tool" + (applicable.length !== 1 ? "s" : "") +
-        " · uncheck rows or tools to exclude them";
+      renderSopFor(target);
       sopModal.hidden = false;
       document.body.style.overflow = "hidden";
     }
@@ -1212,6 +1235,11 @@
     }
 
     sopBuildBtn.addEventListener("click", () => openSopModal(sopErpNode));
+    const sopOpenTop = document.getElementById("sop-open-top");
+    if (sopOpenTop) {
+      sopOpenTop.hidden = false;
+      sopOpenTop.addEventListener("click", () => openSopModal(sopErpNode));
+    }
     document.getElementById("sop-close").addEventListener("click", closeSopModal);
     document.getElementById("sop-cancel").addEventListener("click", closeSopModal);
     document.getElementById("sop-generate").addEventListener("click", generateSop);
