@@ -1245,8 +1245,12 @@
         }
 
         h += "<h2>Permissions by Project Role</h2>";
-        h += "<table class='perm'><tr><th>Read Only</th><th>Standard</th><th>Admin</th></tr>" +
-          "<tr><td>[Insert client permission template]</td><td>[Insert client permission template]</td><td>[Insert client permission template]</td></tr></table>";
+        const perm = tool.permissions || {};
+        h += "<table class='perm'><tr><th>Read Only</th><th>Standard</th><th>Admin</th></tr>";
+        h += "<tr><td>" + esc(perm.readOnly || "") + "</td><td>" + esc(perm.standard || "") +
+          "</td><td>" + esc(perm.admin || "") + "</td></tr>";
+        h += "<tr><td>[Client permission template]</td><td>[Client permission template]</td><td>[Client permission template]</td></tr></table>";
+        h += "<p class='note'>General Procore capabilities by level — confirm against your client's permission templates. Granular permissions may grant specific admin-level actions to lower levels.</p>";
       });
 
       const css = "body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#1a1a1a;}" +
@@ -1259,7 +1263,8 @@
         "th{background:#ECE0D6;}" +
         "table.rr th:first-child{width:46%;}" +
         "table.cfg th:first-child{width:34%;}table.cfg th:nth-child(2){width:18%;}" +
-        "table.fs th{width:25%;}" +
+        "table.fs th{width:25%;}table.perm th{width:33%;}" +
+        "p.note{font-size:9pt;color:#566578;margin:4pt 0 0;}" +
         "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
 
       return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
