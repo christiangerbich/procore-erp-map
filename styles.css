@@ -261,7 +261,7 @@ main {
  * --------------------------------------------------------------------- */
 
 .details {
-  padding: 24px 24px 32px;
+  padding: 0 24px 32px;
   overflow-y: auto;
   background: var(--color-surface);
   border-top: 4px solid transparent;
@@ -281,8 +281,8 @@ main {
   position: sticky;
   top: 0;
   z-index: 5;
-  margin: -24px -24px 18px;
-  padding: 16px 24px 14px;
+  margin: 0 -24px 18px;
+  padding: 18px 24px 14px;
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
