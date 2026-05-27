@@ -15,6 +15,11 @@
  * section of the Typography guide.
  */
 
+/* The [hidden] attribute must always win, even over elements that set an
+ * explicit `display` (e.g. .sop-modal{display:flex}). Without this, toggling
+ * el.hidden has no visual effect and overlays can't be dismissed. */
+[hidden] { display: none !important; }
+
 :root {
   /* Primary brand palette */
   --color-orange: #FF5200;
