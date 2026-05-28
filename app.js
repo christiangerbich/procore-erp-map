@@ -163,8 +163,8 @@
   // Bipartite layout. Active source's ERPs always live in the LEFT
   // column (Procore-native by default, Agave on toggle); Procore modules
   // sit in a column to the right. Outer gutters reserve room for labels.
-  const LABEL_GUTTER = 250;
-  const COLUMN_GAP = 600;                     // horizontal gap between ERP and module columns
+  const LABEL_GUTTER = 270;
+  const COLUMN_GAP = 900;                     // horizontal gap between ERP and module columns
   const leftX = LABEL_GUTTER;                 // active ERP column x
   const middleX = leftX + COLUMN_GAP;         // Procore Modules column x
   const layoutWidth = middleX + LABEL_GUTTER; // total viewBox width — tighter than container so the map fills nicely
