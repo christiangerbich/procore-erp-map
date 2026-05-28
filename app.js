@@ -1064,7 +1064,18 @@
       return link.source.type === "module" ? link.source : link.target;
     }
 
-    function makeRow(actionText) {
+    function permissionOptionsFor(tool, erp) {
+      // Procore-native ERPs: per-tool list derived from Procore's QBO ERP
+      // Integration permissions matrix (Read Only never appears as an
+      // allowed level for ERP-relevant actions; Direct Costs is Admin only).
+      // Agave-Sync ERPs: full Read Only / Standard / Admin / None list.
+      if (erp && erp.via !== "agave" && Array.isArray(tool.procorePermissionOptions)) {
+        return tool.procorePermissionOptions;
+      }
+      return sopTemplates.permissionOptions;
+    }
+
+    function makeRow(actionText, tool, erp) {
       const row = document.createElement("div");
       row.className = "sop-row";
       const cb = document.createElement("input");
@@ -1079,7 +1090,7 @@
       const perm = document.createElement("select");
       perm.className = "sop-perm";
       perm.appendChild(new Option("—", ""));
-      sopTemplates.permissionOptions.forEach((p) => perm.appendChild(new Option(p, p)));
+      permissionOptionsFor(tool, erp).forEach((p) => perm.appendChild(new Option(p, p)));
       row.appendChild(cb); row.appendChild(act); row.appendChild(name); row.appendChild(role); row.appendChild(perm);
       return row;
     }
@@ -1117,12 +1128,12 @@
       hdr.className = "sop-row sop-row-hdr";
       hdr.innerHTML = "<span></span><span>Action</span><span>Name</span><span>Project role</span><span>Permission</span>";
       table.appendChild(hdr);
-      tool.actions.forEach((a) => table.appendChild(makeRow(a.replace(/\{ERP\}/g, erp.label))));
+      tool.actions.forEach((a) => table.appendChild(makeRow(a.replace(/\{ERP\}/g, erp.label), tool, erp)));
       sec.appendChild(table);
 
       const add = document.createElement("button");
       add.type = "button"; add.className = "sop-add-row"; add.textContent = "+ Add action";
-      add.addEventListener("click", () => table.appendChild(makeRow("")));
+      add.addEventListener("click", () => table.appendChild(makeRow("", tool, erp)));
       sec.appendChild(add);
       return sec;
     }

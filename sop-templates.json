@@ -62,7 +62,12 @@
         "readOnly": "View the budget and the budget views they have access to. Cannot edit budgets, lock the budget, or create budget changes.",
         "standard": "View the budget; create and edit budget changes and snapshots where permitted. Cannot lock the budget or modify budget views and configurations.",
         "admin": "Full control — import/create and lock the budget, create budget changes, manage budget views and monitored resources, and configure tool settings."
-      }
+      },
+      "procorePermissionOptions": [
+        "Standard",
+        "Admin",
+        "None"
+      ]
     },
     {
       "key": "commitment",
@@ -113,7 +118,12 @@
         "readOnly": "View subcontracts and purchase orders shared with them. Cannot create, edit, or approve invoices.",
         "standard": "Create and edit commitments they are associated with; manage SOV and subcontractor invoices per permission. Cannot access private commitments or change tool settings.",
         "admin": "Full control — create/edit/delete all commitments, manage SOV, approve invoices, and configure tool settings and distributions."
-      }
+      },
+      "procorePermissionOptions": [
+        "Standard",
+        "Admin",
+        "None"
+      ]
     },
     {
       "key": "change-management",
@@ -167,7 +177,12 @@
         "readOnly": "View change events and change orders shared with them; submit RFQ responses if invited as a collaborator. Cannot create change items.",
         "standard": "Create change events and (if enabled) PCOs; manage RFQs. Cannot approve PCCOs or change tool settings.",
         "admin": "Full control — create/edit all change events, PCOs, PCCOs and CCOs, approve change orders, and configure CO tiers and settings."
-      }
+      },
+      "procorePermissionOptions": [
+        "Standard",
+        "Admin",
+        "None"
+      ]
     },
     {
       "key": "direct-cost",
@@ -208,7 +223,11 @@
         "readOnly": "View direct costs they have access to. Cannot create, edit, or import.",
         "standard": "Create and edit direct cost line items where permitted. Cannot configure the tool.",
         "admin": "Full control — create/edit/delete and import direct costs, enable the tool, and configure settings."
-      }
+      },
+      "procorePermissionOptions": [
+        "Admin",
+        "None"
+      ]
     },
     {
       "key": "prime-contract",
@@ -261,7 +280,12 @@
         "readOnly": "View the prime contract and SOV only if explicitly granted (often restricted to admins). Cannot edit.",
         "standard": "Create/edit prime contract items where associated; limited SOV visibility. Cannot execute the contract or change settings.",
         "admin": "Full control — create/edit the prime contract and SOV, manage financial markups, execute the contract, and configure tiers and settings."
-      }
+      },
+      "procorePermissionOptions": [
+        "Standard",
+        "Admin",
+        "None"
+      ]
     },
     {
       "key": "timesheets",
@@ -299,7 +323,13 @@
         "readOnly": "View timesheets they have access to. With the 'review & edit' granular permission, can review time entries (typically a foreman or superintendent).",
         "standard": "Enter and review crew/own time; review at the company level with company-level Standard permission. Cannot approve at the project level.",
         "admin": "Full control — enter, review, approve, and complete timesheets and manage timecard settings. Project Admin is required to approve; company Standard to approve at the company level."
-      }
+      },
+      "procorePermissionOptions": [
+        "Standard",
+        "Admin",
+        "None"
+      ]
     }
-  ]
+  ],
+  "_procorePermissionsSource": "Per-tool 'procorePermissionOptions' lists which permission levels the SOP Builder offers when the selected ERP is Procore-native, derived from the Procore QBO ERP Integration permissions matrix (support.procore.com/.../qbo/permissions). Agave-Sync ERPs use the full permissionOptions list above."
 }
