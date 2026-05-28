@@ -140,15 +140,13 @@
   const width = container.clientWidth;
 
   // Layout constants. Module rows fit a tool eyebrow ABOVE the hex +
-  // a main label BELOW the hex (the middle column can't put labels on
-  // either side without colliding with incoming lines from both ERP
-  // columns). Empirical minimum to avoid one row's label overlapping
-  // the next row's tool eyebrow: ~62px. We use 66 for breathing room.
-  const ROW_HEIGHT = 66;
-  const HEADER_HEIGHT = 56;
-  const FOOTER_PAD = 28;
+  // a main label BELOW the hex; ROW_HEIGHT controls the vertical
+  // breathing room between rows.
+  const ROW_HEIGHT = 80;
+  const HEADER_HEIGHT = 64;
+  const FOOTER_PAD = 32;
   const TIER_LABEL_HEIGHT = 22;
-  const TIER_GAP = 18;
+  const TIER_GAP = 22;
 
   // Heights of each column (taller wins for canvas sizing).
   const procoreERPHeight = procoreERPs.length * ROW_HEIGHT;
@@ -162,12 +160,15 @@
     FOOTER_PAD;
   const height = Math.max(container.clientHeight, minHeight);
 
-  // Three-column layout. Reserve outer gutters for labels and inner
-  // gaps for line-routing space between ERP and module columns.
-  const LABEL_GUTTER = 170;
-  const leftX = LABEL_GUTTER;                 // Procore-native ERP hexes
-  const rightX = width - LABEL_GUTTER;        // Agave Sync ERP hexes
-  const middleX = Math.round(width / 2);      // Procore Modules
+  // Bipartite layout. Active source's ERPs always live in the LEFT
+  // column (Procore-native by default, Agave on toggle); Procore modules
+  // sit in a column to the right. Outer gutters reserve room for labels.
+  const LABEL_GUTTER = 230;
+  const COLUMN_GAP = 360;                     // horizontal gap between ERP and module columns
+  const leftX = LABEL_GUTTER;                 // active ERP column x
+  const middleX = leftX + COLUMN_GAP;         // Procore Modules column x
+  const layoutWidth = middleX + LABEL_GUTTER; // total viewBox width — tighter than container so the map fills nicely
+  const rightX = layoutWidth - LABEL_GUTTER;  // legacy: where the Agave column LIVES IN data before applySource moves it; nodes hidden by default
 
   // Procore ERPs distribute evenly down the left column.
   const procoreSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(procoreERPs.length, 1);
@@ -375,7 +376,6 @@
   // WBS ▸ Cost Codes, etc.).
   function labelX(d) {
     if (d.type === "module") return 0;
-    if (d.via === "agave") return NODE_RADIUS.erp + 10;
     return -(NODE_RADIUS.erp + 10);
   }
   function labelY(d) {
@@ -384,7 +384,6 @@
   }
   function labelAnchor(d) {
     if (d.type === "module") return "middle";
-    if (d.via === "agave") return "start";
     return "end";
   }
 
@@ -775,22 +774,41 @@
     const activeErps = activeSource === "agave" ? agaveERPs : procoreERPs;
     activeErpIds = new Set(activeErps.map((n) => n.id));
 
+    // Hide the inactive source's nodes + links.
     node.classed("src-hidden", (d) => d.type === "erp" && !activeErpIds.has(d.id));
     link.classed("src-hidden", (d) => {
       const erp = d.source.type === "erp" ? d.source : d.target;
       return erp && !activeErpIds.has(erp.id);
     });
 
-    // Hide the inactive column's header; show the active one.
-    d3.select(".column-header-procore").attr("display", activeSource === "procore" ? null : "none");
-    d3.select(".column-header-agave").attr("display", activeSource === "agave" ? null : "none");
+    // Re-layout: active ERPs always live in the LEFT column. Recompute
+    // vertical spacing so 8 Agave ERPs aren't crammed at the top of a
+    // column sized for 15 Procore ERPs (and vice versa).
+    const activeColHeight = activeErps.length * ROW_HEIGHT;
+    const layoutHeight = HEADER_HEIGHT + Math.max(activeColHeight, moduleStackHeight) + FOOTER_PAD;
+    const spacing = (layoutHeight - HEADER_HEIGHT - FOOTER_PAD) / Math.max(activeErps.length, 1);
+    activeErps.forEach((n, i) => {
+      n.x = leftX;
+      n.y = HEADER_HEIGHT + spacing * (i + 0.5);
+    });
 
-    const pad = 175;
-    if (activeSource === "agave") {
-      svg.attr("viewBox", [middleX - pad, 0, width - (middleX - pad), height].join(" "));
-    } else {
-      svg.attr("viewBox", [0, 0, middleX + pad, height].join(" "));
-    }
+    // Refresh transforms + link endpoints for the new positions.
+    node.attr("transform", (d) => "translate(" + d.x + "," + d.y + ")");
+    link.each(function (d) {
+      const e = endpoint(d);
+      d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
+    });
+
+    // Both source headers sit at leftX; only the active one is visible.
+    d3.select(".column-header-procore")
+      .attr("display", activeSource === "procore" ? null : "none")
+      .attr("x", leftX);
+    d3.select(".column-header-agave")
+      .attr("display", activeSource === "agave" ? null : "none")
+      .attr("x", leftX);
+
+    // Full layout viewBox — no crop needed since ERPs are always on the left.
+    svg.attr("viewBox", [0, 0, layoutWidth, layoutHeight].join(" "));
     svg.call(zoom.transform, d3.zoomIdentity);
     deselect();
   }
