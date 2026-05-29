@@ -175,6 +175,40 @@
   align-content: start;
   background: var(--color-surface);
 }
+
+/* Node-map view of the package tools — ERP-map style hex nodes + directional lines */
+.packages-graph {
+  background: var(--color-surface);
+  overflow: hidden;
+  position: relative;
+  min-height: 640px;
+}
+.packages-graph svg { width: 100%; height: 100%; display: block; }
+.packages-graph .pkg-link { stroke-width: 1.6; fill: none; }
+.packages-graph .pkg-link.dir-both { stroke: var(--color-orange); }
+.packages-graph .pkg-link.dir-to   { stroke: var(--color-orange); stroke-dasharray: 6 4; }
+.packages-graph .pkg-link.dir-from { stroke: var(--color-black);  stroke-dasharray: 6 4; }
+.packages-graph .pkg-link.dimmed { opacity: 0.12; }
+
+.packages-graph .pkg-node polygon { stroke: var(--color-black); stroke-width: 1; }
+.packages-graph .pkg-node .pkg-node-label {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-black);
+  text-anchor: middle;
+  pointer-events: none;
+}
+.packages-graph .pkg-node .pkg-node-constraint {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  fill: var(--color-text-muted);
+  text-anchor: middle;
+  pointer-events: none;
+}
+.packages-graph .pkg-node.inactive polygon { opacity: 0.18; fill: #999 !important; stroke: rgba(0,0,0,0.25); }
+.packages-graph .pkg-node.inactive .pkg-node-label,
+.packages-graph .pkg-node.inactive .pkg-node-constraint { opacity: 0.32; }
 .packages-details {
   padding: 22px 22px 28px;
   overflow-y: auto;

@@ -842,7 +842,7 @@
   const modePackagesBtn = document.getElementById("mode-packages");
   const packagesView = document.getElementById("packages-view");
   const packagesTierToggle = document.getElementById("packages-tier-toggle");
-  const packagesToolsEl = document.getElementById("packages-tools");
+  const packagesGraphEl = document.getElementById("packages-graph");
   const packagesDetailsEl = document.getElementById("packages-details");
   const headerTitleEl = document.getElementById("header-title");
   const headerSubtitleEl = document.getElementById("header-subtitle");
@@ -868,12 +868,20 @@
       (p) => !p.availableFor || p.availableFor.includes(activeVertical)
     );
   }
-  // Tools the tier exposes for the active vertical (falls back to default tools).
+  // Look a tool object up by id within the active package.
+  function packageToolById(id) {
+    if (!activePackage || !activePackage.tools) return null;
+    return activePackage.tools.find((t) => t.id === id) || null;
+  }
+  // Tools the tier exposes for the active vertical.
+  // toolIds (preferred new schema) reference the package-level tools array;
+  // toolsByVertical can override per vertical with an array of toolIds.
   function toolsForTier(tier) {
+    let ids = tier.toolIds || [];
     if (tier.toolsByVertical && tier.toolsByVertical[activeVertical]) {
-      return tier.toolsByVertical[activeVertical];
+      ids = tier.toolsByVertical[activeVertical];
     }
-    return tier.tools || [];
+    return ids.map(packageToolById).filter(Boolean);
   }
   // Tool display name, with optional per-vertical override.
   function toolNameFor(t) {
@@ -934,14 +942,14 @@
     renderPackagesVerticalToggle();
     if (!activePackage) {
       document.getElementById("packages-title").textContent = "No packages for this vertical";
-      packagesToolsEl.innerHTML = "<p class='packages-empty'>No packages are available for the selected vertical yet.</p>";
+      packagesGraphEl.innerHTML = "<p class='packages-empty' style='padding:24px;'>No packages are available for the selected vertical yet.</p>";
       packagesDetailsEl.innerHTML = "";
       packagesTierToggle.innerHTML = "";
       return;
     }
     document.getElementById("packages-title").textContent = activePackage.name;
     renderPackagesTierToggle();
-    renderPackagesTools();
+    renderPackagesGraph();
     renderPackagesDetails();
   }
 
@@ -994,7 +1002,7 @@
           activeTierKeys.add(tier.key);
         }
         renderPackagesTierToggle();
-        renderPackagesTools();
+        renderPackagesGraph();
         renderPackagesDetails();
       });
       packagesTierToggle.appendChild(btn);
@@ -1005,69 +1013,115 @@
     return activePackage.tiers.filter((t) => activeTierKeys.has(t.key));
   }
 
-  function renderPackagesTools() {
-    packagesToolsEl.innerHTML = "";
+  // Node-link diagram of the package's tools. ALL package-level tools are
+  // rendered as hex nodes at their declared positions. Selected tier(s)
+  // highlight their tools; non-tier tools dim. Connections between tools
+  // use the ERP-map line conventions: solid orange = bidirectional,
+  // dashed orange = "to" (source -> target), dashed black = "from".
+  function renderPackagesGraph() {
+    packagesGraphEl.innerHTML = "";
+    if (!activePackage || !activePackage.tools) return;
     const tiers = selectedTiers();
-    if (!tiers.length) {
-      packagesToolsEl.innerHTML = "<p class='packages-empty'>Select a tier above.</p>";
-      return;
-    }
-    // Union of tools across selected tiers (track which tiers each tool belongs to).
-    // Uses the current vertical's tool list + per-vertical name overrides.
-    const toolMap = new Map();
+    const NODE_R = 22;
+
+    // Map: toolId -> Set of tier objects that include it (intersected with selected tiers).
+    const activeTiersForTool = new Map();
+    activePackage.tools.forEach((t) => activeTiersForTool.set(t.id, []));
     tiers.forEach((tier) => {
-      toolsForTier(tier).forEach((t) => {
-        const key = toolNameFor(t);
-        if (!toolMap.has(key)) toolMap.set(key, { tool: t, displayName: key, tierKeys: new Set() });
-        toolMap.get(key).tierKeys.add(tier.key);
+      (tier.toolIds || []).forEach((id) => {
+        if (activeTiersForTool.has(id)) activeTiersForTool.get(id).push(tier);
       });
     });
-    const showBadges = tiers.length > 1;
+    const isActive = (toolId) => (activeTiersForTool.get(toolId) || []).length > 0;
+    const primaryTierFor = (toolId) => {
+      const list = activeTiersForTool.get(toolId);
+      return list && list.length ? list[0] : null; // tier order in JSON wins
+    };
 
-    Array.from(toolMap.values()).forEach(({ tool, displayName, tierKeys }) => {
-      const tierObjs = activePackage.tiers.filter((t) => tierKeys.has(t.key));
-      const hexFill = tierObjs.length === 1 ? (tierObjs[0].color || "#000000") : "#000000";
-      const card = document.createElement("div");
-      card.className = "tool-card";
-      // hex
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("class", "tool-hex");
-      svg.setAttribute("width", "52");
-      svg.setAttribute("height", "52");
-      svg.setAttribute("viewBox", "-26 -26 52 52");
-      const poly = document.createElementNS(svgNS, "polygon");
-      poly.setAttribute("points", hexPoints(20));
-      poly.setAttribute("fill", hexFill);
-      svg.appendChild(poly);
-      card.appendChild(svg);
-      // name (vertical-aware via toolNameFor)
-      const name = document.createElement("div");
-      name.className = "tool-name";
-      name.textContent = displayName;
-      card.appendChild(name);
-      // constraint
-      if (tool.constraint) {
-        const c = document.createElement("div");
-        c.className = "tool-constraint";
-        c.textContent = tool.constraint;
-        card.appendChild(c);
-      }
-      // tier badges (only when comparing 2+ tiers)
-      if (showBadges) {
-        const t = document.createElement("div");
-        t.className = "tool-tiers";
-        tierObjs.forEach((tier) => {
-          const b = document.createElement("span");
-          b.className = "tier-badge";
-          b.style.background = tier.color || "#000";
-          b.textContent = tier.shortName || tier.name;
-          t.appendChild(b);
-        });
-        card.appendChild(t);
-      }
-      packagesToolsEl.appendChild(card);
+    // ViewBox: derive from the spread of tool positions so the graph fits
+    // any package's layout.
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    activePackage.tools.forEach((t) => {
+      if (!t.position) return;
+      if (t.position.x < minX) minX = t.position.x;
+      if (t.position.y < minY) minY = t.position.y;
+      if (t.position.x > maxX) maxX = t.position.x;
+      if (t.position.y > maxY) maxY = t.position.y;
     });
+    const PAD = 80;
+    const vbX = minX - PAD, vbY = minY - PAD;
+    const vbW = (maxX - minX) + PAD * 2;
+    const vbH = (maxY - minY) + PAD * 2;
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("viewBox", vbX + " " + vbY + " " + vbW + " " + vbH);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    // Endpoints sit at the hex edges (matches the ERP map's endpoint helper).
+    function endpoints(srcId, tgtId) {
+      const s = packageToolById(srcId);
+      const t = packageToolById(tgtId);
+      if (!s || !t || !s.position || !t.position) return null;
+      const sx = s.position.x, sy = s.position.y;
+      const tx = t.position.x, ty = t.position.y;
+      const dx = tx - sx, dy = ty - sy;
+      const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const ux = dx / dist, uy = dy / dist;
+      return { x1: sx + ux * NODE_R, y1: sy + uy * NODE_R, x2: tx - ux * NODE_R, y2: ty - uy * NODE_R };
+    }
+
+    // Draw connection lines below the nodes.
+    const linkLayer = document.createElementNS(svgNS, "g");
+    (activePackage.connections || []).forEach((conn) => {
+      const ep = endpoints(conn.source, conn.target);
+      if (!ep) return;
+      const line = document.createElementNS(svgNS, "line");
+      line.setAttribute("x1", ep.x1);
+      line.setAttribute("y1", ep.y1);
+      line.setAttribute("x2", ep.x2);
+      line.setAttribute("y2", ep.y2);
+      line.setAttribute("class", "pkg-link dir-" + (conn.direction || "to"));
+      // Dim the line if either endpoint isn't in the active tier(s).
+      if (!isActive(conn.source) || !isActive(conn.target)) {
+        line.classList.add("dimmed");
+      }
+      svg.appendChild(line);
+    });
+    svg.appendChild(linkLayer);
+
+    // Draw nodes on top.
+    activePackage.tools.forEach((tool) => {
+      if (!tool.position) return;
+      const g = document.createElementNS(svgNS, "g");
+      g.setAttribute("transform", "translate(" + tool.position.x + "," + tool.position.y + ")");
+      g.setAttribute("class", "pkg-node" + (isActive(tool.id) ? "" : " inactive"));
+      const tier = primaryTierFor(tool.id);
+      const fill = tier ? (tier.color || "#000") : "#999";
+      const poly = document.createElementNS(svgNS, "polygon");
+      poly.setAttribute("points", hexPoints(NODE_R));
+      poly.setAttribute("fill", fill);
+      g.appendChild(poly);
+
+      const label = document.createElementNS(svgNS, "text");
+      label.setAttribute("x", 0);
+      label.setAttribute("y", NODE_R + 18);
+      label.setAttribute("class", "pkg-node-label");
+      label.textContent = toolNameFor(tool);
+      g.appendChild(label);
+
+      if (tool.constraint) {
+        const sub = document.createElementNS(svgNS, "text");
+        sub.setAttribute("x", 0);
+        sub.setAttribute("y", NODE_R + 32);
+        sub.setAttribute("class", "pkg-node-constraint");
+        sub.textContent = tool.constraint;
+        g.appendChild(sub);
+      }
+      svg.appendChild(g);
+    });
+
+    packagesGraphEl.appendChild(svg);
   }
 
   function renderPackagesDetails() {
