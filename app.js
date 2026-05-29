@@ -82,11 +82,6 @@
     .then((r) => (r.ok ? r.json() : { packages: [] }))
     .catch(() => ({ packages: [] }));
 
-  // Procore Tool Connectivity Map data (financial-tool flows etc).
-  const toolMapData = await fetch("tool-connections.json")
-    .then((r) => (r.ok ? r.json() : { tools: [], connections: [], suites: [] }))
-    .catch(() => ({ tools: [], connections: [], suites: [] }));
-
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -844,10 +839,8 @@
   // Mode toggle: ERP Connector Map  vs  PNPT Package Builder
   // ---------------------------------------------------------------------
   const modeErpBtn = document.getElementById("mode-erp");
-  const modeToolmapBtn = document.getElementById("mode-toolmap");
   const modePackagesBtn = document.getElementById("mode-packages");
   const packagesView = document.getElementById("packages-view");
-  const toolmapView = document.getElementById("toolmap-view");
   const packagesTierToggle = document.getElementById("packages-tier-toggle");
   const packagesToolsEl = document.getElementById("packages-tools");
   const packagesDetailsEl = document.getElementById("packages-details");
@@ -901,26 +894,17 @@
   refreshActivePackageForVertical();
 
   function setMode(mode) {
-    if (mode !== "packages" && mode !== "toolmap") mode = "erp";
     const isPackages = mode === "packages";
-    const isToolmap = mode === "toolmap";
-    const isErp = mode === "erp";
-
-    erpOnlyEls.forEach((el) => { if (el) el.hidden = !isErp; });
+    erpOnlyEls.forEach((el) => { if (el) el.hidden = isPackages; });
     if (packagesView) packagesView.hidden = !isPackages;
-    if (toolmapView) toolmapView.hidden = !isToolmap;
 
     // SOP button only in ERP mode.
     const sopTopBtn = document.getElementById("sop-open-top");
-    if (sopTopBtn) sopTopBtn.hidden = !isErp || !sopTemplates;
+    if (sopTopBtn) sopTopBtn.hidden = isPackages || !sopTemplates;
 
     if (modeErpBtn) {
-      modeErpBtn.classList.toggle("is-active", isErp);
-      modeErpBtn.setAttribute("aria-pressed", String(isErp));
-    }
-    if (modeToolmapBtn) {
-      modeToolmapBtn.classList.toggle("is-active", isToolmap);
-      modeToolmapBtn.setAttribute("aria-pressed", String(isToolmap));
+      modeErpBtn.classList.toggle("is-active", !isPackages);
+      modeErpBtn.setAttribute("aria-pressed", String(!isPackages));
     }
     if (modePackagesBtn) {
       modePackagesBtn.classList.toggle("is-active", isPackages);
@@ -934,12 +918,6 @@
       if (headerSubtitleEl) headerSubtitleEl.textContent =
         "Pick one or more tiers to see which tools you get in each, and how the tiers differ.";
       if (activePackage) renderPackagesView();
-    } else if (isToolmap) {
-      if (headerEyebrowEl) headerEyebrowEl.textContent = "Tool Architecture";
-      if (headerTitleEl) headerTitleEl.textContent = "Procore Tool Map";
-      if (headerSubtitleEl) headerSubtitleEl.textContent =
-        "Browse Procore's tools by suite. Click a tool to see what it connects to and the direction information flows between them.";
-      renderToolMapOnce();
     } else {
       if (headerEyebrowEl) headerEyebrowEl.textContent = "ERP Integrations";
       if (headerTitleEl) headerTitleEl.textContent = "ERP Connector Map";
@@ -949,245 +927,7 @@
   }
 
   if (modeErpBtn) modeErpBtn.addEventListener("click", () => setMode("erp"));
-  if (modeToolmapBtn) modeToolmapBtn.addEventListener("click", () => setMode("toolmap"));
   if (modePackagesBtn) modePackagesBtn.addEventListener("click", () => setMode("packages"));
-
-  // ---------- Tool Map view rendering (PNPT-style card grid) ----------
-  let toolMapRendered = false;
-  const toolMapActiveSuites = new Set();
-  let toolMapSelectedId = null;
-
-  function renderToolMapOnce() {
-    if (toolMapRendered) return;
-    toolMapRendered = true;
-    // Default: all suites active.
-    (toolMapData.suites || []).forEach((s) => toolMapActiveSuites.add(s.key));
-    renderToolMapSuiteToggle();
-    renderToolMapTools();
-    renderToolMapDetails();
-  }
-
-  function suiteByKey(key) {
-    return (toolMapData.suites || []).find((s) => s.key === key);
-  }
-  function suiteColor(key) {
-    const s = suiteByKey(key);
-    return s ? s.color : "#000000";
-  }
-
-  function renderToolMapSuiteToggle() {
-    const cont = document.getElementById("toolmap-suite-toggle");
-    if (!cont) return;
-    cont.innerHTML = "";
-    const label = document.createElement("span");
-    label.className = "packages-toggle-label";
-    label.textContent = "Suites";
-    cont.appendChild(label);
-    (toolMapData.suites || []).forEach((suite) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "toolmap-suite-btn";
-      btn.textContent = suite.name;
-      btn.style.setProperty("--suite-color", suite.color || "#000");
-      if (toolMapActiveSuites.has(suite.key)) btn.classList.add("is-active");
-      btn.setAttribute("aria-pressed", String(toolMapActiveSuites.has(suite.key)));
-      btn.addEventListener("click", () => {
-        if (toolMapActiveSuites.has(suite.key)) {
-          if (toolMapActiveSuites.size > 1) toolMapActiveSuites.delete(suite.key);
-        } else {
-          toolMapActiveSuites.add(suite.key);
-        }
-        renderToolMapSuiteToggle();
-        renderToolMapTools();
-      });
-      cont.appendChild(btn);
-    });
-  }
-
-  function renderToolMapTools() {
-    const cont = document.getElementById("toolmap-tools");
-    if (!cont) return;
-    cont.innerHTML = "";
-    const visible = (toolMapData.tools || []).filter((t) => toolMapActiveSuites.has(t.suite));
-    if (!visible.length) {
-      cont.innerHTML = "<p class='packages-empty'>Select at least one suite to see its tools.</p>";
-      return;
-    }
-    visible.forEach((tool) => {
-      const card = document.createElement("div");
-      card.className = "tool-card";
-      if (tool.id === toolMapSelectedId) card.classList.add("is-selected");
-
-      // hex
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("class", "tool-hex");
-      svg.setAttribute("width", "52");
-      svg.setAttribute("height", "52");
-      svg.setAttribute("viewBox", "-26 -26 52 52");
-      const poly = document.createElementNS(svgNS, "polygon");
-      poly.setAttribute("points", hexPoints(20));
-      poly.setAttribute("fill", suiteColor(tool.suite));
-      svg.appendChild(poly);
-      card.appendChild(svg);
-
-      // name
-      const name = document.createElement("div");
-      name.className = "tool-name";
-      name.textContent = tool.label;
-      card.appendChild(name);
-
-      // suite name as secondary text
-      const suite = suiteByKey(tool.suite);
-      if (suite) {
-        const c = document.createElement("div");
-        c.className = "tool-constraint";
-        c.textContent = suite.name;
-        card.appendChild(c);
-      }
-
-      // connection-count badge (uses tier-badge style; suite-colored)
-      const connCount = (toolMapData.connections || []).filter(
-        (l) => l.source === tool.id || l.target === tool.id
-      ).length;
-      const badges = document.createElement("div");
-      badges.className = "tool-tiers";
-      const b = document.createElement("span");
-      b.className = "tier-badge";
-      b.style.background = suiteColor(tool.suite);
-      b.textContent = connCount + " connection" + (connCount === 1 ? "" : "s");
-      badges.appendChild(b);
-      card.appendChild(badges);
-
-      card.style.cursor = "pointer";
-      card.addEventListener("click", () => selectToolMapTool(tool.id));
-      cont.appendChild(card);
-    });
-  }
-
-  function selectToolMapTool(id) {
-    toolMapSelectedId = id;
-    // make sure the selected tool's suite is active so the card stays visible
-    const tool = (toolMapData.tools || []).find((t) => t.id === id);
-    if (tool) toolMapActiveSuites.add(tool.suite);
-    renderToolMapSuiteToggle();
-    renderToolMapTools();
-    renderToolMapDetails();
-    // scroll the panel back to top so the new tool's details are visible
-    const panel = document.getElementById("toolmap-details");
-    if (panel) panel.scrollTop = 0;
-  }
-
-  function renderToolMapDetails() {
-    const cont = document.getElementById("toolmap-details");
-    if (!cont) return;
-    cont.innerHTML = "";
-    if (!toolMapSelectedId) {
-      const p = document.createElement("p");
-      p.className = "packages-empty";
-      p.textContent = "Click a tool card to see what it connects to and the direction information flows.";
-      cont.appendChild(p);
-      return;
-    }
-    const tool = (toolMapData.tools || []).find((t) => t.id === toolMapSelectedId);
-    if (!tool) return;
-    const suite = suiteByKey(tool.suite);
-
-    // Tool header card
-    const head = document.createElement("section");
-    head.className = "toolmap-tool-header";
-    head.style.setProperty("--tier-color", suite ? suite.color : "#000");
-    const h3 = document.createElement("h2");
-    h3.className = "toolmap-tool-title";
-    h3.textContent = tool.label;
-    head.appendChild(h3);
-    if (suite) {
-      const s = document.createElement("div");
-      s.className = "toolmap-tool-suite";
-      s.textContent = suite.name;
-      head.appendChild(s);
-    }
-    if (tool.description) {
-      const desc = document.createElement("p");
-      desc.className = "toolmap-tool-desc";
-      desc.textContent = tool.description;
-      head.appendChild(desc);
-    }
-    if (tool.supportUrl) {
-      const a = document.createElement("a");
-      a.className = "toolmap-tool-link";
-      a.href = tool.supportUrl;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.textContent = "Open support documentation →";
-      head.appendChild(a);
-    }
-    cont.appendChild(head);
-
-    // Group connections from the selected tool's perspective.
-    const outgoing = [], incoming = [], bothways = [];
-    (toolMapData.connections || []).forEach((l) => {
-      if (l.source === tool.id) {
-        if (l.direction === "both") bothways.push({ other: l.target, conn: l });
-        else if (l.direction === "to") outgoing.push({ other: l.target, conn: l });
-        else if (l.direction === "from") incoming.push({ other: l.target, conn: l });
-      } else if (l.target === tool.id) {
-        if (l.direction === "both") bothways.push({ other: l.source, conn: l });
-        else if (l.direction === "to") incoming.push({ other: l.source, conn: l });
-        else if (l.direction === "from") outgoing.push({ other: l.source, conn: l });
-      }
-    });
-
-    function addSection(title, list, arrow) {
-      if (!list.length) return;
-      const sec = document.createElement("section");
-      sec.className = "toolmap-conn-section";
-      const h = document.createElement("h3");
-      h.textContent = title + " (" + list.length + ")";
-      sec.appendChild(h);
-      const ul = document.createElement("ul");
-      ul.className = "toolmap-conn-list";
-      list.forEach((entry) => {
-        const other = (toolMapData.tools || []).find((t) => t.id === entry.other);
-        const otherLabel = other ? other.label : entry.other;
-        const otherSuite = other ? suiteByKey(other.suite) : null;
-        const li = document.createElement("li");
-        li.className = "toolmap-conn-card";
-        const headEl = document.createElement("div");
-        headEl.className = "toolmap-conn-card-head";
-        const arr = document.createElement("span");
-        arr.className = "toolmap-conn-arrow";
-        arr.textContent = arrow;
-        headEl.appendChild(arr);
-        const lbl = document.createElement("span");
-        lbl.textContent = otherLabel;
-        headEl.appendChild(lbl);
-        if (otherSuite) {
-          const dot = document.createElement("span");
-          dot.className = "toolmap-conn-suite-dot";
-          dot.style.background = otherSuite.color;
-          dot.title = otherSuite.name;
-          headEl.appendChild(dot);
-        }
-        li.appendChild(headEl);
-        if (entry.conn.description) {
-          const desc = document.createElement("p");
-          desc.className = "toolmap-conn-desc";
-          desc.textContent = entry.conn.description;
-          li.appendChild(desc);
-        }
-        // Click a connection card to jump to that connected tool.
-        li.addEventListener("click", () => selectToolMapTool(entry.other));
-        ul.appendChild(li);
-      });
-      sec.appendChild(ul);
-      cont.appendChild(sec);
-    }
-
-    addSection("Pushes data to", outgoing, "→");
-    addSection("Receives data from", incoming, "←");
-    addSection("Bidirectional", bothways, "↔");
-  }
 
   // ---------- Packages view rendering ----------
   function renderPackagesView() {
