@@ -24,141 +24,205 @@
 .src-hidden { display: none; }
 
 /* ---------------------------------------------------------------------
- * Procore Tool Connectivity Map view
+ * Procore Tool Connectivity Map view — mirrors the PNPT Package Builder
+ * card layout (bar + tools grid + details panel).
  * --------------------------------------------------------------------- */
 .toolmap-view {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 1fr 360px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
   min-height: 0;
   overflow: hidden;
 }
-.toolmap-graph {
-  position: relative;
-  background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  overflow: hidden;
-  min-height: 640px;
+.toolmap-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 28px 14px;
+  background: var(--color-stone);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
 }
-.toolmap-graph svg { width: 100%; height: 100%; display: block; }
-.toolmap-details {
-  padding: 24px 22px 32px;
-  overflow-y: auto;
-  background: var(--color-surface);
+.toolmap-bar-eyebrow {
+  margin: 0 0 2px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
-.toolmap-details-empty h2 {
-  margin: 0 0 8px;
+.toolmap-bar-info h2 {
+  margin: 0;
   font-family: "Inter Tight", sans-serif;
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--color-black);
+  letter-spacing: -0.005em;
 }
-.toolmap-details-empty p {
-  font-size: 13px;
-  line-height: 1.55;
-  color: var(--color-text-muted);
-  margin: 0 0 14px;
-}
-.toolmap-suite-legend {
+.toolmap-bar-controls {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.toolmap-suite-toggle {
+  display: inline-flex;
   align-items: center;
-  gap: 6px 14px;
-  font-size: 12px;
-  color: var(--color-text);
+  gap: 8px;
+  flex-wrap: wrap;
 }
-.toolmap-suite-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-
-/* Tool-map node + link styling (mirrors the ERP map conventions). */
-.toolmap-node polygon { stroke: var(--color-black); stroke-width: 1; cursor: pointer; }
-.toolmap-node text {
+.toolmap-suite-btn {
+  --suite-color: var(--color-orange);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 10px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-surface);
   font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
-  fill: var(--color-black);
-  pointer-events: none;
-  text-anchor: middle;
+  color: var(--color-black);
+  cursor: pointer;
 }
-.toolmap-node.selected polygon { stroke: var(--color-orange); stroke-width: 3; }
-.toolmap-node.dimmed { opacity: 0.25; }
-.toolmap-link {
-  fill: none;
-  stroke-width: 1.6;
+.toolmap-suite-btn::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--suite-color);
 }
-.toolmap-link.dir-both { stroke: var(--color-orange); }
-.toolmap-link.dir-to   { stroke: var(--color-orange); stroke-dasharray: 6 4; }
-.toolmap-link.dir-from { stroke: var(--color-black);  stroke-dasharray: 6 4; }
-.toolmap-link.highlighted { stroke-width: 2.6; }
-.toolmap-link.dimmed { opacity: 0.15; }
+.toolmap-suite-btn:hover { background: var(--color-stone); }
+.toolmap-suite-btn.is-active {
+  background: var(--suite-color);
+  border-color: var(--suite-color);
+  color: var(--color-white);
+}
+.toolmap-suite-btn.is-active::before { background: var(--color-white); }
 
-/* Side panel cards for the selected tool */
+.toolmap-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: 0;
+  overflow: hidden;
+}
+.toolmap-tools {
+  padding: 28px 28px 36px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  align-content: start;
+  background: var(--color-surface);
+}
+.toolmap-details {
+  padding: 22px 22px 28px;
+  overflow-y: auto;
+  border-left: 1px solid var(--color-border);
+  background: #fafbfc;
+}
+
+/* Selected card highlight (reuse .tool-card from packages styles). */
+.tool-card.is-selected {
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 2px rgba(255, 82, 0, 0.18);
+}
+
+/* Side-panel: tool header + connection cards */
+.toolmap-tool-header {
+  --tier-color: var(--color-orange);
+  border-top: 4px solid var(--tier-color);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top-width: 4px;
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+  margin-bottom: 14px;
+}
 .toolmap-tool-title {
   margin: 0 0 4px;
   font-family: "Inter Tight", sans-serif;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 800;
 }
 .toolmap-tool-suite {
   display: inline-block;
-  padding: 3px 9px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 0;
   font-family: "DM Mono", ui-monospace, monospace;
   font-size: 10px;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-black);
-  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
 }
 .toolmap-tool-desc {
-  font-size: 13px;
-  line-height: 1.55;
-  margin: 0 0 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin: 6px 0 10px;
   color: var(--color-text);
 }
 .toolmap-tool-link {
   display: inline-block;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 12px;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   color: var(--color-black);
-  margin-bottom: 16px;
 }
 .toolmap-tool-link:hover { color: var(--color-orange); }
+
+.toolmap-conn-section { margin-top: 14px; }
 .toolmap-conn-section h3 {
-  margin: 16px 0 8px;
+  margin: 0 0 8px;
   font-family: "DM Mono", ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--color-text-muted);
 }
 .toolmap-conn-list { list-style: none; padding: 0; margin: 0; }
 .toolmap-conn-card {
   border: 1px solid var(--color-border);
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 9px 11px;
   margin-bottom: 6px;
   background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.toolmap-conn-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 .toolmap-conn-card-head {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-black);
   margin-bottom: 2px;
 }
+.toolmap-conn-suite-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
 .toolmap-conn-arrow { font-family: "DM Mono", monospace; color: var(--color-orange); font-size: 14px; }
-.toolmap-conn-desc { font-size: 12px; color: var(--color-text-muted); line-height: 1.45; margin: 0; }
+.toolmap-conn-desc { font-size: 11.5px; color: var(--color-text-muted); line-height: 1.45; margin: 0; }
+
+@media (max-width: 880px) {
+  .toolmap-main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .toolmap-details { border-left: none; border-top: 1px solid var(--color-border); max-height: 45vh; }
+}
 
 /* ---------------------------------------------------------------------
  * Top-level mode tabs (ERP Connector Map / PNPT Package Builder)
