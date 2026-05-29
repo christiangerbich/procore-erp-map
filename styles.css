@@ -190,7 +190,31 @@
 .packages-graph .pkg-link.dir-from { stroke: var(--color-black);  stroke-dasharray: 6 4; }
 .packages-graph .pkg-link.dimmed { opacity: 0.12; }
 
-.packages-graph .pkg-node polygon { stroke: var(--color-black); stroke-width: 1; }
+/* Live "marching ants" flow on the one-way links so direction reads at
+ * a glance — same convention as the ERP Connector Map. */
+@keyframes pkg-flow-forward {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -10; }
+}
+@keyframes pkg-flow-backward {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: 10; }
+}
+.packages-graph .pkg-link.dir-to   { animation: pkg-flow-forward 0.9s linear infinite; }
+.packages-graph .pkg-link.dir-from { animation: pkg-flow-backward 0.9s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .packages-graph .pkg-link.dir-to,
+  .packages-graph .pkg-link.dir-from { animation: none; }
+}
+
+/* Highlighted state when a node is selected — pull the relevant lines forward. */
+.packages-graph .pkg-link.highlighted { stroke-width: 2.6; }
+.packages-graph .pkg-link.faded { opacity: 0.08; }
+
+.packages-graph .pkg-node { cursor: pointer; }
+.packages-graph .pkg-node polygon { stroke: var(--color-black); stroke-width: 1; transition: stroke 0.12s ease, stroke-width 0.12s ease; }
+.packages-graph .pkg-node:hover polygon { stroke: var(--color-orange); stroke-width: 2; }
+.packages-graph .pkg-node.selected polygon { stroke: var(--color-orange); stroke-width: 3; }
 .packages-graph .pkg-node .pkg-node-label {
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
@@ -209,6 +233,86 @@
 .packages-graph .pkg-node.inactive polygon { opacity: 0.18; fill: #999 !important; stroke: rgba(0,0,0,0.25); }
 .packages-graph .pkg-node.inactive .pkg-node-label,
 .packages-graph .pkg-node.inactive .pkg-node-constraint { opacity: 0.32; }
+.packages-graph .pkg-node.faded { opacity: 0.28; }
+
+/* Side-panel tool detail (rendered when a node is clicked). */
+.pkg-tool-detail {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-orange);
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+  margin-bottom: 14px;
+}
+.pkg-tool-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0 0 8px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.pkg-tool-back:hover { color: var(--color-black); }
+.pkg-tool-title {
+  margin: 0 0 4px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-black);
+}
+.pkg-tool-tiers { display: flex; gap: 4px; flex-wrap: wrap; margin: 2px 0 8px; }
+.pkg-tool-desc { font-size: 12.5px; line-height: 1.5; color: var(--color-text); margin: 0 0 10px; }
+.pkg-tool-link {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: var(--color-black);
+}
+.pkg-tool-link:hover { color: var(--color-orange); }
+
+.pkg-rel-section { margin-top: 14px; }
+.pkg-rel-section h4 {
+  margin: 0 0 6px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.pkg-rel-list { list-style: none; padding: 0; margin: 0; }
+.pkg-rel-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 9px 11px;
+  margin-bottom: 6px;
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.pkg-rel-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+.pkg-rel-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 2px;
+}
+.pkg-rel-arrow { font-family: "DM Mono", monospace; color: var(--color-orange); font-size: 14px; }
+.pkg-rel-desc { font-size: 11.5px; color: var(--color-text-muted); line-height: 1.45; margin: 0; }
 .packages-details {
   padding: 22px 22px 28px;
   overflow-y: auto;

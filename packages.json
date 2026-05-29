@@ -1,67 +1,342 @@
 {
   "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange — matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later.",
   "verticals": [
-    { "key": "gc",    "name": "General Contractor",    "shortName": "GC" },
-    { "key": "owner", "name": "Owner",                 "shortName": "Owner" },
-    { "key": "sc",    "name": "Specialty Contractor",  "shortName": "Specialty" }
+    {
+      "key": "gc",
+      "name": "General Contractor",
+      "shortName": "GC"
+    },
+    {
+      "key": "owner",
+      "name": "Owner",
+      "shortName": "Owner"
+    },
+    {
+      "key": "sc",
+      "name": "Specialty Contractor",
+      "shortName": "Specialty"
+    }
   ],
   "packages": [
     {
       "key": "cost-management",
       "name": "Cost Management",
       "region": "NAMER",
-      "availableFor": ["gc", "owner", "sc"],
+      "availableFor": [
+        "gc",
+        "owner",
+        "sc"
+      ],
       "tools": [
-        { "id": "cost-catalog",        "name": "Cost Catalog",              "position": { "x": 180,  "y": 100 } },
-        { "id": "bid-board",           "name": "Bid Board",                 "position": { "x": 380,  "y": 100 } },
-        { "id": "takeoff",             "name": "Takeoff",                   "position": { "x": 580,  "y": 100 } },
-        { "id": "estimating",          "name": "Estimating",                "position": { "x": 780,  "y": 100 } },
-
-        { "id": "prime-contracts",     "name": "Prime Contracts",           "position": { "x": 180,  "y": 290 } },
-        { "id": "commitments",         "name": "Commitments",               "position": { "x": 780,  "y": 290 }, "constraint": "Up to 2 workflows" },
-
-        { "id": "budget",              "name": "Budget",                    "position": { "x": 480,  "y": 380 }, "constraint": "Up to 3 budget views, WBS import" },
-        { "id": "direct-costs",        "name": "Direct Costs",              "position": { "x": 180,  "y": 460 } },
-        { "id": "change-events-orders","name": "Change Events / Orders",    "position": { "x": 970,  "y": 460 }, "constraint": "Up to 2 workflows, 1 view" },
-
-        { "id": "invoicing",           "name": "Invoicing",                 "position": { "x": 580,  "y": 560 }, "constraint": "Up to 2 workflows" },
-        { "id": "reports",             "name": "Reports",                   "position": { "x": 180,  "y": 620 }, "constraint": "Up to 3 reports" },
-        { "id": "analytics-setup",     "name": "Analytics Setup",           "position": { "x": 970,  "y": 620 }, "constraint": "Financial tools" },
-
-        { "id": "lien-waivers",        "name": "Lien Waivers & Compliance", "position": { "x": 1180, "y": 240 } },
-        { "id": "payment-management",  "name": "Payment Management",        "position": { "x": 1180, "y": 400 } },
-        { "id": "payment-approval",    "name": "Payment Approval Process",  "position": { "x": 1180, "y": 560 } }
+        {
+          "id": "cost-catalog",
+          "name": "Cost Catalog",
+          "position": {
+            "x": 180,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/cost-catalog-company",
+          "description": "Company-level library of unit costs, materials, and assemblies that feed into Estimates."
+        },
+        {
+          "id": "bid-board",
+          "name": "Bid Board",
+          "position": {
+            "x": 380,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/bid-board-company",
+          "description": "Track bid invitations and awarded bids; awarded bids can promote into project Commitments."
+        },
+        {
+          "id": "takeoff",
+          "name": "Takeoff",
+          "position": {
+            "x": 580,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
+          "description": "Quantity takeoffs from drawings; feeds quantities into Estimates."
+        },
+        {
+          "id": "estimating",
+          "name": "Estimating",
+          "position": {
+            "x": 780,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
+          "description": "Build project estimates from takeoff quantities and Cost Catalog items; promote to Budget."
+        },
+        {
+          "id": "prime-contracts",
+          "name": "Prime Contracts",
+          "position": {
+            "x": 180,
+            "y": 290
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+          "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value."
+        },
+        {
+          "id": "commitments",
+          "name": "Commitments",
+          "position": {
+            "x": 780,
+            "y": 290
+          },
+          "constraint": "Up to 2 workflows",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
+          "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget."
+        },
+        {
+          "id": "budget",
+          "name": "Budget",
+          "position": {
+            "x": 480,
+            "y": 380
+          },
+          "constraint": "Up to 3 budget views, WBS import",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
+          "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget."
+        },
+        {
+          "id": "direct-costs",
+          "name": "Direct Costs",
+          "position": {
+            "x": 180,
+            "y": 460
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
+          "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget."
+        },
+        {
+          "id": "change-events-orders",
+          "name": "Change Events / Orders",
+          "position": {
+            "x": 970,
+            "y": 460
+          },
+          "constraint": "Up to 2 workflows, 1 view",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
+          "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders."
+        },
+        {
+          "id": "invoicing",
+          "name": "Invoicing",
+          "position": {
+            "x": 580,
+            "y": 560
+          },
+          "constraint": "Up to 2 workflows",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
+          "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts."
+        },
+        {
+          "id": "reports",
+          "name": "Reports",
+          "position": {
+            "x": 180,
+            "y": 620
+          },
+          "constraint": "Up to 3 reports",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
+          "description": "Custom + canned project reports across all financial tools."
+        },
+        {
+          "id": "analytics-setup",
+          "name": "Analytics Setup",
+          "position": {
+            "x": 970,
+            "y": 620
+          },
+          "constraint": "Financial tools",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
+          "description": "Default Procore Analytics dashboards for financial tools (Enterprise tier)."
+        },
+        {
+          "id": "lien-waivers",
+          "name": "Lien Waivers & Compliance",
+          "position": {
+            "x": 1180,
+            "y": 240
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
+          "description": "Collect and verify conditional/unconditional lien waivers from subs before releasing payment."
+        },
+        {
+          "id": "payment-management",
+          "name": "Payment Management",
+          "position": {
+            "x": 1180,
+            "y": 400
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
+          "description": "Schedule and disburse payments to subcontractors through Procore Pay."
+        },
+        {
+          "id": "payment-approval",
+          "name": "Payment Approval Process",
+          "position": {
+            "x": 1180,
+            "y": 560
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
+          "description": "Approval workflow that authorizes payment release once lien waivers and compliance items are confirmed."
+        }
       ],
       "connections": [
-        { "source": "prime-contracts",      "target": "budget",                "direction": "to",   "description": "Prime Contract value seeds Budget revenue." },
-        { "source": "commitments",          "target": "budget",                "direction": "to",   "description": "Commitment values populate the Committed Cost column of the Budget." },
-        { "source": "direct-costs",         "target": "budget",                "direction": "to",   "description": "Direct Costs post against budget line items as Actual Cost." },
-        { "source": "change-events-orders", "target": "budget",                "direction": "both", "description": "Change Events drive the Revised Budget; approved Change Orders update it." },
-
-        { "source": "change-events-orders", "target": "prime-contracts",      "direction": "to",   "description": "Approved Prime Contract Change Orders (PCCO) modify the Prime Contract value." },
-        { "source": "change-events-orders", "target": "commitments",          "direction": "to",   "description": "Approved Commitment Change Orders (CCO) modify the Commitment value." },
-
-        { "source": "prime-contracts",      "target": "invoicing",            "direction": "to",   "description": "Owner Invoices bill against the Prime Contract SOV (managed in Invoicing)." },
-        { "source": "commitments",          "target": "invoicing",            "direction": "to",   "description": "Subcontractor Invoices bill against the Commitment SOV (managed in Invoicing)." },
-
-        { "source": "budget",               "target": "reports",              "direction": "both", "description": "Reports surface Budget, cost, and contract data." },
-        { "source": "budget",               "target": "analytics-setup",      "direction": "both", "description": "Analytics dashboards surface financial-tool data." },
-
-        { "source": "cost-catalog",         "target": "estimating",           "direction": "to",   "description": "Cost Catalog items feed unit costs into Estimates." },
-        { "source": "takeoff",              "target": "estimating",           "direction": "to",   "description": "Takeoffs feed quantities into Estimates." },
-        { "source": "estimating",           "target": "budget",               "direction": "to",   "description": "Estimates promote to Budget." },
-        { "source": "bid-board",            "target": "commitments",          "direction": "to",   "description": "Awarded bids become Commitments." },
-
-        { "source": "lien-waivers",         "target": "payment-approval",     "direction": "to",   "description": "Lien waivers and compliance items gate the payment approval workflow." },
-        { "source": "payment-management",   "target": "payment-approval",     "direction": "to",   "description": "Payments route through the approval workflow." },
-        { "source": "payment-approval",     "target": "invoicing",            "direction": "to",   "description": "Approved payments flow back into Invoicing." }
+        {
+          "source": "prime-contracts",
+          "target": "budget",
+          "direction": "to",
+          "description": "Prime Contract value seeds Budget revenue.",
+          "verbForward": "establishes revenue in",
+          "verbReverse": "receives revenue from"
+        },
+        {
+          "source": "commitments",
+          "target": "budget",
+          "direction": "to",
+          "description": "Commitment values populate the Committed Cost column of the Budget.",
+          "verbForward": "populates committed cost in",
+          "verbReverse": "receives committed cost from"
+        },
+        {
+          "source": "direct-costs",
+          "target": "budget",
+          "direction": "to",
+          "description": "Direct Costs post against budget line items as Actual Cost.",
+          "verbForward": "posts actuals to",
+          "verbReverse": "receives data from"
+        },
+        {
+          "source": "change-events-orders",
+          "target": "budget",
+          "direction": "both",
+          "description": "Change Events drive the Revised Budget; approved Change Orders update it.",
+          "verbForward": "syncs forecasts with",
+          "verbReverse": "syncs forecasts with"
+        },
+        {
+          "source": "change-events-orders",
+          "target": "prime-contracts",
+          "direction": "to",
+          "description": "Approved Prime Contract Change Orders (PCCO) modify the Prime Contract value.",
+          "verbForward": "modifies",
+          "verbReverse": "is modified by"
+        },
+        {
+          "source": "change-events-orders",
+          "target": "commitments",
+          "direction": "to",
+          "description": "Approved Commitment Change Orders (CCO) modify the Commitment value.",
+          "verbForward": "modifies",
+          "verbReverse": "is modified by"
+        },
+        {
+          "source": "prime-contracts",
+          "target": "invoicing",
+          "direction": "to",
+          "description": "Owner Invoices bill against the Prime Contract SOV (managed in Invoicing).",
+          "verbForward": "drives owner billings in",
+          "verbReverse": "generates owner billings against"
+        },
+        {
+          "source": "commitments",
+          "target": "invoicing",
+          "direction": "to",
+          "description": "Subcontractor Invoices bill against the Commitment SOV (managed in Invoicing).",
+          "verbForward": "drives sub billings in",
+          "verbReverse": "generates sub billings against"
+        },
+        {
+          "source": "budget",
+          "target": "reports",
+          "direction": "both",
+          "description": "Reports surface Budget, cost, and contract data.",
+          "verbForward": "feeds data into",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "budget",
+          "target": "analytics-setup",
+          "direction": "both",
+          "description": "Analytics dashboards surface financial-tool data.",
+          "verbForward": "feeds dashboards in",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "cost-catalog",
+          "target": "estimating",
+          "direction": "to",
+          "description": "Cost Catalog items feed unit costs into Estimates.",
+          "verbForward": "provides unit costs to",
+          "verbReverse": "draws unit costs from"
+        },
+        {
+          "source": "takeoff",
+          "target": "estimating",
+          "direction": "to",
+          "description": "Takeoffs feed quantities into Estimates.",
+          "verbForward": "provides quantities to",
+          "verbReverse": "draws quantities from"
+        },
+        {
+          "source": "estimating",
+          "target": "budget",
+          "direction": "to",
+          "description": "Estimates promote to Budget.",
+          "verbForward": "creates",
+          "verbReverse": "is created by"
+        },
+        {
+          "source": "bid-board",
+          "target": "commitments",
+          "direction": "to",
+          "description": "Awarded bids become Commitments.",
+          "verbForward": "promotes awards into",
+          "verbReverse": "originates from"
+        },
+        {
+          "source": "lien-waivers",
+          "target": "payment-approval",
+          "direction": "to",
+          "description": "Lien waivers and compliance items gate the payment approval workflow.",
+          "verbForward": "gates",
+          "verbReverse": "is gated by"
+        },
+        {
+          "source": "payment-management",
+          "target": "payment-approval",
+          "direction": "to",
+          "description": "Payments route through the approval workflow.",
+          "verbForward": "routes payments through",
+          "verbReverse": "reviews payments from"
+        },
+        {
+          "source": "payment-approval",
+          "target": "invoicing",
+          "direction": "to",
+          "description": "Approved payments flow back into Invoicing.",
+          "verbForward": "releases approvals into",
+          "verbReverse": "receives approvals from"
+        }
       ],
       "tiers": [
         {
           "key": "cm-standard",
           "name": "Cost Management",
           "shortName": "Standard",
-          "toolIds": ["prime-contracts", "commitments", "budget", "direct-costs", "change-events-orders", "invoicing", "reports"],
+          "toolIds": [
+            "prime-contracts",
+            "commitments",
+            "budget",
+            "direct-costs",
+            "change-events-orders",
+            "invoicing",
+            "reports"
+          ],
           "scope": [
             "Project Coordination Services",
             "Account Configuration",
@@ -78,26 +353,58 @@
           ],
           "hours": 32,
           "duration": "8 weeks",
-          "pricing": { "comm": 8000, "smb": 6400 },
+          "pricing": {
+            "comm": 8000,
+            "smb": 6400
+          },
           "color": "#FF5200",
           "fieldsets": true,
           "keyConfigs": [
-            { "setting": "Auto-calculate Forecast to Complete", "default": "On", "note": "Assumes the full budget line item will be spent unless a manual or lump-sum forecast is entered." },
-            { "setting": "Require net-zero Budget Change amounts", "default": "On", "note": "Forces internal budget changes to balance to zero." },
-            { "setting": "ERP budget settings", "default": "Per ERP", "note": "Confirm how transaction detail and billed rate accumulate from the connected ERP." }
+            {
+              "setting": "Auto-calculate Forecast to Complete",
+              "default": "On",
+              "note": "Assumes the full budget line item will be spent unless a manual or lump-sum forecast is entered."
+            },
+            {
+              "setting": "Require net-zero Budget Change amounts",
+              "default": "On",
+              "note": "Forces internal budget changes to balance to zero."
+            },
+            {
+              "setting": "ERP budget settings",
+              "default": "Per ERP",
+              "note": "Confirm how transaction detail and billed rate accumulate from the connected ERP."
+            }
           ],
           "permissions": {
             "readOnly": "View the budget, cost tools, and reports. Cannot edit budgets, lock budgets, or approve changes.",
             "standard": "Create and edit cost-tool items where permitted. Cannot lock the budget or change tool settings.",
             "admin": "Full control — manage budgets, contracts, commitments, change orders, invoicing, and configure tool settings."
           },
-          "procorePermissionOptions": ["Standard", "Admin", "None"]
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
         },
         {
           "key": "cm-enterprise",
           "name": "Cost Management Enterprise",
           "shortName": "Enterprise",
-          "toolIds": ["prime-contracts", "commitments", "budget", "direct-costs", "change-events-orders", "invoicing", "reports", "cost-catalog", "bid-board", "takeoff", "estimating", "analytics-setup"],
+          "toolIds": [
+            "prime-contracts",
+            "commitments",
+            "budget",
+            "direct-costs",
+            "change-events-orders",
+            "invoicing",
+            "reports",
+            "cost-catalog",
+            "bid-board",
+            "takeoff",
+            "estimating",
+            "analytics-setup"
+          ],
           "scope": [
             "Project Coordination Services",
             "Account Configuration",
@@ -115,26 +422,45 @@
           ],
           "hours": 52,
           "duration": "12 weeks",
-          "pricing": { "comm": 13000, "smb": 8800 },
+          "pricing": {
+            "comm": 13000,
+            "smb": 8800
+          },
           "color": "#566578",
           "fieldsets": true,
           "keyConfigs": [
-            { "setting": "Analytics dashboards", "default": "Enable defaults", "note": "Standard financial dashboards turned on; custom dashboards added on request." },
-            { "setting": "Cost Catalog standardization", "default": "Adopt company defaults", "note": "Adopt a standard Cost Catalog so estimates roll cleanly into Budgets." }
+            {
+              "setting": "Analytics dashboards",
+              "default": "Enable defaults",
+              "note": "Standard financial dashboards turned on; custom dashboards added on request."
+            },
+            {
+              "setting": "Cost Catalog standardization",
+              "default": "Adopt company defaults",
+              "note": "Adopt a standard Cost Catalog so estimates roll cleanly into Budgets."
+            }
           ],
           "permissions": {
             "readOnly": "Standard view, plus view of Estimating, Cost Catalog, Bid Board, and Analytics dashboards.",
             "standard": "Standard rights plus create/edit estimates, bids, and takeoffs.",
             "admin": "Full Enterprise control — including Analytics, Estimating, Bid Board, Cost Catalog, and Takeoff configuration."
           },
-          "procorePermissionOptions": ["Standard", "Admin", "None"]
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
         },
         {
           "key": "payments-sow",
           "name": "Payments (SOW only)",
           "shortName": "Payments",
           "note": "SOW-only engagement — not a productized PS package, but bundled here for reference.",
-          "toolIds": ["lien-waivers", "payment-management", "payment-approval"],
+          "toolIds": [
+            "lien-waivers",
+            "payment-management",
+            "payment-approval"
+          ],
           "scope": [
             "Project Management Services",
             "Account Configuration Overview",
@@ -151,7 +477,10 @@
           ],
           "hours": 40,
           "duration": "12 weeks",
-          "pricing": { "comm": 10000, "smb": 8000 },
+          "pricing": {
+            "comm": 10000,
+            "smb": 8000
+          },
           "color": "#000000",
           "fieldsets": false,
           "permissions": {
@@ -159,7 +488,11 @@
             "standard": "Create and edit payments and waivers where permitted; route to approvers.",
             "admin": "Full Payments control — including approval routing and compliance configuration."
           },
-          "procorePermissionOptions": ["Standard", "Admin", "None"]
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
         }
       ]
     }

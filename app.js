@@ -858,6 +858,7 @@
 
   let activeVertical = "gc"; // default vertical: General Contractor
   let activePackage = null;
+  let selectedPackageToolId = null; // which tool's details are shown in the side panel
   const activeTierKeys = new Set();
 
   function verticalsList() {
@@ -1071,8 +1072,18 @@
       return { x1: sx + ux * NODE_R, y1: sy + uy * NODE_R, x2: tx - ux * NODE_R, y2: ty - uy * NODE_R };
     }
 
+    // Selection bookkeeping: when a tool is selected, its neighbor set stays
+    // bright while everything else fades, mirroring the ERP map's highlight.
+    const neighborIds = new Set();
+    if (selectedPackageToolId) {
+      neighborIds.add(selectedPackageToolId);
+      (activePackage.connections || []).forEach((c) => {
+        if (c.source === selectedPackageToolId) neighborIds.add(c.target);
+        if (c.target === selectedPackageToolId) neighborIds.add(c.source);
+      });
+    }
+
     // Draw connection lines below the nodes.
-    const linkLayer = document.createElementNS(svgNS, "g");
     (activePackage.connections || []).forEach((conn) => {
       const ep = endpoints(conn.source, conn.target);
       if (!ep) return;
@@ -1082,20 +1093,29 @@
       line.setAttribute("x2", ep.x2);
       line.setAttribute("y2", ep.y2);
       line.setAttribute("class", "pkg-link dir-" + (conn.direction || "to"));
-      // Dim the line if either endpoint isn't in the active tier(s).
+      // Dim if either endpoint isn't in the active tier(s).
       if (!isActive(conn.source) || !isActive(conn.target)) {
         line.classList.add("dimmed");
       }
+      if (selectedPackageToolId) {
+        const touchesSel = conn.source === selectedPackageToolId || conn.target === selectedPackageToolId;
+        if (touchesSel) line.classList.add("highlighted");
+        else line.classList.add("faded");
+      }
       svg.appendChild(line);
     });
-    svg.appendChild(linkLayer);
 
     // Draw nodes on top.
     activePackage.tools.forEach((tool) => {
       if (!tool.position) return;
       const g = document.createElementNS(svgNS, "g");
       g.setAttribute("transform", "translate(" + tool.position.x + "," + tool.position.y + ")");
-      g.setAttribute("class", "pkg-node" + (isActive(tool.id) ? "" : " inactive"));
+      let cls = "pkg-node" + (isActive(tool.id) ? "" : " inactive");
+      if (selectedPackageToolId) {
+        if (tool.id === selectedPackageToolId) cls += " selected";
+        else if (!neighborIds.has(tool.id)) cls += " faded";
+      }
+      g.setAttribute("class", cls);
       const tier = primaryTierFor(tool.id);
       const fill = tier ? (tier.color || "#000") : "#999";
       const poly = document.createElementNS(svgNS, "polygon");
@@ -1118,14 +1138,158 @@
         sub.textContent = tool.constraint;
         g.appendChild(sub);
       }
+      g.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        selectPackageTool(tool.id);
+      });
       svg.appendChild(g);
     });
+
+    // Click on empty SVG background -> deselect.
+    svg.addEventListener("click", () => selectPackageTool(null));
 
     packagesGraphEl.appendChild(svg);
   }
 
+  function selectPackageTool(id) {
+    selectedPackageToolId = id;
+    renderPackagesGraph();
+    renderPackagesDetails();
+  }
+
+  // Default verbs when a connection doesn't supply its own — keeps the
+  // relationship readable even before someone curates the wording.
+  function defaultVerb(direction, isReverse) {
+    if (direction === "both") return "syncs with";
+    if (direction === "from") return isReverse ? "pushes data to" : "receives data from";
+    // direction === "to"
+    return isReverse ? "receives data from" : "pushes data to";
+  }
+
+  function renderPackagesToolDetail(toolId) {
+    const tool = packageToolById(toolId);
+    if (!tool) return;
+
+    const cont = packagesDetailsEl;
+    const wrap = document.createElement("section");
+    wrap.className = "pkg-tool-detail";
+
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "pkg-tool-back";
+    back.textContent = "← Back to package overview";
+    back.addEventListener("click", () => selectPackageTool(null));
+    wrap.appendChild(back);
+
+    const h = document.createElement("h2");
+    h.className = "pkg-tool-title";
+    h.textContent = toolNameFor(tool);
+    wrap.appendChild(h);
+
+    // tier badges that include this tool
+    const includingTiers = activePackage.tiers.filter((t) => (t.toolIds || []).includes(tool.id));
+    if (includingTiers.length) {
+      const tiers = document.createElement("div");
+      tiers.className = "pkg-tool-tiers";
+      includingTiers.forEach((tier) => {
+        const b = document.createElement("span");
+        b.className = "tier-badge";
+        b.style.background = tier.color || "#000";
+        b.textContent = tier.shortName || tier.name;
+        tiers.appendChild(b);
+      });
+      wrap.appendChild(tiers);
+    }
+
+    if (tool.description) {
+      const p = document.createElement("p");
+      p.className = "pkg-tool-desc";
+      p.textContent = tool.description;
+      wrap.appendChild(p);
+    }
+    if (tool.supportUrl) {
+      const a = document.createElement("a");
+      a.className = "pkg-tool-link";
+      a.href = tool.supportUrl;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Open support documentation →";
+      wrap.appendChild(a);
+    }
+    cont.appendChild(wrap);
+
+    // Group every connection touching this tool by the verb from THIS
+    // tool's perspective. e.g. Budget "receives data from" Direct Cost,
+    // Budget "is created by" Estimating, Budget "syncs with" Reports.
+    const groups = new Map(); // verb -> [{other, conn, arrow}]
+    (activePackage.connections || []).forEach((c) => {
+      if (c.source !== tool.id && c.target !== tool.id) return;
+      const isSource = c.source === tool.id;
+      const other = isSource ? c.target : c.source;
+      let verb;
+      let arrow;
+      if (c.direction === "both") {
+        verb = c.verbForward || c.verbReverse || defaultVerb("both");
+        arrow = "↔";
+      } else if (isSource) {
+        verb = c.verbForward || defaultVerb(c.direction, false);
+        arrow = c.direction === "to" ? "→" : "←";
+      } else {
+        verb = c.verbReverse || defaultVerb(c.direction, true);
+        arrow = c.direction === "to" ? "←" : "→";
+      }
+      if (!groups.has(verb)) groups.set(verb, []);
+      groups.get(verb).push({ other, conn: c, arrow });
+    });
+
+    // Render each verb group as its own section.
+    groups.forEach((items, verb) => {
+      const sec = document.createElement("section");
+      sec.className = "pkg-rel-section";
+      const head = document.createElement("h4");
+      head.textContent = verb.charAt(0).toUpperCase() + verb.slice(1);
+      sec.appendChild(head);
+      const ul = document.createElement("ul");
+      ul.className = "pkg-rel-list";
+      items.forEach(({ other, conn, arrow }) => {
+        const otherTool = packageToolById(other);
+        const otherLabel = otherTool ? toolNameFor(otherTool) : other;
+        const li = document.createElement("li");
+        li.className = "pkg-rel-card";
+        const headEl = document.createElement("div");
+        headEl.className = "pkg-rel-card-head";
+        const arr = document.createElement("span");
+        arr.className = "pkg-rel-arrow";
+        arr.textContent = arrow;
+        headEl.appendChild(arr);
+        const lbl = document.createElement("span");
+        lbl.textContent = otherLabel;
+        headEl.appendChild(lbl);
+        li.appendChild(headEl);
+        if (conn.description) {
+          const desc = document.createElement("p");
+          desc.className = "pkg-rel-desc";
+          desc.textContent = conn.description;
+          li.appendChild(desc);
+        }
+        li.addEventListener("click", () => selectPackageTool(other));
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      cont.appendChild(sec);
+    });
+  }
+
   function renderPackagesDetails() {
     packagesDetailsEl.innerHTML = "";
+
+    // If a tool is selected, render its details + relationships instead of
+    // the tier overview. A "Back" affordance returns to the tier view.
+    if (selectedPackageToolId) {
+      renderPackagesToolDetail(selectedPackageToolId);
+      return;
+    }
+
     const tiers = selectedTiers();
     if (!tiers.length) {
       packagesDetailsEl.innerHTML = "<p class='packages-empty'>Select a tier above.</p>";
