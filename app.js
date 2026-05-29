@@ -82,6 +82,11 @@
     .then((r) => (r.ok ? r.json() : { packages: [] }))
     .catch(() => ({ packages: [] }));
 
+  // Procore Tool Connectivity Map data (financial-tool flows etc).
+  const toolMapData = await fetch("tool-connections.json")
+    .then((r) => (r.ok ? r.json() : { tools: [], connections: [], suites: [] }))
+    .catch(() => ({ tools: [], connections: [], suites: [] }));
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -839,8 +844,10 @@
   // Mode toggle: ERP Connector Map  vs  PNPT Package Builder
   // ---------------------------------------------------------------------
   const modeErpBtn = document.getElementById("mode-erp");
+  const modeToolmapBtn = document.getElementById("mode-toolmap");
   const modePackagesBtn = document.getElementById("mode-packages");
   const packagesView = document.getElementById("packages-view");
+  const toolmapView = document.getElementById("toolmap-view");
   const packagesTierToggle = document.getElementById("packages-tier-toggle");
   const packagesToolsEl = document.getElementById("packages-tools");
   const packagesDetailsEl = document.getElementById("packages-details");
@@ -894,21 +901,26 @@
   refreshActivePackageForVertical();
 
   function setMode(mode) {
+    if (mode !== "packages" && mode !== "toolmap") mode = "erp";
     const isPackages = mode === "packages";
-    erpOnlyEls.forEach((el) => { if (el) el.hidden = isPackages; });
-    if (packagesView) packagesView.hidden = !isPackages;
+    const isToolmap = mode === "toolmap";
+    const isErp = mode === "erp";
 
-    // Hide source toggle / SOP button in package mode (they're ERP-specific).
+    erpOnlyEls.forEach((el) => { if (el) el.hidden = !isErp; });
+    if (packagesView) packagesView.hidden = !isPackages;
+    if (toolmapView) toolmapView.hidden = !isToolmap;
+
+    // SOP button only in ERP mode.
     const sopTopBtn = document.getElementById("sop-open-top");
-    if (sopTopBtn && !isPackages && sopTemplates) {
-      sopTopBtn.hidden = false;
-    } else if (sopTopBtn) {
-      sopTopBtn.hidden = isPackages;
-    }
+    if (sopTopBtn) sopTopBtn.hidden = !isErp || !sopTemplates;
 
     if (modeErpBtn) {
-      modeErpBtn.classList.toggle("is-active", !isPackages);
-      modeErpBtn.setAttribute("aria-pressed", String(!isPackages));
+      modeErpBtn.classList.toggle("is-active", isErp);
+      modeErpBtn.setAttribute("aria-pressed", String(isErp));
+    }
+    if (modeToolmapBtn) {
+      modeToolmapBtn.classList.toggle("is-active", isToolmap);
+      modeToolmapBtn.setAttribute("aria-pressed", String(isToolmap));
     }
     if (modePackagesBtn) {
       modePackagesBtn.classList.toggle("is-active", isPackages);
@@ -922,6 +934,12 @@
       if (headerSubtitleEl) headerSubtitleEl.textContent =
         "Pick one or more tiers to see which tools you get in each, and how the tiers differ.";
       if (activePackage) renderPackagesView();
+    } else if (isToolmap) {
+      if (headerEyebrowEl) headerEyebrowEl.textContent = "Tool Architecture";
+      if (headerTitleEl) headerTitleEl.textContent = "Procore Tool Map";
+      if (headerSubtitleEl) headerSubtitleEl.textContent =
+        "How Procore's tools connect and the direction information flows between them. Click a tool to see its incoming and outgoing connections; drag to rearrange.";
+      renderToolMapOnce();
     } else {
       if (headerEyebrowEl) headerEyebrowEl.textContent = "ERP Integrations";
       if (headerTitleEl) headerTitleEl.textContent = "ERP Connector Map";
@@ -931,7 +949,163 @@
   }
 
   if (modeErpBtn) modeErpBtn.addEventListener("click", () => setMode("erp"));
+  if (modeToolmapBtn) modeToolmapBtn.addEventListener("click", () => setMode("toolmap"));
   if (modePackagesBtn) modePackagesBtn.addEventListener("click", () => setMode("packages"));
+
+  // ---------- Tool Map view rendering (D3 force-directed) ----------
+  let toolMapRendered = false;
+  function renderToolMapOnce() {
+    if (toolMapRendered) return;
+    toolMapRendered = true;
+    renderToolMap();
+  }
+
+  function renderToolMap() {
+    const cont = document.getElementById("toolmap-graph");
+    if (!cont || !toolMapData.tools || !toolMapData.tools.length) return;
+    const w = cont.clientWidth || 800;
+    const h = cont.clientHeight || 640;
+
+    const suiteColor = {};
+    (toolMapData.suites || []).forEach((s) => (suiteColor[s.key] = s.color));
+
+    // Clone the data so D3 mutations don't pollute the source object.
+    const tmNodes = toolMapData.tools.map((t) => ({ ...t }));
+    const tmLinks = toolMapData.connections.map((l) => ({ ...l }));
+
+    const svg = d3.select(cont).append("svg")
+      .attr("viewBox", [0, 0, w, h])
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    const layer = svg.append("g");
+
+    const sim = d3.forceSimulation(tmNodes)
+      .force("link", d3.forceLink(tmLinks).id((d) => d.id).distance(140).strength(0.6))
+      .force("charge", d3.forceManyBody().strength(-560))
+      .force("center", d3.forceCenter(w / 2, h / 2))
+      .force("collide", d3.forceCollide().radius(46));
+
+    // Anchor a "center" tool (Budget) to the middle so the layout reads naturally.
+    tmNodes.forEach((n) => {
+      if (n.anchor === "center") {
+        n.fx = w / 2;
+        n.fy = h / 2;
+      }
+    });
+
+    const link = layer.append("g").selectAll("path")
+      .data(tmLinks).join("path")
+      .attr("class", (d) => "toolmap-link dir-" + d.direction)
+      .attr("marker-end", null);
+
+    const nodeG = layer.append("g").selectAll("g")
+      .data(tmNodes).join("g")
+      .attr("class", "toolmap-node")
+      .style("cursor", "pointer")
+      .on("click", (event, d) => {
+        event.stopPropagation();
+        selectTool(d.id);
+      })
+      .call(d3.drag()
+        .on("start", (event, d) => {
+          if (!event.active) sim.alphaTarget(0.3).restart();
+          d.fx = d.x; d.fy = d.y;
+        })
+        .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+        .on("end", (event, d) => {
+          if (!event.active) sim.alphaTarget(0);
+          if (d.anchor !== "center") { d.fx = null; d.fy = null; }
+        }));
+
+    nodeG.append("polygon")
+      .attr("points", hexPoints(26))
+      .attr("fill", (d) => suiteColor[d.suite] || "#000");
+
+    nodeG.append("text")
+      .attr("y", 44)
+      .text((d) => d.label);
+
+    sim.on("tick", () => {
+      link.attr("d", (d) => {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dr = Math.sqrt(dx * dx + dy * dy) * 1.6;
+        return `M${d.source.x},${d.source.y} A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+      });
+      nodeG.attr("transform", (d) => `translate(${d.x},${d.y})`);
+    });
+
+    svg.on("click", () => deselectTool());
+
+    const detailsEl = document.getElementById("toolmap-details");
+    const emptyEl = detailsEl.querySelector(".toolmap-details-empty");
+    const contentEl = document.getElementById("toolmap-details-content");
+
+    function selectTool(id) {
+      const tool = toolMapData.tools.find((t) => t.id === id);
+      if (!tool) return;
+      const neighborIds = new Set([id]);
+      toolMapData.connections.forEach((l) => {
+        if (l.source === id || (l.source.id && l.source.id === id)) neighborIds.add(l.target.id || l.target);
+        if (l.target === id || (l.target.id && l.target.id === id)) neighborIds.add(l.source.id || l.source);
+      });
+      nodeG.classed("selected", (d) => d.id === id)
+        .classed("dimmed", (d) => !neighborIds.has(d.id));
+      link.classed("highlighted", (d) => d.source.id === id || d.target.id === id)
+        .classed("dimmed", (d) => d.source.id !== id && d.target.id !== id);
+
+      // side panel
+      emptyEl.hidden = true;
+      contentEl.hidden = false;
+      const outgoing = [];
+      const incoming = [];
+      const bothways = [];
+      toolMapData.connections.forEach((l) => {
+        const srcId = l.source.id || l.source;
+        const tgtId = l.target.id || l.target;
+        if (srcId === id) {
+          if (l.direction === "both") bothways.push({ other: tgtId, conn: l });
+          else if (l.direction === "to") outgoing.push({ other: tgtId, conn: l });
+          else if (l.direction === "from") incoming.push({ other: tgtId, conn: l });
+        } else if (tgtId === id) {
+          if (l.direction === "both") bothways.push({ other: srcId, conn: l });
+          else if (l.direction === "to") incoming.push({ other: srcId, conn: l });
+          else if (l.direction === "from") outgoing.push({ other: srcId, conn: l });
+        }
+      });
+
+      function toolLabel(tid) {
+        const t = toolMapData.tools.find((x) => x.id === tid);
+        return t ? t.label : tid;
+      }
+      const suite = (toolMapData.suites || []).find((s) => s.key === tool.suite);
+      const html = [];
+      html.push("<h2 class='toolmap-tool-title'>" + escapeHtml(tool.label) + "</h2>");
+      if (suite) html.push("<span class='toolmap-tool-suite'>" + escapeHtml(suite.name) + "</span>");
+      if (tool.description) html.push("<p class='toolmap-tool-desc'>" + escapeHtml(tool.description) + "</p>");
+      if (tool.supportUrl) html.push("<a class='toolmap-tool-link' href='" + escapeHtml(tool.supportUrl) + "' target='_blank' rel='noopener'>Open support documentation →</a>");
+      function section(title, list, arrow) {
+        if (!list.length) return;
+        html.push("<section class='toolmap-conn-section'><h3>" + title + " (" + list.length + ")</h3><ul class='toolmap-conn-list'>");
+        list.forEach((entry) => {
+          html.push("<li class='toolmap-conn-card'><div class='toolmap-conn-card-head'><span class='toolmap-conn-arrow'>" + arrow + "</span>" + escapeHtml(toolLabel(entry.other)) + "</div><p class='toolmap-conn-desc'>" + escapeHtml(entry.conn.description || "") + "</p></li>");
+        });
+        html.push("</ul></section>");
+      }
+      section("Pushes data to", outgoing, "→");
+      section("Receives data from", incoming, "←");
+      section("Bidirectional", bothways, "↔");
+      contentEl.innerHTML = html.join("");
+    }
+
+    function deselectTool() {
+      nodeG.classed("selected", false).classed("dimmed", false);
+      link.classed("highlighted", false).classed("dimmed", false);
+      emptyEl.hidden = false;
+      contentEl.hidden = true;
+      contentEl.innerHTML = "";
+    }
+  }
 
   // ---------- Packages view rendering ----------
   function renderPackagesView() {

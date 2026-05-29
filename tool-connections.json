@@ -1,0 +1,56 @@
+{
+  "_comment": "Procore Tool Connectivity Map data. Phase 1 = Financial Management suite (Budget, Commitments, Change Events, Change Orders, Direct Costs, Prime Contracts, Invoicing/Owner/Sub Invoices, T&M Tickets, ERP). Append tools + connections from Preconstruction and Field suites as you expand. Tool URLs come from the support-link registry. Connections describe the canonical flow of information between tools; direction is from the SOURCE tool's perspective: 'to' = source pushes data into target, 'from' = source receives data from target, 'both' = bidirectional. type is informational only ('data-flow' | 'reference' | 'derived' | 'sync' | 'admin').",
+  "suites": [
+    { "key": "financial",       "name": "Financial Management", "color": "#FF5200" },
+    { "key": "preconstruction", "name": "Preconstruction",      "color": "#566578" },
+    { "key": "field",           "name": "Field & Execution",    "color": "#000000" },
+    { "key": "integration",     "name": "Integrations",         "color": "#CEC4A1" }
+  ],
+  "tools": [
+    { "id": "budget",              "label": "Budget",                "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",         "description": "Real-time comparison of the project budget against committed cost, direct costs, and forecasted impacts. Acts as the financial hub for the project.", "anchor": "center" },
+    { "id": "prime-contracts",     "label": "Prime Contracts",       "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project","description": "Upstream owner contract and its schedule of values. Source of project revenue value." },
+    { "id": "commitments",         "label": "Commitments",           "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",    "description": "Downstream subcontracts and purchase orders. Source of committed cost on the project." },
+    { "id": "change-events",       "label": "Change Events",         "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",  "description": "Tracks potential scope and cost impact before it becomes a formal change order." },
+    { "id": "change-orders",       "label": "Change Orders",         "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/change-orders-project",  "description": "Formal changes: Prime Contract Change Orders (PCCO) modify the prime contract; Commitment Change Orders (CCO) modify subcontracts." },
+    { "id": "direct-costs",        "label": "Direct Costs",          "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",   "description": "Costs not tied to a commitment — labor, expenses, general conditions, AP invoices." },
+    { "id": "invoicing",           "label": "Invoicing",             "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",      "description": "Manages both upstream (owner) and downstream (subcontractor) progress billings against contracts." },
+    { "id": "owner-invoices",      "label": "Owner Invoices",        "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",      "description": "Progress billings the GC sends upstream to the owner against the Prime Contract SOV." },
+    { "id": "sub-invoices",        "label": "Subcontractor Invoices","suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",      "description": "Progress billings subcontractors send for approval against their commitment SOV." },
+    { "id": "subcontractor-sov",   "label": "Subcontractor SOV",     "suite": "financial",   "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",    "description": "Sub-level schedule of values; lives inside a Commitment and drives Subcontractor Invoices." },
+    { "id": "tm-tickets",          "label": "T&M Tickets",           "suite": "field",       "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project",     "description": "Time and material tickets for extra work; signed in the field and converted into billable cost." },
+    { "id": "erp-integrations",    "label": "ERP Integrations",      "suite": "integration", "supportUrl": "https://v2.support.procore.com/product-manuals/erp-integrations",        "description": "External accounting/ERP sync (Sage, Vista, QBD/O, Sage Intacct, Foundation, etc.). Pushes and pulls financial records." }
+  ],
+  "connections": [
+    { "source": "prime-contracts",  "target": "budget",         "direction": "to",   "type": "data-flow", "description": "Prime Contract value seeds Revenue on the Budget." },
+    { "source": "commitments",      "target": "budget",         "direction": "to",   "type": "data-flow", "description": "Commitment values populate the Committed Cost column of the Budget." },
+    { "source": "direct-costs",     "target": "budget",         "direction": "to",   "type": "data-flow", "description": "Direct Costs post against budget line items as Actual Cost." },
+    { "source": "change-events",    "target": "budget",         "direction": "to",   "type": "data-flow", "description": "Change Events drive the Revised Budget and forecasted cost-to-complete (Pending / Approved CE columns)." },
+
+    { "source": "change-events",    "target": "change-orders",  "direction": "to",   "type": "derived",   "description": "Change Events convert into Potential Change Orders (PCO) and Commitment Change Orders (CCO) when scope is finalized." },
+    { "source": "change-events",    "target": "commitments",    "direction": "to",   "type": "derived",   "description": "A Change Event line item creates a Commitment Change Order against the affected subcontract." },
+    { "source": "change-orders",    "target": "prime-contracts","direction": "to",   "type": "data-flow", "description": "Approved Prime Contract Change Orders (PCCO) modify the Prime Contract value." },
+    { "source": "change-orders",    "target": "commitments",    "direction": "to",   "type": "data-flow", "description": "Approved Commitment Change Orders (CCO) modify the Commitment value." },
+
+    { "source": "prime-contracts",  "target": "owner-invoices", "direction": "to",   "type": "data-flow", "description": "Owner Invoices bill against the Prime Contract's Schedule of Values (Prime SOV)." },
+    { "source": "commitments",      "target": "sub-invoices",   "direction": "to",   "type": "data-flow", "description": "Subcontractor Invoices bill against the Commitment SOV." },
+    { "source": "commitments",      "target": "subcontractor-sov","direction": "to", "type": "reference", "description": "Subcontractor SOV (SSOV) is configured inside the Commitment record." },
+    { "source": "subcontractor-sov","target": "sub-invoices",   "direction": "to",   "type": "data-flow", "description": "Sub Invoices draw on the Subcontractor SOV line items for billing." },
+
+    { "source": "owner-invoices",   "target": "invoicing",      "direction": "both", "type": "reference", "description": "Owner Invoices live inside the Invoicing tool." },
+    { "source": "sub-invoices",     "target": "invoicing",      "direction": "both", "type": "reference", "description": "Subcontractor Invoices live inside the Invoicing tool." },
+
+    { "source": "sub-invoices",     "target": "budget",         "direction": "to",   "type": "data-flow", "description": "Approved Subcontractor Invoices post a Direct Cost or actual against the budget commitment line." },
+    { "source": "owner-invoices",   "target": "prime-contracts","direction": "from", "type": "data-flow", "description": "Owner billings are tracked against the Prime Contract's billed-to-date." },
+
+    { "source": "tm-tickets",       "target": "direct-costs",   "direction": "to",   "type": "data-flow", "description": "Signed T&M Tickets become Direct Cost line items." },
+    { "source": "tm-tickets",       "target": "sub-invoices",   "direction": "to",   "type": "data-flow", "description": "T&M Tickets attached to a commitment can flow through as a Sub Invoice line." },
+
+    { "source": "erp-integrations", "target": "budget",         "direction": "both", "type": "sync",      "description": "Budget data syncs to/from the connected ERP (depending on the ERP)." },
+    { "source": "erp-integrations", "target": "commitments",    "direction": "both", "type": "sync",      "description": "Commitments sync to/from the connected ERP." },
+    { "source": "erp-integrations", "target": "prime-contracts","direction": "both", "type": "sync",      "description": "Prime Contracts sync to/from the connected ERP." },
+    { "source": "erp-integrations", "target": "change-orders",  "direction": "both", "type": "sync",      "description": "Change Orders (Prime + Commitment) sync to/from the connected ERP." },
+    { "source": "erp-integrations", "target": "direct-costs",   "direction": "both", "type": "sync",      "description": "Direct Costs sync to/from the connected ERP." },
+    { "source": "erp-integrations", "target": "owner-invoices", "direction": "both", "type": "sync",      "description": "Owner Invoices sync to/from the connected ERP." },
+    { "source": "erp-integrations", "target": "sub-invoices",   "direction": "both", "type": "sync",      "description": "Subcontractor Invoices sync to/from the connected ERP." }
+  ]
+}

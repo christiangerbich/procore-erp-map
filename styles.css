@@ -24,6 +24,143 @@
 .src-hidden { display: none; }
 
 /* ---------------------------------------------------------------------
+ * Procore Tool Connectivity Map view
+ * --------------------------------------------------------------------- */
+.toolmap-view {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  min-height: 0;
+  overflow: hidden;
+}
+.toolmap-graph {
+  position: relative;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  overflow: hidden;
+  min-height: 640px;
+}
+.toolmap-graph svg { width: 100%; height: 100%; display: block; }
+.toolmap-details {
+  padding: 24px 22px 32px;
+  overflow-y: auto;
+  background: var(--color-surface);
+}
+.toolmap-details-empty h2 {
+  margin: 0 0 8px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+.toolmap-details-empty p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin: 0 0 14px;
+}
+.toolmap-suite-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 12px;
+  color: var(--color-text);
+}
+.toolmap-suite-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* Tool-map node + link styling (mirrors the ERP map conventions). */
+.toolmap-node polygon { stroke: var(--color-black); stroke-width: 1; cursor: pointer; }
+.toolmap-node text {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-black);
+  pointer-events: none;
+  text-anchor: middle;
+}
+.toolmap-node.selected polygon { stroke: var(--color-orange); stroke-width: 3; }
+.toolmap-node.dimmed { opacity: 0.25; }
+.toolmap-link {
+  fill: none;
+  stroke-width: 1.6;
+}
+.toolmap-link.dir-both { stroke: var(--color-orange); }
+.toolmap-link.dir-to   { stroke: var(--color-orange); stroke-dasharray: 6 4; }
+.toolmap-link.dir-from { stroke: var(--color-black);  stroke-dasharray: 6 4; }
+.toolmap-link.highlighted { stroke-width: 2.6; }
+.toolmap-link.dimmed { opacity: 0.15; }
+
+/* Side panel cards for the selected tool */
+.toolmap-tool-title {
+  margin: 0 0 4px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.toolmap-tool-suite {
+  display: inline-block;
+  padding: 3px 9px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-black);
+  margin-bottom: 10px;
+}
+.toolmap-tool-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 12px;
+  color: var(--color-text);
+}
+.toolmap-tool-link {
+  display: inline-block;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: var(--color-black);
+  margin-bottom: 16px;
+}
+.toolmap-tool-link:hover { color: var(--color-orange); }
+.toolmap-conn-section h3 {
+  margin: 16px 0 8px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.toolmap-conn-list { list-style: none; padding: 0; margin: 0; }
+.toolmap-conn-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  background: var(--color-surface);
+}
+.toolmap-conn-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-black);
+  margin-bottom: 2px;
+}
+.toolmap-conn-arrow { font-family: "DM Mono", monospace; color: var(--color-orange); font-size: 14px; }
+.toolmap-conn-desc { font-size: 12px; color: var(--color-text-muted); line-height: 1.45; margin: 0; }
+
+/* ---------------------------------------------------------------------
  * Top-level mode tabs (ERP Connector Map / PNPT Package Builder)
  * --------------------------------------------------------------------- */
 .mode-tabs {

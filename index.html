@@ -13,6 +13,7 @@
   <header>
     <div class="mode-tabs" role="group" aria-label="View">
       <button id="mode-erp" class="mode-tab is-active" type="button" aria-pressed="true">ERP Connector Map</button>
+      <button id="mode-toolmap" class="mode-tab" type="button" aria-pressed="false">Procore Tool Map</button>
       <button id="mode-packages" class="mode-tab" type="button" aria-pressed="false">PNPT Package Builder</button>
     </div>
     <button id="sop-open-top" class="sop-open-top" type="button" hidden>
@@ -49,6 +50,23 @@
   </header>
 
   <main>
+    <section id="toolmap-view" class="toolmap-view" hidden>
+      <div id="toolmap-graph" class="toolmap-graph"></div>
+      <aside id="toolmap-details" class="toolmap-details">
+        <div class="toolmap-details-empty">
+          <h2>Procore Tool Connectivity</h2>
+          <p>Click any tool node to see what it connects to and how data flows. Drag any node to reposition it. The map shows the canonical relationships between Procore tools as documented in their product manuals.</p>
+          <p class="toolmap-suite-legend">
+            <span class="toolmap-suite-swatch" style="background:#FF5200"></span>Financial Management
+            <span class="toolmap-suite-swatch" style="background:#566578"></span>Preconstruction
+            <span class="toolmap-suite-swatch" style="background:#000000"></span>Field &amp; Execution
+            <span class="toolmap-suite-swatch" style="background:#CEC4A1"></span>Integrations
+          </p>
+        </div>
+        <div id="toolmap-details-content" hidden></div>
+      </aside>
+    </section>
+
     <section id="packages-view" class="packages-view" hidden>
       <div class="packages-bar">
         <div class="packages-bar-info">
