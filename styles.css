@@ -87,11 +87,38 @@
   color: var(--color-black);
   letter-spacing: -0.005em;
 }
-.packages-tier-toggle {
+.packages-bar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.packages-tier-toggle,
+.packages-vertical-toggle {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+.packages-vertical-btn {
+  padding: 6px 14px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 6px;
+  background: var(--color-surface);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-black);
+  cursor: pointer;
+}
+.packages-vertical-toggle .packages-vertical-btn + .packages-vertical-btn { margin-left: -1px; border-radius: 0; }
+.packages-vertical-toggle .packages-vertical-btn:first-of-type { border-radius: 6px 0 0 6px; }
+.packages-vertical-toggle .packages-vertical-btn:last-of-type { border-radius: 0 6px 6px 0; }
+.packages-vertical-btn:hover { background: var(--color-stone); }
+.packages-vertical-btn.is-active {
+  background: var(--color-black);
+  border-color: var(--color-black);
+  color: var(--color-white);
 }
 .packages-toggle-label {
   font-family: "DM Mono", ui-monospace, monospace;

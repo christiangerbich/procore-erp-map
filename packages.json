@@ -1,10 +1,16 @@
 {
-  "_comment": "PNPT Procore Professional Services packages. Each package has multiple tiers; each tier defines scope, tools in-scope, deliverables, hours, duration, and pricing. Source: April 2026 Global PNPT Packages overview. Start with Cost Management; the other package families (Project Execution / Lifecycle Management, Resource Tracking / Planning / Management) can be appended here with the same shape.",
+  "_comment": "PNPT Procore Professional Services packages. Each package has multiple tiers; each tier defines scope, tools in-scope, deliverables, hours, duration, and pricing. Source: April 2026 Global PNPT Packages overview. Start with Cost Management; the other package families (Project Execution / Lifecycle Management, Resource Tracking / Planning / Management) can be appended here with the same shape. VERTICALS — each package declares which verticals it's available to (availableFor). Tiers may override the tool list per vertical with toolsByVertical (e.g. Owners get a different tool set), and individual tools may rename per vertical via the optional names map (e.g. names: { owner: 'Owner Contract' }).",
+  "verticals": [
+    { "key": "gc",    "name": "General Contractor",    "shortName": "GC" },
+    { "key": "owner", "name": "Owner",                 "shortName": "Owner" },
+    { "key": "sc",    "name": "Specialty Contractor",  "shortName": "Specialty" }
+  ],
   "packages": [
     {
       "key": "cost-management",
       "name": "Cost Management",
       "region": "NAMER",
+      "availableFor": ["gc", "owner", "sc"],
       "tiers": [
         {
           "key": "cm-standard",

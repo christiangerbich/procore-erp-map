@@ -856,11 +856,42 @@
     document.getElementById("details"),
   ];
 
-  let activePackage = packagesData.packages && packagesData.packages[0] || null;
+  let activeVertical = "gc"; // default vertical: General Contractor
+  let activePackage = null;
   const activeTierKeys = new Set();
-  if (activePackage && activePackage.tiers && activePackage.tiers.length) {
-    activeTierKeys.add(activePackage.tiers[0].key); // default: first tier
+
+  function verticalsList() {
+    return packagesData.verticals || [];
   }
+  function packagesAvailableForActiveVertical() {
+    return (packagesData.packages || []).filter(
+      (p) => !p.availableFor || p.availableFor.includes(activeVertical)
+    );
+  }
+  // Tools the tier exposes for the active vertical (falls back to default tools).
+  function toolsForTier(tier) {
+    if (tier.toolsByVertical && tier.toolsByVertical[activeVertical]) {
+      return tier.toolsByVertical[activeVertical];
+    }
+    return tier.tools || [];
+  }
+  // Tool display name, with optional per-vertical override.
+  function toolNameFor(t) {
+    return (t.names && t.names[activeVertical]) || t.name;
+  }
+
+  // Pick the initial package + tier from the GC default.
+  function refreshActivePackageForVertical() {
+    const avail = packagesAvailableForActiveVertical();
+    if (!activePackage || !avail.includes(activePackage)) {
+      activePackage = avail[0] || null;
+      activeTierKeys.clear();
+      if (activePackage && activePackage.tiers && activePackage.tiers.length) {
+        activeTierKeys.add(activePackage.tiers[0].key);
+      }
+    }
+  }
+  refreshActivePackageForVertical();
 
   function setMode(mode) {
     const isPackages = mode === "packages";
@@ -904,14 +935,44 @@
 
   // ---------- Packages view rendering ----------
   function renderPackagesView() {
+    renderPackagesVerticalToggle();
     if (!activePackage) {
-      packagesToolsEl.innerHTML = "<p class='packages-empty'>No packages configured.</p>";
+      document.getElementById("packages-title").textContent = "No packages for this vertical";
+      packagesToolsEl.innerHTML = "<p class='packages-empty'>No packages are available for the selected vertical yet.</p>";
+      packagesDetailsEl.innerHTML = "";
+      packagesTierToggle.innerHTML = "";
       return;
     }
     document.getElementById("packages-title").textContent = activePackage.name;
     renderPackagesTierToggle();
     renderPackagesTools();
     renderPackagesDetails();
+  }
+
+  function renderPackagesVerticalToggle() {
+    const cont = document.getElementById("packages-vertical-toggle");
+    if (!cont) return;
+    cont.innerHTML = "";
+    const label = document.createElement("span");
+    label.className = "packages-toggle-label";
+    label.textContent = "Vertical";
+    cont.appendChild(label);
+    verticalsList().forEach((v) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "packages-vertical-btn";
+      btn.textContent = v.shortName || v.name;
+      btn.title = v.name;
+      if (v.key === activeVertical) btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", String(v.key === activeVertical));
+      btn.addEventListener("click", () => {
+        if (activeVertical === v.key) return;
+        activeVertical = v.key;
+        refreshActivePackageForVertical();
+        renderPackagesView();
+      });
+      cont.appendChild(btn);
+    });
   }
 
   function renderPackagesTierToggle() {
@@ -956,16 +1017,18 @@
       return;
     }
     // Union of tools across selected tiers (track which tiers each tool belongs to).
+    // Uses the current vertical's tool list + per-vertical name overrides.
     const toolMap = new Map();
     tiers.forEach((tier) => {
-      tier.tools.forEach((t) => {
-        if (!toolMap.has(t.name)) toolMap.set(t.name, { tool: t, tierKeys: new Set() });
-        toolMap.get(t.name).tierKeys.add(tier.key);
+      toolsForTier(tier).forEach((t) => {
+        const key = toolNameFor(t);
+        if (!toolMap.has(key)) toolMap.set(key, { tool: t, displayName: key, tierKeys: new Set() });
+        toolMap.get(key).tierKeys.add(tier.key);
       });
     });
     const showBadges = tiers.length > 1;
 
-    Array.from(toolMap.values()).forEach(({ tool, tierKeys }) => {
+    Array.from(toolMap.values()).forEach(({ tool, displayName, tierKeys }) => {
       const tierObjs = activePackage.tiers.filter((t) => tierKeys.has(t.key));
       const hexFill = tierObjs.length === 1 ? (tierObjs[0].color || "#000000") : "#000000";
       const card = document.createElement("div");
@@ -982,10 +1045,10 @@
       poly.setAttribute("fill", hexFill);
       svg.appendChild(poly);
       card.appendChild(svg);
-      // name
+      // name (vertical-aware via toolNameFor)
       const name = document.createElement("div");
       name.className = "tool-name";
-      name.textContent = tool.name;
+      name.textContent = displayName;
       card.appendChild(name);
       // constraint
       if (tool.constraint) {
@@ -1077,9 +1140,10 @@
     if (tiers.length > 1) {
       const counts = new Map();
       tiers.forEach((tier) => {
-        tier.tools.forEach((t) => {
-          if (!counts.has(t.name)) counts.set(t.name, new Set());
-          counts.get(t.name).add(tier.key);
+        toolsForTier(tier).forEach((t) => {
+          const key = toolNameFor(t);
+          if (!counts.has(key)) counts.set(key, new Set());
+          counts.get(key).add(tier.key);
         });
       });
       const exclusiveByTier = {};
