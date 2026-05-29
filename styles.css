@@ -23,6 +23,282 @@
 /* Connector-source filter: hide the inactive company's nodes + links. */
 .src-hidden { display: none; }
 
+/* ---------------------------------------------------------------------
+ * Top-level mode tabs (ERP Connector Map / PNPT Package Builder)
+ * --------------------------------------------------------------------- */
+.mode-tabs {
+  display: inline-flex;
+  gap: 0;
+  margin-bottom: 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.mode-tab {
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-black);
+  cursor: pointer;
+  letter-spacing: 0.005em;
+}
+.mode-tab + .mode-tab { border-left: 1px solid var(--color-border-strong); }
+.mode-tab:hover { background: var(--color-stone); }
+.mode-tab.is-active { background: var(--color-orange); color: var(--color-black); }
+
+/* ---------------------------------------------------------------------
+ * PNPT Package Builder view
+ * --------------------------------------------------------------------- */
+.packages-view {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  min-height: 0;
+  overflow: hidden;
+}
+.packages-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 28px 14px;
+  background: var(--color-stone);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.packages-bar-eyebrow {
+  margin: 0 0 2px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.packages-bar-info h2 {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-black);
+  letter-spacing: -0.005em;
+}
+.packages-tier-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.packages-toggle-label {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-right: 4px;
+}
+.packages-tier-btn {
+  --tier-color: var(--color-orange);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 10px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-black);
+  cursor: pointer;
+}
+.packages-tier-btn::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--tier-color);
+}
+.packages-tier-btn:hover { background: var(--color-stone); }
+.packages-tier-btn.is-active {
+  background: var(--tier-color);
+  border-color: var(--tier-color);
+  color: var(--color-white);
+}
+.packages-tier-btn.is-active::before { background: var(--color-white); }
+
+.packages-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: 0;
+  overflow: hidden;
+}
+.packages-tools {
+  padding: 28px 28px 36px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  align-content: start;
+  background: var(--color-surface);
+}
+.packages-details {
+  padding: 22px 22px 28px;
+  overflow-y: auto;
+  border-left: 1px solid var(--color-border);
+  background: #fafbfc;
+}
+
+/* Tool cards in the packages grid */
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.tool-card:hover { border-color: var(--color-border-strong); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+.tool-card .tool-hex { display: block; margin-bottom: 10px; }
+.tool-card .tool-name {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: 4px;
+}
+.tool-card .tool-constraint {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.tool-card .tool-tiers {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+.tier-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+/* Tier detail blocks in the side panel */
+.packages-empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+.packages-tier-detail {
+  --tier-color: var(--color-orange);
+  border-top: 4px solid var(--tier-color);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top-width: 4px;
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+  margin-bottom: 14px;
+}
+.packages-tier-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.packages-tier-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.packages-tier-detail h3 {
+  margin: 0 0 2px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-black);
+}
+.packages-tier-stats {
+  margin: 0;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.packages-tier-note {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+.packages-tier-detail h4 {
+  margin: 12px 0 6px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.packages-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.packages-list li { margin-bottom: 3px; }
+
+.packages-diff {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 4px;
+}
+.packages-diff h4 {
+  margin: 0 0 8px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.packages-diff-tier {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.packages-diff-tier .packages-tier-dot { margin-top: 4px; }
+
+@media (max-width: 880px) {
+  .packages-main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .packages-details { border-left: none; border-top: 1px solid var(--color-border); max-height: 45vh; }
+}
+
 :root {
   /* Primary brand palette */
   --color-orange: #FF5200;

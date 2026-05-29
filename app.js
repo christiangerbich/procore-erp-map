@@ -77,6 +77,11 @@
     .then((r) => (r.ok ? r.json() : null))
     .catch(() => null);
 
+  // PNPT Professional Services packages catalog (Cost Management, etc).
+  const packagesData = await fetch("packages.json")
+    .then((r) => (r.ok ? r.json() : { packages: [] }))
+    .catch(() => ({ packages: [] }));
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -829,6 +834,289 @@
 
   // Default the map to Procore's connectors.
   setSource("procore");
+
+  // ---------------------------------------------------------------------
+  // Mode toggle: ERP Connector Map  vs  PNPT Package Builder
+  // ---------------------------------------------------------------------
+  const modeErpBtn = document.getElementById("mode-erp");
+  const modePackagesBtn = document.getElementById("mode-packages");
+  const packagesView = document.getElementById("packages-view");
+  const packagesTierToggle = document.getElementById("packages-tier-toggle");
+  const packagesToolsEl = document.getElementById("packages-tools");
+  const packagesDetailsEl = document.getElementById("packages-details");
+  const headerTitleEl = document.getElementById("header-title");
+  const headerSubtitleEl = document.getElementById("header-subtitle");
+  const headerEyebrowEl = document.getElementById("header-eyebrow-text");
+
+  // Elements that belong to the ERP view; hidden in package mode.
+  const erpOnlyEls = [
+    document.querySelector(".source-toggle"),
+    document.querySelector(".legend"),
+    document.getElementById("graph"),
+    document.getElementById("details"),
+  ];
+
+  let activePackage = packagesData.packages && packagesData.packages[0] || null;
+  const activeTierKeys = new Set();
+  if (activePackage && activePackage.tiers && activePackage.tiers.length) {
+    activeTierKeys.add(activePackage.tiers[0].key); // default: first tier
+  }
+
+  function setMode(mode) {
+    const isPackages = mode === "packages";
+    erpOnlyEls.forEach((el) => { if (el) el.hidden = isPackages; });
+    if (packagesView) packagesView.hidden = !isPackages;
+
+    // Hide source toggle / SOP button in package mode (they're ERP-specific).
+    const sopTopBtn = document.getElementById("sop-open-top");
+    if (sopTopBtn && !isPackages && sopTemplates) {
+      sopTopBtn.hidden = false;
+    } else if (sopTopBtn) {
+      sopTopBtn.hidden = isPackages;
+    }
+
+    if (modeErpBtn) {
+      modeErpBtn.classList.toggle("is-active", !isPackages);
+      modeErpBtn.setAttribute("aria-pressed", String(!isPackages));
+    }
+    if (modePackagesBtn) {
+      modePackagesBtn.classList.toggle("is-active", isPackages);
+      modePackagesBtn.setAttribute("aria-pressed", String(isPackages));
+    }
+
+    // Header text adapts to the mode.
+    if (isPackages) {
+      if (headerEyebrowEl) headerEyebrowEl.textContent = "Professional Services";
+      if (headerTitleEl) headerTitleEl.textContent = "PNPT Package Builder";
+      if (headerSubtitleEl) headerSubtitleEl.textContent =
+        "Pick one or more tiers to see which tools you get in each, and how the tiers differ.";
+      if (activePackage) renderPackagesView();
+    } else {
+      if (headerEyebrowEl) headerEyebrowEl.textContent = "ERP Integrations";
+      if (headerTitleEl) headerTitleEl.textContent = "ERP Connector Map";
+      if (headerSubtitleEl) headerSubtitleEl.textContent =
+        "ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.";
+    }
+  }
+
+  if (modeErpBtn) modeErpBtn.addEventListener("click", () => setMode("erp"));
+  if (modePackagesBtn) modePackagesBtn.addEventListener("click", () => setMode("packages"));
+
+  // ---------- Packages view rendering ----------
+  function renderPackagesView() {
+    if (!activePackage) {
+      packagesToolsEl.innerHTML = "<p class='packages-empty'>No packages configured.</p>";
+      return;
+    }
+    document.getElementById("packages-title").textContent = activePackage.name;
+    renderPackagesTierToggle();
+    renderPackagesTools();
+    renderPackagesDetails();
+  }
+
+  function renderPackagesTierToggle() {
+    packagesTierToggle.innerHTML = "";
+    const label = document.createElement("span");
+    label.className = "packages-toggle-label";
+    label.textContent = "Tiers";
+    packagesTierToggle.appendChild(label);
+    activePackage.tiers.forEach((tier) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "packages-tier-btn";
+      btn.textContent = tier.shortName || tier.name;
+      btn.style.setProperty("--tier-color", tier.color || "#FF5200");
+      if (activeTierKeys.has(tier.key)) btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", String(activeTierKeys.has(tier.key)));
+      btn.title = tier.name + (tier.hours ? " — " + tier.hours + " hrs" : "");
+      btn.addEventListener("click", () => {
+        if (activeTierKeys.has(tier.key)) {
+          // Keep at least one tier selected.
+          if (activeTierKeys.size > 1) activeTierKeys.delete(tier.key);
+        } else {
+          activeTierKeys.add(tier.key);
+        }
+        renderPackagesTierToggle();
+        renderPackagesTools();
+        renderPackagesDetails();
+      });
+      packagesTierToggle.appendChild(btn);
+    });
+  }
+
+  function selectedTiers() {
+    return activePackage.tiers.filter((t) => activeTierKeys.has(t.key));
+  }
+
+  function renderPackagesTools() {
+    packagesToolsEl.innerHTML = "";
+    const tiers = selectedTiers();
+    if (!tiers.length) {
+      packagesToolsEl.innerHTML = "<p class='packages-empty'>Select a tier above.</p>";
+      return;
+    }
+    // Union of tools across selected tiers (track which tiers each tool belongs to).
+    const toolMap = new Map();
+    tiers.forEach((tier) => {
+      tier.tools.forEach((t) => {
+        if (!toolMap.has(t.name)) toolMap.set(t.name, { tool: t, tierKeys: new Set() });
+        toolMap.get(t.name).tierKeys.add(tier.key);
+      });
+    });
+    const showBadges = tiers.length > 1;
+
+    Array.from(toolMap.values()).forEach(({ tool, tierKeys }) => {
+      const tierObjs = activePackage.tiers.filter((t) => tierKeys.has(t.key));
+      const hexFill = tierObjs.length === 1 ? (tierObjs[0].color || "#000000") : "#000000";
+      const card = document.createElement("div");
+      card.className = "tool-card";
+      // hex
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("class", "tool-hex");
+      svg.setAttribute("width", "52");
+      svg.setAttribute("height", "52");
+      svg.setAttribute("viewBox", "-26 -26 52 52");
+      const poly = document.createElementNS(svgNS, "polygon");
+      poly.setAttribute("points", hexPoints(20));
+      poly.setAttribute("fill", hexFill);
+      svg.appendChild(poly);
+      card.appendChild(svg);
+      // name
+      const name = document.createElement("div");
+      name.className = "tool-name";
+      name.textContent = tool.name;
+      card.appendChild(name);
+      // constraint
+      if (tool.constraint) {
+        const c = document.createElement("div");
+        c.className = "tool-constraint";
+        c.textContent = tool.constraint;
+        card.appendChild(c);
+      }
+      // tier badges (only when comparing 2+ tiers)
+      if (showBadges) {
+        const t = document.createElement("div");
+        t.className = "tool-tiers";
+        tierObjs.forEach((tier) => {
+          const b = document.createElement("span");
+          b.className = "tier-badge";
+          b.style.background = tier.color || "#000";
+          b.textContent = tier.shortName || tier.name;
+          t.appendChild(b);
+        });
+        card.appendChild(t);
+      }
+      packagesToolsEl.appendChild(card);
+    });
+  }
+
+  function renderPackagesDetails() {
+    packagesDetailsEl.innerHTML = "";
+    const tiers = selectedTiers();
+    if (!tiers.length) {
+      packagesDetailsEl.innerHTML = "<p class='packages-empty'>Select a tier above.</p>";
+      return;
+    }
+    tiers.forEach((tier) => {
+      const sec = document.createElement("section");
+      sec.className = "packages-tier-detail";
+      sec.style.setProperty("--tier-color", tier.color || "#FF5200");
+
+      const header = document.createElement("header");
+      header.className = "packages-tier-header";
+      const dot = document.createElement("span");
+      dot.className = "packages-tier-dot";
+      dot.style.background = tier.color || "#FF5200";
+      header.appendChild(dot);
+      const info = document.createElement("div");
+      const h3 = document.createElement("h3");
+      h3.textContent = tier.name;
+      info.appendChild(h3);
+      const stats = document.createElement("p");
+      stats.className = "packages-tier-stats";
+      const parts = [];
+      if (tier.hours) parts.push(tier.hours + " hours");
+      if (tier.duration) parts.push(tier.duration);
+      if (tier.pricing) {
+        if (tier.pricing.comm != null) parts.push("COMM $" + tier.pricing.comm.toLocaleString());
+        if (tier.pricing.smb != null) parts.push("SMB $" + tier.pricing.smb.toLocaleString());
+      }
+      stats.textContent = parts.join(" · ");
+      info.appendChild(stats);
+      header.appendChild(info);
+      sec.appendChild(header);
+
+      if (tier.note) {
+        const note = document.createElement("p");
+        note.className = "packages-tier-note";
+        note.textContent = tier.note;
+        sec.appendChild(note);
+      }
+
+      function appendList(heading, items) {
+        if (!items || !items.length) return;
+        const h = document.createElement("h4");
+        h.textContent = heading;
+        sec.appendChild(h);
+        const ul = document.createElement("ul");
+        ul.className = "packages-list";
+        items.forEach((s) => {
+          const li = document.createElement("li");
+          li.textContent = s;
+          ul.appendChild(li);
+        });
+        sec.appendChild(ul);
+      }
+      appendList("Scope", tier.scope);
+      appendList("Deliverables", tier.deliverables);
+      packagesDetailsEl.appendChild(sec);
+    });
+
+    // Diff section: tools that are exclusive to one of the selected tiers.
+    if (tiers.length > 1) {
+      const counts = new Map();
+      tiers.forEach((tier) => {
+        tier.tools.forEach((t) => {
+          if (!counts.has(t.name)) counts.set(t.name, new Set());
+          counts.get(t.name).add(tier.key);
+        });
+      });
+      const exclusiveByTier = {};
+      tiers.forEach((t) => (exclusiveByTier[t.key] = []));
+      counts.forEach((tierKeys, name) => {
+        if (tierKeys.size === 1) {
+          exclusiveByTier[Array.from(tierKeys)[0]].push(name);
+        }
+      });
+      const diffEntries = tiers
+        .map((tier) => ({ tier, list: exclusiveByTier[tier.key] }))
+        .filter((e) => e.list.length);
+      if (diffEntries.length) {
+        const diff = document.createElement("section");
+        diff.className = "packages-diff";
+        const h = document.createElement("h4");
+        h.textContent = "Tier-exclusive tools";
+        diff.appendChild(h);
+        diffEntries.forEach(({ tier, list }) => {
+          const row = document.createElement("div");
+          row.className = "packages-diff-tier";
+          const dot = document.createElement("span");
+          dot.className = "packages-tier-dot";
+          dot.style.background = tier.color || "#000";
+          row.appendChild(dot);
+          const txt = document.createElement("span");
+          const strong = document.createElement("strong");
+          strong.textContent = (tier.shortName || tier.name) + " only: ";
+          txt.appendChild(strong);
+          txt.appendChild(document.createTextNode(list.join(", ")));
+          row.appendChild(txt);
+          diff.appendChild(row);
+        });
+        packagesDetailsEl.appendChild(diff);
+      }
+    }
+  }
 
   // ---------------------------------------------------------------------
   // In-page assistant: doc finder + NotebookLM links

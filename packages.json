@@ -1,0 +1,111 @@
+{
+  "_comment": "PNPT Procore Professional Services packages. Each package has multiple tiers; each tier defines scope, tools in-scope, deliverables, hours, duration, and pricing. Source: April 2026 Global PNPT Packages overview. Start with Cost Management; the other package families (Project Execution / Lifecycle Management, Resource Tracking / Planning / Management) can be appended here with the same shape.",
+  "packages": [
+    {
+      "key": "cost-management",
+      "name": "Cost Management",
+      "region": "NAMER",
+      "tiers": [
+        {
+          "key": "cm-standard",
+          "name": "Cost Management",
+          "shortName": "Standard",
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training"
+          ],
+          "tools": [
+            { "name": "Prime Contracts" },
+            { "name": "Commitments", "constraint": "Up to 2 workflows" },
+            { "name": "Budget", "constraint": "Up to 3 budget views, WBS import" },
+            { "name": "Change Events / Orders", "constraint": "Up to 2 workflows, 1 view" },
+            { "name": "Invoicing", "constraint": "Up to 2 workflows" },
+            { "name": "Direct Costs" },
+            { "name": "Reports", "constraint": "Up to 3 reports" }
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 32,
+          "duration": "8 weeks",
+          "pricing": { "comm": 8000, "smb": 6400 },
+          "color": "#FF5200"
+        },
+        {
+          "key": "cm-enterprise",
+          "name": "Cost Management Enterprise",
+          "shortName": "Enterprise",
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training",
+            "Analytics Setup"
+          ],
+          "tools": [
+            { "name": "Prime Contracts" },
+            { "name": "Commitments", "constraint": "Up to 2 workflows" },
+            { "name": "Budget", "constraint": "Up to 3 budget views, WBS import" },
+            { "name": "Change Events / Orders", "constraint": "Up to 2 workflows, 1 view" },
+            { "name": "Invoicing", "constraint": "Up to 2 workflows" },
+            { "name": "Direct Costs" },
+            { "name": "Reports", "constraint": "Up to 3 reports" },
+            { "name": "Cost Catalog" },
+            { "name": "Bid Board" },
+            { "name": "Takeoff" },
+            { "name": "Estimating" },
+            { "name": "Analytics Setup", "constraint": "Financial tools" }
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 52,
+          "duration": "12 weeks",
+          "pricing": { "comm": 13000, "smb": 8800 },
+          "color": "#566578"
+        },
+        {
+          "key": "payments-sow",
+          "name": "Payments (SOW only)",
+          "shortName": "Payments",
+          "note": "SOW-only engagement — not a productized PS package, but bundled with the Cost Management family for reference.",
+          "scope": [
+            "Project Management Services",
+            "Account Configuration Overview",
+            "Discovery",
+            "Advisement on business process & configuration",
+            "Workflow Review"
+          ],
+          "tools": [
+            { "name": "Lien Waivers & Compliance" },
+            { "name": "Payment Management" },
+            { "name": "Payment Approval Process" }
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Task List",
+            "Project Status Report",
+            "Discovery Summary",
+            "Project Closeout Document"
+          ],
+          "hours": 40,
+          "duration": "12 weeks",
+          "pricing": { "comm": 10000, "smb": 8000 },
+          "color": "#000000"
+        }
+      ]
+    }
+  ]
+}

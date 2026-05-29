@@ -11,12 +11,16 @@
 </head>
 <body>
   <header>
+    <div class="mode-tabs" role="group" aria-label="View">
+      <button id="mode-erp" class="mode-tab is-active" type="button" aria-pressed="true">ERP Connector Map</button>
+      <button id="mode-packages" class="mode-tab" type="button" aria-pressed="false">PNPT Package Builder</button>
+    </div>
     <button id="sop-open-top" class="sop-open-top" type="button" hidden>
       <span class="sop-open-top-icon" aria-hidden="true">&#9783;</span> SOP Builder
     </button>
-    <p class="eyebrow"><span class="hex-bullet" aria-hidden="true"></span>Procore &middot; ERP Integrations</p>
-    <h1>ERP Connector Map</h1>
-    <p class="subtitle">ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.</p>
+    <p class="eyebrow"><span class="hex-bullet" aria-hidden="true"></span>Procore &middot; <span id="header-eyebrow-text">ERP Integrations</span></p>
+    <h1 id="header-title">ERP Connector Map</h1>
+    <p class="subtitle" id="header-subtitle">ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.</p>
     <div class="source-toggle" role="group" aria-label="Connector source">
       <span class="source-toggle-label">Connectors by</span>
       <button id="src-procore" class="source-btn is-active" type="button" aria-pressed="true">Procore</button>
@@ -45,6 +49,20 @@
   </header>
 
   <main>
+    <section id="packages-view" class="packages-view" hidden>
+      <div class="packages-bar">
+        <div class="packages-bar-info">
+          <p class="packages-bar-eyebrow">Procore &middot; Professional Services Package</p>
+          <h2 id="packages-title">Cost Management</h2>
+        </div>
+        <div id="packages-tier-toggle" class="packages-tier-toggle" role="group" aria-label="Package tiers"></div>
+      </div>
+      <div class="packages-main">
+        <div id="packages-tools" class="packages-tools"></div>
+        <aside id="packages-details" class="packages-details"></aside>
+      </div>
+    </section>
+
     <div id="graph"></div>
     <aside id="details" class="details details-empty">
       <div class="assistant-bar">
