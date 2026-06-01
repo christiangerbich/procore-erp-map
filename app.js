@@ -843,7 +843,17 @@
   const packagesView = document.getElementById("packages-view");
   const packagesTierToggle = document.getElementById("packages-tier-toggle");
   const packagesGraphEl = document.getElementById("packages-graph");
-  const packagesDetailsEl = document.getElementById("packages-details");
+  // The "details" body — sibling of the sticky Ask-AI bar so the bar
+  // doesn't get wiped when the body re-renders.
+  const packagesDetailsEl = document.getElementById("packages-details-body");
+
+  // Wire the PNPT Ask-AI button (NotebookLM) — URL lives in packages.assistants.pnpt.
+  const packagesPnptBtn = document.getElementById("packages-ai-pnpt");
+  if (packagesPnptBtn) {
+    const pnptUrl = packagesData.assistants && packagesData.assistants.pnpt;
+    if (pnptUrl) packagesPnptBtn.href = pnptUrl;
+    else packagesPnptBtn.hidden = true;
+  }
   const headerTitleEl = document.getElementById("header-title");
   const headerSubtitleEl = document.getElementById("header-subtitle");
   const headerEyebrowEl = document.getElementById("header-eyebrow-text");

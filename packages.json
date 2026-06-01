@@ -1,5 +1,9 @@
 {
   "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange — matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later.",
+  "assistants": {
+    "_comment": "NotebookLM notebook used by the 'Ask AI' bar in the PNPT Package Builder side panel.",
+    "pnpt": "https://notebooklm.google.com/notebook/d48d9bca-c182-47c7-8a7e-16e53462e040"
+  },
   "verticals": [
     {
       "key": "gc",
