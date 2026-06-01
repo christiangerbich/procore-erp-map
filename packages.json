@@ -4,6 +4,29 @@
     "_comment": "NotebookLM notebook used by the 'Ask AI' bar in the PNPT Package Builder side panel.",
     "pnpt": "https://notebooklm.google.com/notebook/d48d9bca-c182-47c7-8a7e-16e53462e040"
   },
+  "capabilities": [
+    {
+      "key": "connect",
+      "name": "Procore Connect",
+      "letter": "C",
+      "color": "#FF5200",
+      "description": "Third-party app integrations via the Procore Connect marketplace."
+    },
+    {
+      "key": "ai",
+      "name": "AI / Data Grid",
+      "letter": "D",
+      "color": "#566578",
+      "description": "AI-assisted workflows (e.g. Data Grid for AP invoice extraction, AI takeoff)."
+    },
+    {
+      "key": "analytics",
+      "name": "Analytics / 360 Reporting",
+      "letter": "A",
+      "color": "#000000",
+      "description": "Data surfaced in Procore Analytics dashboards (formerly 360 Reporting)."
+    }
+  ],
   "verticals": [
     {
       "key": "gc",
@@ -40,7 +63,10 @@
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/cost-catalog-company",
-          "description": "Company-level library of unit costs, materials, and assemblies that feed into Estimates."
+          "description": "Company-level library of unit costs, materials, and assemblies that feed into Estimates.",
+          "capabilities": [
+            "analytics"
+          ]
         },
         {
           "id": "bid-board",
@@ -50,7 +76,11 @@
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bid-board-company",
-          "description": "Track bid invitations and awarded bids; awarded bids can promote into project Commitments."
+          "description": "Track bid invitations and awarded bids; awarded bids can promote into project Commitments.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "takeoff",
@@ -60,7 +90,10 @@
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
-          "description": "Quantity takeoffs from drawings; feeds quantities into Estimates."
+          "description": "Quantity takeoffs from drawings; feeds quantities into Estimates.",
+          "capabilities": [
+            "ai"
+          ]
         },
         {
           "id": "estimating",
@@ -70,7 +103,11 @@
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
-          "description": "Build project estimates from takeoff quantities and Cost Catalog items; promote to Budget."
+          "description": "Build project estimates from takeoff quantities and Cost Catalog items; promote to Budget.",
+          "capabilities": [
+            "ai",
+            "analytics"
+          ]
         },
         {
           "id": "prime-contracts",
@@ -80,7 +117,11 @@
             "y": 290
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
-          "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value."
+          "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "commitments",
@@ -91,7 +132,11 @@
           },
           "constraint": "Up to 2 workflows",
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
-          "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget."
+          "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "budget",
@@ -102,7 +147,11 @@
           },
           "constraint": "Up to 3 budget views, WBS import",
           "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
-          "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget."
+          "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "direct-costs",
@@ -112,7 +161,12 @@
             "y": 460
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
-          "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget."
+          "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ]
         },
         {
           "id": "change-events-orders",
@@ -123,7 +177,11 @@
           },
           "constraint": "Up to 2 workflows, 1 view",
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
-          "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders."
+          "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "invoicing",
@@ -134,7 +192,11 @@
           },
           "constraint": "Up to 2 workflows",
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
-          "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts."
+          "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ]
         },
         {
           "id": "reports",
@@ -145,7 +207,8 @@
           },
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
-          "description": "Custom + canned project reports across all financial tools."
+          "description": "Custom + canned project reports across all financial tools.",
+          "capabilities": []
         },
         {
           "id": "analytics-setup",
@@ -156,7 +219,8 @@
           },
           "constraint": "Financial tools",
           "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
-          "description": "Default Procore Analytics dashboards for financial tools (Enterprise tier)."
+          "description": "Default Procore Analytics dashboards for financial tools (Enterprise tier).",
+          "capabilities": []
         },
         {
           "id": "lien-waivers",
@@ -166,7 +230,10 @@
             "y": 240
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
-          "description": "Collect and verify conditional/unconditional lien waivers from subs before releasing payment."
+          "description": "Collect and verify conditional/unconditional lien waivers from subs before releasing payment.",
+          "capabilities": [
+            "connect"
+          ]
         },
         {
           "id": "payment-management",
@@ -176,7 +243,10 @@
             "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
-          "description": "Schedule and disburse payments to subcontractors through Procore Pay."
+          "description": "Schedule and disburse payments to subcontractors through Procore Pay.",
+          "capabilities": [
+            "connect"
+          ]
         },
         {
           "id": "payment-approval",
@@ -186,7 +256,10 @@
             "y": 560
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
-          "description": "Approval workflow that authorizes payment release once lien waivers and compliance items are confirmed."
+          "description": "Approval workflow that authorizes payment release once lien waivers and compliance items are confirmed.",
+          "capabilities": [
+            "connect"
+          ]
         }
       ],
       "connections": [

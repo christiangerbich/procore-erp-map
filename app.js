@@ -1148,6 +1148,37 @@
         sub.textContent = tool.constraint;
         g.appendChild(sub);
       }
+
+      // Capability badges (Procore Connect, AI/Data Grid, Analytics) sit
+      // above the hex in a horizontal row. Each badge has an SVG <title>
+      // tooltip so users can identify it without clicking.
+      const capList = (tool.capabilities || [])
+        .map((k) => (packagesData.capabilities || []).find((c) => c.key === k))
+        .filter(Boolean);
+      if (capList.length) {
+        const BADGE_R = 7;
+        const GAP = 4;
+        const totalW = capList.length * (BADGE_R * 2) + (capList.length - 1) * GAP;
+        const startX = -totalW / 2 + BADGE_R;
+        const badgeY = -NODE_R - 10;
+        capList.forEach((cap, i) => {
+          const bg = document.createElementNS(svgNS, "g");
+          bg.setAttribute("class", "pkg-cap-badge");
+          bg.setAttribute("transform", "translate(" + (startX + i * (BADGE_R * 2 + GAP)) + "," + badgeY + ")");
+          const c = document.createElementNS(svgNS, "circle");
+          c.setAttribute("r", BADGE_R);
+          c.setAttribute("fill", cap.color || "#000");
+          bg.appendChild(c);
+          const t = document.createElementNS(svgNS, "text");
+          t.textContent = cap.letter || cap.name.charAt(0);
+          bg.appendChild(t);
+          const title = document.createElementNS(svgNS, "title");
+          title.textContent = cap.name + (cap.description ? " — " + cap.description : "");
+          bg.appendChild(title);
+          g.appendChild(bg);
+        });
+      }
+
       g.addEventListener("click", (ev) => {
         ev.stopPropagation();
         selectPackageTool(tool.id);
@@ -1165,6 +1196,33 @@
     selectedPackageToolId = id;
     renderPackagesGraph();
     renderPackagesDetails();
+  }
+
+  // Shared helper: render the capability badge legend chip-row.
+  function renderPackagesCapabilityLegend(parent) {
+    const caps = packagesData.capabilities || [];
+    if (!caps.length) return;
+    const wrap = document.createElement("div");
+    wrap.className = "pkg-cap-legend";
+    const eyebrow = document.createElement("span");
+    eyebrow.className = "pkg-cap-legend-eyebrow";
+    eyebrow.textContent = "Capability badges";
+    wrap.appendChild(eyebrow);
+    caps.forEach((cap) => {
+      const chip = document.createElement("span");
+      chip.className = "pkg-cap-chip";
+      chip.title = cap.description || "";
+      const dot = document.createElement("span");
+      dot.className = "pkg-cap-dot";
+      dot.style.background = cap.color || "#000";
+      dot.textContent = cap.letter || cap.name.charAt(0);
+      chip.appendChild(dot);
+      const lbl = document.createElement("span");
+      lbl.textContent = cap.name;
+      chip.appendChild(lbl);
+      wrap.appendChild(chip);
+    });
+    parent.appendChild(wrap);
   }
 
   // Default verbs when a connection doesn't supply its own — keeps the
@@ -1226,6 +1284,36 @@
       a.textContent = "Open support documentation →";
       wrap.appendChild(a);
     }
+
+    // This tool's capability badges spelled out.
+    const toolCaps = (tool.capabilities || [])
+      .map((k) => (packagesData.capabilities || []).find((c) => c.key === k))
+      .filter(Boolean);
+    if (toolCaps.length) {
+      const head = document.createElement("h4");
+      head.style.cssText = "margin:14px 0 6px;font-family:'DM Mono',ui-monospace,monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-muted);";
+      head.textContent = "Capabilities";
+      wrap.appendChild(head);
+      const ul = document.createElement("ul");
+      ul.className = "pkg-cap-list";
+      toolCaps.forEach((cap) => {
+        const li = document.createElement("li");
+        const dot = document.createElement("span");
+        dot.className = "pkg-cap-dot";
+        dot.style.background = cap.color || "#000";
+        dot.textContent = cap.letter || cap.name.charAt(0);
+        li.appendChild(dot);
+        const txt = document.createElement("span");
+        const b = document.createElement("strong");
+        b.textContent = cap.name;
+        txt.appendChild(b);
+        if (cap.description) txt.appendChild(document.createTextNode(" — " + cap.description));
+        li.appendChild(txt);
+        ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    }
+
     cont.appendChild(wrap);
 
     // Group every connection touching this tool by the verb from THIS
@@ -1300,9 +1388,15 @@
       return;
     }
 
+    // Capability badge legend (always visible in the default view).
+    renderPackagesCapabilityLegend(packagesDetailsEl);
+
     const tiers = selectedTiers();
     if (!tiers.length) {
-      packagesDetailsEl.innerHTML = "<p class='packages-empty'>Select a tier above.</p>";
+      const p = document.createElement("p");
+      p.className = "packages-empty";
+      p.textContent = "Select a tier above.";
+      packagesDetailsEl.appendChild(p);
       return;
     }
     tiers.forEach((tier) => {
