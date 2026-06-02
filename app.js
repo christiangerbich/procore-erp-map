@@ -110,7 +110,22 @@
     "calc-chart":   '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 12h14"/><path d="M9 9v-2"/><path d="M12 9v-3"/><path d="M15 9v-1"/><circle cx="9" cy="16" r=".7"/><circle cx="12" cy="16" r=".7"/><circle cx="15" cy="16" r=".7"/><circle cx="9" cy="19" r=".7"/><circle cx="12" cy="19" r=".7"/><circle cx="15" cy="19" r=".7"/>',
     "compass":      '<circle cx="12" cy="4" r="1.5"/><path d="M12 5.5 5.5 21"/><path d="M12 5.5 18.5 21"/><path d="M16 18l-8 0"/>',
     "change-cycle": '<path d="M21 12a9 9 0 0 1-15 6.7"/><path d="M3 12a9 9 0 0 1 15-6.7"/><path d="M21 4v5h-5"/><path d="M3 20v-5h5"/>',
-    "doc-currency": '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6"/><path d="M14.5 13h-3a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3h-3.5"/>'
+    "doc-currency": '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6"/><path d="M14.5 13h-3a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3h-3.5"/>',
+
+    // Project Execution + Resource icons
+    "drawings":     '<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 4l18 16"/><path d="M8 4v16"/>',
+    "rfi":          '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14a2 2 0 1 1 3 1.7c-.5.3-1 .6-1 1.3"/><path d="M11 19h.01"/>',
+    "eye":          '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    "log-calendar": '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h2M14 14h2M8 18h2M14 18h2"/>',
+    "mail":         '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 7 10-7"/>',
+    "punchlist":    '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 9l2 2 4-4"/><path d="M9 16h6"/><path d="M9 19h4"/>',
+    "clipboard":    '<rect x="7" y="4" width="10" height="3" rx="1"/><path d="M7 5.5H5a2 2 0 0 0-2 2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.5a2 2 0 0 0-2-2h-2"/><path d="M8 13l2 2 5-5"/>',
+    "cube":         '<path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4"/><path d="M21 7v10l-9 4"/><path d="M12 11v10"/>',
+    "warning":      '<path d="M12 3L3 20h18L12 3z"/><path d="M12 10v4"/><path d="M12 17h.01"/>',
+    "target":       '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+    "clock":        '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    "gear":         '<circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M2 12h2M20 12h2M4.9 19.1l1.5-1.5M17.6 6.4l1.5-1.5"/>',
+    "people-cycle": '<circle cx="9" cy="9" r="3"/><path d="M3 18v-1a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v1"/><path d="M18 8l3 3-3 3"/><path d="M21 11h-7"/>'
   };
 
   function makePkgIconSvg(iconKey, size, color) {
@@ -938,30 +953,57 @@
   // Tools the tier exposes for the active vertical.
   // toolIds (preferred new schema) reference the package-level tools array;
   // toolsByVertical can override per vertical with an array of toolIds.
-  function toolsForTier(tier) {
-    let ids = tier.toolIds || [];
+  function toolIdsForTier(tier) {
     if (tier.toolsByVertical && tier.toolsByVertical[activeVertical]) {
-      ids = tier.toolsByVertical[activeVertical];
+      return tier.toolsByVertical[activeVertical];
     }
-    return ids.map(packageToolById).filter(Boolean);
+    return tier.toolIds || [];
+  }
+  function toolsForTier(tier) {
+    return toolIdsForTier(tier).map(packageToolById).filter(Boolean);
+  }
+  // Tiers available for the active vertical (tier.availableFor optional, e.g. PLM Owners-only).
+  function tiersAvailableForActiveVertical() {
+    if (!activePackage) return [];
+    return activePackage.tiers.filter(
+      (t) => !t.availableFor || t.availableFor.includes(activeVertical)
+    );
   }
   // Tool display name, with optional per-vertical override.
   function toolNameFor(t) {
     return (t.names && t.names[activeVertical]) || t.name;
   }
 
-  // Pick the initial package + tier from the GC default.
+  // Pick the initial package + tier from the default.
   function refreshActivePackageForVertical() {
     const avail = packagesAvailableForActiveVertical();
     if (!activePackage || !avail.includes(activePackage)) {
       activePackage = avail[0] || null;
       activeTierKeys.clear();
-      if (activePackage && activePackage.tiers && activePackage.tiers.length) {
-        activeTierKeys.add(activePackage.tiers[0].key);
+      selectedPackageToolId = null;
+    }
+    if (activePackage) {
+      const validTiers = tiersAvailableForActiveVertical();
+      const validKeys = new Set(validTiers.map((t) => t.key));
+      [...activeTierKeys].forEach((k) => { if (!validKeys.has(k)) activeTierKeys.delete(k); });
+      if (activeTierKeys.size === 0 && validTiers.length) {
+        activeTierKeys.add(validTiers[0].key);
       }
     }
   }
   refreshActivePackageForVertical();
+
+  // Switch the active package, resetting tier + tool selection. Called by the package toggle.
+  function setActivePackage(pkgKey) {
+    const pkg = (packagesData.packages || []).find((p) => p.key === pkgKey);
+    if (!pkg || pkg === activePackage) return;
+    activePackage = pkg;
+    activeTierKeys.clear();
+    selectedPackageToolId = null;
+    const validTiers = tiersAvailableForActiveVertical();
+    if (validTiers.length) activeTierKeys.add(validTiers[0].key);
+    renderPackagesView();
+  }
 
   function setMode(mode) {
     const isPackages = mode === "packages";
@@ -1001,6 +1043,7 @@
 
   // ---------- Packages view rendering ----------
   function renderPackagesView() {
+    renderPackagesPkgToggle();
     renderPackagesVerticalToggle();
     if (!activePackage) {
       document.getElementById("packages-title").textContent = "No packages for this vertical";
@@ -1013,6 +1056,29 @@
     renderPackagesTierToggle();
     renderPackagesGraph();
     renderPackagesDetails();
+  }
+
+  function renderPackagesPkgToggle() {
+    const cont = document.getElementById("packages-pkg-toggle");
+    if (!cont) return;
+    cont.innerHTML = "";
+    const avail = packagesAvailableForActiveVertical();
+    if (avail.length <= 1) return; // nothing to switch between
+    const label = document.createElement("span");
+    label.className = "packages-toggle-label";
+    label.textContent = "Package";
+    cont.appendChild(label);
+    avail.forEach((pkg) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "packages-pkg-btn";
+      btn.textContent = pkg.name;
+      btn.title = pkg.name;
+      if (pkg === activePackage) btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", String(pkg === activePackage));
+      btn.addEventListener("click", () => setActivePackage(pkg.key));
+      cont.appendChild(btn);
+    });
   }
 
   function renderPackagesVerticalToggle() {
@@ -1047,7 +1113,7 @@
     label.className = "packages-toggle-label";
     label.textContent = "Tiers";
     packagesTierToggle.appendChild(label);
-    activePackage.tiers.forEach((tier) => {
+    tiersAvailableForActiveVertical().forEach((tier) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "packages-tier-btn";
@@ -1072,7 +1138,7 @@
   }
 
   function selectedTiers() {
-    return activePackage.tiers.filter((t) => activeTierKeys.has(t.key));
+    return tiersAvailableForActiveVertical().filter((t) => activeTierKeys.has(t.key));
   }
 
   // Node-link diagram of the package's tools. ALL package-level tools are
@@ -1090,7 +1156,7 @@
     const activeTiersForTool = new Map();
     activePackage.tools.forEach((t) => activeTiersForTool.set(t.id, []));
     tiers.forEach((tier) => {
-      (tier.toolIds || []).forEach((id) => {
+      toolIdsForTier(tier).forEach((id) => {
         if (activeTiersForTool.has(id)) activeTiersForTool.get(id).push(tier);
       });
     });
@@ -1338,8 +1404,10 @@
     h.textContent = toolNameFor(tool);
     wrap.appendChild(h);
 
-    // tier badges that include this tool
-    const includingTiers = activePackage.tiers.filter((t) => (t.toolIds || []).includes(tool.id));
+    // tier badges that include this tool (honor per-vertical overrides + per-tier availability)
+    const includingTiers = tiersAvailableForActiveVertical().filter(
+      (t) => toolIdsForTier(t).includes(tool.id)
+    );
     if (includingTiers.length) {
       const tiers = document.createElement("div");
       tiers.className = "pkg-tool-tiers";

@@ -1,5 +1,5 @@
 {
-  "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange — matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later.",
+  "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange \u2014 matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later.",
   "assistants": {
     "_comment": "NotebookLM notebook used by the 'Ask AI' bar in the PNPT Package Builder side panel.",
     "pnpt": "https://notebooklm.google.com/notebook/d48d9bca-c182-47c7-8a7e-16e53462e040"
@@ -471,7 +471,7 @@
           "permissions": {
             "readOnly": "View the budget, cost tools, and reports. Cannot edit budgets, lock budgets, or approve changes.",
             "standard": "Create and edit cost-tool items where permitted. Cannot lock the budget or change tool settings.",
-            "admin": "Full control — manage budgets, contracts, commitments, change orders, invoicing, and configure tool settings."
+            "admin": "Full control \u2014 manage budgets, contracts, commitments, change orders, invoicing, and configure tool settings."
           },
           "procorePermissionOptions": [
             "Standard",
@@ -535,7 +535,7 @@
           "permissions": {
             "readOnly": "Standard view, plus view of Estimating, Cost Catalog, Bid Board, and Analytics dashboards.",
             "standard": "Standard rights plus create/edit estimates, bids, and takeoffs.",
-            "admin": "Full Enterprise control — including Analytics, Estimating, Bid Board, Cost Catalog, and Takeoff configuration."
+            "admin": "Full Enterprise control \u2014 including Analytics, Estimating, Bid Board, Cost Catalog, and Takeoff configuration."
           },
           "procorePermissionOptions": [
             "Standard",
@@ -547,7 +547,7 @@
           "key": "payments-sow",
           "name": "Payments (SOW only)",
           "shortName": "Payments",
-          "note": "SOW-only engagement — not a productized PS package, but bundled here for reference.",
+          "note": "SOW-only engagement \u2014 not a productized PS package, but bundled here for reference.",
           "toolIds": [
             "lien-waivers",
             "payment-management",
@@ -578,7 +578,1179 @@
           "permissions": {
             "readOnly": "View payment status and lien-waiver records.",
             "standard": "Create and edit payments and waivers where permitted; route to approvers.",
-            "admin": "Full Payments control — including approval routing and compliance configuration."
+            "admin": "Full Payments control \u2014 including approval routing and compliance configuration."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "project-execution",
+      "name": "Project Execution",
+      "region": "NAMER",
+      "availableFor": [
+        "gc",
+        "owner",
+        "sc"
+      ],
+      "tools": [
+        {
+          "id": "bid-management",
+          "name": "Bid Management",
+          "position": {
+            "x": 160,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project",
+          "description": "Manage subcontractor bidding workflow; award bids and promote into Commitments.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "doc-currency"
+        },
+        {
+          "id": "drawings",
+          "name": "Drawings",
+          "position": {
+            "x": 360,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project",
+          "description": "Current and historical drawing set; the source-of-truth referenced by RFIs, Submittals, and BIM.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "drawings"
+        },
+        {
+          "id": "submittals",
+          "name": "Submittals",
+          "position": {
+            "x": 560,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project",
+          "description": "Submittal log and ball-in-court workflow for product data, samples, and shop drawings.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "stamp"
+        },
+        {
+          "id": "rfis",
+          "name": "RFIs",
+          "position": {
+            "x": 760,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project",
+          "description": "Request for Information log; questions reference drawings and may trigger Submittals or Change Events.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "rfi"
+        },
+        {
+          "id": "bim",
+          "name": "BIM",
+          "position": {
+            "x": 960,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project",
+          "description": "3D model viewer with federated coordination model; clash detection surfaces Coordination Issues.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "cube"
+        },
+        {
+          "id": "coordination-issues",
+          "name": "Coordination Issues",
+          "position": {
+            "x": 1160,
+            "y": 100
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project",
+          "description": "Resolve clashes and constructability issues raised against the BIM coordination model.",
+          "capabilities": [
+            "analytics"
+          ],
+          "icon": "warning"
+        },
+        {
+          "id": "observations",
+          "name": "Observations",
+          "position": {
+            "x": 160,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project",
+          "description": "Field observations for safety, quality, work-to-complete; ball-in-court assignment to subs.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "eye"
+        },
+        {
+          "id": "daily-log",
+          "name": "Daily Log",
+          "position": {
+            "x": 360,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project",
+          "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "log-calendar"
+        },
+        {
+          "id": "correspondence",
+          "name": "Correspondence",
+          "position": {
+            "x": 560,
+            "y": 300
+          },
+          "constraint": "Up to 2 templates w/o workflow or 1 template with workflow",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
+          "description": "Configurable correspondence types \u2014 meeting minutes, transmittals, NCRs, and field issues.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "mail"
+        },
+        {
+          "id": "inspections",
+          "name": "Inspections",
+          "position": {
+            "x": 760,
+            "y": 300
+          },
+          "constraint": "Up to 5 templates",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project",
+          "description": "Inspection templates and execution; failed items convert to Punch List.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "clipboard"
+        },
+        {
+          "id": "punch-list",
+          "name": "Punch List",
+          "position": {
+            "x": 960,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
+          "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "punchlist"
+        },
+        {
+          "id": "action-plans",
+          "name": "Action Plans",
+          "position": {
+            "x": 1160,
+            "y": 300
+          },
+          "constraint": "Up to 2 templates",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project",
+          "description": "Templated action plans for quality, safety, and commissioning; references and tasks tracked to closure.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "target"
+        },
+        {
+          "id": "pe-prime-contracts",
+          "name": "Prime Contracts",
+          "position": {
+            "x": 160,
+            "y": 500
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+          "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "file-check"
+        },
+        {
+          "id": "pe-commitments",
+          "name": "Commitments",
+          "position": {
+            "x": 340,
+            "y": 500
+          },
+          "constraint": "Up to 2 workflows",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
+          "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "handshake"
+        },
+        {
+          "id": "pe-budget",
+          "name": "Budget",
+          "position": {
+            "x": 520,
+            "y": 500
+          },
+          "constraint": "Up to 3 budget views, WBS import",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
+          "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "calc-chart"
+        },
+        {
+          "id": "pe-direct-costs",
+          "name": "Direct Costs",
+          "position": {
+            "x": 700,
+            "y": 500
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
+          "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "receipt"
+        },
+        {
+          "id": "pe-change-events-orders",
+          "name": "Change Events / Orders",
+          "position": {
+            "x": 880,
+            "y": 500
+          },
+          "constraint": "Up to 2 workflows, 1 view",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
+          "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "change-cycle"
+        },
+        {
+          "id": "pe-invoicing",
+          "name": "Invoicing",
+          "position": {
+            "x": 1060,
+            "y": 500
+          },
+          "constraint": "Up to 2 workflows",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
+          "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "receipt-stack"
+        },
+        {
+          "id": "pe-reports",
+          "name": "Reports",
+          "position": {
+            "x": 520,
+            "y": 700
+          },
+          "constraint": "Up to 3 reports",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
+          "description": "Custom + canned project reports across field and financial tools.",
+          "capabilities": [],
+          "icon": "bar-chart"
+        },
+        {
+          "id": "pe-analytics-setup",
+          "name": "Analytics Setup",
+          "position": {
+            "x": 700,
+            "y": 700
+          },
+          "constraint": "PE / PLM dashboards",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
+          "description": "Default Procore Analytics dashboards for Project Execution and Project Lifecycle Management (Enterprise/PLM tiers).",
+          "capabilities": [],
+          "icon": "bar-chart-3"
+        }
+      ],
+      "connections": [
+        {
+          "source": "drawings",
+          "target": "rfis",
+          "direction": "to",
+          "description": "RFIs reference drawing sheets and revisions.",
+          "verbForward": "is referenced by",
+          "verbReverse": "references"
+        },
+        {
+          "source": "drawings",
+          "target": "submittals",
+          "direction": "to",
+          "description": "Submittals reference drawing sheets and specifications.",
+          "verbForward": "is referenced by",
+          "verbReverse": "references"
+        },
+        {
+          "source": "drawings",
+          "target": "bim",
+          "direction": "both",
+          "description": "BIM coordination model and Drawings stay in sync across revisions.",
+          "verbForward": "syncs with",
+          "verbReverse": "syncs with"
+        },
+        {
+          "source": "rfis",
+          "target": "submittals",
+          "direction": "to",
+          "description": "RFI clarifications may trigger a new or revised Submittal.",
+          "verbForward": "may trigger",
+          "verbReverse": "may be triggered by"
+        },
+        {
+          "source": "bim",
+          "target": "coordination-issues",
+          "direction": "to",
+          "description": "Clash detection on the BIM model creates Coordination Issues.",
+          "verbForward": "creates",
+          "verbReverse": "is created by"
+        },
+        {
+          "source": "observations",
+          "target": "daily-log",
+          "direction": "to",
+          "description": "Observations roll up into the Daily Log site report.",
+          "verbForward": "is captured in",
+          "verbReverse": "captures"
+        },
+        {
+          "source": "inspections",
+          "target": "punch-list",
+          "direction": "to",
+          "description": "Failed inspection items become Punch List items.",
+          "verbForward": "creates",
+          "verbReverse": "is created by"
+        },
+        {
+          "source": "drawings",
+          "target": "action-plans",
+          "direction": "to",
+          "description": "Action Plans reference drawing sheets for context.",
+          "verbForward": "is referenced by",
+          "verbReverse": "references"
+        },
+        {
+          "source": "correspondence",
+          "target": "rfis",
+          "direction": "both",
+          "description": "Correspondence threads and RFIs exchange context on field questions.",
+          "verbForward": "exchanges context with",
+          "verbReverse": "exchanges context with"
+        },
+        {
+          "source": "daily-log",
+          "target": "pe-reports",
+          "direction": "both",
+          "description": "Reports surface Daily Log production and manpower data.",
+          "verbForward": "feeds data into",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "bid-management",
+          "target": "pe-commitments",
+          "direction": "to",
+          "description": "Awarded bids promote into Commitments.",
+          "verbForward": "promotes awards into",
+          "verbReverse": "originates from"
+        },
+        {
+          "source": "pe-prime-contracts",
+          "target": "pe-budget",
+          "direction": "to",
+          "description": "Prime Contract value seeds Budget revenue.",
+          "verbForward": "establishes revenue in",
+          "verbReverse": "receives revenue from"
+        },
+        {
+          "source": "pe-commitments",
+          "target": "pe-budget",
+          "direction": "to",
+          "description": "Commitment values populate the Committed Cost column of the Budget.",
+          "verbForward": "populates committed cost in",
+          "verbReverse": "receives committed cost from"
+        },
+        {
+          "source": "pe-direct-costs",
+          "target": "pe-budget",
+          "direction": "to",
+          "description": "Direct Costs post against budget line items as Actual Cost.",
+          "verbForward": "posts actuals to",
+          "verbReverse": "receives data from"
+        },
+        {
+          "source": "pe-change-events-orders",
+          "target": "pe-budget",
+          "direction": "both",
+          "description": "Change Events drive the Revised Budget; approved Change Orders update it.",
+          "verbForward": "syncs forecasts with",
+          "verbReverse": "syncs forecasts with"
+        },
+        {
+          "source": "pe-change-events-orders",
+          "target": "pe-prime-contracts",
+          "direction": "to",
+          "description": "Approved Prime Contract Change Orders (PCCO) modify the Prime Contract value.",
+          "verbForward": "modifies",
+          "verbReverse": "is modified by"
+        },
+        {
+          "source": "pe-change-events-orders",
+          "target": "pe-commitments",
+          "direction": "to",
+          "description": "Approved Commitment Change Orders (CCO) modify the Commitment value.",
+          "verbForward": "modifies",
+          "verbReverse": "is modified by"
+        },
+        {
+          "source": "pe-prime-contracts",
+          "target": "pe-invoicing",
+          "direction": "to",
+          "description": "Owner Invoices bill against the Prime Contract SOV (managed in Invoicing).",
+          "verbForward": "drives owner billings in",
+          "verbReverse": "generates owner billings against"
+        },
+        {
+          "source": "pe-commitments",
+          "target": "pe-invoicing",
+          "direction": "to",
+          "description": "Subcontractor Invoices bill against the Commitment SOV (managed in Invoicing).",
+          "verbForward": "drives sub billings in",
+          "verbReverse": "generates sub billings against"
+        },
+        {
+          "source": "pe-budget",
+          "target": "pe-reports",
+          "direction": "both",
+          "description": "Reports surface Budget, cost, and contract data.",
+          "verbForward": "feeds data into",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "pe-budget",
+          "target": "pe-analytics-setup",
+          "direction": "both",
+          "description": "Analytics dashboards surface PLM financial-tool data.",
+          "verbForward": "feeds dashboards in",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "pe-reports",
+          "target": "pe-analytics-setup",
+          "direction": "both",
+          "description": "Reports and Analytics dashboards share the same data foundation.",
+          "verbForward": "shares data with",
+          "verbReverse": "shares data with"
+        }
+      ],
+      "tiers": [
+        {
+          "key": "pe-essentials",
+          "name": "Project Execution Essentials",
+          "shortName": "Essentials",
+          "toolIds": [
+            "drawings",
+            "submittals",
+            "rfis",
+            "observations",
+            "daily-log"
+          ],
+          "toolsByVertical": {
+            "owner": [
+              "drawings",
+              "observations",
+              "correspondence",
+              "punch-list",
+              "inspections"
+            ]
+          },
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 25,
+          "duration": "8 weeks",
+          "pricing": {
+            "comm": 6250,
+            "smb": 5000
+          },
+          "color": "#FF5200",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Drawings auto-revision",
+              "default": "On",
+              "note": "New drawing uploads supersede prior revisions and mark them as As-Built reference."
+            },
+            {
+              "setting": "Daily Log auto-distribution",
+              "default": "On",
+              "note": "Distribution list receives the Daily Log on submission."
+            }
+          ],
+          "permissions": {
+            "readOnly": "View drawings, submittals, RFIs, observations, and daily logs.",
+            "standard": "Create and edit field items where permitted (RFIs, observations, daily logs).",
+            "admin": "Full configuration of field tools, templates, and workflows."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        },
+        {
+          "key": "pe-standard",
+          "name": "Project Execution",
+          "shortName": "Standard",
+          "toolIds": [
+            "drawings",
+            "submittals",
+            "rfis",
+            "observations",
+            "daily-log",
+            "correspondence",
+            "punch-list",
+            "inspections",
+            "bid-management"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 44,
+          "duration": "10 weeks",
+          "pricing": {
+            "comm": 11000,
+            "smb": 8800
+          },
+          "color": "#FF5200",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Inspection templates",
+              "default": "Up to 5",
+              "note": "Pre-built inspection templates load with the package."
+            },
+            {
+              "setting": "Correspondence types",
+              "default": "Up to 2 (no workflow) or 1 (with workflow)",
+              "note": "Configure custom correspondence types per package terms."
+            },
+            {
+              "setting": "Bid leveling",
+              "default": "Standard",
+              "note": "Bid leveling sheet configured to compare apples-to-apples on awards."
+            }
+          ],
+          "permissions": {
+            "readOnly": "Standard view across field tools plus Bid Management.",
+            "standard": "Create and edit field items, inspections, and bids where permitted.",
+            "admin": "Full configuration including bid workflow, inspection templates, and correspondence."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        },
+        {
+          "key": "pe-enterprise",
+          "name": "Project Execution Enterprise",
+          "shortName": "Enterprise",
+          "toolIds": [
+            "drawings",
+            "submittals",
+            "rfis",
+            "observations",
+            "daily-log",
+            "correspondence",
+            "punch-list",
+            "inspections",
+            "bid-management",
+            "bim",
+            "coordination-issues",
+            "pe-reports",
+            "pe-analytics-setup"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training",
+            "Analytics Setup"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 64,
+          "duration": "12 weeks",
+          "pricing": {
+            "comm": 16000,
+            "smb": 12800
+          },
+          "color": "#566578",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Analytics dashboards",
+              "default": "PE defaults",
+              "note": "Project Execution analytics dashboards enabled."
+            },
+            {
+              "setting": "BIM coordination cadence",
+              "default": "Weekly",
+              "note": "Recommended coordination model refresh cadence."
+            },
+            {
+              "setting": "Reports",
+              "default": "Up to 3",
+              "note": "Up to 3 custom field reports configured."
+            }
+          ],
+          "permissions": {
+            "readOnly": "Standard view plus BIM viewer and analytics dashboards.",
+            "standard": "Standard rights plus create/edit BIM coordination issues and reports.",
+            "admin": "Full Enterprise control including Analytics, BIM, and Coordination Issues configuration."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        },
+        {
+          "key": "plm-owners",
+          "name": "Project Lifecycle Management",
+          "shortName": "PLM (Owners)",
+          "note": "Owners-only end-to-end package combining field execution with owner-side financials.",
+          "availableFor": [
+            "owner"
+          ],
+          "toolIds": [
+            "pe-prime-contracts",
+            "pe-commitments",
+            "pe-budget",
+            "pe-change-events-orders",
+            "pe-invoicing",
+            "pe-direct-costs",
+            "pe-analytics-setup",
+            "pe-reports",
+            "drawings",
+            "correspondence",
+            "action-plans",
+            "punch-list",
+            "inspections",
+            "bid-management"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training",
+            "Analytics Setup"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 65,
+          "duration": "14 weeks",
+          "pricing": {
+            "comm": 16250,
+            "smb": 13000
+          },
+          "color": "#000000",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Analytics dashboards",
+              "default": "PLM defaults + 360 Reporting/Dashboards",
+              "note": "Owner-focused analytics dashboards enabled, including 360 Reporting/Dashboards (up to 3 reports)."
+            },
+            {
+              "setting": "Action Plan templates",
+              "default": "Up to 2",
+              "note": "Templated action plans for commissioning, closeout, or quality."
+            },
+            {
+              "setting": "Correspondence types",
+              "default": "Up to 2 (no workflow) or 1 (with workflow)",
+              "note": "Owner-side correspondence types configured."
+            },
+            {
+              "setting": "Inspection templates",
+              "default": "Up to 5",
+              "note": "Owner inspection templates load with the package."
+            }
+          ],
+          "permissions": {
+            "readOnly": "View owner financials, field tools, drawings, and analytics dashboards.",
+            "standard": "Create and edit prime contracts, commitments, invoices, RFIs, inspections, and action plans where permitted.",
+            "admin": "Full PLM control across owner financials, field tools, analytics, and bidding."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "resource-management",
+      "name": "Resource Management",
+      "region": "NAMER",
+      "availableFor": [
+        "gc",
+        "sc"
+      ],
+      "tools": [
+        {
+          "id": "resource-planning",
+          "name": "Resource Planning",
+          "position": {
+            "x": 500,
+            "y": 120
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/workforce-planning-company",
+          "description": "Workforce Planning - schedule crews and equipment across projects from a company-level view.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "people-cycle"
+        },
+        {
+          "id": "equipment-register",
+          "name": "Equipment Register",
+          "position": {
+            "x": 160,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-company",
+          "description": "Project + Company-level equipment register; tracks owned and rented equipment used on projects.",
+          "capabilities": [
+            "analytics"
+          ],
+          "icon": "book"
+        },
+        {
+          "id": "rm-equipment",
+          "name": "Equipment",
+          "position": {
+            "x": 340,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-project",
+          "description": "Operational equipment management at the project level; logs hours and usage against the register.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "gear"
+        },
+        {
+          "id": "crews",
+          "name": "Crews",
+          "position": {
+            "x": 540,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/crews-project",
+          "description": "Crew records for grouped time entry; assignments roll up into Timesheets and Resource Planning.",
+          "capabilities": [
+            "analytics"
+          ],
+          "icon": "users"
+        },
+        {
+          "id": "tm-tickets",
+          "name": "T&M Tickets",
+          "position": {
+            "x": 740,
+            "y": 300
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project",
+          "description": "Time & Material tickets (Daywork Sheets) - capture labor, equipment, and material at the field level.",
+          "capabilities": [
+            "connect",
+            "ai",
+            "analytics"
+          ],
+          "icon": "doc-currency"
+        },
+        {
+          "id": "timesheets",
+          "name": "Timesheets",
+          "position": {
+            "x": 360,
+            "y": 480
+          },
+          "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project",
+          "description": "Crew and individual time entry (Timecard + Resource Tracking Timesheet); roll up labor hours to projects and to ERP.",
+          "capabilities": [
+            "connect",
+            "analytics"
+          ],
+          "icon": "clock"
+        },
+        {
+          "id": "rm-reports",
+          "name": "Reports",
+          "position": {
+            "x": 560,
+            "y": 480
+          },
+          "constraint": "Up to 3 reports",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
+          "description": "Custom + canned reports across resource and time data.",
+          "capabilities": [],
+          "icon": "bar-chart"
+        },
+        {
+          "id": "rm-analytics-setup",
+          "name": "Analytics Setup",
+          "position": {
+            "x": 760,
+            "y": 480
+          },
+          "constraint": "Resource Management dashboards",
+          "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
+          "description": "Default Procore Analytics dashboards for resource utilization, labor productivity, and equipment usage.",
+          "capabilities": [],
+          "icon": "bar-chart-3"
+        }
+      ],
+      "connections": [
+        {
+          "source": "resource-planning",
+          "target": "crews",
+          "direction": "to",
+          "description": "Resource Planning schedules crews across projects.",
+          "verbForward": "schedules",
+          "verbReverse": "is scheduled by"
+        },
+        {
+          "source": "resource-planning",
+          "target": "rm-equipment",
+          "direction": "to",
+          "description": "Resource Planning schedules equipment across projects.",
+          "verbForward": "schedules",
+          "verbReverse": "is scheduled by"
+        },
+        {
+          "source": "equipment-register",
+          "target": "rm-equipment",
+          "direction": "both",
+          "description": "Project-level Equipment draws from and reports back to the company Equipment Register.",
+          "verbForward": "tracks",
+          "verbReverse": "is tracked in"
+        },
+        {
+          "source": "crews",
+          "target": "timesheets",
+          "direction": "to",
+          "description": "Crew records support grouped time entry on Timesheets.",
+          "verbForward": "logs time in",
+          "verbReverse": "captures time from"
+        },
+        {
+          "source": "rm-equipment",
+          "target": "timesheets",
+          "direction": "to",
+          "description": "Equipment usage hours are captured alongside crew time entries.",
+          "verbForward": "logs hours in",
+          "verbReverse": "captures hours from"
+        },
+        {
+          "source": "tm-tickets",
+          "target": "timesheets",
+          "direction": "to",
+          "description": "T&M Ticket labor hours roll into Timesheets.",
+          "verbForward": "rolls into",
+          "verbReverse": "incorporates"
+        },
+        {
+          "source": "resource-planning",
+          "target": "timesheets",
+          "direction": "both",
+          "description": "Resource Planning assignments and Timesheets reconcile planned vs actual time.",
+          "verbForward": "reconciles with",
+          "verbReverse": "reconciles with"
+        },
+        {
+          "source": "timesheets",
+          "target": "rm-reports",
+          "direction": "both",
+          "description": "Reports surface time, labor, and equipment hour data.",
+          "verbForward": "feeds data into",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "tm-tickets",
+          "target": "rm-reports",
+          "direction": "both",
+          "description": "Reports surface T&M Ticket data (labor, equipment, material).",
+          "verbForward": "feeds data into",
+          "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "rm-reports",
+          "target": "rm-analytics-setup",
+          "direction": "both",
+          "description": "Reports and Analytics dashboards share the same data foundation.",
+          "verbForward": "shares data with",
+          "verbReverse": "shares data with"
+        },
+        {
+          "source": "timesheets",
+          "target": "rm-analytics-setup",
+          "direction": "both",
+          "description": "Analytics dashboards surface labor productivity from Timesheets.",
+          "verbForward": "feeds dashboards in",
+          "verbReverse": "surfaces data from"
+        }
+      ],
+      "tiers": [
+        {
+          "key": "rm-tracking",
+          "name": "Resource Tracking",
+          "shortName": "Tracking",
+          "toolIds": [
+            "equipment-register",
+            "timesheets",
+            "tm-tickets"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 15,
+          "duration": "4 weeks",
+          "pricing": {
+            "comm": 3750,
+            "smb": 3000
+          },
+          "color": "#FF5200",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Time entry method",
+              "default": "Timecard + Resource Tracking Timesheet",
+              "note": "Combined individual and crew time entry workflow."
+            },
+            {
+              "setting": "Equipment Register scope",
+              "default": "Project + Company",
+              "note": "Equipment Register is enabled at both project and company levels."
+            },
+            {
+              "setting": "T&M Ticket workflow",
+              "default": "Standard daywork sheet",
+              "note": "T&M Tickets (Daywork Sheets) capture labor, equipment, and material at the field level."
+            }
+          ],
+          "permissions": {
+            "readOnly": "View timesheets, T&M tickets, and equipment register entries.",
+            "standard": "Create and edit time entries, T&M tickets, and equipment log entries where permitted.",
+            "admin": "Full Resource Tracking configuration including time entry rules and equipment register management."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        },
+        {
+          "key": "rm-planning",
+          "name": "Resource Planning",
+          "shortName": "Planning",
+          "toolIds": [
+            "resource-planning"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 20,
+          "duration": "6 weeks",
+          "pricing": {
+            "comm": 5000,
+            "smb": 4000
+          },
+          "color": "#566578",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Workforce Planning view",
+              "default": "Project + Resource view",
+              "note": "Default views configured for project-by-resource and resource-by-project planning."
+            },
+            {
+              "setting": "Forecast horizon",
+              "default": "90 days",
+              "note": "Default forward-look horizon for crew and equipment assignments."
+            }
+          ],
+          "permissions": {
+            "readOnly": "View resource assignments and workforce plans.",
+            "standard": "Create and edit resource assignments where permitted.",
+            "admin": "Full Resource Planning configuration including views, forecast horizon, and assignment rules."
+          },
+          "procorePermissionOptions": [
+            "Standard",
+            "Admin",
+            "None"
+          ]
+        },
+        {
+          "key": "rm-advanced",
+          "name": "Advanced Resource Management",
+          "shortName": "Advanced",
+          "toolIds": [
+            "timesheets",
+            "crews",
+            "rm-equipment",
+            "tm-tickets",
+            "resource-planning",
+            "rm-reports",
+            "rm-analytics-setup"
+          ],
+          "scope": [
+            "Project Coordination Services",
+            "Account Configuration",
+            "Discovery",
+            "Advisement on business process and tool configuration",
+            "Configuration Training",
+            "Analytics Setup"
+          ],
+          "deliverables": [
+            "Implementation Project Plan",
+            "Configuration Workbook",
+            "Discovery Workshop Summary",
+            "Validation Script",
+            "Project Closeout Document"
+          ],
+          "hours": 35,
+          "duration": "10 weeks",
+          "pricing": {
+            "comm": 8750,
+            "smb": 7000
+          },
+          "color": "#000000",
+          "fieldsets": true,
+          "keyConfigs": [
+            {
+              "setting": "Analytics dashboards",
+              "default": "RM defaults",
+              "note": "Resource Management analytics dashboards enabled (labor productivity, equipment utilization)."
+            },
+            {
+              "setting": "Reports",
+              "default": "Up to 3",
+              "note": "Up to 3 custom resource/labor reports configured."
+            },
+            {
+              "setting": "Crews configuration",
+              "default": "Company-managed",
+              "note": "Crew records managed at the company level and assigned to projects."
+            }
+          ],
+          "permissions": {
+            "readOnly": "View resource plans, timesheets, crews, equipment, T&M tickets, reports, and analytics dashboards.",
+            "standard": "Create and edit resource plans, crews, timesheets, T&M tickets, and equipment entries where permitted.",
+            "admin": "Full Advanced Resource Management control including Analytics, crew configuration, and equipment management."
           },
           "procorePermissionOptions": [
             "Standard",
