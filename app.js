@@ -20,7 +20,7 @@
   const NODE_COLOR = { erp: "#FF5200", module: "#000000" };
   const COLOR_PROCORE = "#FF5200"; // Procore Orange
   const COLOR_AGAVE = "#566578";   // Procore Metal (secondary palette)
-  const COLOR_SMOOTHX = "#14B8A6"; // SmoothX teal accent
+  const COLOR_SMOOTHX = "#8D6E5B"; // Procore Earth (secondary palette)
 
   function erpFillFor(d) {
     if (d.via === "agave") return COLOR_AGAVE;

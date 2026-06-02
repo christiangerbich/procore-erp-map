@@ -602,9 +602,11 @@
   --color-lumber: #CEC4A1;
   --color-earth:  #8D6E5B;
 
-  /* SmoothX connector accent — a clear third hue so the SmoothX column
-   * reads distinctly against Procore-native (orange) and Agave (metal). */
-  --color-smoothx: #14B8A6;
+  /* SmoothX connector accent — Earth from the Procore secondary palette,
+   * a warm brown that reads distinctly against Procore-native (orange)
+   * and Agave (metal, cool blue-gray) while staying inside the official
+   * brand palette. */
+  --color-smoothx: var(--color-earth);
 
   /* Surfaces & borders */
   --color-bg: var(--color-stone);
