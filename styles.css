@@ -602,6 +602,10 @@
   --color-lumber: #CEC4A1;
   --color-earth:  #8D6E5B;
 
+  /* SmoothX connector accent — a clear third hue so the SmoothX column
+   * reads distinctly against Procore-native (orange) and Agave (metal). */
+  --color-smoothx: #14B8A6;
+
   /* Surfaces & borders */
   --color-bg: var(--color-stone);
   --color-surface: var(--color-white);
@@ -720,9 +724,10 @@ h1 {
   clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0, 75% 0);
 }
 
-.legend-erp        { background: var(--color-orange); }
-.legend-erp-agave  { background: var(--color-metal); }
-.legend-module     { background: var(--color-black); }
+.legend-erp         { background: var(--color-orange); }
+.legend-erp-agave   { background: var(--color-metal); }
+.legend-erp-smoothx { background: var(--color-smoothx); }
+.legend-module      { background: var(--color-black); }
 
 /* "Both" ERP legend swatch — orange hex with metal ring around it. The
  * markup uses inline SVG (in index.html) so the ring follows the hex
@@ -804,6 +809,12 @@ main {
  * unmistakably as the Agave-sourced side of the bipartite split. */
 .column-header-agave {
   fill: var(--color-metal);
+}
+
+/* The SmoothX column header uses the SmoothX teal accent so the active
+ * column header always color-matches the hex nodes in that column. */
+.column-header-smoothx {
+  fill: var(--color-smoothx);
 }
 
 /* Tier section labels on the modules side — slightly smaller than the

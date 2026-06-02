@@ -20,9 +20,12 @@
   const NODE_COLOR = { erp: "#FF5200", module: "#000000" };
   const COLOR_PROCORE = "#FF5200"; // Procore Orange
   const COLOR_AGAVE = "#566578";   // Procore Metal (secondary palette)
+  const COLOR_SMOOTHX = "#14B8A6"; // SmoothX teal accent
 
   function erpFillFor(d) {
-    return d.via === "agave" ? COLOR_AGAVE : COLOR_PROCORE;
+    if (d.via === "agave") return COLOR_AGAVE;
+    if (d.via === "smoothx") return COLOR_SMOOTHX;
+    return COLOR_PROCORE;
   }
 
   // Line colors keyed by link direction. Solid vs dashed treatment lives
@@ -162,7 +165,10 @@
   const agaveERPs = data.nodes
     .filter((n) => n.type === "erp" && n.via === "agave")
     .sort((a, b) => a.label.localeCompare(b.label));
-  const erpNodes = [...procoreERPs, ...agaveERPs];
+  const smoothxERPs = data.nodes
+    .filter((n) => n.type === "erp" && n.via === "smoothx")
+    .sort((a, b) => a.label.localeCompare(b.label));
+  const erpNodes = [...procoreERPs, ...agaveERPs, ...smoothxERPs];
 
   // Procore modules are split into two tiers (Company-level vs
   // Project-level) so the column can be grouped. Each group is sorted
@@ -222,12 +228,13 @@
   // Heights of each column (taller wins for canvas sizing).
   const procoreERPHeight = procoreERPs.length * ROW_HEIGHT;
   const agaveERPHeight = agaveERPs.length * ROW_HEIGHT;
+  const smoothxERPHeight = smoothxERPs.length * ROW_HEIGHT;
   const moduleStackHeight =
     TIER_LABEL_HEIGHT + companyModules.length * ROW_HEIGHT +
     TIER_GAP + TIER_LABEL_HEIGHT + projectModules.length * ROW_HEIGHT;
   const minHeight =
     HEADER_HEIGHT +
-    Math.max(procoreERPHeight, moduleStackHeight, agaveERPHeight) +
+    Math.max(procoreERPHeight, moduleStackHeight, agaveERPHeight, smoothxERPHeight) +
     FOOTER_PAD;
   const height = Math.max(container.clientHeight, minHeight);
 
@@ -253,6 +260,14 @@
   agaveERPs.forEach((n, i) => {
     n.x = rightX;
     n.y = HEADER_HEIGHT + agaveSpacing * (i + 0.5);
+  });
+
+  // SmoothX ERPs share the right column staging area; applySource() repositions
+  // them to the active LEFT column when SmoothX is selected.
+  const smoothxSpacing = (height - HEADER_HEIGHT - FOOTER_PAD) / Math.max(smoothxERPs.length, 1);
+  smoothxERPs.forEach((n, i) => {
+    n.x = rightX;
+    n.y = HEADER_HEIGHT + smoothxSpacing * (i + 0.5);
   });
 
   // Modules: stack the company-level group, leave a gap, then the
@@ -320,6 +335,15 @@
     .attr("y", 28)
     .attr("text-anchor", "middle")
     .text("Agave Sync");
+
+  zoomLayer
+    .append("text")
+    .attr("class", "column-header column-header-smoothx")
+    .attr("x", rightX)
+    .attr("y", 28)
+    .attr("text-anchor", "middle")
+    .attr("display", "none")
+    .text("SmoothX");
 
   // Tier section labels on the modules side (Company / Project).
   zoomLayer
@@ -539,6 +563,12 @@
       return erp.agaveResourceUrl || erp.supportUrl || null;
     }
 
+    // SmoothX path — single integration page covers all data objects, so
+    // every connection card links back to the same SmoothX page.
+    if (erp.via === "smoothx") {
+      return erp.supportUrl || null;
+    }
+
     // Procore-native path — Text Fragments anchor to the section heading.
     const dm = (erp.resources || []).find((r) => r.label === "Data Mapping");
     const baseUrl = dm ? dm.url : erp.supportUrl;
@@ -594,11 +624,14 @@
     // - For Procore-native ERPs: type chip says "Procore Native";
     //   panel gets the orange accent.
     // - For Procore modules: type chip says the tier.
-    detailsEl.classList.remove("details-agave", "details-procore-native");
+    detailsEl.classList.remove("details-agave", "details-procore-native", "details-smoothx");
     if (n.type === "erp") {
       if (n.via === "agave") {
         typeEl.textContent = "Agave Sync · " + n.label;
         detailsEl.classList.add("details-agave");
+      } else if (n.via === "smoothx") {
+        typeEl.textContent = "SmoothX · " + n.label;
+        detailsEl.classList.add("details-smoothx");
       } else {
         typeEl.textContent = "Procore Native · " + n.label;
         detailsEl.classList.add("details-procore-native");
@@ -626,6 +659,7 @@
     // Context-aware NotebookLM link: Agave nodes → Agave notebook;
     // Procore-native ERPs and Procore modules → Procore notebook.
     let nbUrl = null;
+    // SmoothX doesn't have a NotebookLM; fall back to the Procore notebook.
     if (n.type === "erp") nbUrl = n.via === "agave" ? NOTEBOOKS.agave : NOTEBOOKS.procore;
     else nbUrl = NOTEBOOKS.procore;
     if (nbUrl) {
@@ -841,8 +875,11 @@
   // nodes + links and crop the viewBox to the active half of the bipartite
   // layout, so the empty column disappears and the modules stay in view.
   function applySource(source) {
-    activeSource = source === "agave" ? "agave" : "procore";
-    const activeErps = activeSource === "agave" ? agaveERPs : procoreERPs;
+    activeSource = ["agave", "smoothx", "procore"].includes(source) ? source : "procore";
+    const activeErps =
+      activeSource === "agave"   ? agaveERPs   :
+      activeSource === "smoothx" ? smoothxERPs :
+                                   procoreERPs;
     activeErpIds = new Set(activeErps.map((n) => n.id));
 
     // Hide the inactive source's nodes + links.
@@ -870,12 +907,15 @@
       d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
     });
 
-    // Both source headers sit at leftX; only the active one is visible.
+    // All three source headers sit at leftX; only the active one is visible.
     d3.select(".column-header-procore")
       .attr("display", activeSource === "procore" ? null : "none")
       .attr("x", leftX);
     d3.select(".column-header-agave")
       .attr("display", activeSource === "agave" ? null : "none")
+      .attr("x", leftX);
+    d3.select(".column-header-smoothx")
+      .attr("display", activeSource === "smoothx" ? null : "none")
       .attr("x", leftX);
 
     // Full layout viewBox — no crop needed since ERPs are always on the left.
@@ -886,17 +926,23 @@
 
   const srcProcoreBtn = document.getElementById("src-procore");
   const srcAgaveBtn = document.getElementById("src-agave");
+  const srcSmoothxBtn = document.getElementById("src-smoothx");
   function setSource(source) {
     applySource(source);
-    if (srcProcoreBtn && srcAgaveBtn) {
-      srcProcoreBtn.classList.toggle("is-active", activeSource === "procore");
-      srcAgaveBtn.classList.toggle("is-active", activeSource === "agave");
-      srcProcoreBtn.setAttribute("aria-pressed", String(activeSource === "procore"));
-      srcAgaveBtn.setAttribute("aria-pressed", String(activeSource === "agave"));
-    }
+    const buttons = [
+      [srcProcoreBtn, "procore"],
+      [srcAgaveBtn,   "agave"],
+      [srcSmoothxBtn, "smoothx"],
+    ];
+    buttons.forEach(([btn, key]) => {
+      if (!btn) return;
+      btn.classList.toggle("is-active", activeSource === key);
+      btn.setAttribute("aria-pressed", String(activeSource === key));
+    });
   }
   if (srcProcoreBtn) srcProcoreBtn.addEventListener("click", () => setSource("procore"));
   if (srcAgaveBtn) srcAgaveBtn.addEventListener("click", () => setSource("agave"));
+  if (srcSmoothxBtn) srcSmoothxBtn.addEventListener("click", () => setSource("smoothx"));
 
   // Default the map to Procore's connectors.
   setSource("procore");
@@ -1764,7 +1810,10 @@
   // thing-to-know, and per connection note (or per bare connection).
   const searchDocs = [];
   erpNodes.forEach((erp) => {
-    const via = erp.via === "agave" ? "Agave Sync" : "Procore native";
+    const via =
+      erp.via === "agave"   ? "Agave Sync" :
+      erp.via === "smoothx" ? "SmoothX"    :
+                              "Procore native";
     if (erp.overview) {
       searchDocs.push({ erpId: erp.id, moduleId: null, kind: "Overview", title: erp.label,
         snippet: erp.overview, text: [erp.label, erp.connector, via, erp.overview].join(" ") });
@@ -2073,7 +2122,13 @@
       if (!sopPickerInit && sopErpPick) {
         erpNodes.slice()
           .sort((a, b) => a.label.localeCompare(b.label))
-          .forEach((e) => sopErpPick.appendChild(new Option(e.label + (e.via === "agave" ? " · Agave" : ""), e.id)));
+          .forEach((e) => {
+            const suffix =
+              e.via === "agave"   ? " · Agave"   :
+              e.via === "smoothx" ? " · SmoothX" :
+                                    "";
+            sopErpPick.appendChild(new Option(e.label + suffix, e.id));
+          });
         sopErpPick.addEventListener("change", () => {
           const e = erpNodes.find((x) => x.id === sopErpPick.value);
           if (e) renderSopFor(e);
@@ -2108,7 +2163,10 @@
     function buildSopHtml(ctx) {
       const esc = escapeHtml;
       const erp = ctx.erp;
-      const via = erp.via === "agave" ? "Agave Sync" : "Integration by Procore";
+      const via =
+        erp.via === "agave"   ? "Agave Sync"            :
+        erp.via === "smoothx" ? "SmoothX"               :
+                                "Integration by Procore";
       let h = "";
       h += "<h1 class='doc-title'>" + esc(ctx.client) + " — Procore + " + esc(erp.label) + "</h1>";
       h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; ERP integration via " + esc(via) +
