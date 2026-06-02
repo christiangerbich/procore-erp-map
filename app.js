@@ -927,10 +927,13 @@
   // Elements that belong to the ERP view; hidden in package mode.
   const erpOnlyEls = [
     document.querySelector(".source-toggle"),
-    document.querySelector(".legend"),
+    document.getElementById("erp-legend"),
     document.getElementById("graph"),
     document.getElementById("details"),
   ];
+  // The package-mode legend lives in the header (matching the ERP legend slot);
+  // it's the opposite of erpOnlyEls — shown in package mode, hidden in ERP mode.
+  const packagesHeaderLegend = document.getElementById("packages-legend");
 
   let activeVertical = "gc"; // default vertical: General Contractor
   let activePackage = null;
@@ -1008,6 +1011,7 @@
   function setMode(mode) {
     const isPackages = mode === "packages";
     erpOnlyEls.forEach((el) => { if (el) el.hidden = isPackages; });
+    if (packagesHeaderLegend) packagesHeaderLegend.hidden = !isPackages;
     if (packagesView) packagesView.hidden = !isPackages;
 
     // SOP button only in ERP mode.
@@ -1210,49 +1214,85 @@
       });
     }
 
-    // Returns true if the straight segment from (x1,y1) to (x2,y2) passes within
-    // `pad` of any non-endpoint node center — used to bow paths around obstacles.
-    function segmentHitsNode(x1, y1, x2, y2, srcId, tgtId, pad) {
+    // Compute a bezier control point that bows the connection clear of any
+    // non-endpoint nodes within `PAD` perpendicular distance of the chord.
+    // Strategy:
+    //   - Collect all in-pad obstacles, splitting them by which side of the
+    //     chord they sit on (signed perpendicular).
+    //   - If both sides have obstacles, bow toward the side with the farther
+    //     closest obstacle (more headroom).
+    //   - Bow magnitude is sized so the curve's perpendicular deviation at
+    //     each obstacle's projection >= R + SLACK clearance from the obstacle
+    //     center on the AWAY side (using B(t) = chord(t) + 2t(1-t)*offset).
+    //   - Obstacles exactly on the chord (perp ~= 0) force a side and a
+    //     magnitude of 2*(R + SLACK).
+    const BOW_R = NODE_R;
+    const BOW_SLACK = 12;
+    const BOW_PAD = BOW_R + BOW_SLACK;
+
+    function planControl(x1, y1, x2, y2, srcId, tgtId) {
       const dx = x2 - x1, dy = y2 - y1;
-      const len2 = dx * dx + dy * dy || 1;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const ux = dx / len, uy = dy / len;
+      const nx = -uy, ny = ux;
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+
+      let pos = [], neg = [], onLine = false;
       for (const t of activePackage.tools) {
         if (!t.position || t.id === srcId || t.id === tgtId) continue;
         const px = t.position.x - x1, py = t.position.y - y1;
-        const proj = (px * dx + py * dy) / len2;
-        if (proj <= 0 || proj >= 1) continue;       // outside segment
-        const cx = x1 + proj * dx, cy = y1 + proj * dy;
-        const ddx = t.position.x - cx, ddy = t.position.y - cy;
-        if (ddx * ddx + ddy * ddy < pad * pad) return { node: t, proj };
+        const proj = px * ux + py * uy;
+        if (proj <= BOW_R || proj >= len - BOW_R) continue;
+        const perp = px * nx + py * ny;
+        if (Math.abs(perp) >= BOW_PAD) continue;
+        const tParam = proj / len;
+        if (Math.abs(perp) < 2) onLine = true;
+        else if (perp > 0) pos.push({ t: tParam, p: perp });
+        else neg.push({ t: tParam, p: -perp });
       }
-      return null;
+
+      // Default subtle bow on a deterministic side.
+      let bow = Math.max(len * 0.08, 14);
+      let sign = (x1 + y1) < (x2 + y2) ? 1 : -1;
+
+      // How much bow is needed to keep curve away from obstacles on the
+      // *opposite* side (curve deviates AWAY from them by 2t(1-t)*bow).
+      function clearAway(obs) {
+        let need = 0;
+        for (const o of obs) {
+          const denom = 2 * o.t * (1 - o.t);
+          if (denom <= 0.05) continue;
+          // bow*denom + p > R + SLACK  =>  bow > (R + SLACK - p) / denom
+          const n = (BOW_R + BOW_SLACK - o.p) / denom;
+          if (n > need) need = n;
+        }
+        return need;
+      }
+
+      if (onLine) {
+        bow = Math.max(bow, 2 * (BOW_R + BOW_SLACK));
+        if (pos.length && !neg.length) sign = -1;
+        else if (neg.length && !pos.length) sign = +1;
+      } else if (pos.length && neg.length) {
+        // Both sides — bow toward side with farther closest obstacle.
+        const closestPos = pos.reduce((m, o) => Math.min(m, o.p), Infinity);
+        const closestNeg = neg.reduce((m, o) => Math.min(m, o.p), Infinity);
+        if (closestPos >= closestNeg) { sign = +1; bow = Math.max(bow, clearAway(neg)); }
+        else                          { sign = -1; bow = Math.max(bow, clearAway(pos)); }
+      } else if (pos.length) {
+        sign = -1; bow = Math.max(bow, clearAway(pos));
+      } else if (neg.length) {
+        sign = +1; bow = Math.max(bow, clearAway(neg));
+      }
+
+      return { cx: mx + sign * nx * bow, cy: my + sign * ny * bow };
     }
 
-    // Draw connection paths below the nodes. Bezier with a perpendicular control-point
-    // offset so the line bows around obstacles (and same-row connections never run flat
-    // through an intermediate node).
+    // Draw connection paths below the nodes.
     (activePackage.connections || []).forEach((conn) => {
       const ep = endpoints(conn.source, conn.target);
       if (!ep) return;
-      const dx = ep.x2 - ep.x1, dy = ep.y2 - ep.y1;
-      const len = Math.sqrt(dx * dx + dy * dy) || 1;
-      const mx = (ep.x1 + ep.x2) / 2, my = (ep.y1 + ep.y2) / 2;
-      // Perpendicular unit (rotate 90deg CCW: (-dy, dx) / len)
-      const nx = -dy / len, ny = dx / len;
-      // Bow amount: base 8% of length, bumped if a non-endpoint node sits on the line.
-      let bow = len * 0.08;
-      const hit = segmentHitsNode(ep.x1, ep.y1, ep.x2, ep.y2, conn.source, conn.target, NODE_R + 8);
-      if (hit) bow = Math.max(bow, NODE_R * 2.2);
-      // Direction of bow: deterministic per (source,target) pair so it always picks
-      // the same side. Curve away from the obstacle if one was detected.
-      let sign = 1;
-      if (hit) {
-        const px = hit.node.position.x - mx, py = hit.node.position.y - my;
-        sign = (px * nx + py * ny) > 0 ? -1 : 1; // away from the obstacle
-      } else {
-        // Stable side for non-obstructed lines (favor "downhill" so symmetrically-placed lines diverge)
-        sign = (ep.x1 + ep.y1) < (ep.x2 + ep.y2) ? 1 : -1;
-      }
-      const cx = mx + sign * nx * bow, cy = my + sign * ny * bow;
+      const { cx, cy } = planControl(ep.x1, ep.y1, ep.x2, ep.y2, conn.source, conn.target);
       const path = document.createElementNS(svgNS, "path");
       path.setAttribute("d", "M " + ep.x1 + " " + ep.y1 + " Q " + cx + " " + cy + " " + ep.x2 + " " + ep.y2);
       path.setAttribute("class", "pkg-link dir-" + (conn.direction || "to"));

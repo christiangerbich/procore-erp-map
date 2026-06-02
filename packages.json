@@ -243,7 +243,7 @@
           "id": "payment-management",
           "name": "Payment Management",
           "position": {
-            "x": 1180,
+            "x": 1300,
             "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
@@ -589,8 +589,8 @@
           "id": "bid-management",
           "name": "Bid Management",
           "position": {
-            "x": 140,
-            "y": 100
+            "x": 60,
+            "y": 460
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project",
           "description": "Manage subcontractor bidding workflow; award bids and promote into Commitments.",
@@ -603,8 +603,8 @@
           "id": "drawings",
           "name": "Drawings",
           "position": {
-            "x": 360,
-            "y": 200
+            "x": 520,
+            "y": 180
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project",
           "description": "Current and historical drawing set; the source-of-truth referenced by RFIs, Submittals, and BIM.",
@@ -619,8 +619,8 @@
           "id": "submittals",
           "name": "Submittals",
           "position": {
-            "x": 540,
-            "y": 60
+            "x": 360,
+            "y": 80
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project",
           "description": "Submittal log and ball-in-court workflow for product data, samples, and shop drawings.",
@@ -635,8 +635,8 @@
           "id": "rfis",
           "name": "RFIs",
           "position": {
-            "x": 720,
-            "y": 200
+            "x": 680,
+            "y": 80
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project",
           "description": "Request for Information log; questions reference drawings and may trigger Submittals or Change Events.",
@@ -651,8 +651,8 @@
           "id": "bim",
           "name": "BIM",
           "position": {
-            "x": 900,
-            "y": 60
+            "x": 360,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project",
           "description": "3D model viewer with federated coordination model; clash detection surfaces Coordination Issues.",
@@ -665,8 +665,8 @@
           "id": "coordination-issues",
           "name": "Coordination Issues",
           "position": {
-            "x": 1080,
-            "y": 200
+            "x": 220,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project",
           "description": "Resolve clashes and constructability issues raised against the BIM coordination model.",
@@ -679,8 +679,8 @@
           "id": "observations",
           "name": "Observations",
           "position": {
-            "x": 140,
-            "y": 380
+            "x": 60,
+            "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project",
           "description": "Field observations for safety, quality, work-to-complete; ball-in-court assignment to subs.",
@@ -694,8 +694,8 @@
           "id": "daily-log",
           "name": "Daily Log",
           "position": {
-            "x": 320,
-            "y": 380
+            "x": 240,
+            "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project",
           "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
@@ -709,8 +709,8 @@
           "id": "correspondence",
           "name": "Correspondence",
           "position": {
-            "x": 500,
-            "y": 380
+            "x": 820,
+            "y": 180
           },
           "constraint": "Up to 2 templates w/o workflow or 1 template with workflow",
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
@@ -724,8 +724,8 @@
           "id": "inspections",
           "name": "Inspections",
           "position": {
-            "x": 680,
-            "y": 380
+            "x": 420,
+            "y": 400
           },
           "constraint": "Up to 5 templates",
           "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project",
@@ -740,8 +740,8 @@
           "id": "punch-list",
           "name": "Punch List",
           "position": {
-            "x": 860,
-            "y": 380
+            "x": 600,
+            "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
           "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
@@ -754,8 +754,8 @@
           "id": "action-plans",
           "name": "Action Plans",
           "position": {
-            "x": 1260,
-            "y": 60
+            "x": 680,
+            "y": 280
           },
           "constraint": "Up to 2 templates",
           "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project",
@@ -769,7 +769,7 @@
           "id": "pe-prime-contracts",
           "name": "Prime Contracts",
           "position": {
-            "x": 140,
+            "x": 60,
             "y": 560
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
@@ -783,7 +783,7 @@
           "id": "pe-commitments",
           "name": "Commitments",
           "position": {
-            "x": 320,
+            "x": 980,
             "y": 560
           },
           "constraint": "Up to 2 workflows",
@@ -798,8 +798,8 @@
           "id": "pe-budget",
           "name": "Budget",
           "position": {
-            "x": 500,
-            "y": 560
+            "x": 520,
+            "y": 660
           },
           "constraint": "Up to 3 budget views, WBS import",
           "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
@@ -813,8 +813,8 @@
           "id": "pe-direct-costs",
           "name": "Direct Costs",
           "position": {
-            "x": 680,
-            "y": 560
+            "x": 60,
+            "y": 760
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
@@ -828,8 +828,8 @@
           "id": "pe-change-events-orders",
           "name": "Change Events / Orders",
           "position": {
-            "x": 860,
-            "y": 560
+            "x": 980,
+            "y": 760
           },
           "constraint": "Up to 2 workflows, 1 view",
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
@@ -843,8 +843,8 @@
           "id": "pe-invoicing",
           "name": "Invoicing",
           "position": {
-            "x": 1040,
-            "y": 560
+            "x": 520,
+            "y": 860
           },
           "constraint": "Up to 2 workflows",
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
@@ -858,8 +858,8 @@
           "id": "pe-reports",
           "name": "Reports",
           "position": {
-            "x": 500,
-            "y": 740
+            "x": 380,
+            "y": 960
           },
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
@@ -871,8 +871,8 @@
           "id": "pe-analytics-setup",
           "name": "Analytics Setup",
           "position": {
-            "x": 680,
-            "y": 740
+            "x": 660,
+            "y": 960
           },
           "constraint": "PE / PLM dashboards",
           "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
@@ -1355,8 +1355,8 @@
           "id": "resource-planning",
           "name": "Resource Planning",
           "position": {
-            "x": 500,
-            "y": 120
+            "x": 480,
+            "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/workforce-planning-company",
           "description": "Workforce Planning - schedule crews and equipment across projects from a company-level view.",
@@ -1369,8 +1369,8 @@
           "id": "equipment-register",
           "name": "Equipment Register",
           "position": {
-            "x": 160,
-            "y": 300
+            "x": 140,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-company",
           "description": "Project + Company-level equipment register; tracks owned and rented equipment used on projects.",
@@ -1383,8 +1383,8 @@
           "id": "rm-equipment",
           "name": "Equipment",
           "position": {
-            "x": 340,
-            "y": 300
+            "x": 320,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-project",
           "description": "Operational equipment management at the project level; logs hours and usage against the register.",
@@ -1397,8 +1397,8 @@
           "id": "crews",
           "name": "Crews",
           "position": {
-            "x": 540,
-            "y": 300
+            "x": 520,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/crews-project",
           "description": "Crew records for grouped time entry; assignments roll up into Timesheets and Resource Planning.",
@@ -1411,8 +1411,8 @@
           "id": "tm-tickets",
           "name": "T&M Tickets",
           "position": {
-            "x": 740,
-            "y": 300
+            "x": 720,
+            "y": 280
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project",
           "description": "Time & Material tickets (Daywork Sheets) - capture labor, equipment, and material at the field level.",
@@ -1426,8 +1426,8 @@
           "id": "timesheets",
           "name": "Timesheets",
           "position": {
-            "x": 360,
-            "y": 480
+            "x": 320,
+            "y": 460
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project",
           "description": "Crew and individual time entry (Timecard + Resource Tracking Timesheet); roll up labor hours to projects and to ERP.",
@@ -1440,8 +1440,8 @@
           "id": "rm-reports",
           "name": "Reports",
           "position": {
-            "x": 560,
-            "y": 480
+            "x": 520,
+            "y": 600
           },
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
@@ -1453,8 +1453,8 @@
           "id": "rm-analytics-setup",
           "name": "Analytics Setup",
           "position": {
-            "x": 760,
-            "y": 480
+            "x": 720,
+            "y": 460
           },
           "constraint": "Resource Management dashboards",
           "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
