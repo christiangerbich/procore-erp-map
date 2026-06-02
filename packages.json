@@ -59,8 +59,8 @@
           "id": "cost-catalog",
           "name": "Cost Catalog",
           "position": {
-            "x": 180,
-            "y": 100
+            "x": 580,
+            "y": -20
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/cost-catalog-company",
           "description": "Company-level library of unit costs, materials, and assemblies that feed into Estimates.",
@@ -73,7 +73,7 @@
           "id": "bid-board",
           "name": "Bid Board",
           "position": {
-            "x": 380,
+            "x": 180,
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bid-board-company",
@@ -87,7 +87,7 @@
           "id": "takeoff",
           "name": "Takeoff",
           "position": {
-            "x": 580,
+            "x": 380,
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
@@ -101,7 +101,7 @@
           "id": "estimating",
           "name": "Estimating",
           "position": {
-            "x": 780,
+            "x": 580,
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/estimating-project",
@@ -589,7 +589,7 @@
           "id": "bid-management",
           "name": "Bid Management",
           "position": {
-            "x": 160,
+            "x": 140,
             "y": 100
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project",
@@ -604,7 +604,7 @@
           "name": "Drawings",
           "position": {
             "x": 360,
-            "y": 100
+            "y": 200
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project",
           "description": "Current and historical drawing set; the source-of-truth referenced by RFIs, Submittals, and BIM.",
@@ -619,8 +619,8 @@
           "id": "submittals",
           "name": "Submittals",
           "position": {
-            "x": 560,
-            "y": 100
+            "x": 540,
+            "y": 60
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project",
           "description": "Submittal log and ball-in-court workflow for product data, samples, and shop drawings.",
@@ -635,8 +635,8 @@
           "id": "rfis",
           "name": "RFIs",
           "position": {
-            "x": 760,
-            "y": 100
+            "x": 720,
+            "y": 200
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project",
           "description": "Request for Information log; questions reference drawings and may trigger Submittals or Change Events.",
@@ -651,8 +651,8 @@
           "id": "bim",
           "name": "BIM",
           "position": {
-            "x": 960,
-            "y": 100
+            "x": 900,
+            "y": 60
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project",
           "description": "3D model viewer with federated coordination model; clash detection surfaces Coordination Issues.",
@@ -665,8 +665,8 @@
           "id": "coordination-issues",
           "name": "Coordination Issues",
           "position": {
-            "x": 1160,
-            "y": 100
+            "x": 1080,
+            "y": 200
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project",
           "description": "Resolve clashes and constructability issues raised against the BIM coordination model.",
@@ -679,8 +679,8 @@
           "id": "observations",
           "name": "Observations",
           "position": {
-            "x": 160,
-            "y": 300
+            "x": 140,
+            "y": 380
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project",
           "description": "Field observations for safety, quality, work-to-complete; ball-in-court assignment to subs.",
@@ -694,8 +694,8 @@
           "id": "daily-log",
           "name": "Daily Log",
           "position": {
-            "x": 360,
-            "y": 300
+            "x": 320,
+            "y": 380
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project",
           "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
@@ -709,8 +709,8 @@
           "id": "correspondence",
           "name": "Correspondence",
           "position": {
-            "x": 560,
-            "y": 300
+            "x": 500,
+            "y": 380
           },
           "constraint": "Up to 2 templates w/o workflow or 1 template with workflow",
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
@@ -724,8 +724,8 @@
           "id": "inspections",
           "name": "Inspections",
           "position": {
-            "x": 760,
-            "y": 300
+            "x": 680,
+            "y": 380
           },
           "constraint": "Up to 5 templates",
           "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project",
@@ -740,8 +740,8 @@
           "id": "punch-list",
           "name": "Punch List",
           "position": {
-            "x": 960,
-            "y": 300
+            "x": 860,
+            "y": 380
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
           "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
@@ -754,8 +754,8 @@
           "id": "action-plans",
           "name": "Action Plans",
           "position": {
-            "x": 1160,
-            "y": 300
+            "x": 1260,
+            "y": 60
           },
           "constraint": "Up to 2 templates",
           "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project",
@@ -769,8 +769,8 @@
           "id": "pe-prime-contracts",
           "name": "Prime Contracts",
           "position": {
-            "x": 160,
-            "y": 500
+            "x": 140,
+            "y": 560
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
@@ -783,8 +783,8 @@
           "id": "pe-commitments",
           "name": "Commitments",
           "position": {
-            "x": 340,
-            "y": 500
+            "x": 320,
+            "y": 560
           },
           "constraint": "Up to 2 workflows",
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
@@ -798,8 +798,8 @@
           "id": "pe-budget",
           "name": "Budget",
           "position": {
-            "x": 520,
-            "y": 500
+            "x": 500,
+            "y": 560
           },
           "constraint": "Up to 3 budget views, WBS import",
           "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
@@ -813,8 +813,8 @@
           "id": "pe-direct-costs",
           "name": "Direct Costs",
           "position": {
-            "x": 700,
-            "y": 500
+            "x": 680,
+            "y": 560
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
@@ -828,8 +828,8 @@
           "id": "pe-change-events-orders",
           "name": "Change Events / Orders",
           "position": {
-            "x": 880,
-            "y": 500
+            "x": 860,
+            "y": 560
           },
           "constraint": "Up to 2 workflows, 1 view",
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
@@ -843,8 +843,8 @@
           "id": "pe-invoicing",
           "name": "Invoicing",
           "position": {
-            "x": 1060,
-            "y": 500
+            "x": 1040,
+            "y": 560
           },
           "constraint": "Up to 2 workflows",
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
@@ -858,8 +858,8 @@
           "id": "pe-reports",
           "name": "Reports",
           "position": {
-            "x": 520,
-            "y": 700
+            "x": 500,
+            "y": 740
           },
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
@@ -871,8 +871,8 @@
           "id": "pe-analytics-setup",
           "name": "Analytics Setup",
           "position": {
-            "x": 700,
-            "y": 700
+            "x": 680,
+            "y": 740
           },
           "constraint": "PE / PLM dashboards",
           "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",

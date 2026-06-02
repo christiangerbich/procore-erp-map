@@ -1210,26 +1210,61 @@
       });
     }
 
-    // Draw connection lines below the nodes.
+    // Returns true if the straight segment from (x1,y1) to (x2,y2) passes within
+    // `pad` of any non-endpoint node center — used to bow paths around obstacles.
+    function segmentHitsNode(x1, y1, x2, y2, srcId, tgtId, pad) {
+      const dx = x2 - x1, dy = y2 - y1;
+      const len2 = dx * dx + dy * dy || 1;
+      for (const t of activePackage.tools) {
+        if (!t.position || t.id === srcId || t.id === tgtId) continue;
+        const px = t.position.x - x1, py = t.position.y - y1;
+        const proj = (px * dx + py * dy) / len2;
+        if (proj <= 0 || proj >= 1) continue;       // outside segment
+        const cx = x1 + proj * dx, cy = y1 + proj * dy;
+        const ddx = t.position.x - cx, ddy = t.position.y - cy;
+        if (ddx * ddx + ddy * ddy < pad * pad) return { node: t, proj };
+      }
+      return null;
+    }
+
+    // Draw connection paths below the nodes. Bezier with a perpendicular control-point
+    // offset so the line bows around obstacles (and same-row connections never run flat
+    // through an intermediate node).
     (activePackage.connections || []).forEach((conn) => {
       const ep = endpoints(conn.source, conn.target);
       if (!ep) return;
-      const line = document.createElementNS(svgNS, "line");
-      line.setAttribute("x1", ep.x1);
-      line.setAttribute("y1", ep.y1);
-      line.setAttribute("x2", ep.x2);
-      line.setAttribute("y2", ep.y2);
-      line.setAttribute("class", "pkg-link dir-" + (conn.direction || "to"));
-      // Dim if either endpoint isn't in the active tier(s).
+      const dx = ep.x2 - ep.x1, dy = ep.y2 - ep.y1;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const mx = (ep.x1 + ep.x2) / 2, my = (ep.y1 + ep.y2) / 2;
+      // Perpendicular unit (rotate 90deg CCW: (-dy, dx) / len)
+      const nx = -dy / len, ny = dx / len;
+      // Bow amount: base 8% of length, bumped if a non-endpoint node sits on the line.
+      let bow = len * 0.08;
+      const hit = segmentHitsNode(ep.x1, ep.y1, ep.x2, ep.y2, conn.source, conn.target, NODE_R + 8);
+      if (hit) bow = Math.max(bow, NODE_R * 2.2);
+      // Direction of bow: deterministic per (source,target) pair so it always picks
+      // the same side. Curve away from the obstacle if one was detected.
+      let sign = 1;
+      if (hit) {
+        const px = hit.node.position.x - mx, py = hit.node.position.y - my;
+        sign = (px * nx + py * ny) > 0 ? -1 : 1; // away from the obstacle
+      } else {
+        // Stable side for non-obstructed lines (favor "downhill" so symmetrically-placed lines diverge)
+        sign = (ep.x1 + ep.y1) < (ep.x2 + ep.y2) ? 1 : -1;
+      }
+      const cx = mx + sign * nx * bow, cy = my + sign * ny * bow;
+      const path = document.createElementNS(svgNS, "path");
+      path.setAttribute("d", "M " + ep.x1 + " " + ep.y1 + " Q " + cx + " " + cy + " " + ep.x2 + " " + ep.y2);
+      path.setAttribute("class", "pkg-link dir-" + (conn.direction || "to"));
       if (!isActive(conn.source) || !isActive(conn.target)) {
-        line.classList.add("dimmed");
+        path.classList.add("dimmed");
       }
       if (selectedPackageToolId) {
         const touchesSel = conn.source === selectedPackageToolId || conn.target === selectedPackageToolId;
-        if (touchesSel) line.classList.add("highlighted");
-        else line.classList.add("faded");
+        if (touchesSel) path.classList.add("highlighted");
+        else path.classList.add("faded");
       }
-      svg.appendChild(line);
+      svg.appendChild(path);
     });
 
     // Draw nodes on top.
