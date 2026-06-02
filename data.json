@@ -4923,102 +4923,6 @@
       ]
     },
     {
-      "source": "smoothx-qbo",
-      "target": "vendors",
-      "direction": "both",
-      "notes": [
-        "Companies \u2194 QBO Customers/Vendors. Contacts (Company Name + Website) sync."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "employees",
-      "direction": "both",
-      "notes": [
-        "Workers sync (Company Name + Website fields)."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "jobs",
-      "direction": "both",
-      "notes": [
-        "Projects \u2194 QBO Sub-Customers/Projects."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "project-wbs",
-      "direction": "both",
-      "notes": [
-        "Sub-Jobs \u2194 QBO Sub-Customers."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "cost-codes",
-      "direction": "both",
-      "notes": [
-        "Procore Cost Codes \u2194 QBO Chart of Accounts or Products/Services."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "prime-contracts",
-      "direction": "both",
-      "notes": [
-        "Prime Contracts \u2194 QBO Quotes/Estimates. Includes retainage + change orders."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Prime Contract Invoices \u2194 QBO Sales Invoices. Multiple payments supported."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "subcontracts",
-      "direction": "both",
-      "notes": [
-        "Commitments \u2194 QBO Purchase Orders. Retainage included."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "sub-invoices",
-      "direction": "both",
-      "notes": [
-        "Commitment Invoices \u2194 QBO Commitment Bills."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "direct-costs",
-      "direction": "both",
-      "notes": [
-        "Invoice-type Direct Costs \u2194 QBO Bills/Vendor Credits. Expense-type Direct Costs flow Procore \u2192 QBO. Bank Feed / Journal / Payroll Time Activities flow QBO \u2192 Procore."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Prime Contract Payments and Commitment Payments flow QBO \u2192 Procore. Taxes removed (disableable)."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
-      "target": "timecards",
-      "direction": "to-erp",
-      "notes": [
-        "Timecards export to QBO Time Activities + Payroll Direct Costs."
-      ]
-    },
-    {
       "source": "smoothx-qbd",
       "target": "vendors",
       "direction": "to-erp",
@@ -5258,6 +5162,127 @@
       "direction": "both",
       "notes": [
         "WBS reconciliation supported."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 QBO Customers/Vendors. Smoothlink links the two at setup; Live Sync keeps them bidirectional."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "employees",
+      "direction": "both",
+      "notes": [
+        "Procore Employees / Workers \u2194 QBO Employees. Smoothlink Employees section stores earning rates used by the Direct Cost Payroll build.",
+        "Supports the QuickBooks Online Time Activity module."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Standard Cost Codes \u2194 QBO Chart of Accounts (Category). Project Cost Codes optional. Chart-of-Accounts mapping is optional when all relevant Procore Cost Codes are mapped to a Product/Service equivalent.",
+        "Standard Cost Codes \u2194 QBO Products/Services (alternative mapping target).",
+        "Cost Codes / Cost Types optionally \u2194 QBO Classes.",
+        "Tax Codes optionally \u2194 QBO Tax Rates (handled at the SmoothX config layer \u2014 Tax Codes is not a Procore-side module here)."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 QBO Sub-Customers (Projects). A sub-customer can be converted to a QBO Online Project after the original syncing."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "project-wbs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Sub Jobs \u2192 QBO Sub-Customers (Optional).",
+        "A sub job can map either to a new individual sub-customer/project, or to the main sub-customer/project."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "prime-contracts",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime Contracts \u2192 QBO Quotes / Estimates (Optional).",
+        "Includes Retention and Change Orders."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime Contract Invoices \u2192 QBO Sales Invoices.",
+        "Includes Retention and Change Orders.",
+        "Requires the Procore Invoicing module. Payments flow back separately via the Payments module."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "subcontracts",
+      "direction": "both",
+      "notes": [
+        "Procore Subcontracts (Commitments) \u2194 QBO Purchase Orders (Optional).",
+        "Bidirectional commitment sync \u2014 disabling this also disables the QBO-PO-created Bill sync path."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "purchase-orders",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order Commitments \u2194 QBO Purchase Orders (Optional).",
+        "Same mapping as Subcontracts \u2014 both are Procore Commitments and share the QBO PO target."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "sub-invoices",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order / Subcontract Invoices \u2194 QBO Bills (Related to a Purchase Order).",
+        "Includes Retention and Change Orders.",
+        "A Bill created from a QuickBooks Online Purchase Order only syncs if the optional Commitments syncing is enabled."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Costs (Invoice, Expense & Payroll) \u2194 QBO Bills / Purchases (NOT related to a Purchase Order).",
+        "QBO Purchases (Expense / Check / Credit Card), Vendor Credits, and Journal Entries \u2192 Procore Direct Cost Expenses (one-way QBO \u2192 Procore)."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Prime Contract Invoice Payments Received \u2190 QBO Sales Invoice Payments.",
+        "Commitment Invoice Payments Issued \u2190 QBO Bill Payments (Related to a Purchase Order).",
+        "Taxes are removed from the Procore Payment on sync from QBO (disableable)."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "timecards",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Timesheets / Timecards \u2192 QBO Time Activity (Procore \u2192 QBO).",
+        "Procore Timesheets also build Procore Direct Cost Payroll internally, using the Smoothlink Employees-section earning rates.",
+        "Scheduled Sync (hourly, optional): QBO Time Activity \u2192 Procore Direct Cost Payroll \u2014 this flow is surfaced on the Direct Costs link."
       ]
     }
   ]
