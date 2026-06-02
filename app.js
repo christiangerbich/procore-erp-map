@@ -104,7 +104,13 @@
     "credit-card":  '<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M6 15h4"/>',
     "check-shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
     "send-receive": '<path d="M17 3l4 4-4 4"/><path d="M21 7H7"/><path d="M7 21l-4-4 4-4"/><path d="M3 17h14"/>',
-    "sparkles":     '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 14v3"/><path d="M19 20v.01"/><path d="M5 18v.01"/>'
+    "sparkles":     '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 14v3"/><path d="M19 20v.01"/><path d="M5 18v.01"/>',
+
+    // Refinements per brand-guide mapping:
+    "calc-chart":   '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M5 12h14"/><path d="M9 9v-2"/><path d="M12 9v-3"/><path d="M15 9v-1"/><circle cx="9" cy="16" r=".7"/><circle cx="12" cy="16" r=".7"/><circle cx="15" cy="16" r=".7"/><circle cx="9" cy="19" r=".7"/><circle cx="12" cy="19" r=".7"/><circle cx="15" cy="19" r=".7"/>',
+    "compass":      '<circle cx="12" cy="4" r="1.5"/><path d="M12 5.5 5.5 21"/><path d="M12 5.5 18.5 21"/><path d="M16 18l-8 0"/>',
+    "change-cycle": '<path d="M21 12a9 9 0 0 1-15 6.7"/><path d="M3 12a9 9 0 0 1 15-6.7"/><path d="M21 4v5h-5"/><path d="M3 20v-5h5"/>',
+    "doc-currency": '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6"/><path d="M14.5 13h-3a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3h-3.5"/>'
   };
 
   function makePkgIconSvg(iconKey, size, color) {

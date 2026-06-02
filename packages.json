@@ -82,7 +82,7 @@
             "connect",
             "analytics"
           ],
-          "icon": "users"
+          "icon": "doc-currency"
         },
         {
           "id": "takeoff",
@@ -111,7 +111,7 @@
             "ai",
             "analytics"
           ],
-          "icon": "calculator"
+          "icon": "compass"
         },
         {
           "id": "prime-contracts",
@@ -158,7 +158,7 @@
             "connect",
             "analytics"
           ],
-          "icon": "pie-chart"
+          "icon": "calc-chart"
         },
         {
           "id": "direct-costs",
@@ -190,7 +190,7 @@
             "connect",
             "analytics"
           ],
-          "icon": "workflow"
+          "icon": "change-cycle"
         },
         {
           "id": "invoicing",
