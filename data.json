@@ -4714,457 +4714,6 @@
       ]
     },
     {
-      "source": "smoothx-myob",
-      "target": "vendors",
-      "direction": "both",
-      "notes": [
-        "Contacts sync (Company Name + Website)."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "cost-codes",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "direct-costs",
-      "direction": "both",
-      "notes": [
-        "Direct Costs sync bidirectionally."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "sub-invoices",
-      "direction": "to-erp",
-      "notes": [
-        "Commitment Progress Claims export to MYOB."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "owner-invoices",
-      "direction": "to-erp",
-      "notes": [
-        "Prime Contract Progress Claims export; editable until MYOB payment is processed."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "payments",
-      "direction": "both",
-      "notes": [
-        "Multiple payments per invoice supported."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "timecards",
-      "direction": "both",
-      "notes": [
-        "Timesheets sync."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "vendors",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "cost-codes",
-      "direction": "both",
-      "notes": [
-        "Procore Cost Codes \u2194 MYOB Acumatica Account Codes + Project Tasks / Cost Codes."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "jobs",
-      "direction": "to-erp",
-      "notes": [
-        "Basic project creation Procore \u2192 MYOB Acumatica."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "project-wbs",
-      "direction": "to-erp",
-      "notes": [
-        "Sub Jobs export as Project Tasks (toggleable)."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "budgets",
-      "direction": "to-erp",
-      "notes": [
-        "Revenue and Cost budgets export; flow to Cost Budget. Budget Changes export as Change Orders."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "subcontracts",
-      "direction": "both",
-      "notes": [
-        "Commitments + Commitment Invoices/Progress Claims sync bidirectionally."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "purchase-orders",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "sub-invoices",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Head Contract progress claims sync bidirectionally."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "prime-contracts",
-      "direction": "both",
-      "notes": [
-        "Head Contracts; payments sync back as 'payment received'."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "direct-costs",
-      "direction": "from-erp",
-      "notes": [
-        "Direct Costs flow MYOB Acumatica \u2192 Procore."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Payments flow MYOB Acumatica \u2192 Procore (updates paid date)."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
-      "target": "timecards",
-      "direction": "both",
-      "notes": [
-        "Timesheets / Payroll sync (limited detail per vendor)."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "vendors",
-      "direction": "both",
-      "notes": [
-        "Contacts sync as Zoho customers/vendors (Company Name + Website)."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "cost-codes",
-      "direction": "both",
-      "notes": [
-        "Custom mapping supported."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "direct-costs",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "sub-invoices",
-      "direction": "both",
-      "notes": [
-        "Commitment Progress Claims sync bidirectionally."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Prime/Head Contract Progress Claims sync; editable until Zoho payment."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "payments",
-      "direction": "both",
-      "notes": [
-        "Multiple Zoho payments per invoice supported. Taxes removed from Procore payments on sync (disableable)."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "timecards",
-      "direction": "both",
-      "notes": [
-        "Timesheets sync."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "project-wbs",
-      "direction": "both",
-      "notes": [
-        "WBS automatically reconciled."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "vendors",
-      "direction": "to-erp",
-      "notes": [
-        "Companies and subcontractors sync Procore \u2192 QBD."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "cost-codes",
-      "direction": "to-erp",
-      "notes": [
-        "Procore Cost Codes export to QB Chart of Accounts."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "jobs",
-      "direction": "to-erp",
-      "notes": [
-        "Projects mapped for multi-company support."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "budgets",
-      "direction": "to-erp",
-      "notes": [
-        "Costs/Budgets flow automatically to QBD."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "subcontracts",
-      "direction": "to-erp",
-      "notes": [
-        "Subcontractor POs sync as QB Bills."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "sub-invoices",
-      "direction": "to-erp",
-      "notes": [
-        "Commitment Progress Claims export as QB Invoices."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "direct-costs",
-      "direction": "to-erp",
-      "notes": [
-        "Timesheets / Payroll direct costs sync to jobs and accounts."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
-      "target": "timecards",
-      "direction": "to-erp",
-      "notes": [
-        "Timesheets and Payroll sync as Direct Costs to QBD."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "vendors",
-      "direction": "both",
-      "notes": [
-        "Contacts sync as Xero customers/vendors (Company Name + Website)."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "cost-codes",
-      "direction": "both",
-      "notes": [
-        "Automatically reconciled."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "prime-contracts",
-      "direction": "to-erp",
-      "notes": [
-        "Prime/Main/Head Contracts export with progress claim details."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "sub-invoices",
-      "direction": "both",
-      "notes": [
-        "Commitment Progress Claims editable until Xero payment."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "owner-invoices",
-      "direction": "to-erp",
-      "notes": [
-        "Progress claims attach to Prime/Head Contract export."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "direct-costs",
-      "direction": "to-erp"
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "timecards",
-      "direction": "to-erp",
-      "notes": [
-        "Payroll & Timesheets export to Xero."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Xero payments flow back to Procore. Multiple payments per invoice supported."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "project-wbs",
-      "direction": "both",
-      "notes": [
-        "WBS automatically reconciled."
-      ]
-    },
-    {
-      "source": "smoothx-proscan-plus",
-      "target": "direct-costs",
-      "direction": "to-erp",
-      "notes": [
-        "OCR-scanned vendor invoices import to Procore Direct Costs."
-      ]
-    },
-    {
-      "source": "smoothx-proscan-plus",
-      "target": "sub-invoices",
-      "direction": "both",
-      "notes": [
-        "Commitment Progress Claims sync; editable until payment in connected accounting."
-      ]
-    },
-    {
-      "source": "smoothx-proscan-plus",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Prime Contract Progress Claims sync."
-      ]
-    },
-    {
-      "source": "smoothx-proscan-plus",
-      "target": "cost-codes",
-      "direction": "both"
-    },
-    {
-      "source": "smoothx-proscan-plus",
-      "target": "vendors",
-      "direction": "both",
-      "notes": [
-        "Contacts sync (Company Name + Website)."
-      ]
-    },
-    {
-      "source": "smoothx-cost-plus",
-      "target": "cost-codes",
-      "direction": "from-erp",
-      "notes": [
-        "Pulls Procore Cost Code structure for margin automation."
-      ]
-    },
-    {
-      "source": "smoothx-cost-plus",
-      "target": "direct-costs",
-      "direction": "from-erp",
-      "notes": [
-        "Captures all project Direct Costs for Cost Plus billing."
-      ]
-    },
-    {
-      "source": "smoothx-cost-plus",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Owner Progress Claims auto-built from costs; editable until payment."
-      ]
-    },
-    {
-      "source": "smoothx-cost-plus",
-      "target": "project-wbs",
-      "direction": "from-erp",
-      "notes": [
-        "Pulls WBS structure for reconciliation."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "owner-invoices",
-      "direction": "both",
-      "notes": [
-        "Progress Claims sync; editable until payment in accounting."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "prime-contracts",
-      "direction": "both",
-      "notes": [
-        "Syncs Procore contracts with advance payments + recoveries."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "budgets",
-      "direction": "both",
-      "notes": [
-        "Budget context for advance-payment amortization."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Monitors accounting-system payments to lock claim editing."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "project-wbs",
-      "direction": "both",
-      "notes": [
-        "WBS reconciliation supported."
-      ]
-    },
-    {
       "source": "smoothx-qbo",
       "target": "vendors",
       "direction": "both",
@@ -5283,6 +4832,593 @@
         "Procore Timesheets / Timecards \u2192 QBO Time Activity (Procore \u2192 QBO).",
         "Procore Timesheets also build Procore Direct Cost Payroll internally, using the Smoothlink Employees-section earning rates.",
         "Scheduled Sync (hourly, optional): QBO Time Activity \u2192 Procore Direct Cost Payroll \u2014 this flow is surfaced on the Direct Costs link."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 MYOB Customers / Suppliers.",
+        "Live Sync keeps new & updated contacts in sync both ways."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Procore Standard Cost Codes (+ Project Cost Codes) \u2194 MYOB Account Codes (Smoothlink Onboarding mapping)."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "employees",
+      "direction": "both",
+      "notes": [
+        "Procore Employees / Workers \u2194 MYOB Employees.",
+        "Procore Earning Types \u2194 MYOB Payroll Categories (same row group)."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 MYOB Jobs (new & updated)."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Head Contract Progress Claims \u2192 MYOB Sales Service Invoices.",
+        "Requires Procore Invoicing module. Payments come back via the Payments link."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "sub-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Commitments Progress Claims \u2192 MYOB Bills Service Bills.",
+        "Payments come back via the Payments link."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Cost (Invoice & Expense) \u2194 MYOB Bills (excluding Payment Application).",
+        "Live Sync (bottom band) also imports MYOB Spend Money \u2192 Procore Direct Cost, and MYOB Wages \u2192 Procore Direct Cost Payroll."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Head Contract Payments Received \u2190 MYOB Sales Invoice Payments.",
+        "Commitment Payments Issued \u2190 MYOB Bill Payments."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 MYOB Acumatica Customers / Suppliers."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Account Codes (primary mapping).",
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Cost Codes (optional\u00b3, mutually exclusive with the Project/Sub Jobs \u2194 Project Tasks mapping).",
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Inventory (optional).",
+        "Procore Cost Types \u2194 MYOB Acumatica Account Groups.",
+        "Procore Tax Codes optionally \u2194 MYOB Acumatica Tax Categories (handled at the SmoothX config layer)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "employees",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Employees / Workers \u2192 SmoothX Smoothlink Employees section.",
+        "Procore Earning Rates \u2192 SmoothX (used by Direct Cost Payroll build via footnote 6)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 MYOB Acumatica Projects."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "project-wbs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Sub Jobs \u2192 MYOB Acumatica Project Tasks (Optional\u00b9).",
+        "If using Project Tasks to hold sub jobs info, the separate Sub Jobs \u2194 Project Tasks mapping cannot also be used."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "budgets",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget \u2192 MYOB Acumatica Cost Budget (Optional).",
+        "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders (Optional)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "prime-contracts",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Head Contracts \u2192 MYOB Acumatica Revenue Budget (Optional, Including Variations)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Head Contract Invoices \u2192 MYOB Acumatica Receivables Invoices.",
+        "Including Retention & Variations. Requires Procore Invoicing module (\u2074)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "subcontracts",
+      "direction": "both",
+      "notes": [
+        "Procore Commitments \u2194 MYOB Acumatica Purchase Orders (Optional)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "purchase-orders",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order Commitments \u2194 MYOB Acumatica Purchase Orders (Optional). Same map as Subcontracts."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "sub-invoices",
+      "direction": "both",
+      "notes": [
+        "Procore Commitments Invoices \u2194 MYOB Acumatica Payables Bills / Debit Adjustments (related to a Purchase Order).",
+        "Including Retention & Variations. Requires Procore Invoicing module (\u2074).",
+        "A MYOB-PO-created Bill only syncs back if the optional Commitments syncing is enabled (\u2075)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Costs (Invoice) \u2194 MYOB Acumatica Payables Bills (NOT related to a PO).",
+        "Procore Direct Costs (Expense & Payroll) \u2194 MYOB Acumatica Project Transactions (Debit)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Head Contract Payments Received \u2190 MYOB Acumatica Receivables Invoice Payments.",
+        "Commitment Payments Issued \u2190 MYOB Acumatica Payables Bill Payments (related to a Purchase Order).",
+        "Requires Procore Invoicing module (\u2074)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "timecards",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Timesheets / Timecards \u2192 Procore Direct Cost Payroll (internal Procore flow using SmoothX Smoothlink Employees earning rates, footnote \u2076).",
+        "Not an external sync to MYOB Acumatica \u2014 this row exists so the timecards module shows the SmoothX-managed Direct Cost Payroll build."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 Zoho Customers / Vendors."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Procore Standard Cost Codes \u2194 Zoho Chart Of Accounts (Smoothlink Onboarding mapping)."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 Zoho Projects (new & updated)."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime Contract Payment Application \u2192 Zoho Sales Service Invoices.",
+        "Payments come back via the Payments link."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "sub-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Commitments Payment Application \u2192 Zoho Bills Invoiced.",
+        "Payments come back via the Payments link."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Cost (Expense) \u2194 Zoho Bills (excluding Payment Application).",
+        "Procore Direct Cost Payroll is built from Procore Site Diary or Scheduled (Procore-internal flow)."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Prime Contract Payments Received \u2190 Zoho Sales Invoice Payments.",
+        "Commitments Payments Issued \u2190 Zoho Bill Payments."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 QuickBooks Desktop Customers / Vendors."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Procore Standard Cost Codes \u2194 QBD Chart Of Accounts (\u00b2 optional if all Cost Codes are mapped to an Items equivalent).",
+        "Procore Standard Cost Codes \u2194 QBD Items (alternative mapping target).",
+        "Procore Cost Codes / Types optionally \u2194 QBD Classes."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "employees",
+      "direction": "both",
+      "notes": [
+        "Procore Employees / Workers \u2194 QBD Employees.",
+        "Earning Rates feed the SmoothX Smoothlink Employees section for Direct Cost Payroll."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 QBD Jobs (Customers)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "project-wbs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Sub Jobs \u2192 QBD Jobs (Customers, Optional).",
+        "A Sub Job can map either to a new individual Job or to the main Job (footnote \u00b9)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "prime-contracts",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime Contracts \u2192 QBD Estimates (Optional). Including Change Orders."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime Contract Invoices \u2192 QBD Sales Invoices.",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "subcontracts",
+      "direction": "both",
+      "notes": [
+        "Procore Commitments \u2194 QBD Purchase Orders (Optional)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "purchase-orders",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order Commitments \u2194 QBD Purchase Orders (Optional). Same map as Subcontracts."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "sub-invoices",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order / Subcontract Invoices \u2194 QBD Bills (Related to a Purchase Order).",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
+        "A QBD-PO-created Bill only syncs back when created from a Purchase Order that is synced with Procore (footnote \u2074)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Costs \u2194 QBD Bills / Transactions (NOT related to a Purchase Order).",
+        "Scheduled Sync (hourly, optional): QBD Time Activity \u2192 Procore Direct Cost Payroll."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Prime Contract Payments Received \u2190 QBD Sales Invoice Payments.",
+        "Commitment Invoice Payments Issued \u2190 QBD Bill Payments (Related to a Purchase Order).",
+        "Requires Procore Invoicing module (\u00b3)."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "timecards",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Timesheets / Timecards \u2192 QBD Time Activity.",
+        "Procore Timesheets also build Procore Direct Cost Payroll internally using the Smoothlink Employees earning rates (footnote \u2075)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "vendors",
+      "direction": "both",
+      "notes": [
+        "Procore Companies \u2194 Xero Contacts."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "cost-codes",
+      "direction": "both",
+      "notes": [
+        "Procore Standard Cost Codes \u2194 Xero Chart Of Accounts (\u00b2 optional if all Cost Codes are mapped to a Cost Code Tracking Category or Product/Service equivalent).",
+        "Procore Standard Cost Codes \u2194 Xero Tracking Category (Cost Code, Optional).",
+        "Procore Standard Cost Codes \u2194 Xero Products / Services (Item Code, Optional).",
+        "Procore Cost Types optionally \u2194 Xero Tracking Category (Cost Type)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "employees",
+      "direction": "both",
+      "notes": [
+        "Procore Employees / Workers \u2194 Xero Employees.",
+        "Earning Rates feed the SmoothX Smoothlink Employees section."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "jobs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Projects \u2192 Xero Tracking Category (Projects)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "project-wbs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Sub Jobs \u2192 Xero Tracking Category (Projects, Optional).",
+        "A Sub Job can map either to a new individual Tracking Category option or to the Tracking Category of the main project (footnote \u00b9)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "owner-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Prime / Main / Head Contract Invoices \u2192 Xero Sales Invoices.",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
+        "Payments come back via the Payments link."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "subcontracts",
+      "direction": "both",
+      "notes": [
+        "Procore Commitments \u2194 Xero Purchase Orders (Optional)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "purchase-orders",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order Commitments \u2194 Xero Purchase Orders (Optional). Same map as Subcontracts."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "sub-invoices",
+      "direction": "both",
+      "notes": [
+        "Procore Purchase Order / Subcontract Invoices \u2194 Xero Bills (Related to a Purchase Order, including reconciled in Dext).",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
+        "A Xero-PO-created Bill only syncs back if the optional Commitments syncing is enabled (footnote \u2074)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "direct-costs",
+      "direction": "both",
+      "notes": [
+        "Procore Direct Costs \u2194 Xero Bills (NOT related to a Purchase Order).",
+        "Scheduled Sync (hourly): Xero Spend Money, Receive Money, Credit Note, and Manual Journal \u2192 Procore Direct Cost.",
+        "Scheduled Sync (optional): Xero Timesheets \u2192 Procore Direct Cost Payroll."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Prime/Main/Head Contract Invoice Payments Received \u2190 Xero Sales Invoice Payments.",
+        "Commitment Invoice Payments Issued \u2190 Xero Bill Payments (Related to a Purchase Order)."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "timecards",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Timesheets / Timecards \u2192 Xero Timesheets.",
+        "Procore Timesheets also build Procore Direct Cost Payroll internally using Smoothlink Employees earning rates (footnote \u2075).",
+        "Scheduled Sync (optional): Xero Timesheets \u2192 Procore Direct Cost Payroll."
+      ]
+    },
+    {
+      "source": "smoothx-proscan-plus",
+      "target": "direct-costs",
+      "direction": "from-erp",
+      "notes": [
+        "ProScan+ OCR-scanned invoices import into Procore Direct Costs (Receipts / Bills).",
+        "Add-on flow, not bidirectional \u2014 ProScan+ is the source of the invoice data."
+      ]
+    },
+    {
+      "source": "smoothx-proscan-plus",
+      "target": "sub-invoices",
+      "direction": "from-erp",
+      "notes": [
+        "ProScan+ Progress Claims captured against Commitments import into Procore Commitment Invoices."
+      ]
+    },
+    {
+      "source": "smoothx-proscan-plus",
+      "target": "owner-invoices",
+      "direction": "from-erp",
+      "notes": [
+        "ProScan+ Progress Claims captured against Head/Prime Contracts import into Procore Prime Contract Invoices."
+      ]
+    },
+    {
+      "source": "smoothx-proscan-plus",
+      "target": "vendors",
+      "direction": "from-erp",
+      "notes": [
+        "Invoice headers in ProScan+ resolve to Procore Companies (vendor matching during scan)."
+      ]
+    },
+    {
+      "source": "smoothx-cost-plus",
+      "target": "direct-costs",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Direct Costs (including payroll) \u2192 Cost+ for margin automation and cost-plus billing."
+      ]
+    },
+    {
+      "source": "smoothx-cost-plus",
+      "target": "sub-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Commitment Progress Claims \u2192 Cost+ (input to the cost-plus billing build)."
+      ]
+    },
+    {
+      "source": "smoothx-cost-plus",
+      "target": "owner-invoices",
+      "direction": "both",
+      "notes": [
+        "Cost+ reads Procore Head Contract Progress Claims and writes generated cost-plus owner billings back to Procore.",
+        "Cost+ is not limited to a specific ERP \u2014 works alongside any SmoothX ERP integration."
+      ]
+    },
+    {
+      "source": "smoothx-cost-plus",
+      "target": "cost-codes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Cost Codes \u2192 Cost+ (margin automation operates at the cost-code level)."
+      ]
+    },
+    {
+      "source": "smoothx-cost-plus",
+      "target": "prime-contracts",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Head/Prime Contracts \u2192 Cost+ (contract terms drive the cost-plus calculation)."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "prime-contracts",
+      "direction": "both",
+      "notes": [
+        "Advanced Payments reads Procore Head/Prime Contracts and writes advance-payment applications back to the contract."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "owner-invoices",
+      "direction": "both",
+      "notes": [
+        "Advanced Payments generates Owner Progress Claims that include advance-payment recoveries and amortizations."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "budgets",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budgets \u2192 Advanced Payments (context for amortization schedule)."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Advanced Payments monitors Procore Payments to lock claim editing once payment is processed."
       ]
     }
   ]
