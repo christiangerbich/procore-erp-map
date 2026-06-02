@@ -9,14 +9,14 @@
       "key": "connect",
       "name": "Procore Connect",
       "color": "#FF5200",
-      "description": "Third-party app integrations via the Procore Connect marketplace.",
+      "description": "Project-to-project sync via Procore Connect / Connection Manager (supports Drawings, RFIs, and Submittals between connected projects).",
       "icon": "send-receive"
     },
     {
       "key": "ai",
       "name": "AI / Data Grid",
       "color": "#566578",
-      "description": "AI-assisted workflows (e.g. Data Grid for AP invoice extraction, AI takeoff).",
+      "description": "Procore's native AI features \u2014 AI Takeoff, Drawings/Submittal/RFI AI, Daily Log AI, Inspection & Observation AI, T&M Ticket AI, and Data Grid for AP invoice extraction in Direct Costs.",
       "icon": "sparkles"
     },
     {
@@ -79,7 +79,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/bid-board-company",
           "description": "Track bid invitations and awarded bids; awarded bids can promote into project Commitments.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "doc-currency"
@@ -123,7 +122,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "file-check"
@@ -139,7 +137,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
           "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "handshake"
@@ -155,7 +152,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
           "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "calc-chart"
@@ -170,7 +166,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
           "capabilities": [
-            "connect",
             "ai",
             "analytics"
           ],
@@ -187,7 +182,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
           "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "change-cycle"
@@ -203,7 +197,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
           "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "receipt-stack"
@@ -243,9 +236,7 @@
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
           "description": "Collect and verify conditional/unconditional lien waivers from subs before releasing payment.",
-          "capabilities": [
-            "connect"
-          ],
+          "capabilities": [],
           "icon": "check-shield"
         },
         {
@@ -257,9 +248,7 @@
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
           "description": "Schedule and disburse payments to subcontractors through Procore Pay.",
-          "capabilities": [
-            "connect"
-          ],
+          "capabilities": [],
           "icon": "credit-card"
         },
         {
@@ -271,9 +260,7 @@
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/procore-pay",
           "description": "Approval workflow that authorizes payment release once lien waivers and compliance items are confirmed.",
-          "capabilities": [
-            "connect"
-          ],
+          "capabilities": [],
           "icon": "stamp"
         }
       ],
@@ -608,7 +595,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project",
           "description": "Manage subcontractor bidding workflow; award bids and promote into Commitments.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "doc-currency"
@@ -671,7 +657,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project",
           "description": "3D model viewer with federated coordination model; clash detection surfaces Coordination Issues.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "cube"
@@ -700,7 +685,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project",
           "description": "Field observations for safety, quality, work-to-complete; ball-in-court assignment to subs.",
           "capabilities": [
-            "connect",
+            "ai",
             "analytics"
           ],
           "icon": "eye"
@@ -715,7 +700,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project",
           "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
           "capabilities": [
-            "connect",
             "ai",
             "analytics"
           ],
@@ -732,7 +716,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
           "description": "Configurable correspondence types \u2014 meeting minutes, transmittals, NCRs, and field issues.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "mail"
@@ -748,7 +731,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project",
           "description": "Inspection templates and execution; failed items convert to Punch List.",
           "capabilities": [
-            "connect",
+            "ai",
             "analytics"
           ],
           "icon": "clipboard"
@@ -763,7 +746,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
           "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "punchlist"
@@ -779,7 +761,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project",
           "description": "Templated action plans for quality, safety, and commissioning; references and tasks tracked to closure.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "target"
@@ -794,7 +775,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "file-check"
@@ -810,7 +790,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
           "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "handshake"
@@ -826,7 +805,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project",
           "description": "Real-time view of committed, direct, and forecasted cost against the original/revised project budget.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "calc-chart"
@@ -841,7 +819,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
           "capabilities": [
-            "connect",
             "ai",
             "analytics"
           ],
@@ -858,7 +835,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
           "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "change-cycle"
@@ -874,7 +850,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
           "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "receipt-stack"
@@ -1386,7 +1361,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/workforce-planning-company",
           "description": "Workforce Planning - schedule crews and equipment across projects from a company-level view.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "people-cycle"
@@ -1415,7 +1389,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-project",
           "description": "Operational equipment management at the project level; logs hours and usage against the register.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "gear"
@@ -1444,7 +1417,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project",
           "description": "Time & Material tickets (Daywork Sheets) - capture labor, equipment, and material at the field level.",
           "capabilities": [
-            "connect",
             "ai",
             "analytics"
           ],
@@ -1460,7 +1432,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project",
           "description": "Crew and individual time entry (Timecard + Resource Tracking Timesheet); roll up labor hours to projects and to ERP.",
           "capabilities": [
-            "connect",
             "analytics"
           ],
           "icon": "clock"
