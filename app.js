@@ -82,6 +82,51 @@
     .then((r) => (r.ok ? r.json() : { packages: [] }))
     .catch(() => ({ packages: [] }));
 
+  // Stroke-icon catalog used for tool nodes + capability badges in the
+  // Package Builder graph. Each entry is the inner content of an SVG with
+  // viewBox 0 0 24 24 — simple geometric symbols matching the semantics of
+  // the Procore brand icons (pie chart for Budget, bar chart for Analytics,
+  // send/receive arrows for Connect, sparkle for AI, etc).
+  const PKG_ICONS = {
+    "pie-chart":    '<path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M21 12A9 9 0 0 0 12 3"/>',
+    "bar-chart":    '<path d="M3 3v18h18"/><path d="M7 17v-4"/><path d="M12 17V8"/><path d="M17 17v-7"/>',
+    "bar-chart-3":  '<path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V9"/><path d="M18 17v-3"/>',
+    "calculator":   '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6"/><path d="M9 12h.01"/><path d="M12 12h.01"/><path d="M15 12h.01"/><path d="M9 16h.01"/><path d="M12 16h.01"/><path d="M15 16h.01"/>',
+    "file-check":   '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 15l2 2 4-4"/>',
+    "handshake":    '<path d="M9 12l3 3 3-3 3 3 3-3-6-6-3 3-3-3-6 6 3 3z"/><path d="M12 15v3"/>',
+    "receipt":      '<path d="M6 3v18l2-1 2 1 2-1 2 1 2-1 2 1V3l-2 1-2-1-2 1-2-1-2 1-2-1z"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/>',
+    "receipt-stack":'<path d="M4 5v18l2-1 2 1 2-1 2 1 2-1 2 1V5z"/><path d="M8 9h8"/><path d="M8 13h8"/><path d="M8 17h5"/><path d="M8 5V3h12v16"/>',
+    "workflow":     '<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h10a2 2 0 0 1 2 2v7"/><path d="M15 18H5a2 2 0 0 1-2-2V9"/>',
+    "book":         '<path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6.5a2.5 2.5 0 0 1 0-5H19"/>',
+    "users":        '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    "ruler":        '<path d="M20.7 6.7L17.3 3.3a1 1 0 0 0-1.4 0L3.3 16a1 1 0 0 0 0 1.4l3.4 3.4a1 1 0 0 0 1.4 0L20.7 8.1a1 1 0 0 0 0-1.4z"/><path d="m7 16 1.5 1.5"/><path d="m10 13 1.5 1.5"/><path d="m13 10 1.5 1.5"/><path d="m16 7 1.5 1.5"/>',
+    "stamp":        '<path d="M12 2v6"/><circle cx="12" cy="11" r="3"/><path d="M5 22h14"/><path d="M5 18v-2a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2z"/>',
+    "credit-card":  '<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M6 15h4"/>',
+    "check-shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+    "send-receive": '<path d="M17 3l4 4-4 4"/><path d="M21 7H7"/><path d="M7 21l-4-4 4-4"/><path d="M3 17h14"/>',
+    "sparkles":     '<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 14v3"/><path d="M19 20v.01"/><path d="M5 18v.01"/>'
+  };
+
+  function makePkgIconSvg(iconKey, size, color) {
+    const inner = PKG_ICONS[iconKey];
+    if (!inner) return null;
+    const ns = "http://www.w3.org/2000/svg";
+    const s = document.createElementNS(ns, "svg");
+    s.setAttribute("viewBox", "0 0 24 24");
+    s.setAttribute("width", size);
+    s.setAttribute("height", size);
+    s.setAttribute("x", -size / 2);
+    s.setAttribute("y", -size / 2);
+    s.setAttribute("fill", "none");
+    s.setAttribute("stroke", color || "#fff");
+    s.setAttribute("stroke-width", "2");
+    s.setAttribute("stroke-linecap", "round");
+    s.setAttribute("stroke-linejoin", "round");
+    s.style.pointerEvents = "none";
+    s.innerHTML = inner;
+    return s;
+  }
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -1133,6 +1178,12 @@
       poly.setAttribute("fill", fill);
       g.appendChild(poly);
 
+      // White stroke-icon centered inside the hex (when a tool.icon is set).
+      if (tool.icon) {
+        const icon = makePkgIconSvg(tool.icon, 18, "#fff");
+        if (icon) g.appendChild(icon);
+      }
+
       const label = document.createElementNS(svgNS, "text");
       label.setAttribute("x", 0);
       label.setAttribute("y", NODE_R + 18);
@@ -1169,9 +1220,16 @@
           c.setAttribute("r", BADGE_R);
           c.setAttribute("fill", cap.color || "#000");
           bg.appendChild(c);
-          const t = document.createElementNS(svgNS, "text");
-          t.textContent = cap.letter || cap.name.charAt(0);
-          bg.appendChild(t);
+          // Prefer the icon — fall back to the letter if no icon configured.
+          const iconSvg = cap.icon ? makePkgIconSvg(cap.icon, 9, "#fff") : null;
+          if (iconSvg) {
+            iconSvg.setAttribute("stroke-width", "2.4");
+            bg.appendChild(iconSvg);
+          } else {
+            const t = document.createElementNS(svgNS, "text");
+            t.textContent = cap.letter || cap.name.charAt(0);
+            bg.appendChild(t);
+          }
           const title = document.createElementNS(svgNS, "title");
           title.textContent = cap.name + (cap.description ? " — " + cap.description : "");
           bg.appendChild(title);
@@ -1215,7 +1273,13 @@
       const dot = document.createElement("span");
       dot.className = "pkg-cap-dot";
       dot.style.background = cap.color || "#000";
-      dot.textContent = cap.letter || cap.name.charAt(0);
+      // Prefer icon over letter.
+      if (cap.icon && PKG_ICONS[cap.icon]) {
+        const inner = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' + PKG_ICONS[cap.icon] + "</svg>";
+        dot.innerHTML = inner;
+      } else {
+        dot.textContent = cap.letter || cap.name.charAt(0);
+      }
       chip.appendChild(dot);
       const lbl = document.createElement("span");
       lbl.textContent = cap.name;
@@ -1223,6 +1287,20 @@
       wrap.appendChild(chip);
     });
     parent.appendChild(wrap);
+  }
+
+  // Helper used by the tool-detail capability list (mirrors the legend dot).
+  function makeCapDot(cap, size) {
+    const dot = document.createElement("span");
+    dot.className = "pkg-cap-dot";
+    dot.style.background = cap.color || "#000";
+    if (cap.icon && PKG_ICONS[cap.icon]) {
+      const px = size || 11;
+      dot.innerHTML = '<svg viewBox="0 0 24 24" width="' + px + '" height="' + px + '" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' + PKG_ICONS[cap.icon] + "</svg>";
+    } else {
+      dot.textContent = cap.letter || cap.name.charAt(0);
+    }
+    return dot;
   }
 
   // Default verbs when a connection doesn't supply its own — keeps the
@@ -1298,11 +1376,7 @@
       ul.className = "pkg-cap-list";
       toolCaps.forEach((cap) => {
         const li = document.createElement("li");
-        const dot = document.createElement("span");
-        dot.className = "pkg-cap-dot";
-        dot.style.background = cap.color || "#000";
-        dot.textContent = cap.letter || cap.name.charAt(0);
-        li.appendChild(dot);
+        li.appendChild(makeCapDot(cap, 11));
         const txt = document.createElement("span");
         const b = document.createElement("strong");
         b.textContent = cap.name;

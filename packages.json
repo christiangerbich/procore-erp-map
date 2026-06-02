@@ -8,23 +8,23 @@
     {
       "key": "connect",
       "name": "Procore Connect",
-      "letter": "C",
       "color": "#FF5200",
-      "description": "Third-party app integrations via the Procore Connect marketplace."
+      "description": "Third-party app integrations via the Procore Connect marketplace.",
+      "icon": "send-receive"
     },
     {
       "key": "ai",
       "name": "AI / Data Grid",
-      "letter": "D",
       "color": "#566578",
-      "description": "AI-assisted workflows (e.g. Data Grid for AP invoice extraction, AI takeoff)."
+      "description": "AI-assisted workflows (e.g. Data Grid for AP invoice extraction, AI takeoff).",
+      "icon": "sparkles"
     },
     {
       "key": "analytics",
       "name": "Analytics / 360 Reporting",
-      "letter": "A",
       "color": "#000000",
-      "description": "Data surfaced in Procore Analytics dashboards (formerly 360 Reporting)."
+      "description": "Data surfaced in Procore Analytics dashboards (formerly 360 Reporting).",
+      "icon": "bar-chart-3"
     }
   ],
   "verticals": [
@@ -66,7 +66,8 @@
           "description": "Company-level library of unit costs, materials, and assemblies that feed into Estimates.",
           "capabilities": [
             "analytics"
-          ]
+          ],
+          "icon": "book"
         },
         {
           "id": "bid-board",
@@ -80,7 +81,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "users"
         },
         {
           "id": "takeoff",
@@ -93,7 +95,8 @@
           "description": "Quantity takeoffs from drawings; feeds quantities into Estimates.",
           "capabilities": [
             "ai"
-          ]
+          ],
+          "icon": "ruler"
         },
         {
           "id": "estimating",
@@ -107,7 +110,8 @@
           "capabilities": [
             "ai",
             "analytics"
-          ]
+          ],
+          "icon": "calculator"
         },
         {
           "id": "prime-contracts",
@@ -121,7 +125,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "file-check"
         },
         {
           "id": "commitments",
@@ -136,7 +141,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "handshake"
         },
         {
           "id": "budget",
@@ -151,7 +157,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "pie-chart"
         },
         {
           "id": "direct-costs",
@@ -166,7 +173,8 @@
             "connect",
             "ai",
             "analytics"
-          ]
+          ],
+          "icon": "receipt"
         },
         {
           "id": "change-events-orders",
@@ -181,7 +189,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "workflow"
         },
         {
           "id": "invoicing",
@@ -196,7 +205,8 @@
           "capabilities": [
             "connect",
             "analytics"
-          ]
+          ],
+          "icon": "receipt-stack"
         },
         {
           "id": "reports",
@@ -208,7 +218,8 @@
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
           "description": "Custom + canned project reports across all financial tools.",
-          "capabilities": []
+          "capabilities": [],
+          "icon": "bar-chart"
         },
         {
           "id": "analytics-setup",
@@ -220,7 +231,8 @@
           "constraint": "Financial tools",
           "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company",
           "description": "Default Procore Analytics dashboards for financial tools (Enterprise tier).",
-          "capabilities": []
+          "capabilities": [],
+          "icon": "bar-chart-3"
         },
         {
           "id": "lien-waivers",
@@ -233,7 +245,8 @@
           "description": "Collect and verify conditional/unconditional lien waivers from subs before releasing payment.",
           "capabilities": [
             "connect"
-          ]
+          ],
+          "icon": "check-shield"
         },
         {
           "id": "payment-management",
@@ -246,7 +259,8 @@
           "description": "Schedule and disburse payments to subcontractors through Procore Pay.",
           "capabilities": [
             "connect"
-          ]
+          ],
+          "icon": "credit-card"
         },
         {
           "id": "payment-approval",
@@ -259,7 +273,8 @@
           "description": "Approval workflow that authorizes payment release once lien waivers and compliance items are confirmed.",
           "capabilities": [
             "connect"
-          ]
+          ],
+          "icon": "stamp"
         }
       ],
       "connections": [
