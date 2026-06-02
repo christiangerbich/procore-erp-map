@@ -14,6 +14,7 @@
     <div class="mode-tabs" role="group" aria-label="View">
       <button id="mode-erp" class="mode-tab is-active" type="button" aria-pressed="true">ERP Connector Map</button>
       <button id="mode-packages" class="mode-tab" type="button" aria-pressed="false">PNPT Package Builder</button>
+      <button id="mode-config" class="mode-tab" type="button" aria-pressed="false">PNPT Config Tracker</button>
     </div>
     <button id="sop-open-top" class="sop-open-top" type="button" hidden>
       <span class="sop-open-top-icon" aria-hidden="true">&#9783;</span> SOP Builder
@@ -72,6 +73,42 @@
   </header>
 
   <main>
+    <section id="config-view" class="config-view" hidden>
+      <div class="config-bar">
+        <div class="config-bar-info">
+          <p class="config-bar-eyebrow">Procore &middot; PNPT Configuration &amp; Tracking</p>
+          <h2 id="config-title">Cost Management</h2>
+        </div>
+        <div class="config-bar-controls">
+          <label class="config-field">
+            <span class="config-field-label">Client</span>
+            <input id="config-client-name" type="text" placeholder="Client name" autocomplete="off" />
+          </label>
+          <label class="config-field">
+            <span class="config-field-label">Package</span>
+            <select id="config-package-pick"></select>
+          </label>
+          <label class="config-field">
+            <span class="config-field-label">Tier</span>
+            <select id="config-tier-pick"></select>
+          </label>
+          <button id="config-reset" class="config-reset-btn" type="button">Reset progress</button>
+        </div>
+      </div>
+      <div class="config-phases" id="config-phases" role="tablist" aria-label="Phase"></div>
+      <div class="config-main">
+        <div id="config-content" class="config-content"></div>
+        <aside class="config-side">
+          <div class="config-progress">
+            <p class="config-progress-eyebrow">Project Progress</p>
+            <div class="config-progress-bar"><div id="config-progress-fill" class="config-progress-fill"></div></div>
+            <p id="config-progress-text" class="config-progress-text">0% complete</p>
+          </div>
+          <div class="config-deliverables" id="config-deliverables"></div>
+        </aside>
+      </div>
+    </section>
+
     <section id="packages-view" class="packages-view" hidden>
       <div class="packages-bar">
         <div class="packages-bar-info">

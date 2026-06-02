@@ -85,6 +85,12 @@
     .then((r) => (r.ok ? r.json() : { packages: [] }))
     .catch(() => ({ packages: [] }));
 
+  // PNPT Configuration & Tracking catalog — phases, deliverables, and the
+  // per-package Configuration Workbook structure.
+  const configData = await fetch("configurations.json")
+    .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
+    .catch(() => ({ phases: [], packages: [] }));
+
   // Stroke-icon catalog used for tool nodes + capability badges in the
   // Package Builder graph. Each entry is the inner content of an SVG with
   // viewBox 0 0 24 24 — simple geometric symbols matching the semantics of
@@ -952,6 +958,8 @@
   // ---------------------------------------------------------------------
   const modeErpBtn = document.getElementById("mode-erp");
   const modePackagesBtn = document.getElementById("mode-packages");
+  const modeConfigBtn = document.getElementById("mode-config");
+  const configView = document.getElementById("config-view");
   const packagesView = document.getElementById("packages-view");
   const packagesTierToggle = document.getElementById("packages-tier-toggle");
   const packagesGraphEl = document.getElementById("packages-graph");
@@ -1062,22 +1070,26 @@
 
   function setMode(mode) {
     const isPackages = mode === "packages";
-    erpOnlyEls.forEach((el) => { if (el) el.hidden = isPackages; });
+    const isConfig = mode === "config";
+    const isErp = !isPackages && !isConfig;
+    erpOnlyEls.forEach((el) => { if (el) el.hidden = !isErp; });
     if (packagesHeaderLegend) packagesHeaderLegend.hidden = !isPackages;
     if (packagesView) packagesView.hidden = !isPackages;
+    if (configView) configView.hidden = !isConfig;
 
     // SOP button only in ERP mode.
     const sopTopBtn = document.getElementById("sop-open-top");
-    if (sopTopBtn) sopTopBtn.hidden = isPackages || !sopTemplates;
+    if (sopTopBtn) sopTopBtn.hidden = !isErp || !sopTemplates;
 
-    if (modeErpBtn) {
-      modeErpBtn.classList.toggle("is-active", !isPackages);
-      modeErpBtn.setAttribute("aria-pressed", String(!isPackages));
-    }
-    if (modePackagesBtn) {
-      modePackagesBtn.classList.toggle("is-active", isPackages);
-      modePackagesBtn.setAttribute("aria-pressed", String(isPackages));
-    }
+    [
+      [modeErpBtn,      isErp],
+      [modePackagesBtn, isPackages],
+      [modeConfigBtn,   isConfig],
+    ].forEach(([btn, active]) => {
+      if (!btn) return;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-pressed", String(active));
+    });
 
     // Header text adapts to the mode.
     if (isPackages) {
@@ -1086,6 +1098,12 @@
       if (headerSubtitleEl) headerSubtitleEl.textContent =
         "Pick one or more tiers to see which tools you get in each, and how the tiers differ.";
       if (activePackage) renderPackagesView();
+    } else if (isConfig) {
+      if (headerEyebrowEl) headerEyebrowEl.textContent = "Professional Services";
+      if (headerTitleEl) headerTitleEl.textContent = "PNPT Configuration & Tracking";
+      if (headerSubtitleEl) headerSubtitleEl.textContent =
+        "Track the SPC configuration journey for a client, phase by phase, against the official Configuration Workbook.";
+      renderConfigView();
     } else {
       if (headerEyebrowEl) headerEyebrowEl.textContent = "ERP Integrations";
       if (headerTitleEl) headerTitleEl.textContent = "ERP Connector Map";
@@ -1096,6 +1114,7 @@
 
   if (modeErpBtn) modeErpBtn.addEventListener("click", () => setMode("erp"));
   if (modePackagesBtn) modePackagesBtn.addEventListener("click", () => setMode("packages"));
+  if (modeConfigBtn) modeConfigBtn.addEventListener("click", () => setMode("config"));
 
   // ---------- Packages view rendering ----------
   function renderPackagesView() {
@@ -2414,5 +2433,433 @@
     document.getElementById("sop-generate").addEventListener("click", generateSop);
     sopModal.addEventListener("click", (e) => { if (e.target === sopModal) closeSopModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sopModal.hidden) closeSopModal(); });
+  }
+
+  // ===================================================================
+  // PNPT Configuration & Tracking
+  // ===================================================================
+  const CONFIG_LS_KEY = "pnpt-config-tracker:v1";
+  let configState = loadConfigState();
+  let configActivePhase = (configData.phases && configData.phases[0] && configData.phases[0].key) || "initiation";
+
+  function loadConfigState() {
+    try {
+      const raw = localStorage.getItem(CONFIG_LS_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return defaultConfigState();
+  }
+  function defaultConfigState() {
+    const firstPkg = (configData.packages && configData.packages[0]) || {};
+    return {
+      client: "",
+      packageKey: firstPkg.key || "cost-management",
+      tierKey: (firstPkg.tiers && firstPkg.tiers[0] && firstPkg.tiers[0].key) || "standard",
+      tasks: {},        // tasks[phaseKey] = { [taskIdx]: true }
+      workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated: bool, changed: str, notes: str } }
+      deliverables: {}, // deliverables[key] = bool
+    };
+  }
+  function saveConfigState() {
+    try { localStorage.setItem(CONFIG_LS_KEY, JSON.stringify(configState)); } catch (e) {}
+  }
+
+  function activeConfigPackage() {
+    return (configData.packages || []).find((p) => p.key === configState.packageKey) || null;
+  }
+  function activeConfigTier() {
+    const pkg = activeConfigPackage();
+    if (!pkg || !pkg.tiers) return null;
+    return pkg.tiers.find((t) => t.key === configState.tierKey) || pkg.tiers[0] || null;
+  }
+  function workbookSectionsForTier() {
+    const pkg = activeConfigPackage();
+    const tier = activeConfigTier();
+    if (!pkg || !pkg.workbook) return [];
+    const allSections = pkg.workbook.sections || [];
+    const extras = (tier && tier.extraWorkbookSections) || [];
+    return allSections.filter((s) => !s.enterpriseOnly || extras.includes(s.key));
+  }
+
+  function renderConfigView() {
+    if (!configData || !configData.phases || !configData.phases.length) return;
+    renderConfigBar();
+    renderConfigPhases();
+    renderConfigPhaseContent();
+    renderConfigSidebar();
+  }
+
+  function renderConfigBar() {
+    const titleEl = document.getElementById("config-title");
+    const clientEl = document.getElementById("config-client-name");
+    const pkgEl = document.getElementById("config-package-pick");
+    const tierEl = document.getElementById("config-tier-pick");
+    const resetBtn = document.getElementById("config-reset");
+    if (!titleEl || !pkgEl || !tierEl || !clientEl || !resetBtn) return;
+
+    titleEl.textContent = activeConfigPackage() ? activeConfigPackage().name : "—";
+
+    clientEl.value = configState.client || "";
+    clientEl.oninput = () => { configState.client = clientEl.value; saveConfigState(); };
+
+    pkgEl.innerHTML = "";
+    (configData.packages || []).forEach((p) => {
+      const opt = document.createElement("option");
+      opt.value = p.key; opt.textContent = p.name;
+      if (p.key === configState.packageKey) opt.selected = true;
+      pkgEl.appendChild(opt);
+    });
+    pkgEl.onchange = () => {
+      configState.packageKey = pkgEl.value;
+      const pkg = activeConfigPackage();
+      configState.tierKey = (pkg && pkg.tiers && pkg.tiers[0] && pkg.tiers[0].key) || configState.tierKey;
+      saveConfigState();
+      renderConfigView();
+    };
+
+    tierEl.innerHTML = "";
+    const pkg = activeConfigPackage();
+    (pkg && pkg.tiers ? pkg.tiers : []).forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t.key; opt.textContent = t.name;
+      if (t.key === configState.tierKey) opt.selected = true;
+      tierEl.appendChild(opt);
+    });
+    tierEl.onchange = () => { configState.tierKey = tierEl.value; saveConfigState(); renderConfigView(); };
+
+    resetBtn.onclick = () => {
+      if (!confirm("Reset all progress for this client?")) return;
+      const clientKept = configState.client;
+      const pkgKept = configState.packageKey;
+      const tierKept = configState.tierKey;
+      configState = defaultConfigState();
+      configState.client = clientKept;
+      configState.packageKey = pkgKept;
+      configState.tierKey = tierKept;
+      saveConfigState();
+      renderConfigView();
+    };
+  }
+
+  function phaseProgress(phaseKey) {
+    const phase = (configData.phases || []).find((p) => p.key === phaseKey);
+    if (!phase) return { done: 0, total: 0 };
+    const total = (phase.tasks || []).length;
+    const done = Object.values((configState.tasks && configState.tasks[phaseKey]) || {})
+      .filter(Boolean).length;
+    return { done, total };
+  }
+  function overallProgress() {
+    let done = 0, total = 0;
+    (configData.phases || []).forEach((p) => {
+      const pp = phaseProgress(p.key);
+      done += pp.done; total += pp.total;
+    });
+    return { done, total };
+  }
+
+  function renderConfigPhases() {
+    const cont = document.getElementById("config-phases");
+    if (!cont) return;
+    cont.innerHTML = "";
+    (configData.phases || []).forEach((phase) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "config-phase-btn" + (phase.key === configActivePhase ? " is-active" : "");
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("aria-selected", String(phase.key === configActivePhase));
+
+      const eyebrow = document.createElement("p");
+      eyebrow.className = "config-phase-eyebrow";
+      eyebrow.textContent = phase.eyebrow || "";
+      btn.appendChild(eyebrow);
+
+      const name = document.createElement("p");
+      name.className = "config-phase-name";
+      name.textContent = phase.name;
+      btn.appendChild(name);
+
+      const pp = phaseProgress(phase.key);
+      const meta = document.createElement("p");
+      meta.className = "config-phase-meta";
+      meta.textContent = (phase.owner || "") + " · " + pp.done + " / " + pp.total + " tasks";
+      btn.appendChild(meta);
+
+      const bar = document.createElement("div");
+      bar.className = "config-phase-bar";
+      const fill = document.createElement("div");
+      fill.className = "config-phase-bar-fill";
+      const pct = pp.total ? Math.round((pp.done / pp.total) * 100) : 0;
+      fill.style.width = pct + "%";
+      bar.appendChild(fill);
+      btn.appendChild(bar);
+
+      btn.addEventListener("click", () => {
+        configActivePhase = phase.key;
+        renderConfigView();
+      });
+      cont.appendChild(btn);
+    });
+  }
+
+  function renderConfigPhaseContent() {
+    const cont = document.getElementById("config-content");
+    if (!cont) return;
+    cont.innerHTML = "";
+    const phase = (configData.phases || []).find((p) => p.key === configActivePhase);
+    if (!phase) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "config-phase-detail";
+
+    const h = document.createElement("h3");
+    h.textContent = phase.name;
+    wrap.appendChild(h);
+
+    const owner = document.createElement("p");
+    owner.className = "config-phase-owner";
+    owner.textContent = (phase.eyebrow ? phase.eyebrow + " · " : "") + (phase.owner || "");
+    wrap.appendChild(owner);
+
+    if (phase.description) {
+      const desc = document.createElement("p");
+      desc.className = "config-phase-desc";
+      desc.textContent = phase.description;
+      wrap.appendChild(desc);
+    }
+
+    // In-scope tools block — visible on Build + Validate phases.
+    if (phase.key === "build" || phase.key === "validate") {
+      const tier = activeConfigTier();
+      if (tier && tier.inScopeTools && tier.inScopeTools.length) {
+        const block = document.createElement("div");
+        block.className = "config-tools-block";
+        const eb = document.createElement("p");
+        eb.className = "config-tools-eyebrow";
+        eb.textContent = "In-scope tools (" + tier.name + ")";
+        block.appendChild(eb);
+        const list = document.createElement("div");
+        list.className = "config-tools-list";
+        tier.inScopeTools.forEach((t) => {
+          const chip = document.createElement("span");
+          chip.className = "config-tool-chip";
+          chip.textContent = t;
+          list.appendChild(chip);
+        });
+        block.appendChild(list);
+        wrap.appendChild(block);
+      }
+    }
+
+    // Task checklist
+    const ul = document.createElement("ul");
+    ul.className = "config-task-list";
+    (phase.tasks || []).forEach((task, idx) => {
+      const checked = !!(configState.tasks[phase.key] && configState.tasks[phase.key][idx]);
+      const li = document.createElement("li");
+      li.className = "config-task" + (checked ? " is-done" : "");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = checked;
+      cb.addEventListener("change", () => {
+        configState.tasks[phase.key] = configState.tasks[phase.key] || {};
+        configState.tasks[phase.key][idx] = cb.checked;
+        saveConfigState();
+        renderConfigView();
+      });
+      li.appendChild(cb);
+      const span = document.createElement("span");
+      span.className = "config-task-text";
+      span.textContent = task.text;
+      li.appendChild(span);
+      li.addEventListener("click", (e) => { if (e.target !== cb) cb.click(); });
+      ul.appendChild(li);
+    });
+    wrap.appendChild(ul);
+
+    // Configuration Workbook only appears on the Build phase.
+    if (phase.key === "build") {
+      const wbWrap = document.createElement("div");
+      wbWrap.className = "config-workbook";
+
+      const wbHeader = document.createElement("h3");
+      wbHeader.textContent = "Configuration Workbook";
+      wbWrap.appendChild(wbHeader);
+
+      const intro = document.createElement("p");
+      intro.className = "config-workbook-intro";
+      intro.textContent =
+        "Per-section settings from the official PNPT Configuration Workbook. Tick 'Updated' for any setting you deviated from the default on, capture the new value, and add notes for the closeout deliverable. Only deviations need to be filled in — defaults stay implicit.";
+      wbWrap.appendChild(intro);
+
+      workbookSectionsForTier().forEach((section) => {
+        const det = document.createElement("details");
+        det.className = "config-wb-section";
+
+        const sum = document.createElement("summary");
+        const sumLeft = document.createElement("span");
+        sumLeft.textContent = section.name;
+        sum.appendChild(sumLeft);
+        const sumProg = document.createElement("span");
+        sumProg.className = "config-wb-section-progress";
+        const sd = (section.settings || []).filter((_, i) =>
+          configState.workbook[section.key] && configState.workbook[section.key][i] &&
+          configState.workbook[section.key][i].updated
+        ).length;
+        sumProg.textContent = sd + " of " + (section.settings || []).length + " updated";
+        sum.appendChild(sumProg);
+        det.appendChild(sum);
+
+        const table = document.createElement("table");
+        table.className = "config-wb-table";
+        const thead = document.createElement("thead");
+        const trh = document.createElement("tr");
+        ["Setting / Decision", "Default", "Updated?", "Changed To / Notes"].forEach((t) => {
+          const th = document.createElement("th"); th.textContent = t; trh.appendChild(th);
+        });
+        thead.appendChild(trh);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        (section.settings || []).forEach((setting, idx) => {
+          const st = (configState.workbook[section.key] && configState.workbook[section.key][idx]) || {};
+          const tr = document.createElement("tr");
+          tr.className = "config-wb-row" + (st.updated ? " is-updated" : "");
+
+          // Setting + decision logic
+          const td1 = document.createElement("td");
+          const nm = document.createElement("div");
+          nm.className = "config-wb-name";
+          nm.textContent = setting.name;
+          td1.appendChild(nm);
+          if (setting.decisionLogic) {
+            const dl = document.createElement("div");
+            dl.className = "config-wb-decision";
+            dl.textContent = setting.decisionLogic;
+            td1.appendChild(dl);
+          }
+          if (setting.notes) {
+            const nt = document.createElement("div");
+            nt.className = "config-wb-note";
+            nt.textContent = setting.notes;
+            td1.appendChild(nt);
+          }
+          tr.appendChild(td1);
+
+          // Default
+          const td2 = document.createElement("td");
+          const def = document.createElement("div");
+          def.className = "config-wb-default";
+          def.textContent = setting.default || "—";
+          td2.appendChild(def);
+          tr.appendChild(td2);
+
+          // Updated checkbox
+          const td3 = document.createElement("td");
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = !!st.updated;
+          cb.addEventListener("change", () => {
+            configState.workbook[section.key] = configState.workbook[section.key] || {};
+            const cur = configState.workbook[section.key][idx] || {};
+            cur.updated = cb.checked;
+            configState.workbook[section.key][idx] = cur;
+            saveConfigState();
+            tr.classList.toggle("is-updated", cb.checked);
+            sumProg.textContent = (section.settings || []).filter((_, i) =>
+              configState.workbook[section.key] && configState.workbook[section.key][i] &&
+              configState.workbook[section.key][i].updated
+            ).length + " of " + (section.settings || []).length + " updated";
+          });
+          td3.appendChild(cb);
+          tr.appendChild(td3);
+
+          // Changed To + Notes
+          const td4 = document.createElement("td");
+          const changed = document.createElement("input");
+          changed.type = "text";
+          changed.placeholder = "Changed to…";
+          changed.value = st.changed || "";
+          changed.addEventListener("input", () => {
+            configState.workbook[section.key] = configState.workbook[section.key] || {};
+            const cur = configState.workbook[section.key][idx] || {};
+            cur.changed = changed.value;
+            configState.workbook[section.key][idx] = cur;
+            saveConfigState();
+          });
+          td4.appendChild(changed);
+          const noteTa = document.createElement("textarea");
+          noteTa.placeholder = "Notes (rationale, screenshot ref, etc.)";
+          noteTa.style.marginTop = "6px";
+          noteTa.value = st.notes || "";
+          noteTa.addEventListener("input", () => {
+            configState.workbook[section.key] = configState.workbook[section.key] || {};
+            const cur = configState.workbook[section.key][idx] || {};
+            cur.notes = noteTa.value;
+            configState.workbook[section.key][idx] = cur;
+            saveConfigState();
+          });
+          td4.appendChild(noteTa);
+          tr.appendChild(td4);
+
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        det.appendChild(table);
+        wbWrap.appendChild(det);
+      });
+      wrap.appendChild(wbWrap);
+    }
+
+    cont.appendChild(wrap);
+  }
+
+  function renderConfigSidebar() {
+    const fill = document.getElementById("config-progress-fill");
+    const txt = document.getElementById("config-progress-text");
+    const dlEl = document.getElementById("config-deliverables");
+    if (!fill || !txt || !dlEl) return;
+    const op = overallProgress();
+    const pct = op.total ? Math.round((op.done / op.total) * 100) : 0;
+    fill.style.width = pct + "%";
+    txt.textContent = pct + "% complete — " + op.done + " / " + op.total + " tasks";
+
+    dlEl.innerHTML = "";
+    const eb = document.createElement("p");
+    eb.className = "config-deliverables-eyebrow";
+    eb.textContent = "Deliverables";
+    dlEl.appendChild(eb);
+
+    const pkg = activeConfigPackage();
+    (pkg && pkg.deliverables ? pkg.deliverables : []).forEach((d) => {
+      const card = document.createElement("div");
+      card.className = "config-deliverable";
+      const row = document.createElement("div");
+      row.className = "config-deliverable-row";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!configState.deliverables[d.key];
+      cb.addEventListener("change", () => {
+        configState.deliverables[d.key] = cb.checked;
+        saveConfigState();
+      });
+      row.appendChild(cb);
+      const nm = document.createElement("span");
+      nm.className = "config-deliverable-name";
+      nm.textContent = d.name;
+      row.appendChild(nm);
+      const ow = document.createElement("span");
+      ow.className = "config-deliverable-owner";
+      ow.textContent = d.owner || "";
+      row.appendChild(ow);
+      card.appendChild(row);
+      if (d.description) {
+        const desc = document.createElement("p");
+        desc.className = "config-deliverable-desc";
+        desc.textContent = d.description;
+        card.appendChild(desc);
+      }
+      dlEl.appendChild(card);
+    });
   }
 })();
