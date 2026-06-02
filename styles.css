@@ -1485,6 +1485,7 @@ main {
 .source-btn:hover { background: var(--color-stone); }
 #src-procore.is-active { background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black); }
 #src-agave.is-active { background: var(--color-metal); border-color: var(--color-metal); color: #fff; }
+#src-smoothx.is-active { background: var(--color-smoothx); border-color: var(--color-smoothx); color: #fff; }
 
 /* Persistent SOP Builder entry point in the header (top-right). */
 .sop-open-top {
