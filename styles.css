@@ -210,7 +210,39 @@
   position: relative;
   min-height: 640px;
 }
-.packages-graph svg { width: 100%; height: 100%; display: block; }
+.packages-graph svg { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+.packages-graph svg:active { cursor: grabbing; }
+.packages-graph .pkg-node { cursor: pointer; }
+
+/* Zoom controls overlay — sits in the top-right corner of the graph area. */
+.pkg-zoom-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 4;
+}
+.pkg-zoom-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-black);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.pkg-zoom-btn:hover { background: var(--color-stone); }
+.pkg-zoom-btn:active { background: var(--color-orange); color: var(--color-white); border-color: var(--color-orange); }
 .packages-graph .pkg-link { stroke-width: 1.6; fill: none; }
 .packages-graph .pkg-link.dir-both { stroke: var(--color-orange); }
 .packages-graph .pkg-link.dir-to   { stroke: var(--color-orange); stroke-dasharray: 6 4; }

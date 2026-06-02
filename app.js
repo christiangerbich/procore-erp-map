@@ -985,6 +985,10 @@
   let activePackage = null;
   let selectedPackageToolId = null; // which tool's details are shown in the side panel
   const activeTierKeys = new Set();
+  // Zoom/pan state for the package graph. Persists across renders within
+  // the same package; setActivePackage / vertical change resets it.
+  let pkgZoom = { tx: 0, ty: 0, scale: 1 };
+  function resetPkgZoom() { pkgZoom = { tx: 0, ty: 0, scale: 1 }; }
 
   function verticalsList() {
     return packagesData.verticals || [];
@@ -1030,6 +1034,7 @@
       activePackage = avail[0] || null;
       activeTierKeys.clear();
       selectedPackageToolId = null;
+      resetPkgZoom();
     }
     if (activePackage) {
       const validTiers = tiersAvailableForActiveVertical();
@@ -1049,6 +1054,7 @@
     activePackage = pkg;
     activeTierKeys.clear();
     selectedPackageToolId = null;
+    resetPkgZoom();
     const validTiers = tiersAvailableForActiveVertical();
     if (validTiers.length) activeTierKeys.add(validTiers[0].key);
     renderPackagesView();
@@ -1236,6 +1242,20 @@
     svg.setAttribute("viewBox", vbX + " " + vbY + " " + vbW + " " + vbH);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
+    // Zoom/pan group — every line + node is appended here instead of directly
+    // to the svg, so wheel/drag/button events can transform the whole graph
+    // together. pkgZoom (module-scope) persists across renders within a package.
+    const zoomG = document.createElementNS(svgNS, "g");
+    zoomG.setAttribute("class", "pkg-zoom-group");
+    function applyPkgZoom() {
+      zoomG.setAttribute(
+        "transform",
+        "translate(" + pkgZoom.tx + " " + pkgZoom.ty + ") scale(" + pkgZoom.scale + ")"
+      );
+    }
+    applyPkgZoom();
+    svg.appendChild(zoomG);
+
     // Endpoints sit at the hex edges (matches the ERP map's endpoint helper).
     function endpoints(srcId, tgtId) {
       const s = packageToolById(srcId);
@@ -1350,7 +1370,7 @@
         if (touchesSel) path.classList.add("highlighted");
         else path.classList.add("faded");
       }
-      svg.appendChild(path);
+      zoomG.appendChild(path);
     });
 
     // Draw nodes on top.
@@ -1434,13 +1454,99 @@
         ev.stopPropagation();
         selectPackageTool(tool.id);
       });
-      svg.appendChild(g);
+      zoomG.appendChild(g);
     });
 
-    // Click on empty SVG background -> deselect.
-    svg.addEventListener("click", () => selectPackageTool(null));
+    // Click on empty SVG background -> deselect (but only on a real click,
+    // not the mouseup at the end of a pan drag).
+    let suppressNextSvgClick = false;
+    svg.addEventListener("click", () => {
+      if (suppressNextSvgClick) { suppressNextSvgClick = false; return; }
+      selectPackageTool(null);
+    });
+
+    // ---- Zoom & pan ----------------------------------------------------
+    const Z_MIN = 0.4, Z_MAX = 4;
+    function clampScale(s) { return Math.max(Z_MIN, Math.min(Z_MAX, s)); }
+    function svgPointFromClient(clientX, clientY) {
+      const rect = svg.getBoundingClientRect();
+      return {
+        x: vbX + (clientX - rect.left) * (vbW / rect.width),
+        y: vbY + (clientY - rect.top)  * (vbH / rect.height),
+      };
+    }
+    // Zoom anchored on a given svg-coordinate point so the point stays put.
+    function zoomAt(svgX, svgY, factor) {
+      const next = clampScale(pkgZoom.scale * factor);
+      const eff = next / pkgZoom.scale;
+      pkgZoom.tx = svgX - (svgX - pkgZoom.tx) * eff;
+      pkgZoom.ty = svgY - (svgY - pkgZoom.ty) * eff;
+      pkgZoom.scale = next;
+      applyPkgZoom();
+    }
+
+    // Wheel = zoom at cursor.
+    svg.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const p = svgPointFromClient(e.clientX, e.clientY);
+      zoomAt(p.x, p.y, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+    }, { passive: false });
+
+    // Drag on empty background = pan. Drag on a node = node click (no pan).
+    svg.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      if (e.target.closest(".pkg-node")) return;
+      const startX = e.clientX, startY = e.clientY;
+      const startTx = pkgZoom.tx, startTy = pkgZoom.ty;
+      const rect = svg.getBoundingClientRect();
+      const sx = vbW / rect.width, sy = vbH / rect.height;
+      let moved = false;
+      function onMove(ev) {
+        const dx = (ev.clientX - startX) * sx;
+        const dy = (ev.clientY - startY) * sy;
+        if (!moved && Math.hypot(dx, dy) < 3) return; // tiny jitter = still a click
+        moved = true;
+        pkgZoom.tx = startTx + dx;
+        pkgZoom.ty = startTy + dy;
+        applyPkgZoom();
+        svg.style.cursor = "grabbing";
+      }
+      function onUp() {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        svg.style.cursor = "";
+        if (moved) suppressNextSvgClick = true; // don't deselect after a pan
+      }
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    });
 
     packagesGraphEl.appendChild(svg);
+
+    // ---- Zoom control buttons (overlay) --------------------------------
+    const controls = document.createElement("div");
+    controls.className = "pkg-zoom-controls";
+    function mkBtn(label, title, onClick) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pkg-zoom-btn";
+      b.textContent = label;
+      b.title = title;
+      b.setAttribute("aria-label", title);
+      b.addEventListener("click", (e) => { e.stopPropagation(); onClick(); });
+      return b;
+    }
+    controls.appendChild(mkBtn("+", "Zoom in", () => {
+      zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1.2);
+    }));
+    controls.appendChild(mkBtn("−", "Zoom out", () => {
+      zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1 / 1.2);
+    }));
+    controls.appendChild(mkBtn("⟳", "Reset zoom", () => {
+      resetPkgZoom();
+      applyPkgZoom();
+    }));
+    packagesGraphEl.appendChild(controls);
   }
 
   function selectPackageTool(id) {
