@@ -82,6 +82,14 @@
         <div class="config-bar-controls">
           <label class="config-field">
             <span class="config-field-label">Client</span>
+            <div class="config-client-row">
+              <select id="config-client-pick" aria-label="Switch client"></select>
+              <button id="config-client-new" class="config-icon-btn" type="button" title="New client" aria-label="New client">+</button>
+              <button id="config-client-delete" class="config-icon-btn config-icon-btn-danger" type="button" title="Delete this client" aria-label="Delete client">×</button>
+            </div>
+          </label>
+          <label class="config-field">
+            <span class="config-field-label">Client name</span>
             <input id="config-client-name" type="text" placeholder="Client name" autocomplete="off" />
           </label>
           <label class="config-field">

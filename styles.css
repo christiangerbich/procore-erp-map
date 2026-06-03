@@ -2687,3 +2687,40 @@ main {
 @media (max-width: 1100px) {
   .config-timeline { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* v9 — multi-client picker UI */
+.config-client-row {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+.config-client-row select {
+  flex: 1 1 220px;
+  min-width: 220px;
+}
+.config-icon-btn {
+  width: 30px;
+  flex: 0 0 30px;
+  padding: 0;
+  border: 1.5px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-black);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+}
+.config-icon-btn:hover {
+  background: var(--color-orange);
+  color: var(--color-white);
+  border-color: var(--color-orange);
+}
+.config-icon-btn-danger { color: var(--color-metal); }
+.config-icon-btn-danger:hover {
+  background: #B00020;
+  color: var(--color-white);
+  border-color: #B00020;
+}

@@ -2438,30 +2438,121 @@
   // ===================================================================
   // PNPT Configuration & Tracking
   // ===================================================================
-  const CONFIG_LS_KEY = "pnpt-config-tracker:v1";
-  let configState = loadConfigState();
+  // Multi-client state — v2. The wrapper holds many clients keyed by id;
+  // configState is a pointer into the active client so every existing
+  // renderer that mutates configState.tasks / .workbook / .deliverables
+  // continues to work unchanged.
+  const CONFIG_LS_KEY_V2 = "pnpt-config-tracker:v2";
+  const CONFIG_LS_KEY_V1 = "pnpt-config-tracker:v1";
+  let configMulti = loadMultiState();
+  let configState = configMulti.clients[configMulti.activeClientId];
   let configActivePhase = (configData.phases && configData.phases[0] && configData.phases[0].key) || "initiation";
 
-  function loadConfigState() {
-    try {
-      const raw = localStorage.getItem(CONFIG_LS_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch (e) {}
-    return defaultConfigState();
+  function newClientId() {
+    return "c_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
   }
-  function defaultConfigState() {
+  function defaultClient(name) {
     const firstPkg = (configData.packages && configData.packages[0]) || {};
     return {
-      client: "",
+      id: newClientId(),
+      name: name || "",
       packageKey: firstPkg.key || "cost-management",
       tierKey: (firstPkg.tiers && firstPkg.tiers[0] && firstPkg.tiers[0].key) || "standard",
+      createdAt: Date.now(),
       tasks: {},        // tasks[phaseKey] = { [taskIdx]: true }
-      workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated: bool, changed: str, notes: str } }
+      workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated, changed, notes } }
       deliverables: {}, // deliverables[key] = bool
     };
   }
+  function loadMultiState() {
+    // Try v2 directly.
+    try {
+      const raw = localStorage.getItem(CONFIG_LS_KEY_V2);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.clients && parsed.activeClientId && parsed.clients[parsed.activeClientId]) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    // Migrate v1 single-client shape.
+    try {
+      const v1raw = localStorage.getItem(CONFIG_LS_KEY_V1);
+      if (v1raw) {
+        const v1 = JSON.parse(v1raw);
+        const c = defaultClient(v1.client || "");
+        if (v1.packageKey) c.packageKey = v1.packageKey;
+        if (v1.tierKey) c.tierKey = v1.tierKey;
+        c.tasks = v1.tasks || {};
+        c.workbook = v1.workbook || {};
+        c.deliverables = v1.deliverables || {};
+        const wrapper = { schema: "v2", activeClientId: c.id, clients: {} };
+        wrapper.clients[c.id] = c;
+        return wrapper;
+      }
+    } catch (e) {}
+    // Fresh start.
+    const c = defaultClient("");
+    const wrapper = { schema: "v2", activeClientId: c.id, clients: {} };
+    wrapper.clients[c.id] = c;
+    return wrapper;
+  }
   function saveConfigState() {
-    try { localStorage.setItem(CONFIG_LS_KEY, JSON.stringify(configState)); } catch (e) {}
+    try { localStorage.setItem(CONFIG_LS_KEY_V2, JSON.stringify(configMulti)); } catch (e) {}
+  }
+  function clientList() {
+    return Object.keys(configMulti.clients)
+      .map((id) => configMulti.clients[id])
+      .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+  }
+  function switchClient(id) {
+    if (!configMulti.clients[id]) return;
+    configMulti.activeClientId = id;
+    configState = configMulti.clients[id];
+    saveConfigState();
+    configActivePhase = (configData.phases && configData.phases[0] && configData.phases[0].key) || "initiation";
+    renderConfigView();
+  }
+  function createNewClient() {
+    const raw = prompt("Client name?");
+    if (raw === null) return;
+    const c = defaultClient((raw || "").trim());
+    configMulti.clients[c.id] = c;
+    configMulti.activeClientId = c.id;
+    configState = c;
+    saveConfigState();
+    renderConfigView();
+  }
+  function deleteCurrentClient() {
+    const ids = Object.keys(configMulti.clients);
+    const current = configMulti.clients[configMulti.activeClientId];
+    const label = (current && current.name) || "(unnamed)";
+    if (ids.length <= 1) {
+      if (!confirm("This is your only client. Reset and start fresh?")) return;
+      const c = defaultClient("");
+      configMulti = { schema: "v2", activeClientId: c.id, clients: {} };
+      configMulti.clients[c.id] = c;
+      configState = c;
+      saveConfigState();
+      renderConfigView();
+      return;
+    }
+    if (!confirm('Delete client "' + label + '"? This cannot be undone.')) return;
+    delete configMulti.clients[configMulti.activeClientId];
+    configMulti.activeClientId = Object.keys(configMulti.clients)[0];
+    configState = configMulti.clients[configMulti.activeClientId];
+    saveConfigState();
+    renderConfigView();
+  }
+  // Kept for the Reset Progress button — wipes the active client's progress
+  // but preserves name / package / tier.
+  function resetActiveClientProgress() {
+    if (!configState) return;
+    configState.tasks = {};
+    configState.workbook = {};
+    configState.deliverables = {};
+    saveConfigState();
+    renderConfigView();
   }
 
   function activeConfigPackage() {
@@ -2491,16 +2582,18 @@
 
   function renderConfigBar() {
     const titleEl = document.getElementById("config-title");
-    const clientEl = document.getElementById("config-client-name");
+    const clientPickEl = document.getElementById("config-client-pick");
+    const clientNewBtn = document.getElementById("config-client-new");
+    const clientDelBtn = document.getElementById("config-client-delete");
+    const clientNameEl = document.getElementById("config-client-name");
     const pkgEl = document.getElementById("config-package-pick");
     const tierEl = document.getElementById("config-tier-pick");
     const resetBtn = document.getElementById("config-reset");
-    if (!titleEl || !pkgEl || !tierEl || !clientEl || !resetBtn) return;
+    if (!titleEl || !pkgEl || !tierEl || !clientNameEl || !clientPickEl || !resetBtn) return;
 
     const pkg = activeConfigPackage();
     const tier = activeConfigTier();
     titleEl.textContent = pkg ? pkg.name : "—";
-    // Slot pricing + duration immediately under the title (single span injected/replaced).
     let stats = titleEl.parentNode.querySelector(".config-bar-stats");
     if (!stats) {
       stats = document.createElement("p");
@@ -2514,8 +2607,29 @@
     if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
     stats.textContent = parts.join("  ·  ");
 
-    clientEl.value = configState.client || "";
-    clientEl.oninput = () => { configState.client = clientEl.value; saveConfigState(); };
+    // Client picker dropdown
+    clientPickEl.innerHTML = "";
+    const clients = clientList();
+    clients.forEach((c) => {
+      const opt = document.createElement("option");
+      opt.value = c.id;
+      opt.textContent = (c.name || "(unnamed)") + "  ·  " + (c.packageKey || "");
+      if (c.id === configMulti.activeClientId) opt.selected = true;
+      clientPickEl.appendChild(opt);
+    });
+    clientPickEl.onchange = () => switchClient(clientPickEl.value);
+    if (clientNewBtn) clientNewBtn.onclick = createNewClient;
+    if (clientDelBtn) clientDelBtn.onclick = deleteCurrentClient;
+
+    // Rename input for the active client
+    clientNameEl.value = configState.name || configState.client || "";
+    clientNameEl.oninput = () => {
+      configState.name = clientNameEl.value;
+      // Live-update the dropdown label without re-rendering everything.
+      const opt = clientPickEl.querySelector('option[value="' + configMulti.activeClientId + '"]');
+      if (opt) opt.textContent = (configState.name || "(unnamed)") + "  ·  " + (configState.packageKey || "");
+      saveConfigState();
+    };
 
     pkgEl.innerHTML = "";
     (configData.packages || []).forEach((p) => {
@@ -2526,8 +2640,8 @@
     });
     pkgEl.onchange = () => {
       configState.packageKey = pkgEl.value;
-      const pkg = activeConfigPackage();
-      configState.tierKey = (pkg && pkg.tiers && pkg.tiers[0] && pkg.tiers[0].key) || configState.tierKey;
+      const pkg2 = activeConfigPackage();
+      configState.tierKey = (pkg2 && pkg2.tiers && pkg2.tiers[0] && pkg2.tiers[0].key) || configState.tierKey;
       saveConfigState();
       renderConfigView();
     };
@@ -2542,16 +2656,9 @@
     tierEl.onchange = () => { configState.tierKey = tierEl.value; saveConfigState(); renderConfigView(); };
 
     resetBtn.onclick = () => {
-      if (!confirm("Reset all progress for this client?")) return;
-      const clientKept = configState.client;
-      const pkgKept = configState.packageKey;
-      const tierKept = configState.tierKey;
-      configState = defaultConfigState();
-      configState.client = clientKept;
-      configState.packageKey = pkgKept;
-      configState.tierKey = tierKept;
-      saveConfigState();
-      renderConfigView();
+      const label = configState.name || "(unnamed)";
+      if (!confirm('Reset all progress for "' + label + '"? Tasks, workbook entries, and deliverable checks will be cleared. Name / package / tier preserved.')) return;
+      resetActiveClientProgress();
     };
   }
 
