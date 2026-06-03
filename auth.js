@@ -57,7 +57,22 @@
     if (gate) gate.remove();
   }
 
+  // Forced re-auth: ?lock or ?logout in the URL clears the unlock record.
+  // Strips the param from the URL bar after handling so it's not sticky.
+  function forceRelock() {
+    try { localStorage.removeItem(LS_KEY); } catch (e) {}
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("lock");
+      url.searchParams.delete("logout");
+      const clean = url.pathname + (url.search || "") + url.hash;
+      window.history.replaceState({}, document.title, clean);
+    } catch (e) {}
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.has("lock") || qs.has("logout")) forceRelock();
     if (unlocked()) { dismissGate(); return; }
 
     const form = document.getElementById("login-gate-form");
