@@ -50,6 +50,12 @@
       "tier": "project"
     },
     {
+      "id": "budget-changes",
+      "label": "Budget Changes",
+      "type": "module",
+      "tier": "project"
+    },
+    {
       "id": "subcontracts",
       "label": "Subcontracts",
       "type": "module",
@@ -5419,6 +5425,150 @@
       "direction": "from-erp",
       "notes": [
         "Advanced Payments monitors Procore Payments to lock claim editing once payment is processed."
+      ]
+    },
+    {
+      "source": "sage-300-cre",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Sage 300 CRE.",
+        "Net-zero budget transfers post as approved budget modifications against the Job Cost record."
+      ]
+    },
+    {
+      "source": "viewpoint-vista",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Vista as net-zero JC Original Estimate adjustments.",
+        "Budget must be unlocked in Vista to accept the change; standard Vista budget rules apply."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Spectrum Budget Transfers.",
+        "Net-zero transfers between Phases / Cost Codes \u2014 original budget total preserved."
+      ]
+    },
+    {
+      "source": "sage-100",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Sage 100 Contractor budget modification entries.",
+        "Net-zero between cost codes / categories on the same job."
+      ]
+    },
+    {
+      "source": "sage-intacct",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications."
+      ]
+    },
+    {
+      "source": "foundation",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Foundation budget transfer entries on the Job Cost record."
+      ]
+    },
+    {
+      "source": "cmic",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 CMiC budget revision records."
+      ]
+    },
+    {
+      "source": "acumatica-edge",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via the Edge connector).",
+        "Net-zero transfers post against the Cost Budget for the project."
+      ]
+    },
+    {
+      "source": "acumatica-vision",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via the Vision connector)."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Deltek ComputerEase budget modification entries."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum-agave",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Spectrum Budget Transfers (via Agave).",
+        "See Agave docs: sync-docs.agaveapi.com/docs/procore-and-spectrum/budget-transfers."
+      ]
+    },
+    {
+      "source": "viewpoint-vista-agave",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Vista budget adjustments (via Agave)."
+      ]
+    },
+    {
+      "source": "sage-100-agave",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Sage 100 Contractor budget modifications (via Agave)."
+      ]
+    },
+    {
+      "source": "sage-intacct-agave",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications (via Agave)."
+      ]
+    },
+    {
+      "source": "acumatica-agave",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via Agave)."
+      ]
+    },
+    {
+      "source": "smoothx-acumatica",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders.",
+        "SmoothX Feature Map: Budget Changes export as Cost Budget Change Orders (Optional)."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "budget-changes",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders.",
+        "SmoothX Feature Map (Slide 5 / Budgeting): Budget Changes flow as Cost Budget Change Orders (Optional)."
       ]
     }
   ]
