@@ -2792,6 +2792,37 @@
           wrapEl.appendChild(block);
         });
       }
+      // families[] (used by productCatalog) — nested SKU catalog
+      if (Array.isArray(frame.families)) {
+        frame.families.forEach((fam) => {
+          const block = document.createElement("div");
+          block.className = "config-frame-family";
+          const h = document.createElement("p");
+          h.className = "config-frame-family-name";
+          h.textContent = fam.name;
+          block.appendChild(h);
+          const tbl = document.createElement("table");
+          tbl.className = "config-frame-catalog-table";
+          const thead = document.createElement("thead");
+          const trh = document.createElement("tr");
+          ["Product", "PS Package SKUs", "Verticals"].forEach((t) => {
+            const th = document.createElement("th"); th.textContent = t; trh.appendChild(th);
+          });
+          thead.appendChild(trh);
+          tbl.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          (fam.products || []).forEach((pr) => {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td"); td1.textContent = pr.product || ""; td1.className = "config-catalog-product"; tr.appendChild(td1);
+            const td2 = document.createElement("td"); td2.textContent = (pr.skus || []).join(" / "); td2.className = "config-catalog-skus"; tr.appendChild(td2);
+            const td3 = document.createElement("td"); td3.textContent = pr.verticals || ""; td3.className = "config-catalog-vert"; tr.appendChild(td3);
+            tbody.appendChild(tr);
+          });
+          tbl.appendChild(tbody);
+          block.appendChild(tbl);
+          wrapEl.appendChild(block);
+        });
+      }
       // forecastSamples[] (used by initiationResourcing) — per-package PC/SPC weekly forecast tables
       if (Array.isArray(frame.forecastSamples)) {
         frame.forecastSamples.forEach((sample) => {
@@ -2906,6 +2937,49 @@
     // Phase-level structured frames (from phase.structuredFrames)
     if (phase.structuredFrames) {
       Object.values(phase.structuredFrames).forEach(renderFrame);
+    }
+
+    // Kickoff phase: render the per-package week-by-week visual timeline.
+    if (phase.key === "kickoff" && cfgPkg && cfgPkg.kickoffTimeline) {
+      const tl = cfgPkg.kickoffTimeline;
+      const wrapEl = document.createElement("div");
+      wrapEl.className = "config-frame";
+      const head = document.createElement("div");
+      head.className = "config-frame-head";
+      const eb = document.createElement("p");
+      eb.className = "config-frame-eyebrow";
+      eb.textContent = "Visual timeline";
+      head.appendChild(eb);
+      const ttl = document.createElement("h4");
+      ttl.className = "config-frame-title";
+      ttl.textContent = tl.name;
+      head.appendChild(ttl);
+      if (tl.subtitle) {
+        const sub = document.createElement("p");
+        sub.className = "config-frame-sub";
+        sub.textContent = tl.subtitle;
+        head.appendChild(sub);
+      }
+      wrapEl.appendChild(head);
+      const list = document.createElement("div");
+      list.className = "config-timeline";
+      (tl.weeks || []).forEach((w) => {
+        const wk = document.createElement("div");
+        wk.className = "config-timeline-week";
+        const wkH = document.createElement("p");
+        wkH.className = "config-timeline-week-head";
+        wkH.textContent = "Week " + w.week;
+        wk.appendChild(wkH);
+        const ul = document.createElement("ul");
+        ul.className = "config-timeline-items";
+        (w.items || []).forEach((it) => {
+          const li = document.createElement("li"); li.textContent = it; ul.appendChild(li);
+        });
+        wk.appendChild(ul);
+        list.appendChild(wk);
+      });
+      wrapEl.appendChild(list);
+      wrap.appendChild(wrapEl);
     }
 
     // Build phase: render the per-package consultationAgenda (time-blocked).

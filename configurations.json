@@ -51,7 +51,9 @@
         "systems": "initiationSystems",
         "preKickoffPitStop": "initiationPitStop",
         "resourcing": "initiationResourcing",
-        "budgetSchedule": "budgetScheduleManagement"
+        "budgetSchedule": "budgetScheduleManagement",
+        "catalog": "productCatalog",
+        "regionalNaming": "regionalNamingNotes"
       }
     },
     {
@@ -121,7 +123,9 @@
       "structuredFrames": {
         "callFrame": "kickoffCallFrame",
         "scheduling": "schedulingRules",
-        "followup": "kickoffFollowup"
+        "followup": "kickoffFollowup",
+        "accountTeam": "accountTeamStructures",
+        "planAndRaid": "planAndRaid"
       }
     },
     {
@@ -1069,6 +1073,72 @@
             "topic": "Live Entry. Client creates test roles, budget line, and links Prime Contract."
           }
         ]
+      },
+      "kickoffTimeline": {
+        "name": "Cost Management \u2014 8 Week Timeline",
+        "subtitle": "Visual week-by-week structure the customer sees in the kickoff deck \u2014 APAC Slide 20.",
+        "totalWeeks": 8,
+        "weeks": [
+          {
+            "week": 1,
+            "items": [
+              "Procore account created",
+              "Project Kickoff (1.5 hrs)",
+              "Project Plan",
+              "Project Governance begins"
+            ]
+          },
+          {
+            "week": 2,
+            "items": [
+              "Customer Completes Cost Management Tools Certification",
+              "Discovery & Core Tools (2 hrs)",
+              "Discovery Summary delivered"
+            ]
+          },
+          {
+            "week": 3,
+            "items": [
+              "Consultation #1 (4 hrs)",
+              "PROCORE completes configurations (heads-down)"
+            ]
+          },
+          {
+            "week": 4,
+            "items": [
+              "Consultation #2 (4 hrs)",
+              "PROCORE continues configurations"
+            ]
+          },
+          {
+            "week": 5,
+            "items": [
+              "Admin Training / Configuration Training (1-2 hrs)"
+            ]
+          },
+          {
+            "week": 6,
+            "items": [
+              "CUSTOMER validates configurations",
+              "Configuration Deliverable shared"
+            ]
+          },
+          {
+            "week": 7,
+            "items": [
+              "Platform Q&A",
+              "Customer finalises validation"
+            ]
+          },
+          {
+            "week": 8,
+            "items": [
+              "Project Closeout call",
+              "Closeout Deliverable",
+              "Transition to CSE / Renewals Manager"
+            ]
+          }
+        ]
       }
     }
   ],
@@ -1879,6 +1949,166 @@
       {
         "name": "Link the recording",
         "description": "Attach the call recording to the Smartsheet Implementation Plan row."
+      }
+    ]
+  },
+  "productCatalog": {
+    "name": "PNPT Product & Services SKU Catalog",
+    "subtitle": "All PS Package SKUs across the four product families \u2014 GPS Slide 6.",
+    "families": [
+      {
+        "name": "Project Execution",
+        "products": [
+          {
+            "product": "Project Execution Essentials",
+            "skus": [
+              "Project Execution Essentials",
+              "Project Execution Essentials-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          },
+          {
+            "product": "Project Execution (PE + Doc Control in EUR/APAC)",
+            "skus": [
+              "Project Execution",
+              "Project Execution-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          },
+          {
+            "product": "Project Execution Enterprise (PE Enterprise + Doc Control EUR/APAC)",
+            "skus": [
+              "Project Execution Enterprise",
+              "Project Execution-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          }
+        ]
+      },
+      {
+        "name": "Cost Management",
+        "products": [
+          {
+            "product": "Cost Management",
+            "skus": [
+              "Cost Management",
+              "Cost Management-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          },
+          {
+            "product": "Cost Management Enterprise",
+            "skus": [
+              "Cost Management Enterprise",
+              "Cost Management Enterprise-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          }
+        ]
+      },
+      {
+        "name": "Project Lifecycle Management",
+        "products": [
+          {
+            "product": "Project Lifecycle Management",
+            "skus": [
+              "Project Lifecycle Management",
+              "Project Lifecycle Management-SMB"
+            ],
+            "verticals": "Owners"
+          }
+        ]
+      },
+      {
+        "name": "Resource Management",
+        "products": [
+          {
+            "product": "Resource Tracking",
+            "skus": [
+              "Resource Tracking",
+              "Resource Tracking-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          },
+          {
+            "product": "Resource Planning",
+            "skus": [
+              "Resource Planning",
+              "Resource Planning-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          },
+          {
+            "product": "Adv Resource Management",
+            "skus": [
+              "Resource Management",
+              "Resource Management-SMB"
+            ],
+            "verticals": "GC / Self-Perform / Owner"
+          }
+        ]
+      }
+    ]
+  },
+  "accountTeamStructures": {
+    "name": "Procore Account Team Structure",
+    "subtitle": "Who the customer meets at kickoff depends on ACV \u2014 APAC Slide 5.",
+    "buckets": [
+      {
+        "key": "upmarket",
+        "name": "Upmarket (over $5M ACV)",
+        "description": "Customer is introduced to PC + Account Manager (AM) + Customer Success Engineer (CSE). AM owns the relationship; CSE owns long-term adoption + technical strategy; PC owns the PS execution from kickoff to closeout."
+      },
+      {
+        "key": "smb",
+        "name": "SMB (at/under $5M ACV)",
+        "description": "Customer is introduced to PC + Renewals Manager. PC owns PS execution: leading professional services, aligning client stakeholders and Procore resources, maintaining project plan + communication, scheduling, managing scope + risk. Renewals Manager is the customer's primary contact for the overall partnership \u2014 ongoing questions/guidance + support for evaluating additional Procore products. No CSE in this segment."
+      }
+    ]
+  },
+  "planAndRaid": {
+    "name": "Project Plan & RAID Action Log",
+    "subtitle": "The two Smartsheet resources the SPC + PM/PC reference throughout \u2014 APAC Kickoff Slide 40.",
+    "buckets": [
+      {
+        "key": "plan",
+        "name": "Project Plan",
+        "description": "Discuss progress via Check-in Calls. Recording links posted in the plan. [INSERT LINK in the kickoff deck before sending]"
+      },
+      {
+        "key": "raid",
+        "name": "RAID Action Log",
+        "description": "Risks, Actions, Issues and Decisions. Reviewed during Check-in calls. Included in Follow Up emails. [INSERT LINK in the kickoff deck before sending]"
+      }
+    ]
+  },
+  "regionalNamingNotes": {
+    "name": "Regional Tool Naming (APAC variants)",
+    "subtitle": "APAC kickoff slides 30 + 35 use these alternate labels alongside the NAMER terms. Surface to the customer in their local terminology.",
+    "items": [
+      {
+        "name": "Punch List \u2192 Defect List",
+        "description": "APAC + UK convention."
+      },
+      {
+        "name": "Daily Log \u2192 Site Diary",
+        "description": "APAC convention."
+      },
+      {
+        "name": "Bidding \u2192 Tendering",
+        "description": "APAC + UK convention."
+      },
+      {
+        "name": "Schedule \u2192 Programme",
+        "description": "APAC + UK convention. Self-guided in PNPT packages."
+      },
+      {
+        "name": "Incidents (up to 2 templates)",
+        "description": "In-scope on PE / PE+PDM in APAC; counted with Inspections."
+      },
+      {
+        "name": "PDM (Project Data Management)",
+        "description": "APAC packages bundle PDM with Project Execution + Doc Control variants."
       }
     ]
   }
