@@ -161,7 +161,10 @@
         }
       ],
       "duration": "2 hours (Core Tools Setup) + Discovery Workshop",
-      "format": "Customer workshop (SPC-led)"
+      "format": "Customer workshop (SPC-led)",
+      "structuredFrames": {
+        "pitStop": "deliveryPitStop"
+      }
     },
     {
       "key": "build",
@@ -220,7 +223,11 @@
         }
       ],
       "duration": "4 hours per tool-group consultation + ~2 hours heads-down configuration per group",
-      "format": "Customer consultations + SPC heads-down"
+      "format": "Customer consultations + SPC heads-down",
+      "structuredFrames": {
+        "consultation": "consultationStructure",
+        "configure": "configureHeadsDown"
+      }
     },
     {
       "key": "validate",
@@ -264,14 +271,17 @@
         }
       ],
       "duration": "Configuration Training: 1\u20132 hours (Enterprise may need 2\u00d7 2-hour blocks) + asynchronous customer testing + Product Q&A",
-      "format": "Customer training + customer-led validation + Q&A meeting"
+      "format": "Customer training + customer-led validation + Q&A meeting",
+      "structuredFrames": {
+        "rr": "validationRR"
+      }
     },
     {
       "key": "closeout",
       "name": "Closeout",
       "eyebrow": "Phase 5",
       "owner": "PM / PC",
-      "description": "Definition of Done met \u2192 close the project. Build the Project Closeout Document, run the closeout call with the customer + incoming CSE, and complete all internal handoffs (Salesforce, Certinia, Smartsheet, IPA, Slack summary).",
+      "description": "Maps to the GPS deck \"Go-Live\" phase: customer goes live on projects, closeout deliverable produced, transition to CSE / Team. Definition of Done must be met before this phase opens.",
       "tasks": [
         {
           "text": "Build the Project Closeout Document \u2014 pull Implementation Summary from Gong"
@@ -317,7 +327,8 @@
         }
       ],
       "duration": "Closeout call + handoff",
-      "format": "Customer call + internal CSE knowledge transfer"
+      "format": "Customer call + internal CSE knowledge transfer",
+      "aka": "Go-Live"
     }
   ],
   "packages": [
@@ -986,11 +997,190 @@
           "Any permission template adjustments needed for this tool?",
           "Any tool-specific quirks (e.g. Correspondence umbrella \u2014 2 templates w/o workflow OR 1 with workflow)?"
         ]
+      },
+      "assignedTo": {
+        "_comment": "GPS Slide 19. NAMER assignments. EU/APAC/Pubsec: all PM-delivered.",
+        "standard": {
+          "namer": "Project Coordinator (PC)",
+          "euApacPubsec": "Project Manager (PM)"
+        },
+        "enterprise": {
+          "namer": "Project Manager (PM)",
+          "euApacPubsec": "Project Manager (PM)",
+          "note": "Cost Management Enterprise + deals with Delivery Partner involvement (regardless of product/package/SOW) route to PMs."
+        }
       }
     }
   ],
   "aiPrompts": {
     "currentState": "Analyze this discovery call transcript and summarize the client's 'Current State'. Specifically, identify their existing workflows for the in-scope tools (e.g., Drawings, RFIs, Submittals, Daily Logs). What software or manual processes are they currently using? List all specific pain points, manual redundancies, and friction areas they highlighted. If financials were discussed, summarize the current state of their Work Breakdown Structure (WBS) and cost code structures.",
     "desiredState": "Analyze this discovery call transcript and summarize the client's 'Desired State'. Capture the workflow improvements they want for each in-scope tool, the configuration decisions they've signaled (default response times, approval flows, custom fields, WBS structure), and any constraints flagged for the configuration sessions."
+  },
+  "training": {
+    "sessions": [
+      {
+        "key": "i",
+        "name": "I. Package Overview & Initiation",
+        "agenda": [
+          "Deep Dive into Package SKUs",
+          "Strategy & Methodology",
+          "Scope & Deliverables",
+          "Project Initiation - preparing for Kickoff"
+        ]
+      },
+      {
+        "key": "ii",
+        "name": "II. Kick off & Discovery",
+        "agenda": [
+          "Conducting the Kickoff Call",
+          "Implementation Project Plan",
+          "Leading Discovery",
+          "Discovery Deliverable"
+        ]
+      },
+      {
+        "key": "iii",
+        "name": "III. Consultation & Configuration",
+        "agenda": [
+          "Consultation Agenda & Structure",
+          "Configuration best practices",
+          "Configuration Workbook"
+        ]
+      },
+      {
+        "key": "iv",
+        "name": "IV. Validation & Closeout",
+        "agenda": [
+          "Configuration Training",
+          "Validation Script",
+          "Product Q&A",
+          "Closeout Call",
+          "Closeout Deliverable"
+        ]
+      }
+    ],
+    "officeHours": "Twice weekly office hours for Q&A commencing the week of April 6, 2026."
+  },
+  "methodology": {
+    "name": "Advise & Configure",
+    "phaseLabels": [
+      "Kickoff",
+      "Discovery & Design",
+      "Build",
+      "Validate",
+      "Go-Live"
+    ],
+    "note": "GPS Slide 13 names phase 5 Go-Live (customer goes live + Closeout + Introduction to CSE/Team). Our Closeout phase covers Go-Live and the closeout deliverables together."
+  },
+  "deliveryPitStop": {
+    "name": "Delivery Pit Stop",
+    "purpose": "PM/PC to SPC knowledge transfer + alignment before the SPC enters discovery.",
+    "points": [
+      {
+        "key": "knowledge-transfer",
+        "name": "Knowledge Transfer",
+        "items": [
+          "Products / Tools in Scope",
+          "Projects",
+          "Timelines",
+          "Goals",
+          "Committee"
+        ]
+      },
+      {
+        "key": "budget-schedule",
+        "name": "Align on Budget & Schedule",
+        "items": [
+          "Budget allocated for each consultation",
+          "Timeline for the deliverables",
+          "Notes and follow-up timing"
+        ]
+      },
+      {
+        "key": "risk",
+        "name": "Risk",
+        "items": [
+          "Committee size",
+          "Product fit",
+          "Misalignment on timeline"
+        ]
+      }
+    ]
+  },
+  "consultationStructure": {
+    "name": "Consultation Structure",
+    "subtitle": "Run every in-scope tool consultation through these 6 buckets.",
+    "buckets": [
+      {
+        "key": "tool-overview",
+        "name": "Tool Overview",
+        "description": "Review the tool and process flow, and understand the customer's process needs."
+      },
+      {
+        "key": "settings",
+        "name": "Settings",
+        "description": "Transition into project settings. Distinguish between settings that need to be managed on a per-project basis vs. STP to ensure standardization across all future jobs."
+      },
+      {
+        "key": "permissions",
+        "name": "Confirm Permissions",
+        "description": "Define User Role permissions based on process and workflows discussed."
+      },
+      {
+        "key": "workflow-template",
+        "name": "Workflow & Template Mapping",
+        "description": "Dig into the exact process behind tools that have workflows and templates, referring to the scope limits in place."
+      },
+      {
+        "key": "role-reversal",
+        "name": "Role Reversal & Live Sandbox Validation",
+        "description": "Instruct the client to create items in the tools to identify additional missed information."
+      },
+      {
+        "key": "configure",
+        "name": "Configure",
+        "description": "Clarify any gaps in knowledge you may have to ensure you have all the detail needed to configure the tools."
+      }
+    ]
+  },
+  "configureHeadsDown": {
+    "name": "Configure (Heads-Down Work)",
+    "subtitle": "Order of operations after the consultations, before the configuration training.",
+    "levels": [
+      "Sandbox",
+      "Company Level",
+      "Standard Project Template",
+      "Configuration Deliverable"
+    ],
+    "points": [
+      {
+        "key": "company-settings",
+        "name": "Update Company level settings post-discovery",
+        "description": "Update legal name, logo, office locations and standardize the Trades list to prevent duplicate categories. Build Custom Fields and Project Fieldsets to ensure mandatory data is captured across projects."
+      },
+      {
+        "key": "permissions",
+        "name": "Build Permission templates",
+        "description": "Use Company and Project Templates to regulate access control."
+      },
+      {
+        "key": "company-templates",
+        "name": "Build company-level templates and workflows",
+        "description": "For in-scope tools and within the tool limits."
+      }
+    ]
+  },
+  "validationRR": {
+    "name": "Validation R&R",
+    "window": "1\u20132 weeks",
+    "pcpm": [
+      "Confirm timeline for validation (1\u20132 weeks)",
+      "Drive Validation completion",
+      "Offer Product Q&A to go through the configurations together"
+    ],
+    "spc": [
+      "Lead Product Q&A \u2014 informal meeting to review any configuration changes requested",
+      "Address any other product questions that have come up"
+    ]
   }
 }

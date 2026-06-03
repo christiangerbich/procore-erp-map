@@ -2651,6 +2651,120 @@
     const cfgPkg = activeConfigPackage();
     const cfgTier = activeConfigTier();
 
+    // Helper: render a "GPS Frame" — a named block sourced from the top-level
+    // configData (deliveryPitStop, consultationStructure, configureHeadsDown,
+    // validationRR) so SPC-facing structures from GPS Slides 31/43/49/61 appear
+    // inline on the relevant phases.
+    function renderFrame(keyRef) {
+      const frame = configData[keyRef];
+      if (!frame) return;
+      const wrapEl = document.createElement("div");
+      wrapEl.className = "config-frame";
+      const head = document.createElement("div");
+      head.className = "config-frame-head";
+      const eb = document.createElement("p");
+      eb.className = "config-frame-eyebrow";
+      eb.textContent = "GPS Frame";
+      head.appendChild(eb);
+      const ttl = document.createElement("h4");
+      ttl.className = "config-frame-title";
+      ttl.textContent = frame.name || keyRef;
+      head.appendChild(ttl);
+      if (frame.subtitle || frame.purpose || frame.window) {
+        const sub = document.createElement("p");
+        sub.className = "config-frame-sub";
+        sub.textContent = frame.subtitle || frame.purpose ||
+          (frame.window ? "Window: " + frame.window : "");
+        head.appendChild(sub);
+      }
+      wrapEl.appendChild(head);
+
+      if (Array.isArray(frame.buckets)) {
+        const grid = document.createElement("div");
+        grid.className = "config-frame-grid";
+        frame.buckets.forEach((b, i) => {
+          const card = document.createElement("div");
+          card.className = "config-frame-card";
+          const ix = document.createElement("p");
+          ix.className = "config-frame-ix";
+          ix.textContent = String(i + 1).padStart(2, "0");
+          card.appendChild(ix);
+          const nm = document.createElement("p");
+          nm.className = "config-frame-card-name";
+          nm.textContent = b.name;
+          card.appendChild(nm);
+          const desc = document.createElement("p");
+          desc.className = "config-frame-card-desc";
+          desc.textContent = b.description || "";
+          card.appendChild(desc);
+          grid.appendChild(card);
+        });
+        wrapEl.appendChild(grid);
+      }
+      if (Array.isArray(frame.points)) {
+        if (Array.isArray(frame.levels) && frame.levels.length) {
+          const stack = document.createElement("div");
+          stack.className = "config-frame-levels";
+          frame.levels.forEach((lv) => {
+            const li = document.createElement("span");
+            li.className = "config-frame-level";
+            li.textContent = lv;
+            stack.appendChild(li);
+          });
+          wrapEl.appendChild(stack);
+        }
+        const ol = document.createElement("ol");
+        ol.className = "config-frame-points";
+        frame.points.forEach((p) => {
+          const li = document.createElement("li");
+          const nm = document.createElement("strong");
+          nm.textContent = p.name;
+          li.appendChild(nm);
+          if (p.description) {
+            li.appendChild(document.createTextNode(" — " + p.description));
+          }
+          if (Array.isArray(p.items)) {
+            const ul = document.createElement("ul");
+            p.items.forEach((it) => {
+              const ili = document.createElement("li"); ili.textContent = it; ul.appendChild(ili);
+            });
+            li.appendChild(ul);
+          }
+          ol.appendChild(li);
+        });
+        wrapEl.appendChild(ol);
+      }
+      if (frame.pcpm || frame.spc) {
+        const rr = document.createElement("div");
+        rr.className = "config-frame-rr";
+        [
+          { label: "PC / PM", items: frame.pcpm },
+          { label: "SPC",     items: frame.spc  }
+        ].forEach((side) => {
+          if (!side.items) return;
+          const col = document.createElement("div");
+          col.className = "config-frame-rr-col";
+          const ll = document.createElement("p");
+          ll.className = "config-frame-rr-label";
+          ll.textContent = side.label;
+          col.appendChild(ll);
+          const ul = document.createElement("ul");
+          side.items.forEach((it) => {
+            const li = document.createElement("li"); li.textContent = it; ul.appendChild(li);
+          });
+          col.appendChild(ul);
+          rr.appendChild(col);
+        });
+        wrapEl.appendChild(rr);
+      }
+      wrap.appendChild(wrapEl);
+    }
+
+    // Phase-level structured frames (from phase.structuredFrames)
+    if (phase.structuredFrames) {
+      Object.values(phase.structuredFrames).forEach(renderFrame);
+    }
+
     // Build phase: surface the 6 configuration-scope categories (APRIL Slide 5).
     if (phase.key === "build" && cfgPkg && cfgPkg.configurationScope && cfgPkg.configurationScope.length) {
       const block = document.createElement("div");
