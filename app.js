@@ -2792,6 +2792,37 @@
           wrapEl.appendChild(block);
         });
       }
+      // forecastSamples[] (used by initiationResourcing) — per-package PC/SPC weekly forecast tables
+      if (Array.isArray(frame.forecastSamples)) {
+        frame.forecastSamples.forEach((sample) => {
+          const block = document.createElement("div");
+          block.className = "config-frame-forecast";
+          const h = document.createElement("p");
+          h.className = "config-frame-forecast-name";
+          h.textContent = sample.package;
+          block.appendChild(h);
+          const tbl = document.createElement("table");
+          tbl.className = "config-frame-forecast-table";
+          const thead = document.createElement("thead");
+          const trh = document.createElement("tr");
+          ["Role", "Weekly hours", "Total"].forEach((t) => {
+            const th = document.createElement("th"); th.textContent = t; trh.appendChild(th);
+          });
+          thead.appendChild(trh);
+          tbl.appendChild(thead);
+          const tbody = document.createElement("tbody");
+          (sample.rows || []).forEach((r) => {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td"); td1.textContent = r.role || ""; td1.className = "config-forecast-role"; tr.appendChild(td1);
+            const td2 = document.createElement("td"); td2.textContent = r.weekly || ""; td2.className = "config-forecast-weekly"; tr.appendChild(td2);
+            const td3 = document.createElement("td"); td3.textContent = r.total != null ? r.total : ""; td3.className = "config-forecast-total"; tr.appendChild(td3);
+            tbody.appendChild(tr);
+          });
+          tbl.appendChild(tbody);
+          block.appendChild(tbl);
+          wrapEl.appendChild(block);
+        });
+      }
       // items[] at the frame level (used by spcResources — resource pill list)
       if (Array.isArray(frame.items) && frame.items.length && typeof frame.items[0] === "object") {
         const list = document.createElement("ul");

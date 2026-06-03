@@ -47,7 +47,11 @@
       "structuredFrames": {
         "strategy": "packageStrategy",
         "done": "definitionOfDone",
-        "resources": "spcResources"
+        "resources": "spcResources",
+        "systems": "initiationSystems",
+        "preKickoffPitStop": "initiationPitStop",
+        "resourcing": "initiationResourcing",
+        "budgetSchedule": "budgetScheduleManagement"
       }
     },
     {
@@ -113,7 +117,12 @@
         }
       ],
       "duration": "1.5 hours",
-      "format": "Customer call"
+      "format": "Customer call",
+      "structuredFrames": {
+        "callFrame": "kickoffCallFrame",
+        "scheduling": "schedulingRules",
+        "followup": "kickoffFollowup"
+      }
     },
     {
       "key": "discovery",
@@ -1648,6 +1657,228 @@
       {
         "name": "#gps_2026_packages Slack channel",
         "description": "Post questions, share patterns. Office Hours start week of 04/06 \u2014 twice weekly options."
+      }
+    ]
+  },
+  "initiationSystems": {
+    "name": "Project Initiation \u2014 Systems Checklist",
+    "subtitle": "Spin up the working surfaces the moment the project is assigned \u2014 Slide 20.",
+    "points": [
+      {
+        "name": "Google Drive folder structure",
+        "description": "Create a folder structure for the account in the Shared Drive > (Vertical) > Customer Files. Reference: GPS Customer Files Shared Drive Comms PDF."
+      },
+      {
+        "name": "Slack channel",
+        "description": "Create the project Slack channel using the structure #gps_accountname. Reference: Client Slack Channel Creation Highspot article."
+      },
+      {
+        "name": "NO Project Notebook required",
+        "description": "Project Notebooks are not used in this motion \u2014 use Slack for all project notes."
+      },
+      {
+        "name": "Smartsheet workspace",
+        "description": "Only three sheets to maintain: Implementation Project Plan, Validation Script, and RAID (Action) Log."
+      },
+      {
+        "name": "Certinia",
+        "description": "Confirm budget, duration, assignments, forecasting, and review the Order Form."
+      },
+      {
+        "name": "Outreach",
+        "description": "Use the updated email templates built for the new PNPT motion."
+      },
+      {
+        "name": "Gong",
+        "description": "Use the updated Gong Briefs for the new motion."
+      }
+    ]
+  },
+  "initiationPitStop": {
+    "name": "Internal Pit Stop (Pre-Kickoff)",
+    "subtitle": "Schedule with the AE before meeting with the client to verify information and address gaps before the Kickoff call \u2014 Slide 21.",
+    "points": [
+      {
+        "name": "Attendees",
+        "description": "AE, CSE, AM, PC/PM."
+      },
+      {
+        "name": "Identify",
+        "description": "Goals \u00b7 Milestones & key dates \u00b7 Tools \u00b7 Projects."
+      }
+    ]
+  },
+  "initiationResourcing": {
+    "name": "Project Resourcing & Forecasting",
+    "subtitle": "Resource at assignment \u2014 these packages cannot wait for a kickoff to find an SPC \u2014 Slide 22.",
+    "points": [
+      {
+        "name": "Create Resource Requests immediately",
+        "description": "As soon as you are assigned a new package. Use the per-package forecasting resource to include the correct number of hours."
+      },
+      {
+        "name": "Forecast Curve maintenance",
+        "description": "Once a resource has been assigned, the PM/PC is responsible for inputting the forecast per the Forecast Curve for the appropriate package. Maintain accuracy for the duration of the project."
+      },
+      {
+        "name": "Add resources to the working surfaces",
+        "description": "Smartsheet workspace, Slack channel, and Google Drive."
+      }
+    ],
+    "forecastSamples": [
+      {
+        "package": "PE Essentials (8 weeks)",
+        "rows": [
+          {
+            "role": "PC",
+            "weekly": "4 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1.5",
+            "total": 8.5
+          },
+          {
+            "role": "SPC",
+            "weekly": "\u2014 \u00b7 2.5 \u00b7 \u2014 \u00b7 5 \u00b7 2.5 \u00b7 2 \u00b7 \u2014 \u00b7 3",
+            "total": 15
+          }
+        ]
+      },
+      {
+        "package": "PE (10 weeks)",
+        "rows": [
+          {
+            "role": "PC",
+            "weekly": "4 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1 \u00b7 1.5",
+            "total": 10
+          },
+          {
+            "role": "SPC",
+            "weekly": "\u2014 \u00b7 2.5 \u00b7 \u2014 \u00b7 1.5 \u00b7 3 \u00b7 8 \u00b7 2.5 \u00b7 \u2014 \u00b7 5 \u00b7 1.5 \u00b7 5",
+            "total": 29
+          }
+        ]
+      },
+      {
+        "package": "PE Enterprise (12 weeks)",
+        "rows": [
+          {
+            "role": "PC",
+            "weekly": "4 \u00b7 1 \u00b7 0.5 \u00b7 1 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1 \u00b7 0.5 \u00b7 \u2014 \u00b7 1.5",
+            "total": 13
+          },
+          {
+            "role": "SPC",
+            "weekly": "\u2014 \u00b7 3.5 \u00b7 \u2014 \u00b7 2.5 \u00b7 3 \u00b7 8 \u00b7 \u2014 \u00b7 3 \u00b7 3.5 \u00b7 2 \u00b7 \u2014 \u00b7 1.5 \u00b7 5",
+            "total": 35
+          },
+          {
+            "role": "SPC BIM/DC",
+            "weekly": "\u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 2 \u00b7 5 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014",
+            "total": 7
+          },
+          {
+            "role": "AIS",
+            "weekly": "\u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 1 \u00b7 1 \u00b7 1 \u00b7 1 \u00b7 \u2014 \u00b7 \u2014",
+            "total": 5
+          }
+        ]
+      }
+    ]
+  },
+  "budgetScheduleManagement": {
+    "name": "Budget & Schedule Management",
+    "subtitle": "Internal cadence rules \u2014 Slide 23.",
+    "points": [
+      {
+        "name": "Budget is internal",
+        "description": "\u274c No client budget updates  \u00b7  \u2705 Deliver on budget in Certinia."
+      },
+      {
+        "name": "Timecard Entry",
+        "description": "Must be completed by 5 PM every Friday."
+      },
+      {
+        "name": "Timecard Approval",
+        "description": "Must be completed by 5 PM local time every Monday."
+      },
+      {
+        "name": "Drive Timeline & Schedule",
+        "description": "Time-to-complete is tracked via the Certinia Audit Dash."
+      }
+    ]
+  },
+  "kickoffCallFrame": {
+    "name": "Project Kickoff Call",
+    "subtitle": "Align on goals, scope, and the project timeline \u2014 Slide 28.",
+    "buckets": [
+      {
+        "key": "journey",
+        "name": "Procore Journey",
+        "description": "Introduce the customer to the project journey, client & Procore project teams, and the mechanics of the project."
+      },
+      {
+        "key": "confirm-scope",
+        "name": "Confirm Scope",
+        "description": "Align on scope / tools, deliverables, and the Definition of Done."
+      },
+      {
+        "key": "schedule",
+        "name": "Schedule",
+        "description": "Schedule customer meetings for the entire project: Discovery, Consultations, Q&A, Check-in calls."
+      }
+    ]
+  },
+  "schedulingRules": {
+    "name": "Scheduling Rules & Naming Conventions",
+    "subtitle": "Critical because of the accelerated timelines \u2014 Slide 29.",
+    "points": [
+      {
+        "name": "No more than one 4-hour meeting per SPC calendar per day",
+        "description": "Hard rule. A 4-hour block is a full morning or afternoon."
+      },
+      {
+        "name": "NAMER \u2014 SPCs block billable time",
+        "description": "SPCs are responsible for blocking time on their own calendar to complete deliverables for the client. Title the block: BILLABLE | CLIENT NAME | DELIVERABLE NAME"
+      },
+      {
+        "name": "EUROPE \u2014 PMs book the time",
+        "description": "PMs are responsible for booking deliverable-completion time. Title with the nature of the work + deadline. Example: 'SOP Development for XYZ Co \u2014 deadline Friday 21st March'."
+      },
+      {
+        "name": "Templates / Agenda provided per package",
+        "description": "Use them. Consistent nomenclature across the org."
+      }
+    ]
+  },
+  "kickoffFollowup": {
+    "name": "Kickoff Follow-up",
+    "subtitle": "PM/PC responsibility \u2014 Slide 30. The post-kickoff packet the customer + the GPS team both need.",
+    "points": [
+      {
+        "name": "PM Detailed Call Summary Brief in Gong",
+        "description": "Use it to generate a call summary."
+      },
+      {
+        "name": "Review + post in the GPS Slack channel",
+        "description": "Drop the summary in #gps_accountname."
+      },
+      {
+        "name": "Update RAID Log",
+        "description": "Add any RAID items uncovered in the kickoff call."
+      },
+      {
+        "name": "Send the Kickoff Follow-up email",
+        "description": "Use the template + the calendar invites. Link to Agendas and Naming Conventions. Attach PDF of the kickoff deck. Link to the Implementation Plan and RAID Log."
+      },
+      {
+        "name": "Upload kickoff deck PDF to the Client Shared Drive",
+        "description": "Lives in (Vertical)/Customer Files."
+      },
+      {
+        "name": "Pin Implementation Plan + RAID Log",
+        "description": "In the GPS Slack channel."
+      },
+      {
+        "name": "Link the recording",
+        "description": "Attach the call recording to the Smartsheet Implementation Plan row."
       }
     ]
   }
