@@ -2497,7 +2497,22 @@
     const resetBtn = document.getElementById("config-reset");
     if (!titleEl || !pkgEl || !tierEl || !clientEl || !resetBtn) return;
 
-    titleEl.textContent = activeConfigPackage() ? activeConfigPackage().name : "—";
+    const pkg = activeConfigPackage();
+    const tier = activeConfigTier();
+    titleEl.textContent = pkg ? pkg.name : "—";
+    // Slot pricing + duration immediately under the title (single span injected/replaced).
+    let stats = titleEl.parentNode.querySelector(".config-bar-stats");
+    if (!stats) {
+      stats = document.createElement("p");
+      stats.className = "config-bar-stats";
+      titleEl.parentNode.appendChild(stats);
+    }
+    const parts = [];
+    if (tier && tier.hours) parts.push(tier.hours + " hours");
+    if (tier && tier.duration) parts.push(tier.duration);
+    if (tier && tier.pricing && tier.pricing.comm != null) parts.push("COMM $" + tier.pricing.comm.toLocaleString());
+    if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
+    stats.textContent = parts.join("  ·  ");
 
     clientEl.value = configState.client || "";
     clientEl.oninput = () => { configState.client = clientEl.value; saveConfigState(); };
@@ -2518,7 +2533,6 @@
     };
 
     tierEl.innerHTML = "";
-    const pkg = activeConfigPackage();
     (pkg && pkg.tiers ? pkg.tiers : []).forEach((t) => {
       const opt = document.createElement("option");
       opt.value = t.key; opt.textContent = t.name;
@@ -2584,6 +2598,12 @@
       meta.className = "config-phase-meta";
       meta.textContent = (phase.owner || "") + " · " + pp.done + " / " + pp.total + " tasks";
       btn.appendChild(meta);
+      if (phase.duration) {
+        const dur = document.createElement("p");
+        dur.className = "config-phase-meta config-phase-meta-dur";
+        dur.textContent = phase.duration;
+        btn.appendChild(dur);
+      }
 
       const bar = document.createElement("div");
       bar.className = "config-phase-bar";
@@ -2628,26 +2648,115 @@
       wrap.appendChild(desc);
     }
 
-    // In-scope tools block — visible on Build + Validate phases.
-    if (phase.key === "build" || phase.key === "validate") {
-      const tier = activeConfigTier();
-      if (tier && tier.inScopeTools && tier.inScopeTools.length) {
-        const block = document.createElement("div");
-        block.className = "config-tools-block";
-        const eb = document.createElement("p");
-        eb.className = "config-tools-eyebrow";
-        eb.textContent = "In-scope tools (" + tier.name + ")";
-        block.appendChild(eb);
-        const list = document.createElement("div");
-        list.className = "config-tools-list";
-        tier.inScopeTools.forEach((t) => {
+    const cfgPkg = activeConfigPackage();
+    const cfgTier = activeConfigTier();
+
+    // Build phase: surface the 6 configuration-scope categories (APRIL Slide 5).
+    if (phase.key === "build" && cfgPkg && cfgPkg.configurationScope && cfgPkg.configurationScope.length) {
+      const block = document.createElement("div");
+      block.className = "config-tools-block";
+      const eb = document.createElement("p");
+      eb.className = "config-tools-eyebrow";
+      eb.textContent = "Configuration scope (6 categories — every PNPT package)";
+      block.appendChild(eb);
+      const list = document.createElement("div");
+      list.className = "config-tools-list";
+      cfgPkg.configurationScope.forEach((s) => {
+        const chip = document.createElement("span");
+        chip.className = "config-tool-chip";
+        chip.textContent = s.name;
+        list.appendChild(chip);
+      });
+      block.appendChild(list);
+      wrap.appendChild(block);
+    }
+
+    // In-scope tools block (Discovery + Build + Validate). Prefer the rich
+    // toolList (with support-Diagrams URLs) when available; fall back to the
+    // simpler string-array inScopeTools.
+    if (phase.key === "discovery" || phase.key === "build" || phase.key === "validate") {
+      const block = document.createElement("div");
+      block.className = "config-tools-block";
+      const eb = document.createElement("p");
+      eb.className = "config-tools-eyebrow";
+      eb.textContent = "In-scope tools (" + (cfgTier ? cfgTier.name : cfgPkg.name) + ")";
+      block.appendChild(eb);
+      const list = document.createElement("div");
+      list.className = "config-tools-list";
+      const richList = cfgTier && cfgTier.toolList && cfgTier.toolList.length ? cfgTier.toolList : null;
+      if (richList) {
+        richList.forEach((t) => {
+          if (t.supportUrl) {
+            const a = document.createElement("a");
+            a.className = "config-tool-chip config-tool-link";
+            a.href = t.supportUrl;
+            a.target = "_blank";
+            a.rel = "noopener";
+            a.textContent = t.name;
+            a.title = "Open " + t.name + " support article";
+            list.appendChild(a);
+          } else {
+            const chip = document.createElement("span");
+            chip.className = "config-tool-chip";
+            chip.textContent = t.name;
+            list.appendChild(chip);
+          }
+        });
+      } else if (cfgTier && cfgTier.inScopeTools) {
+        cfgTier.inScopeTools.forEach((t) => {
           const chip = document.createElement("span");
           chip.className = "config-tool-chip";
           chip.textContent = t;
           list.appendChild(chip);
         });
-        block.appendChild(list);
-        wrap.appendChild(block);
+      }
+      block.appendChild(list);
+      wrap.appendChild(block);
+
+      // Discovery-only: the per-tool discovery question checklist + AI prompts.
+      if (phase.key === "discovery" && cfgPkg.toolDiscoveryPrompts && cfgPkg.toolDiscoveryPrompts.questions) {
+        const qBlock = document.createElement("div");
+        qBlock.className = "config-tools-block";
+        const qb = document.createElement("p");
+        qb.className = "config-tools-eyebrow";
+        qb.textContent = "Per-tool discovery questions";
+        qBlock.appendChild(qb);
+        const qList = document.createElement("ul");
+        qList.className = "config-prompt-list";
+        cfgPkg.toolDiscoveryPrompts.questions.forEach((q) => {
+          const li = document.createElement("li");
+          li.textContent = q;
+          qList.appendChild(li);
+        });
+        qBlock.appendChild(qList);
+        wrap.appendChild(qBlock);
+      }
+
+      if (phase.key === "discovery" && configData.aiPrompts) {
+        const aiWrap = document.createElement("div");
+        aiWrap.className = "config-tools-block";
+        const aieb = document.createElement("p");
+        aieb.className = "config-tools-eyebrow";
+        aieb.textContent = "AI prompts — run against the discovery call Gong / Notebook LM transcript";
+        aiWrap.appendChild(aieb);
+        [
+          { key: "currentState", label: "Current State Summary" },
+          { key: "desiredState", label: "Desired State Summary" }
+        ].forEach((p) => {
+          const ptext = configData.aiPrompts[p.key];
+          if (!ptext) return;
+          const det = document.createElement("details");
+          det.className = "config-prompt-details";
+          const sum = document.createElement("summary");
+          sum.textContent = p.label;
+          det.appendChild(sum);
+          const pre = document.createElement("p");
+          pre.className = "config-prompt-text";
+          pre.textContent = ptext;
+          det.appendChild(pre);
+          aiWrap.appendChild(det);
+        });
+        wrap.appendChild(aiWrap);
       }
     }
 

@@ -2187,3 +2187,88 @@ main {
   .config-main { grid-template-columns: 1fr; }
   .config-side { border-left: none; border-top: 1px solid var(--color-border); }
 }
+
+
+/* v2 enrichment additions */
+.config-bar-stats {
+  margin: 4px 0 0;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+.config-phase-meta-dur {
+  margin-top: 2px;
+  font-style: italic;
+  opacity: 0.85;
+}
+.config-tool-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+.config-tool-link:hover {
+  background: var(--color-orange);
+  color: var(--color-white);
+  border-color: var(--color-orange);
+}
+.config-prompt-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.config-prompt-list li {
+  position: relative;
+  padding: 6px 10px 6px 22px;
+  font-size: 12.5px;
+  color: var(--color-black);
+  line-height: 1.45;
+}
+.config-prompt-list li::before {
+  content: "?";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  color: var(--color-white);
+  font-size: 9px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.config-prompt-details {
+  margin-top: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+.config-prompt-details summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+.config-prompt-details summary::-webkit-details-marker { display: none; }
+.config-prompt-details summary::before {
+  content: "\25B8";
+  margin-right: 6px;
+  color: var(--color-orange);
+}
+.config-prompt-details[open] summary::before { content: "\25BE"; }
+.config-prompt-text {
+  margin: 8px 0 4px;
+  padding: 8px 10px;
+  background: var(--color-stone);
+  border-radius: 4px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--color-black);
+  white-space: pre-wrap;
+}
