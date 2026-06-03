@@ -1245,6 +1245,1015 @@
           }
         ]
       }
+    },
+    {
+      "key": "project-execution",
+      "name": "Project Execution",
+      "tiers": [
+        {
+          "key": "pe-essentials",
+          "name": "Project Execution Essentials",
+          "hours": 25,
+          "duration": "8 weeks",
+          "pricing": {
+            "comm": 6250,
+            "smb": 5000
+          },
+          "extraWorkbookSections": [],
+          "inScopeTools": [
+            "Drawings",
+            "Submittals",
+            "RFIs",
+            "Observations",
+            "Daily Log (Site Diary)"
+          ],
+          "toolList": [
+            {
+              "key": "drawings",
+              "name": "Drawings",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project/diagrams"
+            },
+            {
+              "key": "submittals",
+              "name": "Submittals",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project/diagrams"
+            },
+            {
+              "key": "rfis",
+              "name": "RFIs",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project/diagrams"
+            },
+            {
+              "key": "observations",
+              "name": "Observations",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project/diagrams"
+            },
+            {
+              "key": "daily-log",
+              "name": "Daily Log (Site Diary)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
+            }
+          ],
+          "kickoffTimeline": {
+            "name": "Project Execution Essentials \u2014 8 Week Timeline",
+            "subtitle": "APAC Slide 15. The customer-facing visual on the kickoff deck.",
+            "totalWeeks": 8,
+            "weeks": [
+              {
+                "week": 1,
+                "items": [
+                  "Procore account created",
+                  "Project Kickoff (1.5 hrs)",
+                  "Project Plan",
+                  "Project Governance begins"
+                ]
+              },
+              {
+                "week": 2,
+                "items": [
+                  "Customer Completes Project Execution Tools Certification",
+                  "Discovery Workshop"
+                ]
+              },
+              {
+                "week": 3,
+                "items": [
+                  "Discovery Summary delivered",
+                  "Consultation (4 hrs)"
+                ]
+              },
+              {
+                "week": 4,
+                "items": [
+                  "PROCORE completes configurations"
+                ]
+              },
+              {
+                "week": 5,
+                "items": [
+                  "Admin Training / Configuration Training (2 hrs)"
+                ]
+              },
+              {
+                "week": 6,
+                "items": [
+                  "CUSTOMER validates configurations",
+                  "Configuration Deliverable shared"
+                ]
+              },
+              {
+                "week": 7,
+                "items": [
+                  "Platform Q&A",
+                  "Customer finalises validation"
+                ]
+              },
+              {
+                "week": 8,
+                "items": [
+                  "Project Closeout call",
+                  "Closeout Deliverable",
+                  "Transition to CSE / Renewals Manager"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "pe-standard",
+          "name": "Project Execution",
+          "hours": 44,
+          "duration": "10 weeks",
+          "pricing": {
+            "comm": 11000,
+            "smb": 8800
+          },
+          "extraWorkbookSections": [
+            "correspondence",
+            "punch-list",
+            "inspections",
+            "bid-management"
+          ],
+          "inScopeTools": [
+            "Drawings",
+            "Submittals",
+            "RFIs",
+            "Observations",
+            "Daily Log (Site Diary)",
+            "Correspondence (up to 2 templates w/o workflow OR 1 with workflow)",
+            "Punch List (Defect List)",
+            "Inspections (up to 5 templates)",
+            "Bid Management (Tendering)"
+          ],
+          "toolList": [
+            {
+              "key": "drawings",
+              "name": "Drawings",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project/diagrams"
+            },
+            {
+              "key": "submittals",
+              "name": "Submittals",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project/diagrams"
+            },
+            {
+              "key": "rfis",
+              "name": "RFIs",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project/diagrams"
+            },
+            {
+              "key": "observations",
+              "name": "Observations",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project/diagrams"
+            },
+            {
+              "key": "daily-log",
+              "name": "Daily Log (Site Diary)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
+            },
+            {
+              "key": "correspondence",
+              "name": "Correspondence",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project"
+            },
+            {
+              "key": "punch-list",
+              "name": "Punch List (Defect List)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project/diagrams"
+            },
+            {
+              "key": "inspections",
+              "name": "Inspections",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project/diagrams"
+            },
+            {
+              "key": "bid-management",
+              "name": "Bid Management (Tendering)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project"
+            }
+          ],
+          "kickoffTimeline": {
+            "name": "Project Execution \u2014 10 Week Timeline",
+            "subtitle": "Extends PE Essentials with the Standard-tier tools (Correspondence, Punch List, Inspections, Bidding) by adding a second Consultation block.",
+            "totalWeeks": 10,
+            "weeks": [
+              {
+                "week": 1,
+                "items": [
+                  "Procore account created",
+                  "Project Kickoff (1.5 hrs)",
+                  "Project Plan",
+                  "Project Governance begins"
+                ]
+              },
+              {
+                "week": 2,
+                "items": [
+                  "Customer Completes Project Execution Tools Certification",
+                  "Discovery Workshop"
+                ]
+              },
+              {
+                "week": 3,
+                "items": [
+                  "Discovery Summary delivered",
+                  "Consultation #1 (4 hrs)"
+                ]
+              },
+              {
+                "week": 4,
+                "items": [
+                  "Consultation #2 (4 hrs)",
+                  "PROCORE completes configurations"
+                ]
+              },
+              {
+                "week": 5,
+                "items": [
+                  "PROCORE configurations continue"
+                ]
+              },
+              {
+                "week": 6,
+                "items": [
+                  "Admin Training / Configuration Training (2 hrs)"
+                ]
+              },
+              {
+                "week": 7,
+                "items": [
+                  "CUSTOMER validates configurations",
+                  "Configuration Deliverable shared"
+                ]
+              },
+              {
+                "week": 8,
+                "items": [
+                  "Customer continues validation"
+                ]
+              },
+              {
+                "week": 9,
+                "items": [
+                  "Platform Q&A",
+                  "Customer finalises validation"
+                ]
+              },
+              {
+                "week": 10,
+                "items": [
+                  "Project Closeout call",
+                  "Closeout Deliverable",
+                  "Transition to CSE / Renewals Manager"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "key": "pe-enterprise",
+          "name": "Project Execution Enterprise",
+          "hours": 64,
+          "duration": "12 weeks",
+          "pricing": {
+            "comm": 16000,
+            "smb": 12800
+          },
+          "extraWorkbookSections": [
+            "correspondence",
+            "punch-list",
+            "inspections",
+            "bid-management",
+            "bim",
+            "coordination-issues",
+            "reports",
+            "analytics-setup"
+          ],
+          "inScopeTools": [
+            "Drawings",
+            "Submittals",
+            "RFIs",
+            "Observations",
+            "Daily Log (Site Diary)",
+            "Correspondence (up to 2 templates w/o workflow OR 1 with workflow)",
+            "Punch List (Defect List)",
+            "Inspections (up to 5 templates)",
+            "Bid Management (Tendering)",
+            "BIM",
+            "Coordination Issues",
+            "Reports (up to 3 reports)",
+            "Analytics Setup (PE Only)"
+          ],
+          "toolList": [
+            {
+              "key": "drawings",
+              "name": "Drawings",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project/diagrams"
+            },
+            {
+              "key": "submittals",
+              "name": "Submittals",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/submittals-project/diagrams"
+            },
+            {
+              "key": "rfis",
+              "name": "RFIs",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/rfis-project/diagrams"
+            },
+            {
+              "key": "observations",
+              "name": "Observations",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project/diagrams"
+            },
+            {
+              "key": "daily-log",
+              "name": "Daily Log (Site Diary)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
+            },
+            {
+              "key": "correspondence",
+              "name": "Correspondence",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project"
+            },
+            {
+              "key": "punch-list",
+              "name": "Punch List (Defect List)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project/diagrams"
+            },
+            {
+              "key": "inspections",
+              "name": "Inspections",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project/diagrams"
+            },
+            {
+              "key": "bid-management",
+              "name": "Bid Management (Tendering)",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project"
+            },
+            {
+              "key": "bim",
+              "name": "BIM",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project"
+            },
+            {
+              "key": "coordination-issues",
+              "name": "Coordination Issues",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project"
+            },
+            {
+              "key": "reports",
+              "name": "Reports",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project"
+            },
+            {
+              "key": "analytics-setup",
+              "name": "Analytics Setup",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company"
+            }
+          ],
+          "kickoffTimeline": {
+            "name": "Project Execution Enterprise \u2014 12 Week Timeline",
+            "subtitle": "APAC Slide 17. Two-phase build (Phase I + Phase II) with BIM consultations and Analytics Set-Up.",
+            "totalWeeks": 12,
+            "weeks": [
+              {
+                "week": 1,
+                "items": [
+                  "Procore account created",
+                  "Project Kickoff (1.5 hrs)",
+                  "Project Plan",
+                  "Project Governance begins"
+                ]
+              },
+              {
+                "week": 2,
+                "items": [
+                  "PHASE I begins",
+                  "Discovery Workshop",
+                  "Customer Completes PE Tools Certification"
+                ]
+              },
+              {
+                "week": 3,
+                "items": [
+                  "Discovery Summary",
+                  "Consultation #1"
+                ]
+              },
+              {
+                "week": 4,
+                "items": [
+                  "PROCORE completes Phase I configurations"
+                ]
+              },
+              {
+                "week": 5,
+                "items": [
+                  "PHASE II begins",
+                  "Discovery #2"
+                ]
+              },
+              {
+                "week": 6,
+                "items": [
+                  "Discovery Summary #2",
+                  "Consultation #2",
+                  "Consultation (BIM Tools)"
+                ]
+              },
+              {
+                "week": 7,
+                "items": [
+                  "Admin Training",
+                  "PROCORE completes Phase II configurations"
+                ]
+              },
+              {
+                "week": 8,
+                "items": [
+                  "PROCORE configurations continue"
+                ]
+              },
+              {
+                "week": 9,
+                "items": [
+                  "CUSTOMER validates configurations",
+                  "Configuration Deliverable"
+                ]
+              },
+              {
+                "week": 10,
+                "items": [
+                  "Analytics Set-Up"
+                ]
+              },
+              {
+                "week": 11,
+                "items": [
+                  "Platform Q&As",
+                  "Customer finalises validation"
+                ]
+              },
+              {
+                "week": 12,
+                "items": [
+                  "Project Closeout call",
+                  "Closeout Deliverable",
+                  "Transition to CSE / Renewals Manager"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "deliverables": [
+        {
+          "key": "plan",
+          "name": "Implementation Project Plan",
+          "owner": "PM/PC",
+          "description": "Smartsheet live record of milestones, consultation dates, statuses."
+        },
+        {
+          "key": "workbook",
+          "name": "Configuration Workbook",
+          "owner": "SPC",
+          "description": "Per-setting log of Procore defaults + changes during build."
+        },
+        {
+          "key": "discovery",
+          "name": "Discovery Workshop Summary",
+          "owner": "SPC",
+          "description": "Current vs. Desired State artifact from discovery."
+        },
+        {
+          "key": "validation",
+          "name": "Validation Script",
+          "owner": "SPC",
+          "description": "Customer-facing UAT script \u2014 checklist organised by tool."
+        },
+        {
+          "key": "closeout",
+          "name": "Project Closeout Document",
+          "owner": "PM/PC",
+          "description": "Final summary, lessons learned, transition resources."
+        }
+      ],
+      "configurationScope": [
+        {
+          "key": "spt",
+          "name": "Standard Project Template Updates"
+        },
+        {
+          "key": "company-admin",
+          "name": "Company Admin Settings (custom fields)"
+        },
+        {
+          "key": "workflows",
+          "name": "Workflows"
+        },
+        {
+          "key": "templates",
+          "name": "Template Builds"
+        },
+        {
+          "key": "permissions",
+          "name": "Permissions"
+        },
+        {
+          "key": "doc",
+          "name": "Configuration Document Deliverable"
+        }
+      ],
+      "toolDiscoveryPrompts": {
+        "questions": [
+          "Walk the support article's Diagrams tab \u2014 does the OOTB process work as-is?",
+          "Where does the client's current process deviate from OOTB?",
+          "Which custom fields / fieldsets are needed?",
+          "Any workflow routing required at the Company level?",
+          "Any permission template adjustments needed for this tool?",
+          "Any tool-specific quirks (e.g. Correspondence \u2014 2 templates w/o workflow OR 1 with workflow; Inspections \u2014 up to 5 templates)?"
+        ]
+      },
+      "consultationAgenda": {
+        "name": "Project Execution Agenda (4-hour block)",
+        "subtitle": "Sample 4-hour consultation structure for PE Essentials. Adapt per scope.",
+        "blocks": [
+          {
+            "time": "0:00 \u2013 1:30",
+            "kind": "Process Decided",
+            "topic": "Drawings + RFIs walkthrough. Define discipline list. RFI Manager + response time. Custom fields per tool."
+          },
+          {
+            "time": "1:30 \u2013 1:45",
+            "kind": "Break",
+            "topic": "\u2014"
+          },
+          {
+            "time": "1:45 \u2013 3:15",
+            "kind": "Process Decided",
+            "topic": "Submittals + Daily Log walkthrough. Default Submittal Manager. Daily Log type enablement. Custom fields per log type."
+          },
+          {
+            "time": "3:15 \u2013 3:25",
+            "kind": "Break",
+            "topic": "\u2014"
+          },
+          {
+            "time": "3:25 \u2013 4:00",
+            "kind": "Process Tested",
+            "topic": "Live entry \u2014 client creates an RFI, submittal, daily log entry in Sandbox."
+          }
+        ]
+      },
+      "assignedTo": {
+        "essentials": {
+          "namer": "Project Coordinator (PC)",
+          "euApacPubsec": "Project Manager (PM)"
+        },
+        "standard": {
+          "namer": "Project Coordinator (PC)",
+          "euApacPubsec": "Project Manager (PM)"
+        },
+        "enterprise": {
+          "namer": "Project Manager (PM)",
+          "euApacPubsec": "Project Manager (PM)",
+          "note": "Project Execution Enterprise routes to PMs in NAMER. EU/APAC/Pubsec deals always PM."
+        }
+      },
+      "workbook": {
+        "sections": [
+          {
+            "key": "admin",
+            "name": "Admin (Company)",
+            "settings": [
+              {
+                "name": "Verify Company Name + Time Zone + Logo",
+                "default": "N/A",
+                "decisionLogic": "Confirm the basic identity fields are populated correctly."
+              },
+              {
+                "name": "Personal Avatars in the Directory",
+                "default": "Enabled",
+                "decisionLogic": "Disable if the client wants only initials shown."
+              },
+              {
+                "name": "Show Project Number in Navigation",
+                "default": "Enabled",
+                "decisionLogic": "Adjust for clients who don't number projects."
+              },
+              {
+                "name": "Monthly Sandbox Environment",
+                "default": "Disabled",
+                "decisionLogic": "Enable if the customer wants a recurring Sandbox refresh."
+              },
+              {
+                "name": "Surveys in Procore",
+                "default": "Enabled",
+                "decisionLogic": "Disable only if explicitly requested."
+              },
+              {
+                "name": "Account Setup Page",
+                "default": "Enabled"
+              },
+              {
+                "name": "Offices configured",
+                "default": "'Main' is the Corporate Office",
+                "decisionLogic": "Add offices per the discovery workshop. Note all offices created."
+              },
+              {
+                "name": "Terms & Conditions",
+                "default": "None populated",
+                "decisionLogic": "Populate if client provides text. Enable T&Cs and trigger re-acceptance separately."
+              },
+              {
+                "name": "Disable overdue emails during the weekend",
+                "default": "Disabled (users WILL receive overdue emails on weekends)",
+                "decisionLogic": "Enable if client doesn't want weekend notifications."
+              }
+            ]
+          },
+          {
+            "key": "workflows",
+            "name": "Workflows (Company Level)",
+            "settings": [
+              {
+                "name": "Create workflow (max 1 per package)",
+                "default": "N/A",
+                "notes": "Screenshot the created workflow and attach as PDF to the deliverable."
+              },
+              {
+                "name": "Custom workflow responses",
+                "default": "Approve / Return / Reject"
+              },
+              {
+                "name": "Workflow features per-tool toggles",
+                "default": "Allow Project-Level Templates (Disabled), Allow Terminate Workflow (Disabled)",
+                "notes": "Note which toggles were leveraged."
+              },
+              {
+                "name": "Tools with Workflows Enabled table",
+                "default": "Review"
+              }
+            ]
+          },
+          {
+            "key": "permissions",
+            "name": "Permissions (Company + Project)",
+            "settings": [
+              {
+                "name": "Review 'Out of the Box' Company Permission Templates",
+                "default": "N/A"
+              },
+              {
+                "name": "Edit Company Permission Templates per client direction",
+                "default": "N/A",
+                "notes": "Export updated templates as a PDF to the deliverable."
+              },
+              {
+                "name": "Review 'Out of the Box' Project Permission Templates",
+                "default": "N/A"
+              },
+              {
+                "name": "Edit Project Permission Templates per client direction",
+                "default": "N/A",
+                "notes": "Export updated templates as a PDF to the deliverable."
+              }
+            ]
+          },
+          {
+            "key": "drawings",
+            "name": "Drawings",
+            "settings": [
+              {
+                "name": "Allow Standard users to delete published markup",
+                "default": "No"
+              },
+              {
+                "name": "Enable Drawings by Area",
+                "default": "No"
+              },
+              {
+                "name": "Drawing Log Subscribers",
+                "default": "None populated",
+                "decisionLogic": "Note the roles that should be added per discovery."
+              },
+              {
+                "name": "Discipline list + abbreviations",
+                "default": "OOTB list (A/C/E/F/G/H/I/L/M/P/Q/R/S/T/X/Z + Garage variants)",
+                "decisionLogic": "Add any additional abbreviations needed."
+              }
+            ]
+          },
+          {
+            "key": "specifications",
+            "name": "Specifications",
+            "settings": [
+              {
+                "name": "Revision Number Ordering Scheme",
+                "default": "Letters first, then numbers"
+              },
+              {
+                "name": "Enable Specifications by Area",
+                "default": "No"
+              },
+              {
+                "name": "Specification Subscribers",
+                "default": "None populated",
+                "decisionLogic": "Note roles per discovery."
+              }
+            ]
+          },
+          {
+            "key": "rfis",
+            "name": "RFIs",
+            "settings": [
+              {
+                "name": "RFI Manager Selection",
+                "default": "Allow Standard users to select any Admin user (or user with 'Act as RFI Manager' granular permission)"
+              },
+              {
+                "name": "Private RFIs",
+                "default": "Enabled"
+              },
+              {
+                "name": "RFI Response window",
+                "default": "3 days",
+                "decisionLogic": "Adjust per the client's process \u2014 common values: 3, 5, 7, 14 days."
+              },
+              {
+                "name": "Mark assignees' responses required by default",
+                "default": "Disabled"
+              },
+              {
+                "name": "Show only official responses to Standard + Read-Only users",
+                "default": "Enabled"
+              },
+              {
+                "name": "Prefix RFI numbers by stage",
+                "default": "Disabled"
+              },
+              {
+                "name": "Default Distribution",
+                "default": "None populated",
+                "decisionLogic": "Add roles per discovery."
+              },
+              {
+                "name": "Overdue RFI email reminders",
+                "default": "Enabled"
+              },
+              {
+                "name": "RFI Email Matrix",
+                "default": "OOTB enables vetted by the product manager",
+                "decisionLogic": "Adjust only where the client has a clear contrary need."
+              }
+            ]
+          },
+          {
+            "key": "submittals",
+            "name": "Submittals",
+            "settings": [
+              {
+                "name": "Default Submittal Manager",
+                "default": "None populated"
+              },
+              {
+                "name": "Include Spec Section Number in numbering",
+                "default": "Enabled"
+              },
+              {
+                "name": "Default Submit/Respond days",
+                "default": "14"
+              },
+              {
+                "name": "Allow approvers to add Reviewers to their workflow step",
+                "default": "Enabled"
+              },
+              {
+                "name": "Mark Approvers' responses as Required by default",
+                "default": "Enabled"
+              },
+              {
+                "name": "Enable Reject workflow",
+                "default": "Disabled"
+              },
+              {
+                "name": "Dynamic approver due dates",
+                "default": "Disabled"
+              },
+              {
+                "name": "Schedule Linking",
+                "default": "Don't link to schedule"
+              },
+              {
+                "name": "Mark new submittals as private by default",
+                "default": "Disabled"
+              },
+              {
+                "name": "QR Codes on items + custom PDF templates",
+                "default": "Disabled"
+              },
+              {
+                "name": "Packages List sort",
+                "default": "Ascending by Package Number"
+              },
+              {
+                "name": "Default Distribution",
+                "default": "None populated",
+                "decisionLogic": "Add roles per discovery."
+              },
+              {
+                "name": "Overdue Submittal email reminders",
+                "default": "Enabled"
+              },
+              {
+                "name": "Allow attachment download without login",
+                "default": "Disabled"
+              }
+            ]
+          },
+          {
+            "key": "daily-log",
+            "name": "Daily Log (Site Diary)",
+            "settings": [
+              {
+                "name": "Log Types Enabled",
+                "default": "All OOTB types enabled (Accidents, Phone Calls, Daily Construction Report, Delays, Deliveries, Dumpster, Equipment, Inspections, Manpower, Notes, Photos, Plan Revisions, Productivity, Quantities, Safety Violations, Timecards, Visitors, Waste, Observed Weather, Scheduled Work)",
+                "decisionLogic": "Disable types the client won't use."
+              },
+              {
+                "name": "Custom Fields per Log type",
+                "default": "None",
+                "decisionLogic": "Add per-log-type fields surfaced in discovery (Delay codes, Weather notes, etc.)."
+              }
+            ]
+          },
+          {
+            "key": "observations",
+            "name": "Observations",
+            "settings": [
+              {
+                "name": "Separate Safety Observations from Quality",
+                "default": "Disabled",
+                "decisionLogic": "Enable carefully \u2014 every configuration item below has to be duplicated for both Safety and Quality."
+              },
+              {
+                "name": "Categories enabled",
+                "default": "Commissioning, Environmental, Quality, Safety, Warranty, Work to Complete",
+                "decisionLogic": "Disable categories the client won't use."
+              },
+              {
+                "name": "Observation Types per category",
+                "default": "OOTB types per category"
+              },
+              {
+                "name": "Company-level Observation Templates",
+                "default": "None",
+                "decisionLogic": "Push standard templates that should auto-flow to every project."
+              }
+            ]
+          },
+          {
+            "key": "correspondence",
+            "name": "Correspondence",
+            "enterpriseOnly": false,
+            "settings": [
+              {
+                "name": "Correspondence Types created",
+                "default": "None populated",
+                "decisionLogic": "Up to 2 templates without workflow OR 1 template with a workflow.",
+                "notes": "Screenshot + PDF attach to deliverable."
+              },
+              {
+                "name": "Statuses per type",
+                "default": "Draft / Open / Closed",
+                "decisionLogic": "Add custom statuses where the client's process needs them."
+              }
+            ]
+          },
+          {
+            "key": "punch-list",
+            "name": "Punch List (Defect List)",
+            "settings": [
+              {
+                "name": "Company-level Punch List Templates",
+                "default": "None",
+                "decisionLogic": "Push standard templates per discovery."
+              },
+              {
+                "name": "Custom Fields / Fieldsets",
+                "default": "None"
+              }
+            ]
+          },
+          {
+            "key": "inspections",
+            "name": "Inspections",
+            "settings": [
+              {
+                "name": "Inspection Templates built",
+                "default": "None",
+                "decisionLogic": "Up to 5 templates per the package scope. Build per discovery."
+              },
+              {
+                "name": "Inspection Item Types + responses",
+                "default": "OOTB",
+                "decisionLogic": "Add custom response sets if client needs them."
+              },
+              {
+                "name": "Distribution + email reminders",
+                "default": "OOTB"
+              }
+            ]
+          },
+          {
+            "key": "bid-management",
+            "name": "Bid Management (Tendering)",
+            "settings": [
+              {
+                "name": "Bid Form templates",
+                "default": "None",
+                "decisionLogic": "Build standard bid form per discovery."
+              },
+              {
+                "name": "Bid Levelling settings",
+                "default": "Standard"
+              },
+              {
+                "name": "Distribution + email cadence",
+                "default": "OOTB"
+              }
+            ]
+          },
+          {
+            "key": "bim",
+            "name": "BIM (Enterprise only)",
+            "enterpriseOnly": true,
+            "settings": [
+              {
+                "name": "Coordination model cadence",
+                "default": "Weekly",
+                "decisionLogic": "Set the recommended coordination model refresh cadence."
+              },
+              {
+                "name": "Federation sources",
+                "default": "None",
+                "decisionLogic": "List which trade models federate into the master coordination model."
+              },
+              {
+                "name": "Permissions for BIM tool",
+                "default": "Standard granular permissions"
+              }
+            ]
+          },
+          {
+            "key": "coordination-issues",
+            "name": "Coordination Issues (Enterprise only)",
+            "enterpriseOnly": true,
+            "settings": [
+              {
+                "name": "Issue Types + Statuses",
+                "default": "OOTB"
+              },
+              {
+                "name": "Default Assignee logic",
+                "default": "Manual selection"
+              },
+              {
+                "name": "Distribution + email reminders",
+                "default": "OOTB"
+              }
+            ]
+          },
+          {
+            "key": "reports",
+            "name": "Reports (Enterprise only)",
+            "enterpriseOnly": true,
+            "settings": [
+              {
+                "name": "Custom Reports built",
+                "default": "None",
+                "decisionLogic": "Up to 3 reports per the package scope. Build per discovery."
+              },
+              {
+                "name": "Distribution + scheduling",
+                "default": "Manual"
+              }
+            ]
+          },
+          {
+            "key": "analytics-setup",
+            "name": "Analytics Setup (Enterprise only)",
+            "enterpriseOnly": true,
+            "settings": [
+              {
+                "name": "PE Analytics dashboards",
+                "default": "Defaults enabled",
+                "decisionLogic": "Enable the default PE analytics dashboards. Custom dashboards are SOW scope only."
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "aiPrompts": {
