@@ -43,7 +43,11 @@
         }
       ],
       "duration": "Pre-kickoff \u2014 same day as assignment",
-      "format": "Internal (PM/PC heads-down)"
+      "format": "Internal (PM/PC heads-down)",
+      "structuredFrames": {
+        "strategy": "packageStrategy",
+        "done": "definitionOfDone"
+      }
     },
     {
       "key": "kickoff",
@@ -226,7 +230,9 @@
       "format": "Customer consultations + SPC heads-down",
       "structuredFrames": {
         "consultation": "consultationStructure",
-        "configure": "configureHeadsDown"
+        "configure": "configureHeadsDown",
+        "bestPractices": "meetingBestPractices",
+        "checkin": "clientCheckIn"
       }
     },
     {
@@ -1009,6 +1015,37 @@
           "euApacPubsec": "Project Manager (PM)",
           "note": "Cost Management Enterprise + deals with Delivery Partner involvement (regardless of product/package/SOW) route to PMs."
         }
+      },
+      "consultationAgenda": {
+        "name": "Cost Management Agenda (General Contractor \u2014 4-hour block)",
+        "subtitle": "GPS Slide 44 \u2014 actual time-blocked agenda for the Cost Management consultation. Replicate this structure per consultation session.",
+        "blocks": [
+          {
+            "time": "0:00 \u2013 1:30",
+            "kind": "Process Decided",
+            "topic": "Define Project Roles (required for Workflow functionality). Budget Structure. Forecast vs. Actuals logic."
+          },
+          {
+            "time": "1:30 \u2013 1:45",
+            "kind": "Break",
+            "topic": "\u2014"
+          },
+          {
+            "time": "1:45 \u2013 3:15",
+            "kind": "Process Decided",
+            "topic": "Prime Contract SOV. Change Hierarchy & Budget Changes. Discuss internal Budget Changes / Transfers."
+          },
+          {
+            "time": "3:15 \u2013 3:25",
+            "kind": "Break",
+            "topic": "\u2014"
+          },
+          {
+            "time": "3:25 \u2013 4:00",
+            "kind": "Process Tested",
+            "topic": "Live Entry. Client creates test roles, budget line, and links Prime Contract."
+          }
+        ]
       }
     }
   ],
@@ -1145,28 +1182,82 @@
   },
   "configureHeadsDown": {
     "name": "Configure (Heads-Down Work)",
-    "subtitle": "Order of operations after the consultations, before the configuration training.",
+    "subtitle": "GPS Slides 49, 50, 51, 52. Order of operations after consultations, before configuration training.",
     "levels": [
       "Sandbox",
       "Company Level",
       "Standard Project Template",
       "Configuration Deliverable"
     ],
-    "points": [
+    "subSections": [
       {
-        "key": "company-settings",
-        "name": "Update Company level settings post-discovery",
-        "description": "Update legal name, logo, office locations and standardize the Trades list to prevent duplicate categories. Build Custom Fields and Project Fieldsets to ensure mandatory data is captured across projects."
+        "key": "sandbox",
+        "name": "Sandbox",
+        "points": [
+          {
+            "name": "Use the Sandbox Project",
+            "description": "Project configuration work should be conducted in the client's Sandbox Test Project, and custom fields applied to the Sandbox for validation."
+          },
+          {
+            "name": "Safe testing space",
+            "description": "Push the system limits without risking or impacting live project data."
+          },
+          {
+            "name": "Understand the customer's go-live date",
+            "description": "Clarify if they are adding active projects before configuration is completed \u2014 those projects will not inherit the new configurations, to minimise risk."
+          }
+        ]
       },
       {
-        "key": "permissions",
-        "name": "Build Permission templates",
-        "description": "Use Company and Project Templates to regulate access control."
+        "key": "company-level",
+        "name": "Company Level",
+        "points": [
+          {
+            "name": "Update Company-level settings post-discovery",
+            "description": "Legal name, logo, office locations. Standardize the Trades list to prevent duplicate categories. Build Custom Fields and Project Fieldsets to ensure mandatory data is captured across projects."
+          },
+          {
+            "name": "Build Permission templates",
+            "description": "Use Company and Project Templates to regulate access control."
+          },
+          {
+            "name": "Build company-level templates and workflows",
+            "description": "For in-scope tools and within the tool limits."
+          }
+        ]
       },
       {
-        "key": "company-templates",
-        "name": "Build company-level templates and workflows",
-        "description": "For in-scope tools and within the tool limits."
+        "key": "standard-project-template",
+        "name": "Standard Project Template",
+        "points": [
+          {
+            "name": "Configure Standard Project Template for in-scope tools"
+          },
+          {
+            "name": "Tool by tool, adjust the settings that carry over from the STP to new projects"
+          },
+          {
+            "name": "Review and confirm Project Admin tab for any fields uncovered during the consultations"
+          }
+        ]
+      },
+      {
+        "key": "configuration-deliverable",
+        "name": "Configuration Deliverable",
+        "points": [
+          {
+            "name": "Record deviations from the default settings",
+            "description": "One column for the default, the adjacent column for the customized change you made."
+          },
+          {
+            "name": "Detail the rationale in the Notes field",
+            "description": "Every custom field, disabled feature, and setting adjustment gets a Notes-field reason for why the change was made."
+          },
+          {
+            "name": "Copy and paste created templates & workflows",
+            "description": "Drop them into the subsequent tabs in the Deliverable (Workflows, Inspection Template, Correspondence Template, etc.)."
+          }
+        ]
       }
     ]
   },
@@ -1182,5 +1273,108 @@
       "Lead Product Q&A \u2014 informal meeting to review any configuration changes requested",
       "Address any other product questions that have come up"
     ]
+  },
+  "packageStrategy": {
+    "name": "PNPT Package Strategy",
+    "subtitle": "Design packages to drive a more prescriptive and predictable client experience.",
+    "pillars": [
+      {
+        "key": "ps-to-product",
+        "name": "1:1 PS to Product Match",
+        "description": "Matching our services to the products purchased allows for a more standardized motion.",
+        "items": [
+          "Eliminates bloat in our processes through templatization",
+          "Clearer scope defined in presales",
+          "Right-sized budgets to scope of work",
+          "Shift from a bucket of hours to deliverable-based"
+        ]
+      },
+      {
+        "key": "accelerated-timeline",
+        "name": "Accelerated Timeline",
+        "description": "Adding Configuration Services + accelerated approach.",
+        "items": [
+          "Updated terms to allow teams to configure",
+          "Better resource model",
+          "Fewer delays due to client bandwidth",
+          "Longer session times allows less context switching for our team",
+          "Less rescheduling",
+          "Quicker transition to CSE for adoption planning"
+        ]
+      },
+      {
+        "key": "mvp",
+        "name": "MVP \u2014 Minimum Viable Product",
+        "description": "NOT a client-facing term. Internal strategy lens.",
+        "items": [
+          "Shortest distance between onboarding and value",
+          "Intersection between timeline & tools",
+          "Essential value over comprehensive setup",
+          "Deliberate & prescriptive"
+        ]
+      }
+    ]
+  },
+  "definitionOfDone": {
+    "name": "Definition of Done",
+    "subtitle": "The project is done when the work is done, NOT when hours are done.",
+    "points": [
+      {
+        "key": "scope-deliverables",
+        "name": "Scope & Deliverables are complete"
+      },
+      {
+        "key": "platform-config",
+        "name": "Platform configuration completed for in-scope tools"
+      },
+      {
+        "key": "validation",
+        "name": "Validation completed \u2014 Procore tools tested and configuration finalized"
+      }
+    ]
+  },
+  "meetingBestPractices": {
+    "name": "4-Hour Meeting Best Practices",
+    "subtitle": "How to run a 4-hour consultation block without losing the room.",
+    "points": [
+      {
+        "key": "energy",
+        "name": "Managing Energy and Client Fatigue",
+        "description": "A 4-hour block is a marathon. To combat client fatigue, pace the meeting with breaks."
+      },
+      {
+        "key": "show-ask",
+        "name": "Show & Ask",
+        "description": "As you show them the workflow, sprinkle in specific questions to gather their nuances. Pause for their response. Recommend solutions."
+      },
+      {
+        "key": "defend-scope",
+        "name": "Defend Scope Gracefully",
+        "description": "Clients will inevitably try to superimpose their broken legacy processes or ask for complex customizations, like custom CFO Excel reports \u2014 keep to scope."
+      },
+      {
+        "key": "velocity",
+        "name": "Pivot based on Velocity",
+        "description": "If a client grasps the concepts quickly and you finish the agenda 45 minutes early, offer them a quick bonus value or give them their time back."
+      }
+    ]
+  },
+  "clientCheckIn": {
+    "name": "PM/PC Client Check-in",
+    "subtitle": "Recurring meeting (cadence set at kickoff) to align on project velocity, track deliverables, mitigate risks.",
+    "points": [
+      {
+        "key": "progress",
+        "name": "Progress & Deliverable Flow",
+        "description": "Updates on Procore's key deliverables, tracks the progress of client action items (identifying any blockers), and records any major recent decisions."
+      },
+      {
+        "key": "raid",
+        "name": "RAID Review",
+        "description": "Reviews new or escalated items from the Smartsheet RAID log (Risks, Actions, Issues, Decisions) to discuss current statuses and mitigation steps."
+      }
+    ],
+    "cadence": "Bi-weekly 15-minute call OR weekly email. Pick at kickoff and stick to it.",
+    "templates": "On-Track / Action-Required Outreach templates."
   }
 }

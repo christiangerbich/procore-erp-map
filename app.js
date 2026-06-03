@@ -2734,6 +2734,73 @@
         });
         wrapEl.appendChild(ol);
       }
+      // pillars[] (used by packageStrategy)
+      if (Array.isArray(frame.pillars)) {
+        const grid = document.createElement("div");
+        grid.className = "config-frame-grid";
+        frame.pillars.forEach((p, i) => {
+          const card = document.createElement("div");
+          card.className = "config-frame-card";
+          const ix = document.createElement("p");
+          ix.className = "config-frame-ix";
+          ix.textContent = String(i + 1).padStart(2, "0");
+          card.appendChild(ix);
+          const nm = document.createElement("p");
+          nm.className = "config-frame-card-name";
+          nm.textContent = p.name;
+          card.appendChild(nm);
+          if (p.description) {
+            const d = document.createElement("p");
+            d.className = "config-frame-card-desc";
+            d.textContent = p.description;
+            card.appendChild(d);
+          }
+          if (Array.isArray(p.items)) {
+            const ul = document.createElement("ul");
+            ul.className = "config-frame-card-items";
+            p.items.forEach((it) => {
+              const li = document.createElement("li"); li.textContent = it; ul.appendChild(li);
+            });
+            card.appendChild(ul);
+          }
+          grid.appendChild(card);
+        });
+        wrapEl.appendChild(grid);
+      }
+      // subSections[] (used by configureHeadsDown after slides 50/51/52)
+      if (Array.isArray(frame.subSections)) {
+        frame.subSections.forEach((ss) => {
+          const block = document.createElement("div");
+          block.className = "config-frame-subsection";
+          const h = document.createElement("p");
+          h.className = "config-frame-subsection-name";
+          h.textContent = ss.name;
+          block.appendChild(h);
+          if (Array.isArray(ss.points)) {
+            const ol = document.createElement("ol");
+            ol.className = "config-frame-points";
+            ss.points.forEach((p) => {
+              const li = document.createElement("li");
+              const nm = document.createElement("strong");
+              nm.textContent = p.name;
+              li.appendChild(nm);
+              if (p.description) li.appendChild(document.createTextNode(" — " + p.description));
+              ol.appendChild(li);
+            });
+            block.appendChild(ol);
+          }
+          wrapEl.appendChild(block);
+        });
+      }
+      if (frame.cadence || frame.templates) {
+        const meta = document.createElement("p");
+        meta.className = "config-frame-meta";
+        const parts = [];
+        if (frame.cadence) parts.push("Cadence: " + frame.cadence);
+        if (frame.templates) parts.push(frame.templates);
+        meta.textContent = parts.join("  ·  ");
+        wrapEl.appendChild(meta);
+      }
       if (frame.pcpm || frame.spc) {
         const rr = document.createElement("div");
         rr.className = "config-frame-rr";
@@ -2763,6 +2830,51 @@
     // Phase-level structured frames (from phase.structuredFrames)
     if (phase.structuredFrames) {
       Object.values(phase.structuredFrames).forEach(renderFrame);
+    }
+
+    // Build phase: render the per-package consultationAgenda (time-blocked).
+    if (phase.key === "build" && cfgPkg && cfgPkg.consultationAgenda) {
+      const ag = cfgPkg.consultationAgenda;
+      const wrapEl = document.createElement("div");
+      wrapEl.className = "config-frame";
+      const head = document.createElement("div");
+      head.className = "config-frame-head";
+      const eb = document.createElement("p");
+      eb.className = "config-frame-eyebrow";
+      eb.textContent = "Time-blocked agenda";
+      head.appendChild(eb);
+      const ttl = document.createElement("h4");
+      ttl.className = "config-frame-title";
+      ttl.textContent = ag.name;
+      head.appendChild(ttl);
+      if (ag.subtitle) {
+        const sub = document.createElement("p");
+        sub.className = "config-frame-sub";
+        sub.textContent = ag.subtitle;
+        head.appendChild(sub);
+      }
+      wrapEl.appendChild(head);
+      const tbl = document.createElement("table");
+      tbl.className = "config-agenda-table";
+      const thead = document.createElement("thead");
+      const trh = document.createElement("tr");
+      ["Time", "Type", "Topic"].forEach((h) => {
+        const th = document.createElement("th"); th.textContent = h; trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      tbl.appendChild(thead);
+      const tbody = document.createElement("tbody");
+      (ag.blocks || []).forEach((b) => {
+        const tr = document.createElement("tr");
+        tr.className = "config-agenda-row" + (b.kind === "Break" ? " is-break" : "");
+        const t1 = document.createElement("td"); t1.textContent = b.time || ""; t1.className = "config-agenda-time"; tr.appendChild(t1);
+        const t2 = document.createElement("td"); t2.textContent = b.kind || ""; t2.className = "config-agenda-kind"; tr.appendChild(t2);
+        const t3 = document.createElement("td"); t3.textContent = b.topic || ""; tr.appendChild(t3);
+        tbody.appendChild(tr);
+      });
+      tbl.appendChild(tbody);
+      wrapEl.appendChild(tbl);
+      wrap.appendChild(wrapEl);
     }
 
     // Build phase: surface the 6 configuration-scope categories (APRIL Slide 5).
