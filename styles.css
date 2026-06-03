@@ -2846,3 +2846,12 @@ body.is-locked { overflow: hidden; }
   padding: 1px 5px;
   border-radius: 3px;
 }
+
+
+.login-gate-link {
+  color: var(--color-orange, #FF5200);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.login-gate-link:hover { color: #d34500; }
