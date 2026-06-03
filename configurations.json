@@ -167,7 +167,10 @@
       "duration": "2 hours (Core Tools Setup) + Discovery Workshop",
       "format": "Customer workshop (SPC-led)",
       "structuredFrames": {
-        "pitStop": "deliveryPitStop"
+        "pitStop": "deliveryPitStop",
+        "workshop": "discoveryWorkshop",
+        "bestPractices": "discoveryBestPractices",
+        "followup": "discoveryFollowup"
       }
     },
     {
@@ -232,7 +235,9 @@
         "consultation": "consultationStructure",
         "configure": "configureHeadsDown",
         "bestPractices": "meetingBestPractices",
-        "checkin": "clientCheckIn"
+        "checkin": "clientCheckIn",
+        "shift": "consultationShift",
+        "talkTracks": "talkTrackShifts"
       }
     },
     {
@@ -1376,5 +1381,111 @@
     ],
     "cadence": "Bi-weekly 15-minute call OR weekly email. Pick at kickoff and stick to it.",
     "templates": "On-Track / Action-Required Outreach templates."
+  },
+  "discoveryWorkshop": {
+    "name": "Discovery Workshop",
+    "subtitle": "Map the client's current to their desired state to determine exact platform configurations.",
+    "points": [
+      {
+        "key": "company-setup",
+        "name": "Company Setup",
+        "description": "Collect key business / company information that informs the foundational setup components requiring configuration.",
+        "items": [
+          "Offices",
+          "Business Units",
+          "Trades",
+          "WBS",
+          "Permission Templates"
+        ]
+      },
+      {
+        "key": "process-flows",
+        "name": "Process Flows",
+        "description": "SPC leads the client through Procore's Out-of-the-Box tool process flows, referencing the visual workflow diagrams in the Procore support articles. The team aligns the client's existing workflows to the specific tools in their package scope (e.g., RFIs, Submittals, Daily Logs) and flags any risks or mismatches in effort early in the project."
+      },
+      {
+        "key": "gaps",
+        "name": "Identifying Gaps and Custom Process Needs",
+        "description": "If the OOTB process flows will not fit the client's specific reality, the consultant documents these exceptions and introduces the concept of custom fields and fieldsets, which will be built out in later stages to capture the client's required data."
+      }
+    ]
+  },
+  "discoveryBestPractices": {
+    "name": "Discovery Best Practices",
+    "subtitle": "Actively guide the client toward optimal solutions.",
+    "buckets": [
+      {
+        "key": "solutions",
+        "name": "Solutions over Options",
+        "description": "Instead of asking the client how they want the system built from a blank slate, prescribe industry-proven Smart Practices and recommend the best way to leverage the platform."
+      },
+      {
+        "key": "mvp",
+        "name": "Focus on MVP",
+        "description": "Prioritize essential value over a protracted, comprehensive setup of every possible feature."
+      },
+      {
+        "key": "challenge-legacy",
+        "name": "Challenge Legacy Processes",
+        "description": "Refer to their goals and align their workflows to Procore's optimized functionality."
+      },
+      {
+        "key": "drive-forward",
+        "name": "Drive the Path Forward",
+        "description": "Determine the correct settings, and firmly prescribe the path forward to drive final decisions."
+      }
+    ]
+  },
+  "discoveryFollowup": {
+    "name": "Discovery Follow-up",
+    "subtitle": "Post-workshop split of responsibilities.",
+    "spc": [
+      "Use the Gong SPC Discovery Brief to generate a follow-up email and update the Discovery deck with Current and Desired State.",
+      "Post the follow-up + updated deck in the GPS Slack channel.",
+      "Highlight any risk flagged during the meeting in the Slack update, add to the RAID log, and share with the customer as needed.",
+      "Submit Timecard & Notes."
+    ],
+    "pcpm": [
+      "Send the follow-up documents to the customer via email.",
+      "Manage the RAID Log.",
+      "Add items to the Smartsheet RAID Log and alert the customer of any items that require their action via email and/or check-in call."
+    ]
+  },
+  "consultationShift": {
+    "name": "How Consultation Shifts \u2014 ACD vs PNPT",
+    "subtitle": "Slides 40-41. The order and the SPC's authorship changes \u2014 tool drives scope, SPC physically configures.",
+    "buckets": [
+      {
+        "key": "current-state",
+        "name": "Current State \u2014 Advise (ACD / SOW)",
+        "description": "Cycle: Process \u2192 Tool Mapping \u2192 Advise. SPC provides recommendations and educates on the setting changes that need to take place in line with SOPs. Customer has ownership of seeing through process configurations and SOPs. Process-first leads to scope ambiguity and longer build cycles \u2014 a great fit for SOWs because the customer pays for that level of depth."
+      },
+      {
+        "key": "new-state",
+        "name": "New State \u2014 Advise & Configure (PNPT)",
+        "description": "Cycle: Tool \u2192 Process \u2192 Advise \u2192 Configure. The new packages start with the tool because the tool is what controls the scope. The SPC advises on the process nuances and then physically goes 'under the hood' to build the templates, workflows, and permissions for the client. The SPC is a strategic architect focused on MVP \u2014 depth of process is regulated by the tool scope. Driving decisions in real time to support configuration is critical."
+      }
+    ]
+  },
+  "talkTrackShifts": {
+    "name": "Talk Track Shifts",
+    "subtitle": "Slide 42. The ACD talk track centered on what the customer should change. The PNPT talk track centers on what the SPC is about to configure \u2014 and asks one nuance question per setting to drive the decision in real time.",
+    "examples": [
+      {
+        "topic": "RFI default response time",
+        "acd": "\"Here is my recommendation for this setting and this is where you should change your RFI configurations, like setting the default response time to 3 days.\"",
+        "new": "\"I'm going to walk you through the standard lifecycle of an RFI in Procore. As you can see, the default gives reviewers 3 days to respond. Based on your process nuances, does that 3-day window work for your team, or do I need to adjust that default setting for you in the master template?\""
+      },
+      {
+        "topic": "Daily Log custom fieldsets / delay codes",
+        "acd": "\"What are your current Daily Log processes, you can create a Custom Fieldset so you can add your own delay codes to the Daily Log.\"",
+        "new": "\"What are your current Daily log processes? Based on that, are there any specific data points missing here that your executives need to see? Okay, you need to track specific weather delays. I will build a Custom Fieldset for your Delay Log to ensure that data is captured.\""
+      },
+      {
+        "topic": "Invoice approval workflow",
+        "acd": "\"What is your existing approval workflow. To create a workflow, you add a trigger here, and then you add steps. Do you want to try setting up a parallel or sequential routing logic for your invoices?\"",
+        "new": "\"Walk me through your invoice approval and define the exact sequence of your approvers so that you can improve your legacy workflow. Since your PM and Finance Director review at the same time, I will configure a parallel digital routing engine for you.\""
+      }
+    ]
   }
 }

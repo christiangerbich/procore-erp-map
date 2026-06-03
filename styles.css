@@ -2473,3 +2473,57 @@ main {
   color: var(--color-text-muted);
   font-style: italic;
 }
+
+
+/* v5 — paired talk-track shift blocks (Slide 42) */
+.config-frame-shift {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--color-stone);
+  border-radius: 8px;
+}
+.config-frame-shift-topic {
+  margin: 0 0 8px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+  font-weight: 700;
+}
+.config-frame-shift-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.config-frame-shift-col {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.config-frame-shift-col.is-acd { border-left: 3px solid var(--color-metal); }
+.config-frame-shift-col.is-new { border-left: 3px solid var(--color-orange); }
+.config-frame-shift-label {
+  margin: 0 0 6px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+.config-frame-shift-col.is-acd .config-frame-shift-label { color: var(--color-metal); }
+.config-frame-shift-col.is-new .config-frame-shift-label { color: var(--color-orange); }
+.config-frame-shift-text {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-black);
+}
+
+@media (max-width: 1100px) {
+  .config-frame-shift-grid { grid-template-columns: 1fr; }
+}

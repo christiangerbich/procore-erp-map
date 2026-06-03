@@ -2792,6 +2792,37 @@
           wrapEl.appendChild(block);
         });
       }
+      // examples[] (used by talkTrackShifts) — paired ACD vs New SPC language
+      if (Array.isArray(frame.examples)) {
+        frame.examples.forEach((ex, i) => {
+          const block = document.createElement("div");
+          block.className = "config-frame-shift";
+          const topic = document.createElement("p");
+          topic.className = "config-frame-shift-topic";
+          topic.textContent = String(i + 1).padStart(2, "0") + "  ·  " + (ex.topic || "");
+          block.appendChild(topic);
+          const grid = document.createElement("div");
+          grid.className = "config-frame-shift-grid";
+          [
+            { label: "ACD Talk Track",  text: ex.acd, cls: "acd" },
+            { label: "New Talk Track",  text: ex.new, cls: "new" }
+          ].forEach((side) => {
+            const col = document.createElement("div");
+            col.className = "config-frame-shift-col is-" + side.cls;
+            const lab = document.createElement("p");
+            lab.className = "config-frame-shift-label";
+            lab.textContent = side.label;
+            col.appendChild(lab);
+            const txt = document.createElement("p");
+            txt.className = "config-frame-shift-text";
+            txt.textContent = side.text || "";
+            col.appendChild(txt);
+            grid.appendChild(col);
+          });
+          block.appendChild(grid);
+          wrapEl.appendChild(block);
+        });
+      }
       if (frame.cadence || frame.templates) {
         const meta = document.createElement("p");
         meta.className = "config-frame-meta";
