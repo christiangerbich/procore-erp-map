@@ -2939,9 +2939,10 @@
       Object.values(phase.structuredFrames).forEach(renderFrame);
     }
 
-    // Kickoff phase: render the per-package week-by-week visual timeline.
-    if (phase.key === "kickoff" && cfgPkg && cfgPkg.kickoffTimeline) {
-      const tl = cfgPkg.kickoffTimeline;
+    // Kickoff phase: render the week-by-week visual timeline. Per-tier
+    // override wins (CM Enterprise = 14 weeks, CM Standard = 8 weeks).
+    if (phase.key === "kickoff" && cfgPkg && (cfgPkg.kickoffTimeline || (cfgTier && cfgTier.kickoffTimeline))) {
+      const tl = (cfgTier && cfgTier.kickoffTimeline) || cfgPkg.kickoffTimeline;
       const wrapEl = document.createElement("div");
       wrapEl.className = "config-frame";
       const head = document.createElement("div");

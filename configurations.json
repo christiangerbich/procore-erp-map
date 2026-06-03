@@ -125,7 +125,11 @@
         "scheduling": "schedulingRules",
         "followup": "kickoffFollowup",
         "accountTeam": "accountTeamStructures",
-        "planAndRaid": "planAndRaid"
+        "planAndRaid": "planAndRaid",
+        "deckAgenda": "kickoffDeckAgenda",
+        "learning": "procoreLearning",
+        "committee": "procoreCommittee",
+        "nextSteps": "kickoffNextSteps"
       }
     },
     {
@@ -548,7 +552,108 @@
               "name": "Analytics Setup",
               "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company"
             }
-          ]
+          ],
+          "kickoffTimeline": {
+            "name": "Cost Management Enterprise \u2014 14 Week Timeline",
+            "subtitle": "APAC Slide 23. Adds Analytics Set-Up and an extra Consultations block vs the Standard 8-week timeline.",
+            "totalWeeks": 14,
+            "weeks": [
+              {
+                "week": 1,
+                "items": [
+                  "Procore account created",
+                  "Project Kickoff (1.5 hrs)",
+                  "Project Plan",
+                  "Project Governance begins"
+                ]
+              },
+              {
+                "week": 2,
+                "items": [
+                  "Discovery & Core Tools (2 hrs)",
+                  "Discovery Summary delivered"
+                ]
+              },
+              {
+                "week": 3,
+                "items": [
+                  "Customer Completes Cost Management Tools Certification",
+                  "Consultation #1"
+                ]
+              },
+              {
+                "week": 4,
+                "items": [
+                  "Consultations continue",
+                  "PROCORE completes configurations"
+                ]
+              },
+              {
+                "week": 5,
+                "items": [
+                  "Consultations continue",
+                  "PROCORE configurations"
+                ]
+              },
+              {
+                "week": 6,
+                "items": [
+                  "PROCORE continues configurations"
+                ]
+              },
+              {
+                "week": 7,
+                "items": [
+                  "Admin Training / Configuration Training"
+                ]
+              },
+              {
+                "week": 8,
+                "items": [
+                  "Admin Training continues"
+                ]
+              },
+              {
+                "week": 9,
+                "items": [
+                  "CUSTOMER validates configurations"
+                ]
+              },
+              {
+                "week": 10,
+                "items": [
+                  "Configuration Deliverable shared",
+                  "Validation continues"
+                ]
+              },
+              {
+                "week": 11,
+                "items": [
+                  "Analytics Set-Up (Enterprise only)"
+                ]
+              },
+              {
+                "week": 12,
+                "items": [
+                  "Analytics Set-Up continues"
+                ]
+              },
+              {
+                "week": 13,
+                "items": [
+                  "Platform Q&A(s)"
+                ]
+              },
+              {
+                "week": 14,
+                "items": [
+                  "Project Closeout call",
+                  "Closeout Deliverable",
+                  "Transition to CSE / Renewals Manager"
+                ]
+              }
+            ]
+          }
         }
       ],
       "workbook": {
@@ -2052,17 +2157,32 @@
   },
   "accountTeamStructures": {
     "name": "Procore Account Team Structure",
-    "subtitle": "Who the customer meets at kickoff depends on ACV \u2014 APAC Slide 5.",
+    "subtitle": "Who the customer meets at kickoff depends on ACV \u2014 APAC Kickoff Slides 4 + 5.",
     "buckets": [
       {
-        "key": "upmarket",
-        "name": "Upmarket (over $5M ACV)",
-        "description": "Customer is introduced to PC + Account Manager (AM) + Customer Success Engineer (CSE). AM owns the relationship; CSE owns long-term adoption + technical strategy; PC owns the PS execution from kickoff to closeout."
+        "key": "upmarket-am",
+        "name": "Upmarket \u2014 Account Manager",
+        "description": "Primary point contact for the overall partnership. Responsibilities: Commercial questions \u00b7 Business Reviews \u00b7 Support evaluation of additional Procore products."
       },
       {
-        "key": "smb",
-        "name": "SMB (at/under $5M ACV)",
-        "description": "Customer is introduced to PC + Renewals Manager. PC owns PS execution: leading professional services, aligning client stakeholders and Procore resources, maintaining project plan + communication, scheduling, managing scope + risk. Renewals Manager is the customer's primary contact for the overall partnership \u2014 ongoing questions/guidance + support for evaluating additional Procore products. No CSE in this segment."
+        "key": "upmarket-cse",
+        "name": "Upmarket \u2014 Customer Success Engineer / Team",
+        "description": "Ensures the customer effectively utilizes the Procore platform to achieve their business goals. Responsibilities: Adoption reviews \u00b7 Primary contact for technical questions post implementation."
+      },
+      {
+        "key": "upmarket-pc",
+        "name": "Upmarket \u2014 Project Coordinator (Professional Services)",
+        "description": "Primary contact for PS execution throughout the project lifecycle, from kickoff to closeout. Responsibilities: Leading the execution of professional services \u00b7 Aligning client stakeholders and Procore resources \u00b7 Maintaining project plan and communication \u00b7 Scheduling \u00b7 Managing project scope and risk."
+      },
+      {
+        "key": "smb-pc",
+        "name": "SMB (\u2264 $5M ACV) \u2014 Project Coordinator",
+        "description": "Same PC responsibilities as upmarket \u2014 leading PS execution, aligning stakeholders, plan + communication, scheduling, scope + risk."
+      },
+      {
+        "key": "smb-renewals",
+        "name": "SMB (\u2264 $5M ACV) \u2014 Renewals Manager",
+        "description": "Primary point contact for the overall partnership (instead of AM + CSE). Responsibilities: Ongoing questions & guidance \u00b7 Support evaluation of additional Procore products. No CSE in this segment."
       }
     ]
   },
@@ -2109,6 +2229,136 @@
       {
         "name": "PDM (Project Data Management)",
         "description": "APAC packages bundle PDM with Project Execution + Doc Control variants."
+      }
+    ]
+  },
+  "kickoffDeckAgenda": {
+    "name": "Kickoff Deck Agenda",
+    "subtitle": "The five sections of the kickoff call \u2014 APAC Kickoff Slide 2.",
+    "points": [
+      {
+        "name": "01 \u2014 Introductions & Project Team"
+      },
+      {
+        "name": "02 \u2014 Professional Service Package Methodology + Resources"
+      },
+      {
+        "name": "03 \u2014 Scope & Deliverables"
+      },
+      {
+        "name": "04 \u2014 Project Plan & Scheduling"
+      },
+      {
+        "name": "05 \u2014 Next Steps & Action Items"
+      }
+    ]
+  },
+  "procoreLearning": {
+    "name": "Procore Learning & Certifications",
+    "subtitle": "Tool training and product certifications are REQUIRED prior to implementation consultation sessions \u2014 APAC Slide 7.",
+    "points": [
+      {
+        "name": "Learn.Procore.com",
+        "description": "Multiple ways to gain product knowledge \u2014 central hub for the Procore committee."
+      },
+      {
+        "name": "Procore Tool Training",
+        "description": "Users can learn about each Procore tool individually and in-depth."
+      },
+      {
+        "name": "Procore-Certified",
+        "description": "Users can become Procore-Certified with the role-based product courses available within the Product Certifications library (specifically curated for owners as well)."
+      },
+      {
+        "name": "Total time to complete",
+        "description": "1\u20133 hours per product category."
+      }
+    ],
+    "items": [
+      {
+        "name": "Company Admin",
+        "description": "Now \u2014 foundational. Required for the implementation lead."
+      },
+      {
+        "name": "Core Tools",
+        "description": "Now \u2014 RFIs, Submittals, Drawings, Daily Log, Observations."
+      },
+      {
+        "name": "PM Tools",
+        "description": "Next \u2014 Inspections, Punch List, Meetings."
+      },
+      {
+        "name": "Financial Mgmt",
+        "description": "Next \u2014 Budget, Prime Contracts, Commitments, Invoicing, Change Events."
+      },
+      {
+        "name": "Quality + Safety",
+        "description": "Later \u2014 Inspections (deeper), Action Plans, Incidents."
+      },
+      {
+        "name": "Preconstruction",
+        "description": "Later \u2014 Bidding/Tendering, Estimating, Takeoff."
+      }
+    ]
+  },
+  "procoreCommittee": {
+    "name": "Who's on your Procore Committee?",
+    "subtitle": "Successful implementations rely on a dedicated team of internal champions \u2014 APAC Slide 8.",
+    "buckets": [
+      {
+        "key": "exec-sponsor",
+        "name": "Executive Sponsor",
+        "description": "Provides executive support; encourages change management. Time commitment: 1 hour per week."
+      },
+      {
+        "key": "implementation-lead",
+        "name": "Implementation Lead",
+        "description": "Manages implementation from the customer's side; coordinates schedule + Procore committee. Time commitment: 4\u20135 hours per week +."
+      },
+      {
+        "key": "key-experts",
+        "name": "Key Experts",
+        "description": "Key players such as Project Managers, Project Coordinators, Accounting, etc. \u2014 consult on processes & requirements. Serve as Procore champions. Time commitment: 3\u20134 hours per week."
+      }
+    ],
+    "points": [
+      {
+        "name": "You get out what you put in to your Procore implementation"
+      },
+      {
+        "name": "Attend weekly calls"
+      },
+      {
+        "name": "Complete Procore Certifications"
+      },
+      {
+        "name": "Validate configurations and test tools"
+      },
+      {
+        "name": "Conduct weekly internal Procore Committee meetings"
+      },
+      {
+        "name": "Debrief best practices and questions the team may have for the following week"
+      }
+    ]
+  },
+  "kickoffNextSteps": {
+    "name": "Kickoff Next Steps",
+    "subtitle": "Close-of-call action items \u2014 APAC Slide 42.",
+    "points": [
+      {
+        "name": "Determine Check-in call cadence"
+      },
+      {
+        "name": "Project Coordinator follow-up email",
+        "description": "Send link to project plan \u00b7 Send calendar invites."
+      },
+      {
+        "name": "[Client] Procore committee to complete Certification training"
+      },
+      {
+        "name": "[Client] Provide templates, Forms, Cost Code list",
+        "description": "Critical for the discovery and configuration phases."
       }
     ]
   }
