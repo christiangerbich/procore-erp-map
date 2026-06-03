@@ -2792,6 +2792,20 @@
           wrapEl.appendChild(block);
         });
       }
+      // items[] at the frame level (used by spcResources — resource pill list)
+      if (Array.isArray(frame.items) && frame.items.length && typeof frame.items[0] === "object") {
+        const list = document.createElement("ul");
+        list.className = "config-frame-items";
+        frame.items.forEach((it) => {
+          const li = document.createElement("li");
+          const nm = document.createElement("strong");
+          nm.textContent = it.name;
+          li.appendChild(nm);
+          if (it.description) li.appendChild(document.createTextNode(" — " + it.description));
+          list.appendChild(li);
+        });
+        wrapEl.appendChild(list);
+      }
       // examples[] (used by talkTrackShifts) — paired ACD vs New SPC language
       if (Array.isArray(frame.examples)) {
         frame.examples.forEach((ex, i) => {

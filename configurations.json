@@ -46,7 +46,8 @@
       "format": "Internal (PM/PC heads-down)",
       "structuredFrames": {
         "strategy": "packageStrategy",
-        "done": "definitionOfDone"
+        "done": "definitionOfDone",
+        "resources": "spcResources"
       }
     },
     {
@@ -284,7 +285,11 @@
       "duration": "Configuration Training: 1\u20132 hours (Enterprise may need 2\u00d7 2-hour blocks) + asynchronous customer testing + Product Q&A",
       "format": "Customer training + customer-led validation + Q&A meeting",
       "structuredFrames": {
-        "rr": "validationRR"
+        "rr": "validationRR",
+        "overview": "validationOverview",
+        "trainingPurpose": "configTrainingPurpose",
+        "trainingStructure": "configTrainingStructure",
+        "script": "validationScript"
       }
     },
     {
@@ -339,7 +344,11 @@
       ],
       "duration": "Closeout call + handoff",
       "format": "Customer call + internal CSE knowledge transfer",
-      "aka": "Go-Live"
+      "aka": "Go-Live",
+      "structuredFrames": {
+        "projectCloseout": "projectCloseout",
+        "closeoutPhase": "closeoutPhase"
+      }
     }
   ],
   "packages": [
@@ -1334,7 +1343,7 @@
       },
       {
         "key": "validation",
-        "name": "Validation completed \u2014 Procore tools tested and configuration finalized"
+        "name": "Validation completed \u2014 Procore tools tested and sign-off on configuration received"
       }
     ]
   },
@@ -1485,6 +1494,160 @@
         "topic": "Invoice approval workflow",
         "acd": "\"What is your existing approval workflow. To create a workflow, you add a trigger here, and then you add steps. Do you want to try setting up a parallel or sequential routing logic for your invoices?\"",
         "new": "\"Walk me through your invoice approval and define the exact sequence of your approvers so that you can improve your legacy workflow. Since your PM and Finance Director review at the same time, I will configure a parallel digital routing engine for you.\""
+      }
+    ]
+  },
+  "validationOverview": {
+    "name": "Validation",
+    "subtitle": "The four components of the Validation phase.",
+    "buckets": [
+      {
+        "key": "config-training",
+        "name": "Configuration Training",
+        "description": "Long term sustainment of configs."
+      },
+      {
+        "key": "review-configs",
+        "name": "Review Configurations",
+        "description": "Confirm settings and identify deviations."
+      },
+      {
+        "key": "client-tests",
+        "name": "Client tests the tools",
+        "description": "Test tool flows and gather questions."
+      },
+      {
+        "key": "loose-ends",
+        "name": "Tie up loose ends",
+        "description": "Finalize system configurations and catch any final changes needed."
+      }
+    ]
+  },
+  "configTrainingPurpose": {
+    "name": "Configuration Training Purpose",
+    "subtitle": "Why we run the Configuration Training \u2014 Slide 58.",
+    "points": [
+      {
+        "name": "Comprehensive system architecture overview",
+        "description": "Provides the client's admins with a comprehensive overview of their newly configured Procore system's architecture, showing them exactly how the environment was built and what changes were made."
+      },
+      {
+        "name": "Long-term ownership",
+        "description": "Empowers the client's team with the knowledge necessary to successfully manage, maintain, and scale the platform long-term after the implementation is complete."
+      }
+    ]
+  },
+  "configTrainingStructure": {
+    "name": "Configuration Training Structure",
+    "subtitle": "Focus areas to review during the training \u2014 Slide 59.",
+    "buckets": [
+      {
+        "key": "company-admin",
+        "name": "Company Level Admin",
+        "description": "Review the purpose of the Admin tool and the settings that live within: fieldsets, trades, cost codes."
+      },
+      {
+        "key": "permissions",
+        "name": "Permissions",
+        "description": "Overview of permission templates, how they function, and the changes to the permissions that were made as part of the configuration process."
+      },
+      {
+        "key": "directory",
+        "name": "Directory",
+        "description": "Overview of Directory tool functionality. Call to action: customer imports their directory (or builds it project by project)."
+      },
+      {
+        "key": "company-templates",
+        "name": "Company Templates",
+        "description": "Review of Company templates that were built \u2014 inspections, action plans, budget views, etc."
+      },
+      {
+        "key": "workflows",
+        "name": "Workflows",
+        "description": "Review of the Workflows tool and the workflows built for the customer."
+      },
+      {
+        "key": "stp",
+        "name": "Standard Project Template",
+        "description": "Overview of STP and tool settings updated. Share what carries over from the template to new projects."
+      }
+    ]
+  },
+  "validationScript": {
+    "name": "Validation Script",
+    "subtitle": "Three components of the customer-facing UAT script \u2014 Slide 60.",
+    "points": [
+      {
+        "name": "Checklist",
+        "description": "Structured checklist organized by specific tools and configuration packages. Provided in tandem with the Configuration Workbook."
+      },
+      {
+        "name": "Testing Instructions",
+        "description": "Clients can verify workflow routing or contract commitments \u2014 and validate their settings against the Configuration Workbook before going live."
+      },
+      {
+        "name": "Support References",
+        "description": "Instructions to test the tools are linked to the Procore support site, requiring minimal customization and auto-updating with product changes."
+      }
+    ]
+  },
+  "projectCloseout": {
+    "name": "Project Closeout",
+    "subtitle": "Two artifacts close the project \u2014 Slide 64.",
+    "buckets": [
+      {
+        "key": "deliverable",
+        "name": "Closeout Deliverable",
+        "description": "Final summary document that transitions the project from the delivery phase to long-term adoption. Provides a transparent checklist establishing the Definition of Done to confirm all prescribed deliverables are finished. Serves as a permanent Project Archive list and outlines the client's remaining rollout tasks (e.g., finalizing SOPs)."
+      },
+      {
+        "key": "call",
+        "name": "Closeout Call",
+        "description": "Brief transition meeting where the PC reviews the project and introduces the Customer Success Engineer (CSE) / Team. Confirms the Definition of Done and reviews the client's remaining action items and recommendations moving forward."
+      }
+    ]
+  },
+  "closeoutPhase": {
+    "name": "Closeout Phase \u2014 System Tasks",
+    "subtitle": "Internal closeout checklist \u2014 Slide 65.",
+    "points": [
+      {
+        "name": "Knowledge Transfer",
+        "description": "PC/PM to meet with CSE and/or AM to transfer knowledge. Summary to be posted in Slack."
+      },
+      {
+        "name": "Download Assets",
+        "description": "Ensure all documentation is in the Shared Drive and the link is shared with the Account Team."
+      },
+      {
+        "name": "Certinia, SF, Smartsheet Archive, IPA",
+        "description": "Complete systems tasks for closeout."
+      },
+      {
+        "name": "CSAT",
+        "description": "Value-prop CSAT and bonus points for following up to complete."
+      }
+    ]
+  },
+  "spcResources": {
+    "name": "SPC Resources",
+    "subtitle": "Where the SPC goes for help \u2014 Slide 66.",
+    "items": [
+      {
+        "name": "Package Delivery Guide",
+        "description": "Step-by-step walkthrough of the entire motion. Pick a section (e.g. the Kickoff Call) and use the talking points there."
+      },
+      {
+        "name": "Forecasting Tables",
+        "description": "Per-package forecasting curve for Certinia resource forecasting (copy-paste at assignment)."
+      },
+      {
+        "name": "FAQ & Feedback Document",
+        "description": "Compiled from training Q&A. Add new questions / feedback as you deliver these packages."
+      },
+      {
+        "name": "#gps_2026_packages Slack channel",
+        "description": "Post questions, share patterns. Office Hours start week of 04/06 \u2014 twice weekly options."
       }
     ]
   }
