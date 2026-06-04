@@ -44,6 +44,10 @@ view containers; `app.js` shows/hides them based on the header tabs and renders
 each from its JSON file. **To change something, edit the file in the right-hand
 column — you almost never need to touch more than one.**
 
+> For *how the pieces run together* (boot sequence, mode switching, data flow,
+> the offline build pipeline, state/persistence) see **[ARCHITECTURE.md](ARCHITECTURE.md)**
+> — diagrams included.
+
 | I want to change… | Edit | Notes |
 |---|---|---|
 | Add/remove an ERP, a link, a label, sync direction | `data.json` | `nodes[]` + `links[]`. See [Data files](#data-files). |
