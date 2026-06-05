@@ -5570,6 +5570,43 @@
         "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders.",
         "SmoothX Feature Map (Slide 5 / Budgeting): Budget Changes flow as Cost Budget Change Orders (Optional)."
       ]
+    },
+    {
+      "source": "computerease",
+      "target": "prime-contracts",
+      "direction": "both",
+      "notes": [
+        "Procore Prime Contracts \u2194 Deltek ComputerEase contract billing.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog (added after the local MD snapshot; confirm direction in Agave)."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "owner-invoices",
+      "direction": "both",
+      "configurable": true,
+      "notes": [
+        "Procore Owner Invoices \u2194 Deltek ComputerEase AR Invoices.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "sub-invoices",
+      "direction": "to-erp",
+      "notes": [
+        "Procore Sub Invoices \u2192 Deltek ComputerEase AP Invoices.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "payments",
+      "direction": "from-erp",
+      "notes": [
+        "Deltek ComputerEase contract payments \u2192 Procore Payments.",
+        "Direction follows the Agave norm (payments are recorded in the ERP, like Foundation/Vista/Spectrum); confirm in Agave."
+      ]
     }
   ]
 }
