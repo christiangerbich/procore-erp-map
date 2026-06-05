@@ -2855,3 +2855,117 @@ body.is-locked { overflow: hidden; }
   text-underline-offset: 2px;
 }
 .login-gate-link:hover { color: #d34500; }
+
+/* ------------------------------------------------------------------ *
+ * Per-phase NAMER source documents (Config Tracker)                  *
+ * ------------------------------------------------------------------ */
+.config-phase-resources {
+  margin: 0 0 24px;
+  padding: 14px 16px;
+  background: rgba(86, 101, 120, 0.06);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-metal);
+  border-radius: 8px;
+  max-width: 760px;
+}
+.config-phase-resources-eyebrow {
+  margin: 0 0 10px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-metal);
+}
+.config-phase-resources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.config-resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.config-resource-link:hover {
+  border-color: var(--color-metal);
+  box-shadow: 0 1px 6px rgba(86, 101, 120, 0.18);
+}
+.config-resource-type {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: var(--color-metal);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Site-wide footer — team resources (Slack + NAMER Drive)            *
+ * ------------------------------------------------------------------ */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 14px 28px;
+  margin-top: 28px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.app-footer-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.app-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+.app-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.app-footer-links a:hover {
+  border-color: var(--color-orange);
+  box-shadow: 0 1px 6px rgba(255, 82, 0, 0.16);
+}
+.app-footer-tag {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: var(--color-orange);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+@media (max-width: 620px) {
+  .app-footer { flex-direction: column; align-items: flex-start; }
+}

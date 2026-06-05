@@ -52,9 +52,20 @@
         "preKickoffPitStop": "initiationPitStop",
         "resourcing": "initiationResourcing",
         "budgetSchedule": "budgetScheduleManagement",
-        "catalog": "productCatalog",
-        "regionalNaming": "regionalNamingNotes"
-      }
+        "catalog": "productCatalog"
+      },
+      "resources": [
+        {
+          "name": "PNPT PS Package Overview",
+          "type": "Slides",
+          "url": "https://docs.google.com/presentation/d/1gQnUBJCLxmoUBl7bPgi2HMpkm0PYD4kmTNYEIwhQ3xo/edit"
+        },
+        {
+          "name": "PNPT Call Scheduling Tool",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/1ButN2crghcNcCCXDK4daSivr_L59KDOep9L57HuNXeI/edit"
+        }
+      ]
     },
     {
       "key": "kickoff",
@@ -130,7 +141,19 @@
         "learning": "procoreLearning",
         "committee": "procoreCommittee",
         "nextSteps": "kickoffNextSteps"
-      }
+      },
+      "resources": [
+        {
+          "name": "Project Kickoff Call Template \u2014 NAMER",
+          "type": "Slides",
+          "url": "https://docs.google.com/presentation/d/1t1Oc0PxMYsLrSL03eCEPRNrzQl75DJ0WzcoCgQtHm-Q/edit"
+        },
+        {
+          "name": "Kickoff Call Script",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/1IGOo0VcOoDmncgCq1QVRS8xWW6F0BYqjLfukjecVAhQ/edit"
+        }
+      ]
     },
     {
       "key": "discovery",
@@ -189,7 +212,14 @@
         "workshop": "discoveryWorkshop",
         "bestPractices": "discoveryBestPractices",
         "followup": "discoveryFollowup"
-      }
+      },
+      "resources": [
+        {
+          "name": "Discovery Workshop Deck \u2014 NAMER",
+          "type": "Slides",
+          "url": "https://docs.google.com/presentation/d/1pvAu8m9FFYQjFdwnV0i8zSlevgFmz81OqMAo2WQ9QB0/edit"
+        }
+      ]
     },
     {
       "key": "build",
@@ -256,7 +286,19 @@
         "checkin": "clientCheckIn",
         "shift": "consultationShift",
         "talkTracks": "talkTrackShifts"
-      }
+      },
+      "resources": [
+        {
+          "name": "PNPT Configuration Workbook \u2014 NAMER",
+          "type": "Sheet",
+          "url": "https://docs.google.com/spreadsheets/d/1nru-3NLTd6yA2-dTvzWwT4TNoKe5rKQsTCw5pYnBpgY/edit"
+        },
+        {
+          "name": "Configuration Training Outline",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/19Gbr2lAM_5c4lY_f2_SqXYAbhC1Ay1zaWn6iGi4cwfo/edit"
+        }
+      ]
     },
     {
       "key": "validate",
@@ -307,7 +349,14 @@
         "trainingPurpose": "configTrainingPurpose",
         "trainingStructure": "configTrainingStructure",
         "script": "validationScript"
-      }
+      },
+      "resources": [
+        {
+          "name": "FAQ Document \u2014 PNPT",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/1sECZXGKEpSIQO96r108pHJNZEEk8YcPT9KBvmIsMot4/edit"
+        }
+      ]
     },
     {
       "key": "closeout",
@@ -365,7 +414,19 @@
       "structuredFrames": {
         "projectCloseout": "projectCloseout",
         "closeoutPhase": "closeoutPhase"
-      }
+      },
+      "resources": [
+        {
+          "name": "PNPT Closeout Deliverable",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/1Q-Jhr1eebkJuriKtVBlM0vzT8TrRXYfyG4_V5AjJpRA/edit"
+        },
+        {
+          "name": "Closeout Script",
+          "type": "Doc",
+          "url": "https://docs.google.com/document/d/1rS-RIBBe5xOQgkMe91xlB8uMpdxUuNjzUIrN114JvEg/edit"
+        }
+      ]
     }
   ],
   "packages": [
@@ -555,7 +616,7 @@
           ],
           "kickoffTimeline": {
             "name": "Cost Management Enterprise \u2014 14 Week Timeline",
-            "subtitle": "APAC Slide 23. Adds Analytics Set-Up and an extra Consultations block vs the Standard 8-week timeline.",
+            "subtitle": "Adds Analytics Set-Up and an extra Consultations block vs the Standard 8-week timeline.",
             "totalWeeks": 14,
             "weeks": [
               {
@@ -1137,14 +1198,12 @@
         ]
       },
       "assignedTo": {
-        "_comment": "GPS Slide 19. NAMER assignments. EU/APAC/Pubsec: all PM-delivered.",
+        "_comment": "GPS Slide 19. NAMER assignments.",
         "standard": {
-          "namer": "Project Coordinator (PC)",
-          "euApacPubsec": "Project Manager (PM)"
+          "namer": "Project Coordinator (PC)"
         },
         "enterprise": {
           "namer": "Project Manager (PM)",
-          "euApacPubsec": "Project Manager (PM)",
           "note": "Cost Management Enterprise + deals with Delivery Partner involvement (regardless of product/package/SOW) route to PMs."
         }
       },
@@ -1181,7 +1240,7 @@
       },
       "kickoffTimeline": {
         "name": "Cost Management \u2014 8 Week Timeline",
-        "subtitle": "Visual week-by-week structure the customer sees in the kickoff deck \u2014 APAC Slide 20.",
+        "subtitle": "Visual week-by-week structure the customer sees in the kickoff deck.",
         "totalWeeks": 8,
         "weeks": [
           {
@@ -1265,7 +1324,7 @@
             "Submittals",
             "RFIs",
             "Observations",
-            "Daily Log (Site Diary)"
+            "Daily Log"
           ],
           "toolList": [
             {
@@ -1290,13 +1349,13 @@
             },
             {
               "key": "daily-log",
-              "name": "Daily Log (Site Diary)",
+              "name": "Daily Log",
               "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
             }
           ],
           "kickoffTimeline": {
             "name": "Project Execution Essentials \u2014 8 Week Timeline",
-            "subtitle": "APAC Slide 15. The customer-facing visual on the kickoff deck.",
+            "subtitle": "The customer-facing visual on the kickoff deck.",
             "totalWeeks": 8,
             "weeks": [
               {
@@ -1379,11 +1438,11 @@
             "Submittals",
             "RFIs",
             "Observations",
-            "Daily Log (Site Diary)",
+            "Daily Log",
             "Correspondence (up to 2 templates w/o workflow OR 1 with workflow)",
-            "Punch List (Defect List)",
+            "Punch List",
             "Inspections (up to 5 templates)",
-            "Bid Management (Tendering)"
+            "Bid Management"
           ],
           "toolList": [
             {
@@ -1408,7 +1467,7 @@
             },
             {
               "key": "daily-log",
-              "name": "Daily Log (Site Diary)",
+              "name": "Daily Log",
               "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
             },
             {
@@ -1418,7 +1477,7 @@
             },
             {
               "key": "punch-list",
-              "name": "Punch List (Defect List)",
+              "name": "Punch List",
               "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project/diagrams"
             },
             {
@@ -1428,7 +1487,7 @@
             },
             {
               "key": "bid-management",
-              "name": "Bid Management (Tendering)",
+              "name": "Bid Management",
               "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project"
             }
           ],
@@ -1534,11 +1593,11 @@
             "Submittals",
             "RFIs",
             "Observations",
-            "Daily Log (Site Diary)",
+            "Daily Log",
             "Correspondence (up to 2 templates w/o workflow OR 1 with workflow)",
-            "Punch List (Defect List)",
+            "Punch List",
             "Inspections (up to 5 templates)",
-            "Bid Management (Tendering)",
+            "Bid Management",
             "BIM",
             "Coordination Issues",
             "Reports (up to 3 reports)",
@@ -1567,7 +1626,7 @@
             },
             {
               "key": "daily-log",
-              "name": "Daily Log (Site Diary)",
+              "name": "Daily Log",
               "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project/diagrams"
             },
             {
@@ -1577,7 +1636,7 @@
             },
             {
               "key": "punch-list",
-              "name": "Punch List (Defect List)",
+              "name": "Punch List",
               "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project/diagrams"
             },
             {
@@ -1587,7 +1646,7 @@
             },
             {
               "key": "bid-management",
-              "name": "Bid Management (Tendering)",
+              "name": "Bid Management",
               "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project"
             },
             {
@@ -1613,7 +1672,7 @@
           ],
           "kickoffTimeline": {
             "name": "Project Execution Enterprise \u2014 12 Week Timeline",
-            "subtitle": "APAC Slide 17. Two-phase build (Phase I + Phase II) with BIM consultations and Analytics Set-Up.",
+            "subtitle": "Two-phase build (Phase I + Phase II) with BIM consultations and Analytics Set-Up.",
             "totalWeeks": 12,
             "weeks": [
               {
@@ -1807,17 +1866,14 @@
       },
       "assignedTo": {
         "essentials": {
-          "namer": "Project Coordinator (PC)",
-          "euApacPubsec": "Project Manager (PM)"
+          "namer": "Project Coordinator (PC)"
         },
         "standard": {
-          "namer": "Project Coordinator (PC)",
-          "euApacPubsec": "Project Manager (PM)"
+          "namer": "Project Coordinator (PC)"
         },
         "enterprise": {
           "namer": "Project Manager (PM)",
-          "euApacPubsec": "Project Manager (PM)",
-          "note": "Project Execution Enterprise routes to PMs in NAMER. EU/APAC/Pubsec deals always PM."
+          "note": "Project Execution Enterprise deals route to PMs."
         }
       },
       "workbook": {
@@ -2073,7 +2129,7 @@
           },
           {
             "key": "daily-log",
-            "name": "Daily Log (Site Diary)",
+            "name": "Daily Log",
             "settings": [
               {
                 "name": "Log Types Enabled",
@@ -2132,7 +2188,7 @@
           },
           {
             "key": "punch-list",
-            "name": "Punch List (Defect List)",
+            "name": "Punch List",
             "settings": [
               {
                 "name": "Company-level Punch List Templates",
@@ -2167,7 +2223,7 @@
           },
           {
             "key": "bid-management",
-            "name": "Bid Management (Tendering)",
+            "name": "Bid Management",
             "settings": [
               {
                 "name": "Bid Form templates",
@@ -3082,7 +3138,7 @@
             "verticals": "GC / Self-Perform / Owner"
           },
           {
-            "product": "Project Execution (PE + Doc Control in EUR/APAC)",
+            "product": "Project Execution",
             "skus": [
               "Project Execution",
               "Project Execution-SMB"
@@ -3090,7 +3146,7 @@
             "verticals": "GC / Self-Perform / Owner"
           },
           {
-            "product": "Project Execution Enterprise (PE Enterprise + Doc Control EUR/APAC)",
+            "product": "Project Execution Enterprise",
             "skus": [
               "Project Execution Enterprise",
               "Project Execution-SMB"
@@ -3166,7 +3222,7 @@
   },
   "accountTeamStructures": {
     "name": "Procore Account Team Structure",
-    "subtitle": "Who the customer meets at kickoff depends on ACV \u2014 APAC Kickoff Slides 4 + 5.",
+    "subtitle": "Who the customer meets at kickoff depends on ACV.",
     "buckets": [
       {
         "key": "upmarket-am",
@@ -3197,7 +3253,7 @@
   },
   "planAndRaid": {
     "name": "Project Plan & RAID Action Log",
-    "subtitle": "The two Smartsheet resources the SPC + PM/PC reference throughout \u2014 APAC Kickoff Slide 40.",
+    "subtitle": "The two Smartsheet resources the SPC + PM/PC reference throughout.",
     "buckets": [
       {
         "key": "plan",
@@ -3211,39 +3267,9 @@
       }
     ]
   },
-  "regionalNamingNotes": {
-    "name": "Regional Tool Naming (APAC variants)",
-    "subtitle": "APAC kickoff slides 30 + 35 use these alternate labels alongside the NAMER terms. Surface to the customer in their local terminology.",
-    "items": [
-      {
-        "name": "Punch List \u2192 Defect List",
-        "description": "APAC + UK convention."
-      },
-      {
-        "name": "Daily Log \u2192 Site Diary",
-        "description": "APAC convention."
-      },
-      {
-        "name": "Bidding \u2192 Tendering",
-        "description": "APAC + UK convention."
-      },
-      {
-        "name": "Schedule \u2192 Programme",
-        "description": "APAC + UK convention. Self-guided in PNPT packages."
-      },
-      {
-        "name": "Incidents (up to 2 templates)",
-        "description": "In-scope on PE / PE+PDM in APAC; counted with Inspections."
-      },
-      {
-        "name": "PDM (Project Data Management)",
-        "description": "APAC packages bundle PDM with Project Execution + Doc Control variants."
-      }
-    ]
-  },
   "kickoffDeckAgenda": {
     "name": "Kickoff Deck Agenda",
-    "subtitle": "The five sections of the kickoff call \u2014 APAC Kickoff Slide 2.",
+    "subtitle": "The five sections of the kickoff call.",
     "points": [
       {
         "name": "01 \u2014 Introductions & Project Team"
@@ -3264,7 +3290,7 @@
   },
   "procoreLearning": {
     "name": "Procore Learning & Certifications",
-    "subtitle": "Tool training and product certifications are REQUIRED prior to implementation consultation sessions \u2014 APAC Slide 7.",
+    "subtitle": "Tool training and product certifications are REQUIRED prior to implementation consultation sessions.",
     "points": [
       {
         "name": "Learn.Procore.com",
@@ -3306,13 +3332,13 @@
       },
       {
         "name": "Preconstruction",
-        "description": "Later \u2014 Bidding/Tendering, Estimating, Takeoff."
+        "description": "Later \u2014 Bidding, Estimating, Takeoff."
       }
     ]
   },
   "procoreCommittee": {
     "name": "Who's on your Procore Committee?",
-    "subtitle": "Successful implementations rely on a dedicated team of internal champions \u2014 APAC Slide 8.",
+    "subtitle": "Successful implementations rely on a dedicated team of internal champions.",
     "buckets": [
       {
         "key": "exec-sponsor",
@@ -3353,7 +3379,7 @@
   },
   "kickoffNextSteps": {
     "name": "Kickoff Next Steps",
-    "subtitle": "Close-of-call action items \u2014 APAC Slide 42.",
+    "subtitle": "Close-of-call action items.",
     "points": [
       {
         "name": "Determine Check-in call cadence"

@@ -12,6 +12,14 @@ SPC team. It hosts **three modes**, switchable from the tabs in the header:
 Live at **https://christiangerbich.github.io/procore-erp-map/**
 (password-gated — see [Access & password](#access--password)).
 
+> **Regional scope: NAMER only.** The PNPT practice content (Package Builder +
+> Config Tracker) references NAMER methodology exclusively — EU/APAC/Pubsec
+> variants, alternate tool terminology (Site Diary, Defect List, Tendering), and
+> non-NAMER slide citations have been removed. Each Config Tracker phase links
+> its canonical NAMER source document in Google Drive, and the site-wide footer
+> links the PNPT GPS Slack channel + the NAMER delivery Drive folders. When
+> editing, keep content NAMER-scoped.
+
 Built with vanilla HTML + [D3.js v7](https://d3js.org/) (loaded from CDN; used
 by the ERP Map only — the other two modes use plain DOM/SVG). No build step,
 no backend. Designed to be hosted on GitHub Pages and embedded in Confluence

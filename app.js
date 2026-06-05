@@ -2755,6 +2755,33 @@
       wrap.appendChild(desc);
     }
 
+    // NAMER source documents for this phase (Google Drive links).
+    if (Array.isArray(phase.resources) && phase.resources.length) {
+      const res = document.createElement("div");
+      res.className = "config-phase-resources";
+      const rh = document.createElement("p");
+      rh.className = "config-phase-resources-eyebrow";
+      rh.textContent = "NAMER Source Documents";
+      res.appendChild(rh);
+      const list = document.createElement("div");
+      list.className = "config-phase-resources-list";
+      phase.resources.forEach((r) => {
+        const a = document.createElement("a");
+        a.className = "config-resource-link";
+        a.href = r.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        const ty = document.createElement("span");
+        ty.className = "config-resource-type";
+        ty.textContent = r.type || "Doc";
+        a.appendChild(ty);
+        a.appendChild(document.createTextNode(r.name));
+        list.appendChild(a);
+      });
+      res.appendChild(list);
+      wrap.appendChild(res);
+    }
+
     const cfgPkg = activeConfigPackage();
     const cfgTier = activeConfigTier();
 
