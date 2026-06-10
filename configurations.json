@@ -620,7 +620,7 @@
             }
           ],
           "kickoffTimeline": {
-            "name": "Cost Management Enterprise \u2014 14 Week Timeline",
+            "name": "Cost Management Enterprise \u2014 12 Week Timeline",
             "subtitle": "Adds Analytics Set-Up and an extra Consultations block vs the Standard 8-week timeline.",
             "totalWeeks": 14,
             "weeks": [
@@ -676,42 +676,30 @@
               {
                 "week": 8,
                 "items": [
-                  "Admin Training continues"
-                ]
-              },
-              {
-                "week": 9,
-                "items": [
                   "CUSTOMER validates configurations"
                 ]
               },
               {
-                "week": 10,
+                "week": 9,
                 "items": [
                   "Configuration Deliverable shared",
                   "Validation continues"
                 ]
               },
               {
-                "week": 11,
+                "week": 10,
                 "items": [
                   "Analytics Set-Up (Enterprise only)"
                 ]
               },
               {
-                "week": 12,
-                "items": [
-                  "Analytics Set-Up continues"
-                ]
-              },
-              {
-                "week": 13,
+                "week": 11,
                 "items": [
                   "Platform Q&A(s)"
                 ]
               },
               {
-                "week": 14,
+                "week": 12,
                 "items": [
                   "Project Closeout call",
                   "Closeout Deliverable",
