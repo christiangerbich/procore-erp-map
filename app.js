@@ -2764,9 +2764,22 @@
       tasksDone += pp.done; tasksTotal += pp.total;
     });
     const dp = deliverableProgress();
+    // Overall % weights the two pools 50/50 — deliverables are the
+    // definition of done, so they carry equal weight to the ~85 tasks
+    // rather than drowning as 5 items in a combined count. If one pool is
+    // empty, the other stands alone.
+    const taskPct = tasksTotal ? (tasksDone / tasksTotal) * 100 : 0;
+    const delPct = dp.total ? (dp.done / dp.total) * 100 : 0;
+    let pct;
+    if (!dp.total)          pct = taskPct;
+    else if (!tasksTotal)   pct = delPct;
+    else                    pct = taskPct * 0.5 + delPct * 0.5;
     return {
       tasksDone, tasksTotal,
       delDone: dp.done, delTotal: dp.total,
+      taskPct: Math.round(taskPct),
+      delPct: Math.round(delPct),
+      pct: Math.round(pct),
       done: tasksDone + dp.done,
       total: tasksTotal + dp.total,
     };
@@ -3565,16 +3578,15 @@
     const dlEl = document.getElementById("config-deliverables");
     if (!fill || !txt || !dlEl) return;
     const op = overallProgress();
-    const pct = op.total ? Math.round((op.done / op.total) * 100) : 0;
-    fill.style.width = pct + "%";
-    txt.textContent = pct + "% complete — " + op.tasksDone + " / " + op.tasksTotal +
-      " tasks · " + op.delDone + " / " + op.delTotal + " deliverables";
+    fill.style.width = op.pct + "%";
+    txt.textContent = op.pct + "% complete — tasks " + op.taskPct + "% (" +
+      op.tasksDone + "/" + op.tasksTotal + ") · deliverables " + op.delPct +
+      "% (" + op.delDone + "/" + op.delTotal + ")";
 
     dlEl.innerHTML = "";
     const eb = document.createElement("p");
     eb.className = "config-deliverables-eyebrow";
-    const delPct = op.delTotal ? Math.round((op.delDone / op.delTotal) * 100) : 0;
-    eb.textContent = "Deliverables · " + op.delDone + " / " + op.delTotal + " · " + delPct + "%";
+    eb.textContent = "Deliverables · " + op.delDone + " / " + op.delTotal + " · " + op.delPct + "%";
     dlEl.appendChild(eb);
 
     const pkg = activeConfigPackage();
