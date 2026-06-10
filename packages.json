@@ -590,7 +590,7 @@
           "name": "Bid Management",
           "position": {
             "x": 60,
-            "y": 460
+            "y": 490
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project",
           "description": "Manage subcontractor bidding workflow; award bids and promote into Commitments.",
@@ -712,7 +712,7 @@
             "x": 820,
             "y": 180
           },
-          "constraint": "Up to 2 templates w/o workflow or 1 template with workflow",
+          "constraint": "Up to 2 templates (1 if workflow)",
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
           "description": "Configurable correspondence types \u2014 meeting minutes, transmittals, NCRs, and field issues.",
           "capabilities": [
@@ -770,7 +770,7 @@
           "name": "Prime Contracts",
           "position": {
             "x": 60,
-            "y": 560
+            "y": 580
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",

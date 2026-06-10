@@ -974,6 +974,18 @@
     if (pnptUrl) packagesPnptBtn.href = pnptUrl;
     else packagesPnptBtn.hidden = true;
   }
+  // Upgrade the static header capability dots with the same icons the node
+  // badges use, so all three capability surfaces (node badges, header
+  // legend, side-panel legend) read identically. Keyed by legend label text;
+  // unmatched items keep their plain color dot.
+  (packagesData.capabilities || []).forEach((cap) => {
+    if (!cap.icon || !PKG_ICONS[cap.icon]) return;
+    document.querySelectorAll("#packages-legend .legend-item").forEach((item) => {
+      const dot = item.querySelector(".pkg-cap-dot");
+      if (!dot || item.textContent.trim().indexOf(cap.name) !== 0) return;
+      dot.innerHTML = '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' + PKG_ICONS[cap.icon] + "</svg>";
+    });
+  });
   const headerTitleEl = document.getElementById("header-title");
   const headerSubtitleEl = document.getElementById("header-subtitle");
   const headerEyebrowEl = document.getElementById("header-eyebrow-text");
@@ -1221,6 +1233,28 @@
   // highlight their tools; non-tier tools dim. Connections between tools
   // use the ERP-map line conventions: solid orange = bidirectional,
   // dashed orange = "to" (source -> target), dashed black = "from".
+  // Balanced two-line split for node labels and constraints. Short strings
+  // stay on one line; longer ones break at the space that best balances the
+  // halves. A bare "/" token sticks to the word before it so splits never
+  // open a line with a slash.
+  function splitBalanced(str, max) {
+    if (!str || str.length <= max) return [str];
+    const words = str.split(" ").reduce((acc, w) => {
+      if (w === "/" && acc.length) acc[acc.length - 1] += " /";
+      else acc.push(w);
+      return acc;
+    }, []);
+    if (words.length < 2) return [str];
+    let best = [str], bestDiff = Infinity;
+    for (let i = 1; i < words.length; i++) {
+      const l1 = words.slice(0, i).join(" ");
+      const l2 = words.slice(i).join(" ");
+      const diff = Math.abs(l1.length - l2.length);
+      if (diff <= bestDiff) { bestDiff = diff; best = [l1, l2]; }
+    }
+    return best;
+  }
+
   function renderPackagesGraph() {
     packagesGraphEl.innerHTML = "";
     if (!activePackage || !activePackage.tools) return;
@@ -1416,19 +1450,33 @@
         if (icon) g.appendChild(icon);
       }
 
+      // Label wraps to two balanced lines when long — a 25-char single line
+      // is ~175px wide and smears across neighboring nodes and links.
       const label = document.createElementNS(svgNS, "text");
       label.setAttribute("x", 0);
-      label.setAttribute("y", NODE_R + 18);
       label.setAttribute("class", "pkg-node-label");
-      label.textContent = toolNameFor(tool);
+      const lblLines = splitBalanced(toolNameFor(tool), 14);
+      lblLines.forEach((ln, i) => {
+        const ts = document.createElementNS(svgNS, "tspan");
+        ts.setAttribute("x", 0);
+        ts.setAttribute("y", NODE_R + 16 + i * 12);
+        ts.textContent = ln;
+        label.appendChild(ts);
+      });
       g.appendChild(label);
+      const labelBottom = NODE_R + 16 + (lblLines.length - 1) * 12;
 
       if (tool.constraint) {
         const sub = document.createElementNS(svgNS, "text");
         sub.setAttribute("x", 0);
-        sub.setAttribute("y", NODE_R + 32);
         sub.setAttribute("class", "pkg-node-constraint");
-        sub.textContent = tool.constraint;
+        splitBalanced(tool.constraint, 26).forEach((ln, i) => {
+          const ts = document.createElementNS(svgNS, "tspan");
+          ts.setAttribute("x", 0);
+          ts.setAttribute("y", labelBottom + 11 + i * 10);
+          ts.textContent = ln;
+          sub.appendChild(ts);
+        });
         g.appendChild(sub);
       }
 
@@ -1439,11 +1487,11 @@
         .map((k) => (packagesData.capabilities || []).find((c) => c.key === k))
         .filter(Boolean);
       if (capList.length) {
-        const BADGE_R = 7;
-        const GAP = 4;
+        const BADGE_R = 8;
+        const GAP = 5;
         const totalW = capList.length * (BADGE_R * 2) + (capList.length - 1) * GAP;
         const startX = -totalW / 2 + BADGE_R;
-        const badgeY = -NODE_R - 10;
+        const badgeY = -NODE_R - 8;
         capList.forEach((cap, i) => {
           const bg = document.createElementNS(svgNS, "g");
           bg.setAttribute("class", "pkg-cap-badge");
@@ -1453,7 +1501,7 @@
           c.setAttribute("fill", cap.color || "#000");
           bg.appendChild(c);
           // Prefer the icon — fall back to the letter if no icon configured.
-          const iconSvg = cap.icon ? makePkgIconSvg(cap.icon, 9, "#fff") : null;
+          const iconSvg = cap.icon ? makePkgIconSvg(cap.icon, 10, "#fff") : null;
           if (iconSvg) {
             iconSvg.setAttribute("stroke-width", "2.4");
             bg.appendChild(iconSvg);

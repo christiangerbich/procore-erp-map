@@ -74,10 +74,12 @@
 /* Header legend variants — #erp-legend uses the existing .legend styles unchanged.
    #packages-legend inherits the same .legend styling so the bar matches the ERP map. */
 #packages-legend .pkg-cap-dot {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .pkg-hex-swatch {
   display: inline-block;
@@ -297,8 +299,9 @@
 /* Capability badges (Procore Connect / AI / Analytics) on tool nodes. */
 .packages-graph .pkg-cap-badge circle {
   stroke: var(--color-surface);
-  stroke-width: 1.4;
+  stroke-width: 1.6;
 }
+.packages-graph .pkg-cap-badge { cursor: help; }
 .packages-graph .pkg-cap-badge text {
   font-family: "Inter Tight", sans-serif;
   font-size: 8.5px;
