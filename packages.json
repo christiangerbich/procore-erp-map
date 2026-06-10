@@ -25,6 +25,14 @@
       "color": "#000000",
       "description": "Data surfaced in Procore Analytics dashboards (formerly 360 Reporting).",
       "icon": "bar-chart-3"
+    },
+    {
+      "key": "mobile",
+      "name": "Procore Mobile",
+      "letter": "M",
+      "icon": "smartphone",
+      "color": "#8D6E5B",
+      "description": "Available in the Procore mobile app (iOS / Android) for use in the field. Source: support.procore.com/procore-mobile-ios tool list."
     }
   ],
   "verticals": [
@@ -125,7 +133,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "file-check",
           "names": {
@@ -144,7 +153,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
           "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "handshake"
         },
@@ -189,7 +199,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
           "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "change-cycle"
         },
@@ -621,7 +632,8 @@
           "capabilities": [
             "connect",
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "drawings"
         },
@@ -637,7 +649,8 @@
           "capabilities": [
             "connect",
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "stamp"
         },
@@ -653,7 +666,8 @@
           "capabilities": [
             "connect",
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "rfi"
         },
@@ -667,7 +681,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/bim-project",
           "description": "3D model viewer with federated coordination model; clash detection surfaces Coordination Issues.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "cube"
         },
@@ -681,7 +696,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project",
           "description": "Resolve clashes and constructability issues raised against the BIM coordination model.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "warning"
         },
@@ -696,7 +712,8 @@
           "description": "Field observations for safety, quality, work-to-complete; ball-in-court assignment to subs.",
           "capabilities": [
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "eye"
         },
@@ -711,7 +728,8 @@
           "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
           "capabilities": [
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "log-calendar"
         },
@@ -726,7 +744,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
           "description": "Configurable correspondence types \u2014 meeting minutes, transmittals, NCRs, and field issues.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "mail"
         },
@@ -742,7 +761,8 @@
           "description": "Inspection templates and execution; failed items convert to Punch List.",
           "capabilities": [
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "clipboard"
         },
@@ -756,7 +776,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
           "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "punchlist"
         },
@@ -771,7 +792,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project",
           "description": "Templated action plans for quality, safety, and commissioning; references and tasks tracked to closure.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "target"
         },
@@ -785,7 +807,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
           "description": "Upstream owner contract and its Schedule of Values. Source of project revenue value.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "file-check",
           "names": {
@@ -804,7 +827,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project",
           "description": "Downstream subcontracts and purchase orders. Drives Committed Cost on the Budget.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "handshake"
         },
@@ -849,7 +873,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project",
           "description": "Track potential scope impacts (Change Events) and finalize them as PCO/PCCO/CCO change orders.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "change-cycle"
         },
@@ -1406,7 +1431,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-project",
           "description": "Operational equipment management at the project level; logs hours and usage against the register.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "gear"
         },
@@ -1420,7 +1446,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/crews-project",
           "description": "Crew records for grouped time entry; assignments roll up into Timesheets and Resource Planning.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "users"
         },
@@ -1435,7 +1462,8 @@
           "description": "Time & Material tickets (Daywork Sheets) - capture labor, equipment, and material at the field level.",
           "capabilities": [
             "ai",
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "doc-currency"
         },
@@ -1449,7 +1477,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project",
           "description": "Crew and individual time entry (Timecard + Resource Tracking Timesheet); roll up labor hours to projects and to ERP.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "clock"
         },

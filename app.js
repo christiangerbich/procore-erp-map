@@ -100,6 +100,7 @@
     "pie-chart":    '<path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M21 12A9 9 0 0 0 12 3"/>',
     "bar-chart":    '<path d="M3 3v18h18"/><path d="M7 17v-4"/><path d="M12 17V8"/><path d="M17 17v-7"/>',
     "bar-chart-3":  '<path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V9"/><path d="M18 17v-3"/>',
+    "smartphone":   '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
     "calculator":   '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6"/><path d="M9 12h.01"/><path d="M12 12h.01"/><path d="M15 12h.01"/><path d="M9 16h.01"/><path d="M12 16h.01"/><path d="M15 16h.01"/>',
     "file-check":   '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 15l2 2 4-4"/>',
     "handshake":    '<path d="M9 12l3 3 3-3 3 3 3-3-6-6-3 3-3-3-6 6 3 3z"/><path d="M12 15v3"/>',
