@@ -2473,6 +2473,13 @@
         if (parsed && parsed.clients && parsed.activeClientId && parsed.clients[parsed.activeClientId]) {
           return parsed;
         }
+        // Heal a dangling activeClientId rather than abandoning the store —
+        // falling through to "fresh start" would overwrite every saved
+        // client on the next save.
+        if (parsed && parsed.clients && Object.keys(parsed.clients).length) {
+          parsed.activeClientId = Object.keys(parsed.clients)[0];
+          return parsed;
+        }
       }
     } catch (e) {}
     // Migrate v1 single-client shape.
@@ -2497,8 +2504,18 @@
     wrapper.clients[c.id] = c;
     return wrapper;
   }
+  let configSaveWarned = false;
   function saveConfigState() {
-    try { localStorage.setItem(CONFIG_LS_KEY_V2, JSON.stringify(configMulti)); } catch (e) {}
+    try {
+      localStorage.setItem(CONFIG_LS_KEY_V2, JSON.stringify(configMulti));
+    } catch (e) {
+      // Storage blocked (private mode) or quota hit — changes are NOT being
+      // persisted. Say so once instead of silently dropping every edit.
+      if (!configSaveWarned) {
+        configSaveWarned = true;
+        alert("Heads up: this browser is blocking local storage, so Config Tracker changes are NOT being saved. Check private-browsing mode or storage settings.");
+      }
+    }
   }
   function clientList() {
     return Object.keys(configMulti.clients)
@@ -2666,8 +2683,12 @@
     const phase = (configData.phases || []).find((p) => p.key === phaseKey);
     if (!phase) return { done: 0, total: 0 };
     const total = (phase.tasks || []).length;
-    const done = Object.values((configState.tasks && configState.tasks[phaseKey]) || {})
-      .filter(Boolean).length;
+    // Checkmarks are keyed by task index, so a client checked against an
+    // older (longer) task list must not push progress past 100% after the
+    // data file shrinks — count only indices that still exist.
+    const stored = (configState.tasks && configState.tasks[phaseKey]) || {};
+    let done = 0;
+    for (let i = 0; i < total; i++) if (stored[i]) done++;
     return { done, total };
   }
   function overallProgress() {

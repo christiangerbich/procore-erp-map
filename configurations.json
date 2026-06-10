@@ -52,7 +52,8 @@
         "preKickoffPitStop": "initiationPitStop",
         "resourcing": "initiationResourcing",
         "budgetSchedule": "budgetScheduleManagement",
-        "catalog": "productCatalog"
+        "catalog": "productCatalog",
+        "training": "training"
       },
       "resources": [
         {
@@ -138,6 +139,7 @@
         "accountTeam": "accountTeamStructures",
         "planAndRaid": "planAndRaid",
         "deckAgenda": "kickoffDeckAgenda",
+        "methodology": "methodology",
         "learning": "procoreLearning",
         "committee": "procoreCommittee",
         "nextSteps": "kickoffNextSteps"
@@ -2317,11 +2319,12 @@
     "desiredState": "Analyze this discovery call transcript and summarize the client's 'Desired State'. Capture the workflow improvements they want for each in-scope tool, the configuration decisions they've signaled (default response times, approval flows, custom fields, WBS structure), and any constraints flagged for the configuration sessions."
   },
   "training": {
-    "sessions": [
+    "name": "GPS Package Training \u2014 SPC Onboarding",
+    "subtitle": "The four-session internal training series every SPC completes on the GPS packages before delivering them.",
+    "pillars": [
       {
-        "key": "i",
         "name": "I. Package Overview & Initiation",
-        "agenda": [
+        "items": [
           "Deep Dive into Package SKUs",
           "Strategy & Methodology",
           "Scope & Deliverables",
@@ -2329,9 +2332,8 @@
         ]
       },
       {
-        "key": "ii",
         "name": "II. Kick off & Discovery",
-        "agenda": [
+        "items": [
           "Conducting the Kickoff Call",
           "Implementation Project Plan",
           "Leading Discovery",
@@ -2339,18 +2341,16 @@
         ]
       },
       {
-        "key": "iii",
         "name": "III. Consultation & Configuration",
-        "agenda": [
+        "items": [
           "Consultation Agenda & Structure",
           "Configuration best practices",
           "Configuration Workbook"
         ]
       },
       {
-        "key": "iv",
         "name": "IV. Validation & Closeout",
-        "agenda": [
+        "items": [
           "Configuration Training",
           "Validation Script",
           "Product Q&A",
@@ -2358,19 +2358,29 @@
           "Closeout Deliverable"
         ]
       }
-    ],
-    "officeHours": "Twice weekly office hours for Q&A commencing the week of April 6, 2026."
+    ]
   },
   "methodology": {
-    "name": "Advise & Configure",
-    "phaseLabels": [
-      "Kickoff",
-      "Discovery & Design",
-      "Build",
-      "Validate",
-      "Go-Live"
-    ],
-    "note": "GPS Slide 13 names phase 5 Go-Live (customer goes live + Closeout + Introduction to CSE/Team). Our Closeout phase covers Go-Live and the closeout deliverables together."
+    "name": "Advise & Configure Methodology",
+    "subtitle": "The five-phase arc presented to the customer at kickoff (deck section 02). GPS Slide 13.",
+    "_comment": "GPS Slide 13 names phase 5 Go-Live (customer goes live + Closeout + Introduction to CSE/Team). Our Closeout phase covers Go-Live and the closeout deliverables together.",
+    "points": [
+      {
+        "name": "Kickoff"
+      },
+      {
+        "name": "Discovery & Design"
+      },
+      {
+        "name": "Build"
+      },
+      {
+        "name": "Validate"
+      },
+      {
+        "name": "Go-Live"
+      }
+    ]
   },
   "deliveryPitStop": {
     "name": "Delivery Pit Stop",
