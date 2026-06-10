@@ -1,17 +1,24 @@
 # -*- coding: utf-8 -*-
-"""Build a clean, upload-ready folder for Vertex AI Search from the Agave and
-Procore ERP markdown corpora. Strips base64 images / markdown clutter, flattens
-into one folder with descriptive filenames, and writes plain-text (.txt) files
-(the format Vertex AI Search indexes most reliably). The full Procore product
-corpus (All Tools / FIN / EST) is intentionally excluded per request."""
+"""Build a clean, upload-ready folder for Vertex AI Search from the local
+support corpora. Strips base64 images / markdown clutter, flattens into one
+folder with descriptive filenames, and writes plain-text (.txt) files (the
+format Vertex AI Search indexes most reliably).
+
+Sources: Agave (sync-docs.agaveapi.com scrape) plus the FULL
+v2.support.procore.com crawl ("V2 Site", built by tools/sync-support-site.py)
+when it exists. The full-site crawl supersedes the older partial "Procore ERP"
+folder — using both would double-index the ERP docs — so "Procore ERP" is only
+used as a fallback when "V2 Site" hasn't been built yet."""
 import os, re, sys
 
 HOME = os.path.expanduser("~")
 BASE = os.path.join(HOME, "Documents", "Procore MD Files")
-SOURCES = [
-    ("Agave", os.path.join(BASE, "Agave")),
-    ("Procore ERP", os.path.join(BASE, "Procore ERP")),
-]
+V2_SITE = os.path.join(BASE, "V2 Site")
+SOURCES = [("Agave", os.path.join(BASE, "Agave"))]
+if os.path.isdir(V2_SITE):
+    SOURCES.append(("Procore Support", V2_SITE))
+else:
+    SOURCES.append(("Procore ERP", os.path.join(BASE, "Procore ERP")))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HOME, "Documents", "vertex-upload")
 
 def clean(text):

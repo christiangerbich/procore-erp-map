@@ -179,12 +179,19 @@ user's tracked clients.
 Local Python helpers, **not** part of the deployed site and never run by the
 browser. Run from the repo root:
 
+- **`sync-support-site.py`** — syncs the ENTIRE v2.support.procore.com site to
+  a local corpus at `~/Documents/Procore MD Files/V2 Site/` (~6.5k pages).
+  Sitemap-driven and delta-aware: first run fetches everything (~9 hrs at the
+  robots.txt-sanctioned 5s/request); later runs re-fetch only pages whose
+  sitemap lastmod changed (minutes). Safe to interrupt — progress checkpoints
+  to `_manifest.json` and the next run resumes. Run monthly-ish to stay fresh.
 - **`build-docs-index.py`** — builds `docs-index.json` from a local "Procore
   ERP" markdown folder. Strips images/markup, chunks by heading.
   `python tools/build-docs-index.py [SRC_DIR] [OUT_FILE]`
-- **`build-vertex-upload.py`** — preps the full Procore corpus for Vertex AI
-  Search (the optional "Full docs" deep-search button, which only appears if a
-  Vertex config id is wired up in `data.json`).
+- **`build-vertex-upload.py`** — preps the support corpora for Vertex AI
+  Search (the "Full docs" deep-search button in all three modes; active when a
+  Vertex config id is set in `data.json`). Prefers the full `V2 Site` corpus
+  when present; falls back to the older partial "Procore ERP" folder.
 - **`extract_docx.py`** — docx text extraction helper.
 
 If you don't have the source markdown folders, you can ignore `tools/`

@@ -1971,6 +1971,14 @@
     widget.setAttribute("triggerId", "vertex-trigger");
     document.body.appendChild(widget);
     vertexTriggerEl.hidden = false;
+    // The widget binds to a single triggerId, so the PNPT modes get proxy
+    // buttons that forward their click to the real trigger.
+    ["vertex-trigger-pkg", "vertex-trigger-config"].forEach((id) => {
+      const b = document.getElementById(id);
+      if (!b) return;
+      b.hidden = false;
+      b.addEventListener("click", () => vertexTriggerEl.click());
+    });
   }
 
   function describeDirection(dir) {
