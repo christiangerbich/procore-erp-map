@@ -2748,13 +2748,28 @@
     for (let i = 0; i < total; i++) if (stored[i]) done++;
     return { done, total };
   }
+  // Deliverable completion for the active package (keys are stable strings,
+  // so count only deliverables that still exist in the data).
+  function deliverableProgress() {
+    const pkg = activeConfigPackage();
+    const list = (pkg && pkg.deliverables) || [];
+    const done = list.filter((d) => configState.deliverables[d.key]).length;
+    return { done, total: list.length };
+  }
+  // Overall progress blends phase tasks AND deliverables into one item pool.
   function overallProgress() {
-    let done = 0, total = 0;
+    let tasksDone = 0, tasksTotal = 0;
     (configData.phases || []).forEach((p) => {
       const pp = phaseProgress(p.key);
-      done += pp.done; total += pp.total;
+      tasksDone += pp.done; tasksTotal += pp.total;
     });
-    return { done, total };
+    const dp = deliverableProgress();
+    return {
+      tasksDone, tasksTotal,
+      delDone: dp.done, delTotal: dp.total,
+      done: tasksDone + dp.done,
+      total: tasksTotal + dp.total,
+    };
   }
 
   function renderConfigPhases() {
@@ -2779,9 +2794,10 @@
       btn.appendChild(name);
 
       const pp = phaseProgress(phase.key);
+      const phasePct = pp.total ? Math.round((pp.done / pp.total) * 100) : 0;
       const meta = document.createElement("p");
       meta.className = "config-phase-meta";
-      meta.textContent = (phase.owner || "") + " · " + pp.done + " / " + pp.total + " tasks";
+      meta.textContent = (phase.owner || "") + " · " + pp.done + " / " + pp.total + " · " + phasePct + "%";
       btn.appendChild(meta);
       if (phase.duration) {
         const dur = document.createElement("p");
@@ -3349,6 +3365,37 @@
       }
     }
 
+    // Select-all control + phase task tally. The checkbox mirrors the list
+    // state: checked = all done, indeterminate = partly done.
+    if ((phase.tasks || []).length) {
+      const pp = phaseProgress(phase.key);
+      const pct = pp.total ? Math.round((pp.done / pp.total) * 100) : 0;
+      const sa = document.createElement("div");
+      sa.className = "config-task-selectall";
+      const saCb = document.createElement("input");
+      saCb.type = "checkbox";
+      saCb.id = "config-selectall-" + phase.key;
+      saCb.checked = pp.total > 0 && pp.done === pp.total;
+      saCb.indeterminate = pp.done > 0 && pp.done < pp.total;
+      saCb.addEventListener("change", () => {
+        const all = {};
+        if (saCb.checked) (phase.tasks || []).forEach((_, i) => { all[i] = true; });
+        configState.tasks[phase.key] = all;
+        saveConfigState();
+        renderConfigView();
+      });
+      sa.appendChild(saCb);
+      const saLbl = document.createElement("label");
+      saLbl.htmlFor = saCb.id;
+      saLbl.textContent = "Select all";
+      sa.appendChild(saLbl);
+      const tally = document.createElement("span");
+      tally.className = "config-task-selectall-tally";
+      tally.textContent = pp.done + " / " + pp.total + " tasks · " + pct + "%";
+      sa.appendChild(tally);
+      wrap.appendChild(sa);
+    }
+
     // Task checklist
     const ul = document.createElement("ul");
     ul.className = "config-task-list";
@@ -3520,12 +3567,14 @@
     const op = overallProgress();
     const pct = op.total ? Math.round((op.done / op.total) * 100) : 0;
     fill.style.width = pct + "%";
-    txt.textContent = pct + "% complete — " + op.done + " / " + op.total + " tasks";
+    txt.textContent = pct + "% complete — " + op.tasksDone + " / " + op.tasksTotal +
+      " tasks · " + op.delDone + " / " + op.delTotal + " deliverables";
 
     dlEl.innerHTML = "";
     const eb = document.createElement("p");
     eb.className = "config-deliverables-eyebrow";
-    eb.textContent = "Deliverables";
+    const delPct = op.delTotal ? Math.round((op.delDone / op.delTotal) * 100) : 0;
+    eb.textContent = "Deliverables · " + op.delDone + " / " + op.delTotal + " · " + delPct + "%";
     dlEl.appendChild(eb);
 
     const pkg = activeConfigPackage();
@@ -3540,6 +3589,8 @@
       cb.addEventListener("change", () => {
         configState.deliverables[d.key] = cb.checked;
         saveConfigState();
+        // Deliverables feed the overall bar now — refresh the sidebar tallies.
+        renderConfigSidebar();
       });
       row.appendChild(cb);
       const nm = document.createElement("span");
