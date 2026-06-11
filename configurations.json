@@ -142,7 +142,6 @@
         "accountTeam": "accountTeamStructures",
         "planAndRaid": "planAndRaid",
         "deckAgenda": "kickoffDeckAgenda",
-        "methodology": "methodology",
         "learning": "procoreLearning",
         "committee": "procoreCommittee",
         "nextSteps": "kickoffNextSteps"
@@ -2348,28 +2347,6 @@
           "Closeout Call",
           "Closeout Deliverable"
         ]
-      }
-    ]
-  },
-  "methodology": {
-    "name": "Advise & Configure Methodology",
-    "subtitle": "The five-phase arc presented to the customer at kickoff (deck section 02). GPS Slide 13.",
-    "_comment": "GPS Slide 13 names phase 5 Go-Live (customer goes live + Closeout + Introduction to CSE/Team). Our Closeout phase covers Go-Live and the closeout deliverables together.",
-    "points": [
-      {
-        "name": "Kickoff"
-      },
-      {
-        "name": "Discovery & Design"
-      },
-      {
-        "name": "Build"
-      },
-      {
-        "name": "Validate"
-      },
-      {
-        "name": "Go-Live"
       }
     ]
   },
