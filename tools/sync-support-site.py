@@ -169,16 +169,67 @@ def html_to_text(body):
     return p.title, text.strip()
 
 
+# Category taxonomy — Procore product families. Rules are ordered: the first
+# matching category wins, so the more specific families (ERP, BIM, Resource
+# Management, Quality & Safety) are checked before the broad ones. Matched
+# against the full lowercase URL path, which covers tool slugs
+# (product-manuals/<tool>/...) and keyword-style FAQ slugs alike.
+CATEGORY_RULES = [
+    ("ERP & Integrations",
+     r"erp|sage|intacct|viewpoint|vista|spectrum|quickbooks|acumatica|xero|"
+     r"netsuite|yardi|\bmri\b|computerease|cmic|foundation-software|agave|ryvit|"
+     r"integration|\bsynced\b|mulesoft"),
+    ("BIM & Coordination",
+     r"models?-(project|ios|android|company)|coordination-issue|clash|navisworks|"
+     r"\bbim\b|revit"),
+    ("Resource Management",
+     r"resource-planning|resource-tracking|resource-management|timesheet|"
+     r"timecard|time-clock|my-time|crew|equipment|tm-ticket|t-m-ticket|"
+     r"workforce|field-productivity"),
+    ("Quality & Safety",
+     r"inspection|observation|incident|punch-list|punch_list|action-plan|"
+     r"safety|swppp|permit"),
+    ("Preconstruction",
+     r"bidding|bid-board|bid-management|tender|estimat|takeoff|cost-catalog|"
+     r"prequal|planroom|\bbids?\b|bid-room|bid-form|bid-submission"),
+    ("Financials",
+     r"portfolio-financials|procore-pay|payment|payor|payee|disburs|invoic|"
+     r"billing|budget|prime-contract|commitment|change-event|change-order|"
+     r"direct-cost|funding|client-contract|\bsov\b|cash-flow|forecast|"
+     r"compliance-tab|lien|\bwbs\b|cost-code|custom-segment|cost-tracker|"
+     r"financial"),
+    ("Analytics & Reporting",
+     r"analytic|report|360|dashboard|data-extract|insight|extract"),
+    ("Project Management",
+     r"drawing|submittal|\brfi\b|rfis|daily-log|photo|document|specification|"
+     r"meeting|correspond|transmittal|email|schedule|task|home-project|"
+     r"location|instruction|forms?-(project|ios|android|company)|"
+     r"forms-offline|conversation|unearth|procore-maps?|punch|markup|"
+     r"\bforms?\b|fillable|folder|upload-large-files"),
+    ("Platform & Admin",
+     r"admin|directory|permission|workflow|portfolio|login|account|password|"
+     r"marketplace|procore-imports|procore-drive|mobile|android|\bios\b|"
+     r"\bapi\b|sso|authentication|webhook|sandbox|project-overview|"
+     r"language|two-factor|support|construction-network|web-app|template"),
+]
+_CATEGORY_RES = [(name, re.compile(pat)) for name, pat in CATEGORY_RULES]
+
+def categorize(path):
+    p = path.strip("/").lower()
+    for name, rx in _CATEGORY_RES:
+        if rx.search(p):
+            return name
+    return "General"
+
 def bucket_for(path):
+    # The slug keeps the FULL path (first segment included) so filenames are
+    # globally unique — the same tool slug can exist under both
+    # product-manuals/ and process-guides/, and category folders merge what
+    # used to be separate bucket directories.
     path = path.strip("/")
     if not path:
-        return "pages", "home"
-    if path.startswith("faq-"):
-        return "faq", path
-    if "/" in path:
-        head, rest = path.split("/", 1)
-        return head, rest.replace("/", "__")
-    return "pages", path
+        return categorize(path), "home"
+    return categorize(path), path.replace("/", "__")
 
 
 def safe_name(slug):

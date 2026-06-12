@@ -36,6 +36,9 @@ def clean(text):
 
 def sanitize(name):
     name = re.sub(r'\s+Agave Sync$', '', name)              # drop trailing " Agave Sync"
+    # Strip the support-site section prefixes the crawler bakes into
+    # filenames for uniqueness — they add no retrieval value in titles.
+    name = re.sub(r'\b(product-manuals|process-guides|reference)__', '', name)
     name = name.replace('/', '-').replace('\\', '-')
     name = re.sub(r'\s{2,}', ' ', name).strip()
     return name

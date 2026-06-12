@@ -180,11 +180,16 @@ Local Python helpers, **not** part of the deployed site and never run by the
 browser. Run from the repo root:
 
 - **`sync-support-site.py`** — syncs the ENTIRE v2.support.procore.com site to
-  a local corpus at `~/Documents/Procore MD Files/V2 Site/` (~6.5k pages).
+  a local corpus at `~/Documents/Procore MD Files/V2 Site/` (~6.1k pages).
   Sitemap-driven and delta-aware: first run fetches everything (~9 hrs at the
   robots.txt-sanctioned 5s/request); later runs re-fetch only pages whose
   sitemap lastmod changed (minutes). Safe to interrupt — progress checkpoints
   to `_manifest.json` and the next run resumes. Run monthly-ish to stay fresh.
+  Pages are filed into Procore product-family folders (ERP & Integrations,
+  Financials, Preconstruction, Project Management, Resource Management,
+  Quality & Safety, BIM & Coordination, Analytics & Reporting, Platform &
+  Admin, General) via the ordered CATEGORY_RULES table in the script — edit
+  those regexes to refine the taxonomy; the next sync re-files automatically.
 - **`build-docs-index.py`** — builds `docs-index.json` from a local "Procore
   ERP" markdown folder. Strips images/markup, chunks by heading.
   `python tools/build-docs-index.py [SRC_DIR] [OUT_FILE]`
