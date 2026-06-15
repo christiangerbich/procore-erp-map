@@ -2785,6 +2785,7 @@ body.is-locked { overflow: hidden; }
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.62);
 }
+#login-gate-email,
 #login-gate-input {
   padding: 10px 14px;
   border: 1.5px solid rgba(0, 0, 0, 0.28);
@@ -2795,6 +2796,7 @@ body.is-locked { overflow: hidden; }
   font-weight: 600;
   color: var(--color-black, #000);
 }
+#login-gate-email:focus,
 #login-gate-input:focus {
   outline: none;
   border-color: var(--color-orange, #FF5200);
