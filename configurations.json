@@ -3475,5 +3475,1827 @@
         "description": "15\u201330 minutes depending on the determined client cadence. If the client doesn't have bandwidth to meet, the PC can join the last 15 minutes of an SPC meeting and send a weekly Implementation Update using the Outreach Template."
       }
     ]
+  },
+  "validationChecklist": {
+    "name": "Validation Script \u2014 UAT Checklist",
+    "subtitle": "The client-facing User Acceptance Testing checklist (NAMER Validation Script). Foundation sections apply to every project; package sections shown match the selected package and tier. Each task links to its Procore support article.",
+    "sections": {
+      "Account Configuration": [
+        {
+          "name": "Download Procore Imports App",
+          "url": "https://support.procore.com/products/procore-imports",
+          "doc": "Procore Imports"
+        },
+        {
+          "name": "Populate Directory Import Template",
+          "url": "https://support.procore.com/products/procore-imports/user-guide/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports",
+          "doc": "Import Users & Vendors into your Company Level Directory Tool (Procore Imports)"
+        },
+        {
+          "name": "Add a User Manually",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/directory/tutorials/add-a-user-account-to-the-company-directory",
+          "doc": "Add a User Account to the Company Directory"
+        },
+        {
+          "name": "Populate Cost Code Import Template (Non-ERP Clients)",
+          "url": "https://support.procore.com/products/procore-imports/user-guide/company-admin/tutorials/prepare-cost-codes-for-import-to-the-procore-imports-app",
+          "doc": "Prepare Cost Codes for Import to the Procore Imports App"
+        },
+        {
+          "name": "Refine Permission Templates",
+          "url": "https://support.procore.com/references/user-permissions-matrix-web",
+          "doc": "User Permissions Matrix"
+        },
+        {
+          "name": "Develop Document Folder Structure",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/documents/tutorials/create-a-standard-project-folder-structure-for-the-documents-tool",
+          "doc": "Create a Standard Project Folder Structure for the Documents Tool"
+        },
+        {
+          "name": "Install an App",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/install-app-from-marketplace",
+          "doc": "Install an App from the Procore Marketplace"
+        },
+        {
+          "name": "View Certification Analytics",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/view-the-certification-dashboard",
+          "doc": "View the Certification Dashboard"
+        },
+        {
+          "name": "Upload a Company Logo",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/upload-a-company-logo"
+        },
+        {
+          "name": "Add an Office Location",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/add-an-office-location"
+        },
+        {
+          "name": "Configure Single Sign On",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/configure-single-sign-on-in-the-company-admin-tool",
+          "doc": "Configure Single Sign On in the Company Admin Tool"
+        },
+        {
+          "name": "Set Project Defaults",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-the-defaults-for-your-projects",
+          "doc": "Set the Defaults for Your Projects"
+        },
+        {
+          "name": "Create a Default Project Fieldset",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-default-project-fieldset"
+        },
+        {
+          "name": "Add a Custom Project Role",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/add-a-custom-project-role"
+        },
+        {
+          "name": "Prepare Custom Form Requests (Contract Documents, AIA, etc.)",
+          "url": "https://support.procore.com/products/online/custom-solutions/request-services-from-custom-solutions",
+          "doc": "Request Services from Custom Solutions"
+        }
+      ],
+      "Project Setup": [
+        {
+          "name": "Create First Project in Procore",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/portfolio/tutorials/add-a-new-project",
+          "doc": "Add a Project"
+        },
+        {
+          "name": "Add/Invite Internal Team to the First Project",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/directory/tutorials/bulk-add-users-and-companies-to-a-project-directory",
+          "doc": "Bulk Add Users and Companies to a Project Directory"
+        },
+        {
+          "name": "Download Procore Drive",
+          "url": "https://support.procore.com/products/procore-drive",
+          "doc": "Procore Drive"
+        },
+        {
+          "name": "Upload Schedule",
+          "url": "https://support.procore.com/products/procore-drive/user-guide/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive",
+          "doc": "Integrate a Microsoft Project, Asta, or Phoenix Schedule using Procore Drive"
+        },
+        {
+          "name": "Upload Schedule",
+          "url": "https://support.procore.com/products/procore-drive/user-guide/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive",
+          "doc": "Integrate a Primavera P6 Schedule using Procore Drive"
+        },
+        {
+          "name": "Create a Lookahead Schedule",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/schedule/tutorials/create-a-lookahead-schedule"
+        },
+        {
+          "name": "Add and Manage Subtasks for a Lookahead Schedule",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/schedule/tutorials/add-and-manage-subtasks-for-a-lookahead-schedule"
+        },
+        {
+          "name": "Download the Procore for Outlook Plug-In",
+          "url": "https://support.procore.com/integrations/procore-outlook-addin#Activating_the_Add-in_in_Outlook-50587",
+          "doc": "Procore for Outlook"
+        },
+        {
+          "name": "Review Choosing a Procore Company and Project\""
+        },
+        {
+          "name": "Review \"Working with Quick Create\"  and \"My Open Items\""
+        },
+        {
+          "name": "Upload Drawings to Project",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/drawings/tutorials/upload-drawings",
+          "doc": "Upload Drawings"
+        },
+        {
+          "name": "Upload Specifications to Project",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/upload-specifications",
+          "doc": "Upload Specifications"
+        },
+        {
+          "name": "Begin to Configure Tool Settings"
+        },
+        {
+          "name": "Review and edit tool configurations in Standard Project Template as needed",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/portfolio/tutorials/configure-a-project-template",
+          "doc": "Configure a Project Template"
+        }
+      ],
+      "Project Execution Essentials": [
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "RFIs",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create DRFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+              "doc": "Create an RFI"
+            },
+            {
+              "name": "Send to assignee(s)",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
+              "doc": "Send as Open"
+            },
+            {
+              "name": "Choose an \"Official Response\" for an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
+            },
+            {
+              "name": "Close an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
+            }
+          ]
+        },
+        {
+          "name": "Submittals",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Manually Create Submittals",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
+              "doc": "Create a Submittal"
+            },
+            {
+              "name": "Create Submittal Registry from Specifications",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
+              "doc": "Generate Submittals from Specifications"
+            },
+            {
+              "name": "Create Submittals Using Procore Imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Daily Log",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
+              "doc": "Manage Daily Logs on iOS (also available on Android)"
+            },
+            {
+              "name": "View Pending Daily Log Entries",
+              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
+            },
+            {
+              "name": "Approve or Reject Pending Daily Log Entries"
+            }
+          ]
+        }
+      ],
+      "Project Execution": [
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "RFIs",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create DRFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+              "doc": "Create an RFI"
+            },
+            {
+              "name": "Send to assignee(s)",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
+              "doc": "Send as Open"
+            },
+            {
+              "name": "Choose an \"Official Response\" for an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
+            },
+            {
+              "name": "Close an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
+            }
+          ]
+        },
+        {
+          "name": "Submittals",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Manually Create Submittals",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
+              "doc": "Create a Submittal"
+            },
+            {
+              "name": "Create Submittal Registry from Specifications",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
+              "doc": "Generate Submittals from Specifications"
+            },
+            {
+              "name": "Create Submittals Using Procore Imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
+            },
+            {
+              "name": "Create Custom Submittal Types",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Daily Log",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
+              "doc": "Manage Daily Logs on iOS (also available on Android)"
+            },
+            {
+              "name": "View Pending Daily Log Entries",
+              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
+            },
+            {
+              "name": "Approve or Reject Pending Daily Log Entries"
+            }
+          ]
+        },
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "RFIs",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create DRFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+              "doc": "Create an RFI"
+            },
+            {
+              "name": "Send to assignee(s)",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
+              "doc": "Send as Open"
+            },
+            {
+              "name": "Choose an \"Official Response\" for an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
+            },
+            {
+              "name": "Close an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
+            }
+          ]
+        },
+        {
+          "name": "Submittals",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Manually Create Submittals",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
+              "doc": "Create a Submittal"
+            },
+            {
+              "name": "Create Submittal Registry from Specifications",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
+              "doc": "Generate Submittals from Specifications"
+            },
+            {
+              "name": "Create Submittals Using Procore Imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
+            },
+            {
+              "name": "Create Custom Submittal Types",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Daily Log",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
+              "doc": "Manage Daily Logs on iOS (also available on Android)"
+            },
+            {
+              "name": "View Pending Daily Log Entries",
+              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
+            },
+            {
+              "name": "Approve or Reject Pending Daily Log Entries"
+            }
+          ]
+        },
+        {
+          "name": "Correspondence",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/create-a-correspondence-item/"
+            },
+            {
+              "name": "Respond to a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/respond-to-a-correspondence-item"
+            }
+          ]
+        },
+        {
+          "name": "Punch List",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Punch List Templates"
+            },
+            {
+              "name": "Create a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/create-a-punch-list-item/",
+              "doc": "Create a Punch List Items"
+            },
+            {
+              "name": "Notify Assignees of Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/notify-assignees-of-punch-list-items",
+              "doc": "Notify Assignees of Punch List Items"
+            },
+            {
+              "name": "Respond to a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/respond-to-a-punch-list-item"
+            }
+          ]
+        },
+        {
+          "name": "Inspections",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
+              "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
+            },
+            {
+              "name": "Create an Inspection",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
+              "doc": "Create a Project Level Inspection"
+            }
+          ]
+        },
+        {
+          "name": "Bidding",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Bid Package",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+            },
+            {
+              "name": "Search and Invite Bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+              "doc": "Search for and Invite Bidders"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "doc": "Award a Winning Bid and Convert it into a Subcontract"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Purchase Order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "doc": "Award a Winning Bid and Convert it into a Purchase Order"
+            }
+          ]
+        }
+      ],
+      "Project Execution Enterprise": [
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "RFIs",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create DRFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+              "doc": "Create an RFI"
+            },
+            {
+              "name": "Send to assignee(s)",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
+              "doc": "Send as Open"
+            },
+            {
+              "name": "Choose an \"Official Response\" for an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
+            },
+            {
+              "name": "Close an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
+            }
+          ]
+        },
+        {
+          "name": "Submittals",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Manually Create Submittals",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
+              "doc": "Create a Submittal"
+            },
+            {
+              "name": "Create Submittal Registry from Specifications",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
+              "doc": "Generate Submittals from Specifications"
+            },
+            {
+              "name": "Create Submittals Using Procore Imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
+            },
+            {
+              "name": "Create Custom Submittal Types",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Daily Log",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
+              "doc": "Manage Daily Logs on iOS (also available on Android)"
+            },
+            {
+              "name": "View Pending Daily Log Entries",
+              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
+            },
+            {
+              "name": "Approve or Reject Pending Daily Log Entries"
+            }
+          ]
+        },
+        {
+          "name": "Correspondence",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/create-a-correspondence-item/"
+            },
+            {
+              "name": "Respond to a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/respond-to-a-correspondence-item"
+            }
+          ]
+        },
+        {
+          "name": "Punch List",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Punch List Templates"
+            },
+            {
+              "name": "Create a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/create-a-punch-list-item/",
+              "doc": "Create a Punch List Items"
+            },
+            {
+              "name": "Notify Assignees of Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/notify-assignees-of-punch-list-items",
+              "doc": "Notify Assignees of Punch List Items"
+            },
+            {
+              "name": "Respond to a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/respond-to-a-punch-list-item"
+            }
+          ]
+        },
+        {
+          "name": "Inspections",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
+              "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
+            },
+            {
+              "name": "Create an Inspection",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
+              "doc": "Create a Project Level Inspection"
+            }
+          ]
+        },
+        {
+          "name": "Bidding",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Bid Package",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+            },
+            {
+              "name": "Search and Invite Bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+              "doc": "Search for and Invite Bidders"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "doc": "Award a Winning Bid and Convert it into a Subcontract"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Purchase Order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "doc": "Award a Winning Bid and Convert it into a Purchase Order"
+            }
+          ]
+        },
+        {
+          "name": "BIM & Coordination Issues",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Publish Drawings",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/drawings/tutorials/publish-drawings"
+            },
+            {
+              "name": "Associate a Model with a Procore Project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/associate-a-model-with-a-procore-project"
+            },
+            {
+              "name": "Publish a Model",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/publish-a-model-to-procore",
+              "doc": "Publish a Model to Procore"
+            },
+            {
+              "name": "Edit a Model",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/edit-information-for-a-model",
+              "doc": "Edit Information for a Model"
+            },
+            {
+              "name": "Setup 2D Dynamic Views",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/getting-started-guide-for-dynamic-2d-views-in-the-models-tool",
+              "doc": "Getting Started Guide for Dynamic 2D Views in the Models Tool"
+            },
+            {
+              "name": "Create 2D Dynamic Views for Models (iOS)",
+              "url": "https://support.procore.com/procore-mobile-ios/user-guide/models-ios/tutorials/view-models-ios#To_Create_Dynamic_2D_Views"
+            },
+            {
+              "name": "Create a Coordination Issue",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/create-a-coordination-issue"
+            },
+            {
+              "name": "Add or Manage Comments on a Coordination Issue",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/add-or-manage-comments-on-a-coordination-issue"
+            }
+          ]
+        }
+      ],
+      "Cost Management": [
+        {
+          "name": "Budget",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Import/Create a Budget",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
+              "doc": "Import a Budget"
+            },
+            {
+              "name": "Review and Create Company Custom Budget Views",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
+              "doc": "Set up a New Budget View"
+            },
+            {
+              "name": "Create a Budget Snapshot",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-a-budget-snapshot/"
+            },
+            {
+              "name": "Create a Budget Change",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-budget-changes/"
+            }
+          ]
+        },
+        {
+          "name": "Prime Contract",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Prime Contract with an SOV",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
+              "doc": "Create a Prime Contract"
+            },
+            {
+              "name": "Email a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-a-prime-contract/"
+            },
+            {
+              "name": "Approve a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/approve-a-prime-contract/"
+            }
+          ]
+        },
+        {
+          "name": "Commitments (Subcontracts & Direct Costs)",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Subcontract",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-subcontracts/"
+            },
+            {
+              "name": "Create a Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/direct-costs-project/tutorials/create-a-direct-cost/"
+            },
+            {
+              "name": "Email a Subcontract or Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/email-a-purchase-order-or-subcontract/"
+            }
+          ]
+        },
+        {
+          "name": "Change Events | Change Orders",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Change Event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
+            },
+            {
+              "name": "Send RFQs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
+              "doc": "Create an RFQ"
+            },
+            {
+              "name": "Create a Prime PCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
+              "doc": "Create a Prime Potential CO (PCO)"
+            },
+            {
+              "name": "Create a PCCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
+              "doc": "Create a Prime Contract CO (PCCO)"
+            },
+            {
+              "name": "Create a CCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
+              "doc": "Create a Commitment CO (CCO)"
+            }
+          ]
+        },
+        {
+          "name": "Invoicing",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Subcontractor Billing Period and Invite for Invoicing",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
+              "doc": "Start a New Billing Period and Send Invoice Emails"
+            },
+            {
+              "name": "Create a Subcontractor Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
+              "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
+            },
+            {
+              "name": "Review Subcontractor Invoices",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
+              "doc": "Review Invoices"
+            },
+            {
+              "name": "Create Owner Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
+              "doc": "Create an Owner Invoice"
+            }
+          ]
+        }
+      ],
+      "Cost Management Enterprise": [
+        {
+          "name": "Budget",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Import/Create a Budget",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
+              "doc": "Import a Budget"
+            },
+            {
+              "name": "Review and Create Company Custom Budget Views",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
+              "doc": "Set up a New Budget View"
+            },
+            {
+              "name": "Create a Budget Snapshot",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-a-budget-snapshot/"
+            },
+            {
+              "name": "Create a Budget Change",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-budget-changes/"
+            }
+          ]
+        },
+        {
+          "name": "Prime Contract",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Prime Contract with an SOV",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
+              "doc": "Create a Prime Contract"
+            },
+            {
+              "name": "Email a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-a-prime-contract/"
+            },
+            {
+              "name": "Approve a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/approve-a-prime-contract/"
+            }
+          ]
+        },
+        {
+          "name": "Commitments (Subcontracts & Direct Costs)",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Subcontract",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-subcontracts/"
+            },
+            {
+              "name": "Create a Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/direct-costs-project/tutorials/create-a-direct-cost/"
+            },
+            {
+              "name": "Email a Subcontract or Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/email-a-purchase-order-or-subcontract/"
+            }
+          ]
+        },
+        {
+          "name": "Change Events | Change Orders",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Change Event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
+            },
+            {
+              "name": "Send RFQs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
+              "doc": "Create an RFQ"
+            },
+            {
+              "name": "Create a Prime PCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
+              "doc": "Create a Prime Potential CO (PCO)"
+            },
+            {
+              "name": "Create a PCCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
+              "doc": "Create a Prime Contract CO (PCCO)"
+            },
+            {
+              "name": "Create a CCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
+              "doc": "Create a Commitment CO (CCO)"
+            }
+          ]
+        },
+        {
+          "name": "Invoicing",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Subcontractor Billing Period and Invite for Invoicing",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
+              "doc": "Start a New Billing Period and Send Invoice Emails"
+            },
+            {
+              "name": "Create a Subcontractor Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
+              "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
+            },
+            {
+              "name": "Review Subcontractor Invoices",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
+              "doc": "Review Invoices"
+            },
+            {
+              "name": "Create Owner Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
+              "doc": "Create an Owner Invoice"
+            }
+          ]
+        },
+        {
+          "name": "Cost Catalog | Bid Board | Takeoff | Estimating",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Build out Cost Catalog",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/cost-catalog/tutorials/import-cost-catalog-items",
+              "doc": "Import Cost Catalog Items"
+            },
+            {
+              "name": "Create Assemblies for Cost Catalog",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/cost-catalog/tutorials/create-assemblies-for-a-cost-catalog"
+            },
+            {
+              "name": "Set the Drawing Scale for Takeoffs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/set-the-drawing-scale-for-takeoffs",
+              "doc": "Create Assemblies for a Cost Catalog"
+            },
+            {
+              "name": "Add Takeoffs for a Project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/add-takeoffs",
+              "doc": "Add Takeoffs"
+            },
+            {
+              "name": "Manage Takeoffs for a Project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/manage-takeoffs",
+              "doc": "Manage Takeoffs"
+            },
+            {
+              "name": "Generate Bid Estimates in Esticom",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/generate-bid-estimates",
+              "doc": "Generate Bid Estimates"
+            },
+            {
+              "name": "Send won estimates to Procore's Budget Tool",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/send-an-estimate-to-the-budget",
+              "doc": "Send an Estimate to the Budget"
+            },
+            {
+              "name": "Edit a Bid Board",
+              "url": "https://v2.support.procore.com/product-manuals/bid-board-company/tutorials/edit-a-bid-board-project/"
+            }
+          ]
+        }
+      ],
+      "Resource Tracking": [
+        {
+          "name": "Equipment",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Setup Equipment Tool",
+              "url": "https://v2.support.procore.com/process-guides/company-equipment-setup-guide/",
+              "doc": "Setup Equipment Tool (Company Level)"
+            },
+            {
+              "name": "Add Tools to Project",
+              "url": "https://v2.support.procore.com/process-guides/company-equipment-setup-guide/add-tools-to-projects"
+            },
+            {
+              "name": "Create Equipment Records",
+              "url": "https://v2.support.procore.com/process-guides/project-equipment-user-guide/add-from-company-web/"
+            }
+          ]
+        },
+        {
+          "name": "Timesheets",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Classificiations",
+              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/add-a-classification",
+              "doc": "Create Classifications"
+            },
+            {
+              "name": "Create a Crew",
+              "url": "https://v2.support.procore.com/product-manuals/crews-project/tutorials/create-a-crew"
+            },
+            {
+              "name": "Add a Worker",
+              "url": "https://v2.support.procore.com/product-manuals/crews-project/tutorials/add-a-worker"
+            },
+            {
+              "name": "Create a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/create-a-timesheet/"
+            },
+            {
+              "name": "Review a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/review-a-timesheet/"
+            },
+            {
+              "name": "Approve a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/approve-a-timesheet/"
+            }
+          ]
+        },
+        {
+          "name": "T&M Tickets",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/create-a-tm-ticket/"
+            },
+            {
+              "name": "Edit a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/edit-a-tm-ticket/"
+            },
+            {
+              "name": "Request Signature on a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/request-a-signature-on-a-tm-ticket/"
+            },
+            {
+              "name": "Sign a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/sign-a-tm-ticket/"
+            }
+          ]
+        }
+      ],
+      "Resource Planning": [
+        {
+          "name": "Resource Planning (Workforce Planning)",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Import Resource Planning Data",
+              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/import-resource-planning-data"
+            },
+            {
+              "name": "Create a request",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-request",
+              "doc": "Create a Workforce Request"
+            },
+            {
+              "name": "Create an assignment",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-assignment",
+              "doc": "Create a Workforce Assignment"
+            },
+            {
+              "name": "Create a Saved View",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-saved-views-in-workforce-planning"
+            },
+            {
+              "name": "Review the totals Dashboard",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/view-the-totals-dashboard"
+            }
+          ]
+        }
+      ],
+      "Resource Management": [
+        {
+          "name": "Equipment",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Setup Equipment Tool",
+              "url": "https://v2.support.procore.com/process-guides/company-equipment-setup-guide/",
+              "doc": "Setup Equipment Tool (Company Level)"
+            },
+            {
+              "name": "Add Tools to Project",
+              "url": "https://v2.support.procore.com/process-guides/company-equipment-setup-guide/add-tools-to-projects"
+            },
+            {
+              "name": "Create Equipment Records",
+              "url": "https://v2.support.procore.com/process-guides/project-equipment-user-guide/add-from-company-web/"
+            }
+          ]
+        },
+        {
+          "name": "Timesheets",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Classificiations",
+              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/add-a-classification",
+              "doc": "Create Classifications"
+            },
+            {
+              "name": "Create a Crew",
+              "url": "https://v2.support.procore.com/product-manuals/crews-project/tutorials/create-a-crew"
+            },
+            {
+              "name": "Add a Worker",
+              "url": "https://v2.support.procore.com/product-manuals/crews-project/tutorials/add-a-worker"
+            },
+            {
+              "name": "Create a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/create-a-timesheet/"
+            },
+            {
+              "name": "Review a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/review-a-timesheet/"
+            },
+            {
+              "name": "Approve a Timesheet",
+              "url": "https://v2.support.procore.com/product-manuals/timesheets-project/tutorials/approve-a-timesheet/"
+            }
+          ]
+        },
+        {
+          "name": "T&M Tickets",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/create-a-tm-ticket/"
+            },
+            {
+              "name": "Edit a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/edit-a-tm-ticket/"
+            },
+            {
+              "name": "Request Signature on a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/request-a-signature-on-a-tm-ticket/"
+            },
+            {
+              "name": "Sign a T&M Ticket",
+              "url": "https://v2.support.procore.com/product-manuals/tm-tickets-project/tutorials/sign-a-tm-ticket/"
+            }
+          ]
+        },
+        {
+          "name": "Resource Planning (Workforce Planning)",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Import Resource Planning Data",
+              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/import-resource-planning-data"
+            },
+            {
+              "name": "Create a request",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-request",
+              "doc": "Create a Workforce Request"
+            },
+            {
+              "name": "Create an assignment",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-assignment",
+              "doc": "Create a Workforce Assignment"
+            },
+            {
+              "name": "Create a Saved View",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-saved-views-in-workforce-planning"
+            },
+            {
+              "name": "Review the totals Dashboard",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/view-the-totals-dashboard"
+            }
+          ]
+        },
+        {
+          "name": "360 Reporting",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Report",
+              "url": "https://v2.support.procore.com/product-manuals/reports-company/tutorials/create-a-company-360-report/"
+            },
+            {
+              "name": "Distribute a Report",
+              "url": "https://v2.support.procore.com/product-manuals/reports-company/tutorials/distribute-a-snapshot-of-a-company-360-report/"
+            }
+          ]
+        },
+        {
+          "name": "Analytics",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Getting Started with Analytics 2.0",
+              "url": "https://v2.support.procore.com/process-guides/getting-started-with-analytics/"
+            }
+          ]
+        }
+      ],
+      "Project Lifecycle Management": [
+        {
+          "name": "Project Execution"
+        },
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "RFIs",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create DRFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+              "doc": "Create an RFI"
+            },
+            {
+              "name": "Send to assignee(s)",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
+              "doc": "Send as Open"
+            },
+            {
+              "name": "Choose an \"Official Response\" for an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
+            },
+            {
+              "name": "Close an RFI",
+              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
+            }
+          ]
+        },
+        {
+          "name": "Submittals",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Manually Create Submittals",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
+              "doc": "Create a Submittal"
+            },
+            {
+              "name": "Create Submittal Registry from Specifications",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
+              "doc": "Generate Submittals from Specifications"
+            },
+            {
+              "name": "Create Submittals Using Procore Imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
+            },
+            {
+              "name": "Create Custom Submittal Types",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Daily Log",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
+              "doc": "Manage Daily Logs on iOS (also available on Android)"
+            },
+            {
+              "name": "View Pending Daily Log Entries",
+              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
+            },
+            {
+              "name": "Approve or Reject Pending Daily Log Entries"
+            }
+          ]
+        },
+        {
+          "name": "Correspondence",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/create-a-correspondence-item/"
+            },
+            {
+              "name": "Respond to a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/respond-to-a-correspondence-item"
+            }
+          ]
+        },
+        {
+          "name": "Punch List",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Punch List Templates"
+            },
+            {
+              "name": "Create a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/create-a-punch-list-item/",
+              "doc": "Create a Punch List Items"
+            },
+            {
+              "name": "Notify Assignees of Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/notify-assignees-of-punch-list-items",
+              "doc": "Notify Assignees of Punch List Items"
+            },
+            {
+              "name": "Respond to a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/respond-to-a-punch-list-item"
+            }
+          ]
+        },
+        {
+          "name": "Inspections",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
+              "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
+            },
+            {
+              "name": "Create an Inspection",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
+              "doc": "Create a Project Level Inspection"
+            }
+          ]
+        },
+        {
+          "name": "Bidding",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Bid Package",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+            },
+            {
+              "name": "Search and Invite Bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+              "doc": "Search for and Invite Bidders"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "doc": "Award a Winning Bid and Convert it into a Subcontract"
+            },
+            {
+              "name": "Award Winning Bids - Convert to Purchase Order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "doc": "Award a Winning Bid and Convert it into a Purchase Order"
+            },
+            {
+              "name": "Cost Management | Analytics | 360 Reporting"
+            }
+          ]
+        },
+        {
+          "name": "Budget",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Import/Create a Budget",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
+              "doc": "Import a Budget"
+            },
+            {
+              "name": "Review and Create Company Custom Budget Views",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
+              "doc": "Set up a New Budget View"
+            },
+            {
+              "name": "Create a Budget Snapshot",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-a-budget-snapshot/"
+            },
+            {
+              "name": "Create a Budget Change",
+              "url": "https://v2.support.procore.com/product-manuals/budget-project/tutorials/create-budget-changes/"
+            }
+          ]
+        },
+        {
+          "name": "Prime Contract",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Prime Contract with an SOV",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
+              "doc": "Create a Prime Contract"
+            },
+            {
+              "name": "Email a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-a-prime-contract/"
+            },
+            {
+              "name": "Approve a Prime Contract",
+              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/approve-a-prime-contract/"
+            }
+          ]
+        },
+        {
+          "name": "Commitments (Subcontracts & Direct Costs)",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Subcontract",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-subcontracts/"
+            },
+            {
+              "name": "Create a Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/direct-costs-project/tutorials/create-a-direct-cost/"
+            },
+            {
+              "name": "Email a Subcontract or Direct Cost",
+              "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/email-a-purchase-order-or-subcontract/"
+            }
+          ]
+        },
+        {
+          "name": "Change Events | Change Orders",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Change Event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
+            },
+            {
+              "name": "Send RFQs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
+              "doc": "Create an RFQ"
+            },
+            {
+              "name": "Create a Prime PCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
+              "doc": "Create a Prime Potential CO (PCO)"
+            },
+            {
+              "name": "Create a PCCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
+              "doc": "Create a Prime Contract CO (PCCO)"
+            },
+            {
+              "name": "Create a CCO",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
+              "doc": "Create a Commitment CO (CCO)"
+            }
+          ]
+        },
+        {
+          "name": "Invoicing",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create Subcontractor Billing Period and Invite for Invoicing",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
+              "doc": "Start a New Billing Period and Send Invoice Emails"
+            },
+            {
+              "name": "Create a Subcontractor Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
+              "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
+            },
+            {
+              "name": "Review Subcontractor Invoices",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
+              "doc": "Review Invoices"
+            },
+            {
+              "name": "Create Owner Invoice",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
+              "doc": "Create an Owner Invoice"
+            }
+          ]
+        },
+        {
+          "name": "360 Reporting",
+          "items": [
+            {
+              "name": "Review Configuration Settings"
+            },
+            {
+              "name": "Create a Report",
+              "url": "https://v2.support.procore.com/product-manuals/reports-company/tutorials/create-a-company-360-report/"
+            },
+            {
+              "name": "Distribute a Report",
+              "url": "https://v2.support.procore.com/product-manuals/reports-company/tutorials/distribute-a-snapshot-of-a-company-360-report/"
+            }
+          ]
+        }
+      ]
+    },
+    "map": {
+      "_universal": [
+        "Account Configuration",
+        "Project Setup"
+      ],
+      "cost-management": {
+        "standard": [
+          "Cost Management"
+        ],
+        "enterprise": [
+          "Cost Management",
+          "Cost Management Enterprise"
+        ]
+      },
+      "project-execution": {
+        "pe-essentials": [
+          "Project Execution Essentials"
+        ],
+        "pe-standard": [
+          "Project Execution"
+        ],
+        "pe-enterprise": [
+          "Project Execution Enterprise"
+        ]
+      }
+    }
   }
 }

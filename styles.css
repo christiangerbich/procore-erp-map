@@ -2976,6 +2976,66 @@ body.is-locked { overflow: hidden; }
 /* "Full docs" Vertex search trigger inside the Config Tracker bar. */
 .config-docs-btn { align-self: center; }
 
+/* Validation Script — UAT checklist (Validate phase). */
+.config-validation { margin-top: 26px; max-width: 860px; }
+.config-validation > h3 { margin: 0 0 6px; font-family: "Inter Tight", sans-serif; font-size: 17px; font-weight: 800; }
+.config-validation-intro { margin: 0 0 14px; color: var(--color-text-muted); font-size: 13px; line-height: 1.5; }
+.config-validation-section {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.config-validation-section > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  cursor: pointer;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  list-style: none;
+}
+.config-validation-section > summary::-webkit-details-marker { display: none; }
+.config-validation-section > summary::before {
+  content: "▸"; color: var(--color-orange, #FF5200); font-size: 11px; margin-right: 2px;
+}
+.config-validation-section[open] > summary::before { content: "▾"; }
+.config-validation-progress {
+  margin-left: auto;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.config-validation-body { padding: 4px 14px 12px; border-top: 1px solid var(--color-border); }
+.config-validation-group {
+  margin: 12px 0 4px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-metal);
+}
+.config-validation-task {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 5px 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.config-validation-task:hover { background: rgba(0,0,0,0.03); }
+.config-validation-task input[type="checkbox"] { margin-top: 2px; accent-color: var(--color-orange, #FF5200); flex-shrink: 0; }
+.config-validation-task.is-done > a,
+.config-validation-task.is-done > span { color: var(--color-text-muted); text-decoration: line-through; }
+.config-validation-link { color: var(--color-text); text-decoration: none; border-bottom: 1px solid rgba(255,82,0,0.3); }
+.config-validation-link:hover { color: var(--color-orange, #FF5200); border-bottom-color: var(--color-orange, #FF5200); }
+
 /* Select-all row above each phase's task checklist. */
 .config-task-selectall {
   display: flex;

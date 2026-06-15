@@ -2519,6 +2519,7 @@
       tasks: {},        // tasks[phaseKey] = { [taskIdx]: true }
       workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated, changed, notes } }
       deliverables: {}, // deliverables[key] = bool
+      validation: {},   // validation[sectionName] = { [leafIdx]: true }  (UAT checklist)
     };
   }
   function loadMultiState() {
@@ -2625,6 +2626,7 @@
     configState.tasks = {};
     configState.workbook = {};
     configState.deliverables = {};
+    configState.validation = {};
     saveConfigState();
     renderConfigView();
   }
@@ -3434,6 +3436,93 @@
       ul.appendChild(li);
     });
     wrap.appendChild(ul);
+
+    // Validation Script — UAT checklist (Validate phase only). Sections shown
+    // are the universal foundation plus the ones mapped to the active package
+    // and tier. Checkmarks persist per client in configState.validation, kept
+    // separate from the weighted overall progress.
+    if (phase.key === "validate" && configData.validationChecklist && cfgPkg) {
+      const vc = configData.validationChecklist;
+      const vmap = vc.map || {};
+      const tierKey = cfgTier ? cfgTier.key : null;
+      const secNames = (vmap._universal || []).concat((vmap[cfgPkg.key] || {})[tierKey] || []);
+      const avail = secNames.filter((s) => vc.sections && vc.sections[s]);
+      if (avail.length) {
+        configState.validation = configState.validation || {};
+        const vWrap = document.createElement("div");
+        vWrap.className = "config-validation";
+        const vh = document.createElement("h3");
+        vh.textContent = vc.name || "Validation Script — UAT Checklist";
+        vWrap.appendChild(vh);
+        if (vc.subtitle) {
+          const vs = document.createElement("p");
+          vs.className = "config-validation-intro";
+          vs.textContent = vc.subtitle;
+          vWrap.appendChild(vs);
+        }
+        avail.forEach((secName) => {
+          const nodes = vc.sections[secName];
+          const store = (configState.validation[secName] = configState.validation[secName] || {});
+          let total = 0;
+          (function countLeaves(ns) { ns.forEach((x) => x.items ? countLeaves(x.items) : total++); })(nodes);
+          const doneCount = () => { let n = 0; for (let k = 0; k < total; k++) if (store[k]) n++; return n; };
+
+          const det = document.createElement("details");
+          det.className = "config-validation-section";
+          const sum = document.createElement("summary");
+          const nm = document.createElement("span"); nm.textContent = secName; sum.appendChild(nm);
+          const prog = document.createElement("span");
+          prog.className = "config-validation-progress";
+          prog.textContent = doneCount() + " / " + total;
+          sum.appendChild(prog);
+          det.appendChild(sum);
+
+          const body = document.createElement("div");
+          body.className = "config-validation-body";
+          let idx = 0;
+          function renderTask(node) {
+            const k = idx++;
+            const row = document.createElement("div");
+            row.className = "config-validation-task" + (store[k] ? " is-done" : "");
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.checked = !!store[k];
+            cb.addEventListener("change", () => {
+              store[k] = cb.checked;
+              saveConfigState();
+              row.classList.toggle("is-done", cb.checked);
+              prog.textContent = doneCount() + " / " + total;
+            });
+            row.appendChild(cb);
+            if (node.url) {
+              const a = document.createElement("a");
+              a.href = node.url; a.target = "_blank"; a.rel = "noopener";
+              a.className = "config-validation-link";
+              a.textContent = node.name;
+              row.appendChild(a);
+            } else {
+              const sp = document.createElement("span"); sp.textContent = node.name; row.appendChild(sp);
+            }
+            row.addEventListener("click", (e) => { if (e.target !== cb && e.target.tagName !== "A") cb.click(); });
+            body.appendChild(row);
+          }
+          (function renderNodes(ns) {
+            ns.forEach((x) => {
+              if (x.items) {
+                const gh = document.createElement("p");
+                gh.className = "config-validation-group";
+                gh.textContent = x.name;
+                body.appendChild(gh);
+                renderNodes(x.items);
+              } else { renderTask(x); }
+            });
+          })(nodes);
+          det.appendChild(body);
+          vWrap.appendChild(det);
+        });
+        wrap.appendChild(vWrap);
+      }
+    }
 
     // Configuration Workbook only appears on the Build phase.
     if (phase.key === "build") {
