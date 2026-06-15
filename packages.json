@@ -966,7 +966,7 @@
         },
         {
           "source": "observations",
-          "target": "daily-log",
+          "target": "pe-change-events-orders",
           "direction": "to",
           "description": "Observations roll up into the Daily Log site report.",
           "verbForward": "is captured in",
@@ -974,7 +974,7 @@
         },
         {
           "source": "inspections",
-          "target": "punch-list",
+          "target": "observations",
           "direction": "to",
           "description": "Failed inspection items become Punch List items.",
           "verbForward": "creates",
@@ -1099,6 +1099,10 @@
           "description": "Reports and Analytics dashboards share the same data foundation.",
           "verbForward": "shares data with",
           "verbReverse": "shares data with"
+        },
+        {
+          "source": "drawings",
+          "target": "punch-list"
         }
       ],
       "tiers": [
@@ -1512,14 +1516,6 @@
       "connections": [
         {
           "source": "resource-planning",
-          "target": "crews",
-          "direction": "to",
-          "description": "Resource Planning schedules crews across projects.",
-          "verbForward": "schedules",
-          "verbReverse": "is scheduled by"
-        },
-        {
-          "source": "resource-planning",
           "target": "rm-equipment",
           "direction": "to",
           "description": "Resource Planning schedules equipment across projects.",
@@ -1551,8 +1547,8 @@
           "verbReverse": "captures hours from"
         },
         {
-          "source": "tm-tickets",
-          "target": "timesheets",
+          "source": "timesheets",
+          "target": "tm-tickets",
           "direction": "to",
           "description": "T&M Ticket labor hours roll into Timesheets.",
           "verbForward": "rolls into",
@@ -1597,6 +1593,10 @@
           "description": "Analytics dashboards surface labor productivity from Timesheets.",
           "verbForward": "feeds dashboards in",
           "verbReverse": "surfaces data from"
+        },
+        {
+          "source": "rm-equipment",
+          "target": "tm-tickets"
         }
       ],
       "tiers": [
