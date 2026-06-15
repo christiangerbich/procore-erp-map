@@ -348,11 +348,16 @@
       "duration": "Configuration Training: 1\u20132 hours (Enterprise may need 2\u00d7 2-hour blocks) + asynchronous customer testing + Product Q&A",
       "format": "Customer training + customer-led validation + Q&A meeting",
       "structuredFrames": {
-        "rr": "validationRR",
         "overview": "validationOverview",
         "trainingPurpose": "configTrainingPurpose",
         "trainingStructure": "configTrainingStructure",
-        "script": "validationScript"
+        "script": "validationScript",
+        "testCases": "validationTestCases",
+        "process": "validationProcess",
+        "productQA": "productQA",
+        "rr": "validationRR",
+        "pmPc": "pmPcResponsibilities",
+        "checkin": "clientCheckIn"
       },
       "resources": [
         {
@@ -2602,21 +2607,26 @@
   },
   "clientCheckIn": {
     "name": "PM/PC Client Check-in",
-    "subtitle": "Recurring meeting (cadence set at kickoff) to align on project velocity, track deliverables, mitigate risks.",
+    "subtitle": "Recurring meeting (cadence set at kickoff) to monitor project velocity, track deliverables, and mitigate risks.",
     "points": [
       {
-        "key": "progress",
+        "name": "Project Health & Top-Line Status",
+        "description": "Reviews the overall Red/Yellow/Green health status, schedule health, and scope health (percent complete)."
+      },
+      {
         "name": "Progress & Deliverable Flow",
         "description": "Updates on Procore's key deliverables, tracks the progress of client action items (identifying any blockers), and records any major recent decisions."
       },
       {
-        "key": "raid",
         "name": "RAID Review",
         "description": "Reviews new or escalated items from the Smartsheet RAID log (Risks, Actions, Issues, Decisions) to discuss current statuses and mitigation steps."
+      },
+      {
+        "name": "Q&A / Quick Discussion",
+        "description": "An open floor for any final clarifying questions."
       }
     ],
-    "cadence": "Bi-weekly 15-minute call OR weekly email. Pick at kickoff and stick to it.",
-    "templates": "On-Track / Action-Required Outreach templates."
+    "templates": "Follow up each call with an email summarizing key takeaways and action items \u2014 use the PM Detailed Call Summary Brief in Gong to generate the summary, then post it in the Slack channel."
   },
   "discoveryWorkshop": {
     "name": "Discovery Workshop",
@@ -2801,20 +2811,20 @@
     ]
   },
   "validationScript": {
-    "name": "Validation Script",
-    "subtitle": "Three components of the customer-facing UAT script \u2014 Slide 60.",
+    "name": "Validation Script & Client Validation",
+    "subtitle": "A comprehensive, step-by-step testing tool the PC provides to facilitate the client's End User Testing (UAT). The client safely tests the newly configured system in the Sandbox Test Project to ensure workflows align with their business processes before going live. Successful completion and sign-off is a soft requirement for the project's Definition of Done. Provided in tandem with the Configuration Workbook.",
     "points": [
       {
         "name": "Checklist",
-        "description": "Structured checklist organized by specific tools and configuration packages. Provided in tandem with the Configuration Workbook."
+        "description": "Organized as a checklist broken down by specific configuration packages and tools \u2014 e.g. Account Configuration, Project Setup, Project Execution, and Cost Management. For each tool, the client verifies configuration settings against the Configuration Workbook and executes specific tasks."
       },
       {
         "name": "Testing Instructions",
-        "description": "Clients can verify workflow routing or contract commitments \u2014 and validate their settings against the Configuration Workbook before going live."
+        "description": "Clients verify workflow routing or contract commitments \u2014 validating their settings against the Configuration Workbook before going live."
       },
       {
         "name": "Support References",
-        "description": "Instructions to test the tools are linked to the Procore support site, requiring minimal customization and auto-updating with product changes."
+        "description": "Instructions to test the tools link to the Procore support site, requiring minimal customization and auto-updating with product changes."
       }
     ]
   },
@@ -3372,6 +3382,97 @@
       {
         "name": "[Client] Provide templates, Forms, Cost Code list",
         "description": "Critical for the discovery and configuration phases."
+      }
+    ]
+  },
+  "validationTestCases": {
+    "name": "Validation Script \u2014 Functional Test Cases",
+    "subtitle": "Example test cases the client executes in the Sandbox Test Project to verify the build.",
+    "buckets": [
+      {
+        "key": "contract-commitments",
+        "name": "Contract Commitments",
+        "description": "Create a test subcontract, set up the Schedule of Values (SOV), and award the contract to ensure the budget's Commitments column updates correctly."
+      },
+      {
+        "key": "workflow-routing",
+        "name": "Workflow Routing",
+        "description": "Submit contracts, changes, or invoices through their assigned workflows to verify they reach the correct 'Approver' with the proper notifications."
+      }
+    ]
+  },
+  "validationProcess": {
+    "name": "Testing & Revision Process",
+    "subtitle": "How the client moves from testing to an approved configuration.",
+    "points": [
+      {
+        "name": "Complete prerequisites",
+        "description": "Client completes the required prerequisites \u2014 certifications and completing validation in the Sandbox Test Project."
+      },
+      {
+        "name": "Execute & annotate test cases",
+        "description": "As the client works the functional tests, they mark each item complete or add notes of clarification / questions if something doesn't align to expectations."
+      },
+      {
+        "name": "SPC reviews & adjusts",
+        "description": "The SPC reviews the feedback and performs one-time technical adjustments for any failed items that fall within the prescriptive MVP scope \u2014 or provides technical justification if a requested change falls outside that scope."
+      },
+      {
+        "name": "Configuration approved",
+        "description": "Once all revisions are complete, the configuration is approved."
+      }
+    ]
+  },
+  "productQA": {
+    "name": "Product Q&A \u2014 Outline & Methodology",
+    "subtitle": "The final technical checkpoint between the validation phase and official project closeout \u2014 tie up loose ends, address final product questions from testing, and secure the client's sign-off on the configuration scope before transition to the CSE.",
+    "buckets": [
+      {
+        "key": "timing",
+        "name": "Timing & Resourcing",
+        "description": "Scheduled toward the end of the engagement, immediately following the client's validation period. The SPC allocates 1 hour of live consulting time and 30 minutes of administrative time."
+      },
+      {
+        "key": "uat",
+        "name": "Addressing UAT Feedback",
+        "description": "The SPC answers any final questions the client has after completing their functional test cases (the Validation Script) in the Sandbox Test Project."
+      },
+      {
+        "key": "loose-ends",
+        "name": "Tying Up Loose Ends",
+        "description": "Addresses any remaining gaps or revisions. If the client added notes during validation, the SPC uses this time to execute final, one-time technical adjustments within the prescriptive MVP scope."
+      },
+      {
+        "key": "sign-off",
+        "name": "Securing Configuration Sign-off",
+        "description": "The session culminates with the client formally signing off on the configuration scope, validating the platform is accurately set up for their in-scope tools."
+      }
+    ]
+  },
+  "pmPcResponsibilities": {
+    "name": "PM/PC Responsibilities \u2014 Validation",
+    "subtitle": "What the PM/PC owns through the validation and Product Q&A window.",
+    "points": [
+      {
+        "name": "Project Administration",
+        "items": [
+          "Forecast accuracy for the upcoming 6 weeks in Certinia",
+          "Timecard submission and approval",
+          "Schedule and calendar management",
+          "Updating and maintaining the project plan"
+        ]
+      },
+      {
+        "name": "Client follow-up",
+        "description": "Send the client follow-up emails for all touchpoints during this time and provide deliverables as they become available."
+      },
+      {
+        "name": "RAID Log management",
+        "description": "Maintain the RAID Log in Smartsheet and alert the customer of any items that require their action via email or check-in call."
+      },
+      {
+        "name": "Check-in / Progress Calls",
+        "description": "15\u201330 minutes depending on the determined client cadence. If the client doesn't have bandwidth to meet, the PC can join the last 15 minutes of an SPC meeting and send a weekly Implementation Update using the Outreach Template."
       }
     ]
   }
