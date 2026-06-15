@@ -1,5 +1,5 @@
 {
-  "_comment": "PNPT Configuration & Tracking source-of-truth. Phases describe the 5-stage PNPT methodology (Kickoff \u2192 Discovery \u2192 Build \u2192 Validate \u2192 Closeout) with an Initiation stage prepended for PM/PC system setup. Each package carries its own in-scope tool list, deliverable templates, and a configuration workbook structured exactly like the SPC's `PNPT Configuration Workbook _ NAMER.xlsx` (per-section settings with default, decision logic, and notes). Per-client progress is stored in localStorage.",
+  "_comment": "PNPT Configuration & Tracking source-of-truth. Phases describe the 5-stage PNPT methodology (Kickoff → Discovery → Build → Validate → Closeout) with an Initiation stage prepended for PM/PC system setup. Each package carries its own in-scope tool list, deliverable templates, and a configuration workbook structured exactly like the SPC's `PNPT Configuration Workbook _ NAMER.xlsx` (per-section settings with default, decision logic, and notes). Per-client progress is stored in localStorage.",
   "phases": [
     {
       "key": "initiation",
@@ -18,7 +18,7 @@
           "text": "Create the project Slack channel and pin Implementation Plan + RAID log"
         },
         {
-          "text": "Set up Smartsheet workspace \u2014 Plan, Validation Script, RAID log only (3 sheets)"
+          "text": "Set up Smartsheet workspace — Plan, Validation Script, RAID log only (3 sheets)"
         },
         {
           "text": "Update Outreach email templates for this package's touchpoints"
@@ -30,7 +30,7 @@
           "text": "Run internal pit stop with AE / CSE / AM (commercial upmarket)"
         },
         {
-          "text": "Resource the project \u2014 submit SPC request same day / next morning"
+          "text": "Resource the project — submit SPC request same day / next morning"
         },
         {
           "text": "Forecast the project in Certinia using the PNPT forecasting curve"
@@ -42,7 +42,7 @@
           "text": "Customer self-paced: complete Procore Tool Certifications before discovery (front-loaded to accelerate configuration sessions)"
         }
       ],
-      "duration": "Pre-kickoff \u2014 same day as assignment",
+      "duration": "Pre-kickoff — same day as assignment",
       "format": "Internal (PM/PC heads-down)",
       "structuredFrames": {
         "strategy": "packageStrategy",
@@ -73,7 +73,7 @@
       "name": "Kickoff",
       "eyebrow": "Phase 1",
       "owner": "PM / PC + Customer",
-      "description": "Rebranded from the Alignment Call. Highly prescriptive \u2014 introduce the package journey, set scope and deliverable expectations, and schedule every meeting on the call (discovery, consultations, configuration training, validation Q&A, closeout) before the customer leaves.",
+      "description": "Rebranded from the Alignment Call. Highly prescriptive — introduce the package journey, set scope and deliverable expectations, and schedule every meeting on the call (discovery, consultations, configuration training, validation Q&A, closeout) before the customer leaves.",
       "tasks": [
         {
           "text": "Send kickoff invite via Outreach template (attach Slick + agenda)"
@@ -94,10 +94,10 @@
           "text": "Confirm the Procore Committee names + Key Experts per tool"
         },
         {
-          "text": "Run 'What We Heard' slide \u2014 Goals, Key Dates, Tools, Projects (debrief sales, do not re-interview)"
+          "text": "Run 'What We Heard' slide — Goals, Key Dates, Tools, Projects (debrief sales, do not re-interview)"
         },
         {
-          "text": "Explain Basic Platform \u2192 Connected Platform framing (default settings + Procore consulting & configuration overlay)"
+          "text": "Explain Basic Platform → Connected Platform framing (default settings + Procore consulting & configuration overlay)"
         },
         {
           "text": "Walk the 5-phase flywheel methodology"
@@ -106,7 +106,7 @@
           "text": "Deep dive Scope & Deliverables for the package"
         },
         {
-          "text": "Walk timeline slide \u2014 call out deliverable touchpoints"
+          "text": "Walk timeline slide — call out deliverable touchpoints"
         },
         {
           "text": "Confirm in-scope vs self-guided tools (1:1 swaps OK, no scope additions)"
@@ -127,10 +127,10 @@
           "text": "Send follow-up email (Outreach template) + update RAID with any kickoff risks"
         },
         {
-          "text": "Schedule PM/PC \u2194 SPC delivery pit stop"
+          "text": "Schedule PM/PC ↔ SPC delivery pit stop"
         },
         {
-          "text": "Run the Delivery Pit Stop \u2014 15-30 min internal sync with the SPC (+ AE as needed): hand off tools in scope, projects, timeline, goals, committee; review scheduled meetings + budget; flag risks before discovery"
+          "text": "Run the Delivery Pit Stop — 15-30 min internal sync with the SPC (+ AE as needed): hand off tools in scope, projects, timeline, goals, committee; review scheduled meetings + budget; flag risks before discovery"
         }
       ],
       "duration": "1.5 hours",
@@ -148,7 +148,7 @@
       },
       "resources": [
         {
-          "name": "Project Kickoff Call Template \u2014 NAMER",
+          "name": "Project Kickoff Call Template — NAMER",
           "type": "Slides",
           "url": "https://docs.google.com/presentation/d/1t1Oc0PxMYsLrSL03eCEPRNrzQl75DJ0WzcoCgQtHm-Q/edit"
         },
@@ -164,40 +164,40 @@
       "name": "Discovery & Design",
       "eyebrow": "Phase 2",
       "owner": "SPC (PM/PC supports)",
-      "description": "SPC-led workshop that maps current state to desired state and surfaces foundational architecture. Replaces the old Account Configuration call \u2014 the SPC is now responsible for the company-level architecture decisions previously surfaced by PM/PC.",
+      "description": "SPC-led workshop that maps current state to desired state and surfaces foundational architecture. Replaces the old Account Configuration call — the SPC is now responsible for the company-level architecture decisions previously surfaced by PM/PC.",
       "tasks": [
         {
-          "text": "Run delivery pit stop with PM/PC before workshop \u2014 review 'What We Heard', budget, key risks, ProCore Committee, sales-side context"
+          "text": "Run delivery pit stop with PM/PC before workshop — review 'What We Heard', budget, key risks, ProCore Committee, sales-side context"
         },
         {
-          "text": "Discovery Workshop \u2014 Welcome: introduce Procore Delivery Team (SPCs) + capture attendees"
+          "text": "Discovery Workshop — Welcome: introduce Procore Delivery Team (SPCs) + capture attendees"
         },
         {
-          "text": "Discovery Workshop \u2014 Alignment: identification of key stakeholders & decision makers"
+          "text": "Discovery Workshop — Alignment: identification of key stakeholders & decision makers"
         },
         {
-          "text": "Discovery Workshop \u2014 Walk the Advise & Configure motion (Discovery \u2192 Configuration Sessions \u2192 Behind-the-scenes Configuration Work \u2192 Configuration Training \u2192 Q&A/Closeout)"
+          "text": "Discovery Workshop — Walk the Advise & Configure motion (Discovery → Configuration Sessions → Behind-the-scenes Configuration Work → Configuration Training → Q&A/Closeout)"
         },
         {
-          "text": "Discovery Workshop \u2014 Company Setup & Workflows section: offices, business units, trades, departments, permission groups"
+          "text": "Discovery Workshop — Company Setup & Workflows section: offices, business units, trades, departments, permission groups"
         },
         {
-          "text": "Discovery Workshop \u2014 WBS / cost code structure (Standard vs custom segments, ERP-driven vs Procore-driven)"
+          "text": "Discovery Workshop — WBS / cost code structure (Standard vs custom segments, ERP-driven vs Procore-driven)"
         },
         {
-          "text": "Discovery Workshop \u2014 Permissions architecture: role \u2192 template mapping, granular permission needs"
+          "text": "Discovery Workshop — Permissions architecture: role → template mapping, granular permission needs"
         },
         {
-          "text": "Discovery Workshop \u2014 Process Flows: walk each in-scope tool's 'Diagrams' tab from its support article"
+          "text": "Discovery Workshop — Process Flows: walk each in-scope tool's 'Diagrams' tab from its support article"
         },
         {
-          "text": "Discovery Workshop \u2014 For each in-scope tool, capture current process and where the OOTB flow won't fit"
+          "text": "Discovery Workshop — For each in-scope tool, capture current process and where the OOTB flow won't fit"
         },
         {
-          "text": "Discovery Workshop \u2014 Introduce the custom fields & fieldsets concept; flag which tools will need them at configuration time"
+          "text": "Discovery Workshop — Introduce the custom fields & fieldsets concept; flag which tools will need them at configuration time"
         },
         {
-          "text": "Discovery Workshop \u2014 Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)"
+          "text": "Discovery Workshop — Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)"
         },
         {
           "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) and send to customer"
@@ -206,7 +206,7 @@
           "text": "Provide pre-consultation homework (WBS / cost code list, forms, distribution lists, decisions)"
         },
         {
-          "text": "Flag any gap risks to the RAID log \u2014 anything not covered by MVP scope"
+          "text": "Flag any gap risks to the RAID log — anything not covered by MVP scope"
         }
       ],
       "duration": "2 hours (Core Tools Setup) + Discovery Workshop",
@@ -219,7 +219,7 @@
       },
       "resources": [
         {
-          "name": "Discovery Workshop Deck \u2014 NAMER",
+          "name": "Discovery Workshop Deck — NAMER",
           "type": "Slides",
           "url": "https://docs.google.com/presentation/d/1pvAu8m9FFYQjFdwnV0i8zSlevgFmz81OqMAo2WQ9QB0/edit"
         }
@@ -230,7 +230,7 @@
       "name": "Build (Consult + Configure)",
       "eyebrow": "Phase 3",
       "owner": "SPC",
-      "description": "4-hour consultation sessions paired with heads-down configuration. SPC walks the customer through tool overview \u2192 settings \u2192 permissions \u2192 templates/workflows \u2192 role-reversal sandbox, then configures the customer's Sandbox project and Standard Project Template. Every setting change is logged in the Configuration Workbook in real time.",
+      "description": "4-hour consultation sessions paired with heads-down configuration. SPC walks the customer through tool overview → settings → permissions → templates/workflows → role-reversal sandbox, then configures the customer's Sandbox project and Standard Project Template. Every setting change is logged in the Configuration Workbook in real time.",
       "tasks": [
         {
           "text": "Block configuration time on calendar (billable, client name, deliverable)"
@@ -251,7 +251,7 @@
           "text": "Per-tool consultation: Templates + Workflows build (within package limits)"
         },
         {
-          "text": "Per-tool consultation: Role-reversal \u2014 customer drives, SPC observes"
+          "text": "Per-tool consultation: Role-reversal — customer drives, SPC observes"
         },
         {
           "text": "Per-tool consultation: Workbook gap check before ending the call"
@@ -269,7 +269,7 @@
           "text": "Heads-down: Workflows tool (max per package limit)"
         },
         {
-          "text": "Heads-down: Standard Project Template \u2014 tool by tool"
+          "text": "Heads-down: Standard Project Template — tool by tool"
         },
         {
           "text": "Heads-down: Custom fields / fieldsets per tool"
@@ -278,7 +278,7 @@
           "text": "Configuration Workbook: complete EVERY setting change in real time"
         },
         {
-          "text": "Send weekly check-in (template) \u2014 track Plan + RAID with customer"
+          "text": "Send weekly check-in (template) — track Plan + RAID with customer"
         }
       ],
       "duration": "4 hours per tool-group consultation + ~2 hours heads-down configuration per group",
@@ -293,7 +293,7 @@
       },
       "resources": [
         {
-          "name": "PNPT Configuration Workbook \u2014 NAMER",
+          "name": "PNPT Configuration Workbook — NAMER",
           "type": "Sheet",
           "url": "https://docs.google.com/spreadsheets/d/1nru-3NLTd6yA2-dTvzWwT4TNoKe5rKQsTCw5pYnBpgY/edit"
         },
@@ -318,7 +318,7 @@
           "text": "Configuration Training: Permissions Templates overview + 4 access levels + granular"
         },
         {
-          "text": "Configuration Training: Directory overview (NOT importing \u2014 customer or RAS owns this)"
+          "text": "Configuration Training: Directory overview (NOT importing — customer or RAS owns this)"
         },
         {
           "text": "Configuration Training: Company-level templates review"
@@ -327,7 +327,7 @@
           "text": "Configuration Training: Workflows tool review"
         },
         {
-          "text": "Configuration Training: Standard Project Template \u2014 tool by tool review"
+          "text": "Configuration Training: Standard Project Template — tool by tool review"
         },
         {
           "text": "Send Outreach validation kickoff email with attached Configuration Workbook + Validation Script"
@@ -336,7 +336,7 @@
           "text": "Set the validation window expectation (short turnaround)"
         },
         {
-          "text": "Run Product Q&A meeting(s) \u2014 address validation findings"
+          "text": "Run Product Q&A meeting(s) — address validation findings"
         },
         {
           "text": "Update Configuration Workbook with any post-validation tweaks"
@@ -345,7 +345,7 @@
           "text": "Confirm validation complete with customer in writing"
         }
       ],
-      "duration": "Configuration Training: 1\u20132 hours (Enterprise may need 2\u00d7 2-hour blocks) + asynchronous customer testing + Product Q&A",
+      "duration": "Configuration Training: 1–2 hours (Enterprise may need 2× 2-hour blocks) + asynchronous customer testing + Product Q&A",
       "format": "Customer training + customer-led validation + Q&A meeting",
       "structuredFrames": {
         "overview": "validationOverview",
@@ -361,7 +361,7 @@
       },
       "resources": [
         {
-          "name": "FAQ Document \u2014 PNPT",
+          "name": "FAQ Document — PNPT",
           "type": "Doc",
           "url": "https://docs.google.com/document/d/1sECZXGKEpSIQO96r108pHJNZEEk8YcPT9KBvmIsMot4/edit"
         }
@@ -375,7 +375,7 @@
       "description": "Maps to the GPS deck \"Go-Live\" phase: customer goes live on projects, closeout deliverable produced, transition to CSE / Team. Definition of Done must be met before this phase opens.",
       "tasks": [
         {
-          "text": "Build the Project Closeout Document \u2014 pull Implementation Summary from Gong"
+          "text": "Build the Project Closeout Document — pull Implementation Summary from Gong"
         },
         {
           "text": "Closeout Document: Key Configuration Achievements + Lessons Learned"
@@ -393,7 +393,7 @@
           "text": "Closeout Document: Consultant Recommendations (betas, future SOW candidates)"
         },
         {
-          "text": "Run knowledge transfer with CSE / AM / Renewals Manager \u2014 meeting or Slack summary"
+          "text": "Run knowledge transfer with CSE / AM / Renewals Manager — meeting or Slack summary"
         },
         {
           "text": "Schedule + run the Closeout Call with customer + CSE"
@@ -624,7 +624,7 @@
             }
           ],
           "kickoffTimeline": {
-            "name": "Cost Management Enterprise \u2014 12 Week Timeline",
+            "name": "Cost Management Enterprise — 12 Week Timeline",
             "subtitle": "Adds Analytics Set-Up and an extra Consultations block vs the Standard 8-week timeline.",
             "totalWeeks": 14,
             "weeks": [
@@ -721,7 +721,7 @@
             "name": "Admin (Company)",
             "settings": [
               {
-                "name": "Work Breakdown Structure \u2014 Review Segments (Cost Code, Cost Type)",
+                "name": "Work Breakdown Structure — Review Segments (Cost Code, Cost Type)",
                 "default": "Standard (Cost Code/Type)",
                 "decisionLogic": "Are we using custom segments or standard Cost Code/Type?",
                 "notes": "Note if custom segments are required. If ERP is integrated, WBS segments are managed via the integration and are read-only in Procore."
@@ -770,7 +770,7 @@
                 "name": "Procore Explore",
                 "default": "Default",
                 "decisionLogic": "Touch only if explicitly required.",
-                "notes": "Recommend we don't touch \u2014 enables beta functionality."
+                "notes": "Recommend we don't touch — enables beta functionality."
               },
               {
                 "name": "Root Cause Analysis",
@@ -850,7 +850,7 @@
               },
               {
                 "name": "Advanced Forecasting",
-                "default": "Disabled \u2014 View Required",
+                "default": "Disabled — View Required",
                 "decisionLogic": "Enable spread of cost projections via curves (Bell, Linear)? Track S-Curves and period-over-period?"
               },
               {
@@ -939,7 +939,7 @@
               {
                 "name": "Tier Settings",
                 "default": "1-Tier",
-                "decisionLogic": "1-Tier (CCO), 2-Tier (CPCO \u2192 CCO), or 3-Tier (COR)?"
+                "decisionLogic": "1-Tier (CCO), 2-Tier (CPCO → CCO), or 3-Tier (COR)?"
               },
               {
                 "name": "Stored Materials",
@@ -1042,7 +1042,7 @@
             "settings": [
               {
                 "name": "Billing Periods",
-                "default": "1st \u2013 30th",
+                "default": "1st – 30th",
                 "decisionLogic": "Define 'From' and 'To' dates for monthly cycles."
               },
               {
@@ -1184,14 +1184,14 @@
         }
       ],
       "toolDiscoveryPrompts": {
-        "_comment": "For each in-scope tool, the SPC walks the support-article Diagrams tab during discovery and answers: Does OOTB work for them? Custom fields needed? Workflow/permission deviations? \u2014 Discovery Workshop deck Slides 7, 9, 11, 13.",
+        "_comment": "For each in-scope tool, the SPC walks the support-article Diagrams tab during discovery and answers: Does OOTB work for them? Custom fields needed? Workflow/permission deviations? — Discovery Workshop deck Slides 7, 9, 11, 13.",
         "questions": [
-          "Walk the support article's 'Diagrams' tab \u2014 does the OOTB process work as-is?",
+          "Walk the support article's 'Diagrams' tab — does the OOTB process work as-is?",
           "Where does the client's current process deviate from OOTB?",
           "Which custom fields / fieldsets need to be added to fit the client?",
           "Any workflow routing required at the Company level?",
           "Any permission template adjustments needed for this tool?",
-          "Any tool-specific quirks (e.g. Correspondence umbrella \u2014 2 templates w/o workflow OR 1 with workflow)?"
+          "Any tool-specific quirks (e.g. Correspondence umbrella — 2 templates w/o workflow OR 1 with workflow)?"
         ]
       },
       "assignedTo": {
@@ -1205,38 +1205,38 @@
         }
       },
       "consultationAgenda": {
-        "name": "Cost Management Agenda (General Contractor \u2014 4-hour block)",
-        "subtitle": "GPS Slide 44 \u2014 actual time-blocked agenda for the Cost Management consultation. Replicate this structure per consultation session.",
+        "name": "Cost Management Agenda (General Contractor — 4-hour block)",
+        "subtitle": "GPS Slide 44 — actual time-blocked agenda for the Cost Management consultation. Replicate this structure per consultation session.",
         "blocks": [
           {
-            "time": "0:00 \u2013 1:30",
+            "time": "0:00 – 1:30",
             "kind": "Process Decided",
             "topic": "Define Project Roles (required for Workflow functionality). Budget Structure. Forecast vs. Actuals logic."
           },
           {
-            "time": "1:30 \u2013 1:45",
+            "time": "1:30 – 1:45",
             "kind": "Break",
-            "topic": "\u2014"
+            "topic": "—"
           },
           {
-            "time": "1:45 \u2013 3:15",
+            "time": "1:45 – 3:15",
             "kind": "Process Decided",
             "topic": "Prime Contract SOV. Change Hierarchy & Budget Changes. Discuss internal Budget Changes / Transfers."
           },
           {
-            "time": "3:15 \u2013 3:25",
+            "time": "3:15 – 3:25",
             "kind": "Break",
-            "topic": "\u2014"
+            "topic": "—"
           },
           {
-            "time": "3:25 \u2013 4:00",
+            "time": "3:25 – 4:00",
             "kind": "Process Tested",
             "topic": "Live Entry. Client creates test roles, budget line, and links Prime Contract."
           }
         ]
       },
       "kickoffTimeline": {
-        "name": "Cost Management \u2014 8 Week Timeline",
+        "name": "Cost Management — 8 Week Timeline",
         "subtitle": "Visual week-by-week structure the customer sees in the kickoff deck.",
         "totalWeeks": 8,
         "weeks": [
@@ -1351,7 +1351,7 @@
             }
           ],
           "kickoffTimeline": {
-            "name": "Project Execution Essentials \u2014 8 Week Timeline",
+            "name": "Project Execution Essentials — 8 Week Timeline",
             "subtitle": "The customer-facing visual on the kickoff deck.",
             "totalWeeks": 8,
             "weeks": [
@@ -1489,7 +1489,7 @@
             }
           ],
           "kickoffTimeline": {
-            "name": "Project Execution \u2014 10 Week Timeline",
+            "name": "Project Execution — 10 Week Timeline",
             "subtitle": "Extends PE Essentials with the Standard-tier tools (Correspondence, Punch List, Inspections, Bidding) by adding a second Consultation block.",
             "totalWeeks": 10,
             "weeks": [
@@ -1668,7 +1668,7 @@
             }
           ],
           "kickoffTimeline": {
-            "name": "Project Execution Enterprise \u2014 12 Week Timeline",
+            "name": "Project Execution Enterprise — 12 Week Timeline",
             "subtitle": "Two-phase build (Phase I + Phase II) with BIM consultations and Analytics Set-Up.",
             "totalWeeks": 12,
             "weeks": [
@@ -1785,7 +1785,7 @@
           "key": "validation",
           "name": "Validation Script",
           "owner": "SPC",
-          "description": "Customer-facing UAT script \u2014 checklist organised by tool."
+          "description": "Customer-facing UAT script — checklist organised by tool."
         },
         {
           "key": "closeout",
@@ -1822,12 +1822,12 @@
       ],
       "toolDiscoveryPrompts": {
         "questions": [
-          "Walk the support article's Diagrams tab \u2014 does the OOTB process work as-is?",
+          "Walk the support article's Diagrams tab — does the OOTB process work as-is?",
           "Where does the client's current process deviate from OOTB?",
           "Which custom fields / fieldsets are needed?",
           "Any workflow routing required at the Company level?",
           "Any permission template adjustments needed for this tool?",
-          "Any tool-specific quirks (e.g. Correspondence \u2014 2 templates w/o workflow OR 1 with workflow; Inspections \u2014 up to 5 templates)?"
+          "Any tool-specific quirks (e.g. Correspondence — 2 templates w/o workflow OR 1 with workflow; Inspections — up to 5 templates)?"
         ]
       },
       "consultationAgenda": {
@@ -1835,29 +1835,29 @@
         "subtitle": "Sample 4-hour consultation structure for PE Essentials. Adapt per scope.",
         "blocks": [
           {
-            "time": "0:00 \u2013 1:30",
+            "time": "0:00 – 1:30",
             "kind": "Process Decided",
             "topic": "Drawings + RFIs walkthrough. Define discipline list. RFI Manager + response time. Custom fields per tool."
           },
           {
-            "time": "1:30 \u2013 1:45",
+            "time": "1:30 – 1:45",
             "kind": "Break",
-            "topic": "\u2014"
+            "topic": "—"
           },
           {
-            "time": "1:45 \u2013 3:15",
+            "time": "1:45 – 3:15",
             "kind": "Process Decided",
             "topic": "Submittals + Daily Log walkthrough. Default Submittal Manager. Daily Log type enablement. Custom fields per log type."
           },
           {
-            "time": "3:15 \u2013 3:25",
+            "time": "3:15 – 3:25",
             "kind": "Break",
-            "topic": "\u2014"
+            "topic": "—"
           },
           {
-            "time": "3:25 \u2013 4:00",
+            "time": "3:25 – 4:00",
             "kind": "Process Tested",
-            "topic": "Live entry \u2014 client creates an RFI, submittal, daily log entry in Sandbox."
+            "topic": "Live entry — client creates an RFI, submittal, daily log entry in Sandbox."
           }
         ]
       },
@@ -2031,7 +2031,7 @@
               {
                 "name": "RFI Response window",
                 "default": "3 days",
-                "decisionLogic": "Adjust per the client's process \u2014 common values: 3, 5, 7, 14 days."
+                "decisionLogic": "Adjust per the client's process — common values: 3, 5, 7, 14 days."
               },
               {
                 "name": "Mark assignees' responses required by default",
@@ -2147,7 +2147,7 @@
               {
                 "name": "Separate Safety Observations from Quality",
                 "default": "Disabled",
-                "decisionLogic": "Enable carefully \u2014 every configuration item below has to be duplicated for both Safety and Quality."
+                "decisionLogic": "Enable carefully — every configuration item below has to be duplicated for both Safety and Quality."
               },
               {
                 "name": "Categories enabled",
@@ -2307,6 +2307,1569 @@
           }
         ]
       }
+    },
+    {
+      "key": "resource-management",
+      "name": "Resource Management",
+      "tiers": [
+        {
+          "key": "rm-tracking",
+          "name": "Resource Tracking",
+          "hours": 15,
+          "duration": "4 weeks",
+          "pricing": {
+            "comm": 3750,
+            "smb": 3000
+          },
+          "inScopeTools": [
+            "Timesheets",
+            "Equipment Register",
+            "T&M Tickets"
+          ],
+          "toolList": [
+            {
+              "key": "timesheets",
+              "name": "Timesheets",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project"
+            },
+            {
+              "key": "equipment",
+              "name": "Equipment Register",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-company"
+            },
+            {
+              "key": "tm-tickets",
+              "name": "T&M Tickets",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project"
+            }
+          ],
+          "extraWorkbookSections": [
+            "rm-timesheets-co",
+            "rm-equipment-co",
+            "rm-tm-co",
+            "rm-permissions",
+            "rm-timesheets-proj",
+            "rm-tm-proj"
+          ]
+        },
+        {
+          "key": "rm-planning",
+          "name": "Resource Planning",
+          "hours": 20,
+          "duration": "6 weeks",
+          "pricing": {
+            "comm": 5000,
+            "smb": 4000
+          },
+          "inScopeTools": [
+            "Resource Planning"
+          ],
+          "toolList": [
+            {
+              "key": "resource-planning",
+              "name": "Resource Planning",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/resource-planning-company"
+            }
+          ],
+          "extraWorkbookSections": [
+            "rm-data-import",
+            "rm-resource-planning"
+          ]
+        },
+        {
+          "key": "rm-advanced",
+          "name": "Advanced Resource Management",
+          "hours": 35,
+          "duration": "10 weeks",
+          "pricing": {
+            "comm": 8750,
+            "smb": 7000
+          },
+          "inScopeTools": [
+            "Timesheets",
+            "Crews",
+            "Equipment",
+            "T&M Tickets",
+            "Resource Planning",
+            "Reports",
+            "Analytics Setup"
+          ],
+          "toolList": [
+            {
+              "key": "timesheets",
+              "name": "Timesheets",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/timesheets-project"
+            },
+            {
+              "key": "crews",
+              "name": "Crews",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/crews-project"
+            },
+            {
+              "key": "equipment",
+              "name": "Equipment",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/equipment-project"
+            },
+            {
+              "key": "tm-tickets",
+              "name": "T&M Tickets",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project"
+            },
+            {
+              "key": "resource-planning",
+              "name": "Resource Planning",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/resource-planning-company"
+            },
+            {
+              "key": "reports",
+              "name": "Reports",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project"
+            },
+            {
+              "key": "analytics-setup",
+              "name": "Analytics Setup",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company"
+            }
+          ],
+          "extraWorkbookSections": [
+            "rm-timesheets-co",
+            "rm-equipment-co",
+            "rm-tm-co",
+            "rm-permissions",
+            "rm-timesheets-proj",
+            "rm-tm-proj",
+            "rm-data-import",
+            "rm-resource-planning"
+          ]
+        }
+      ],
+      "deliverables": [
+        {
+          "key": "plan",
+          "name": "Implementation Project Plan",
+          "owner": "PM/PC",
+          "description": "Smartsheet live record of milestones, consultation dates, statuses."
+        },
+        {
+          "key": "workbook",
+          "name": "Configuration Workbook",
+          "owner": "SPC",
+          "description": "Per-setting log of Procore defaults + changes during build."
+        },
+        {
+          "key": "discovery",
+          "name": "Discovery Workshop Summary",
+          "owner": "SPC",
+          "description": "Current vs. Desired State artifact from discovery."
+        },
+        {
+          "key": "validation",
+          "name": "Validation Script",
+          "owner": "SPC",
+          "description": "Customer-facing UAT script — checklist organised by tool."
+        },
+        {
+          "key": "closeout",
+          "name": "Project Closeout Document",
+          "owner": "PM/PC",
+          "description": "Final summary, lessons learned, transition resources."
+        }
+      ],
+      "configurationScope": [
+        {
+          "key": "spt",
+          "name": "Standard Project Template updates"
+        },
+        {
+          "key": "timekeeping",
+          "name": "Company-level Timesheets, Equipment & T&M configuration"
+        },
+        {
+          "key": "rp",
+          "name": "Resource Planning company setup (groups, statuses, tags)"
+        },
+        {
+          "key": "perms",
+          "name": "Permission template review (Company + Project)"
+        },
+        {
+          "key": "import",
+          "name": "Resource / cost-code data import"
+        }
+      ],
+      "toolDiscoveryPrompts": {
+        "questions": [
+          "How does the crew/field team capture time today — paper, spreadsheet, or another app?",
+          "Total Hours or Start/Stop time entry? Any lunch / rounding / overtime rules?",
+          "Which cost types map to labor vs. equipment time entries?",
+          "Is an ERP integrated? (If so, WBS segments are managed via the integration and read-only in Procore.)",
+          "For Resource Planning — what groups, statuses, tags & certifications, and assignment alerts are needed?",
+          "Are People/Project QR codes part of the field workflow?"
+        ]
+      },
+      "consultationAgenda": {
+        "name": "Resource Management Agenda (4-hour block)",
+        "subtitle": "Sample structure for Resource Tracking / Advanced RM. Adapt per tier & scope.",
+        "blocks": [
+          {
+            "time": "0:00 – 1:15",
+            "kind": "Process Decided",
+            "topic": "Timesheets: time entry method, payroll settings, time types, overtime rules, signature text."
+          },
+          {
+            "time": "1:15 – 1:25",
+            "kind": "Break",
+            "topic": "—"
+          },
+          {
+            "time": "1:25 – 2:30",
+            "kind": "Process Decided",
+            "topic": "Equipment register + T&M Tickets: categories, statuses, custom fields, ticket sections & summarization."
+          },
+          {
+            "time": "2:30 – 2:40",
+            "kind": "Break",
+            "topic": "—"
+          },
+          {
+            "time": "2:40 – 4:00",
+            "kind": "Process Decided",
+            "topic": "Resource Planning (Advanced): company/groups setup, statuses, tags & certifications, assignment alerts, QR codes, integration settings."
+          }
+        ]
+      },
+      "assignedTo": {
+        "rm-tracking": {
+          "namer": "Project Coordinator (PC)"
+        },
+        "rm-planning": {
+          "namer": "Project Coordinator (PC)"
+        },
+        "rm-advanced": {
+          "namer": "Project Manager (PM)",
+          "note": "Advanced Resource Management deals route to PMs."
+        }
+      },
+      "workbook": {
+        "sections": [
+          {
+            "key": "rm-admin",
+            "name": "Admin (Company) — Net New",
+            "settings": [
+              {
+                "name": "General Settings (NET NEW ONLY) — Verify Company Name is Accurate",
+                "default": "N/A"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Verify Time Zone is Accurate",
+                "default": "N/A"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Upload Company Logo",
+                "default": "N/A"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Project Admin Setup: Regions, Departments",
+                "default": ""
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Work Breakdown Structure",
+                "default": "",
+                "decisionLogic": "If ERP is integrated, WBS segments are managed via the integration and are read-only in Procore"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review Segments (Cost Code, Cost Type, etc.)",
+                "default": "Standard (Cost Code/Type)",
+                "decisionLogic": "Note if custom segments are required"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Show Project Number When Selecting a Project in the Navigation Bar?",
+                "default": "Enabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Enable Access to a Monthly Sandbox Environment?",
+                "default": "Disabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Enable Surverys in Procore?",
+                "default": "Enabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Show Account Setup Page?",
+                "default": "Enabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review the office settings and add offices accordingly",
+                "default": "Main' is enabled as the Corporate Office",
+                "decisionLogic": "*Note down the offices created/added*"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review Terms & Conditions section & enter details per the client's direction",
+                "default": "None populated",
+                "decisionLogic": "*Note down the Terms & Conditions*"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Enable Terms & Conditions?",
+                "default": "Disabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Trigger re-acceptance of Terms & Conditions for all users?",
+                "default": "Disabled"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Disable overdue emails during the weekend?",
+                "default": "Disabled i.e. users WILL receive overdue emails during the weekend"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review Insurance Manager Functionality",
+                "default": "None populated"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review the 'Out of the box' statuses for each correspondence type created",
+                "default": "Draft/Open/Closed"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Review how to create custom statuse for each correspondence type",
+                "default": "N/A"
+              },
+              {
+                "name": "General Settings (NET NEW ONLY) — Document the correspondence status created for the relevant correspondence types",
+                "default": ""
+              }
+            ]
+          },
+          {
+            "key": "rm-timesheets-co",
+            "name": "Timesheets (Company)",
+            "settings": [
+              {
+                "name": "Shared Settings",
+                "default": "",
+                "decisionLogic": "Shared Settings These settings apply to Timecard, Timesheets and Daily Log."
+              },
+              {
+                "name": "Employee Tracking on Projects-Track company employees on all projects.",
+                "default": "Disabled"
+              },
+              {
+                "name": "Timecard Privacy Private timecards are only visible to the creator of the timecard, the employee for whom the time is being tracked, and admins of the tools.",
+                "default": "Disabled"
+              },
+              {
+                "name": "Timecard Rounding: START/STOP onlyRounding rules will apply to all projects and time formats (Start/Stop and Total Hours) and will change all time pickers to conform to the selected time increment. Please ensure that any rounding rules you define comply with applicable laws and regulations.",
+                "default": "Disabled"
+              },
+              {
+                "name": "Timesheet Settings Limit Available Cost Codes by Cost Type",
+                "default": "",
+                "decisionLogic": "Copy table if updated"
+              },
+              {
+                "name": "Cost Type for Labor Time Entries This will apply the following cost type to all NON-BUDGETED codes for labor entries",
+                "default": "Labor"
+              },
+              {
+                "name": "Cost Type for Equipment Time Entries This will apply the following cost type to all NON-BUDGETED codes for equipment entries",
+                "default": "Equipment Apply to existing timecards unchecked"
+              },
+              {
+                "name": "Custom Signature Text",
+                "default": "\"I [Name] Acknowledge that the hours entered in this timecard are accurate\""
+              },
+              {
+                "name": "Payroll Settings Configure timekeeping to adhere to your company policies and payroll solution.",
+                "default": ""
+              },
+              {
+                "name": "Default Work Week",
+                "default": "Monday-Sunday"
+              },
+              {
+                "name": "Pay Period Frequency",
+                "default": "None"
+              },
+              {
+                "name": "Email Distribution Select the individuals who should receive an email notification when a time entry has been created for a closed pay period.",
+                "default": "Blank"
+              },
+              {
+                "name": "Custom Message for Late Time Submission Customize the message that will be sent to employees when they submit timecards after the due date.",
+                "default": "This pay period has been closed. By submitting time late your Payroll Administrator will be notified. Please reach out to your payroll team with any additional details on why this was entered after the pay period."
+              },
+              {
+                "name": "Time Types",
+                "default": "All Enabled: Regular Time REG Double Time DOU Exempt EXE Holiday HOL Overtime OVE PTO PTO Salary SAL Vacation VAC"
+              },
+              {
+                "name": "Payroll Export Settings",
+                "default": "Other"
+              },
+              {
+                "name": "Overtime Rules",
+                "default": ""
+              },
+              {
+                "name": "Turn on Overtime Rules",
+                "default": "Disabled"
+              },
+              {
+                "name": "determine weekly rules and/or daily rules",
+                "default": "Default -None"
+              },
+              {
+                "name": "Create project specific rules",
+                "default": "Default -None"
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-equipment-co",
+            "name": "Equipment (Company)",
+            "settings": [
+              {
+                "name": "Equipment Category & Type",
+                "default": "",
+                "decisionLogic": "Add and list Categories"
+              },
+              {
+                "name": "Make Configurations",
+                "default": "",
+                "decisionLogic": "Add and list Make configurations"
+              },
+              {
+                "name": "Equipment Status",
+                "default": "Available [Available], In Use [ On-site], Unavailable [inactive]",
+                "decisionLogic": "Add and list statuses"
+              },
+              {
+                "name": "Custom Fields and Statuses",
+                "default": ""
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-tm-co",
+            "name": "T&M Tickets (Company)",
+            "settings": [
+              {
+                "name": "Show Labor",
+                "default": ""
+              },
+              {
+                "name": "Show Materials",
+                "default": ""
+              },
+              {
+                "name": "Show Equipment",
+                "default": ""
+              },
+              {
+                "name": "Show Subcontractors",
+                "default": ""
+              },
+              {
+                "name": "Custom Fields and Statuses",
+                "default": ""
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-permissions",
+            "name": "Permissions",
+            "settings": [
+              {
+                "name": "Company Permission Templates — Review 'Out of the Box' permissions",
+                "default": "",
+                "decisionLogic": "N/A"
+              },
+              {
+                "name": "Company Permission Templates — Edit templates as necessary per the client's direction",
+                "default": "",
+                "decisionLogic": "*Export the updated permission templates as a pdf and attach it to this filled out workbook when submitting deliverables*"
+              },
+              {
+                "name": "Project Permission Templates — Review 'Out of the Box' permissions",
+                "default": "",
+                "decisionLogic": "N/A"
+              },
+              {
+                "name": "Project Permission Templates — Edit templates as necessary per the client's direction",
+                "default": "",
+                "decisionLogic": "*Export the updated permission templates as a pdf and attach it to this filled out workbook when submitting deliverables*"
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-timesheets-proj",
+            "name": "Timesheets (Project)",
+            "settings": [
+              {
+                "name": "Time Entry Method: Toggle between 'Total Hours' or 'Start/Stop Time' (including lunch tracking).",
+                "default": "Total Hours"
+              },
+              {
+                "name": "Project Address",
+                "default": "N/A"
+              },
+              {
+                "name": "Enable Employee Location Tracking",
+                "default": "Disabled",
+                "decisionLogic": "Geofencing & Geolocation: Enable tracking to see if personnel are on-site when clocking in/out."
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-tm-proj",
+            "name": "T&M Tickets (Project)",
+            "settings": [
+              {
+                "name": "Email Notifications",
+                "default": "Action/Status Created In Progress Signed By Company Ready For Review Signed By Customer Field Verified Closed Closed"
+              },
+              {
+                "name": "To update what sections are available when recording a T&M Ticket click here",
+                "default": "Labor section- disabled Material section-disabled Equipment section-disabled Subcontractor section-disabled"
+              },
+              {
+                "name": "Summarize Labor line items-Group total hours from workers with the same Classification & Time Type",
+                "default": "Per Ticket: total hours by individual tickets Per Change Event: total hours from all tickets Don't summarize"
+              },
+              {
+                "name": "Summarize Equipment line items Group total hours from equipment with the same name",
+                "default": "Per Ticket: total hours by individual tickets Per Change Event: total hours from all tickets Don't summarize"
+              },
+              {
+                "name": "Change Event Settings (if also using Financials)",
+                "default": ""
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-data-import",
+            "name": "Data Import",
+            "settings": [
+              {
+                "name": "Data Import Completed",
+                "default": "Prepare Data for Import",
+                "decisionLogic": "Add sheet with import data"
+              }
+            ],
+            "enterpriseOnly": true
+          },
+          {
+            "key": "rm-resource-planning",
+            "name": "Resource Planning (Company)",
+            "settings": [
+              {
+                "name": "Company Name",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — Corporate Address",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — City / Town",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — State / province",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — Zip Code",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — Country",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — Contact Name, number, and email",
+                "default": "Blank"
+              },
+              {
+                "name": "Company — TBD Duration",
+                "default": "26"
+              },
+              {
+                "name": "Company — Timezone",
+                "default": "America/Losangeles"
+              },
+              {
+                "name": "Groups — Group Name",
+                "default": "Blank"
+              },
+              {
+                "name": "Groups — Group Timezone",
+                "default": "Company Default Timezone"
+              },
+              {
+                "name": "Groups — Group Color",
+                "default": "Blue"
+              },
+              {
+                "name": "Custom Fields — Field Name",
+                "default": "Blank"
+              },
+              {
+                "name": "Assignment Alerts — Alert Message",
+                "default": "Predefined Message"
+              },
+              {
+                "name": "Tags & Certifications — Tag Name",
+                "default": "Blank"
+              },
+              {
+                "name": "Tags & Certifications — Job Title Name",
+                "default": "Blank"
+              },
+              {
+                "name": "Notification Profiles",
+                "default": "Blank"
+              },
+              {
+                "name": "Assignment / Request Statuses — Determine Statuses for assignments / requests",
+                "default": "Blank"
+              },
+              {
+                "name": "QR Codes — People QR Codes",
+                "default": "Blank"
+              },
+              {
+                "name": "QR Codes — Project QR Codes",
+                "default": "Blank"
+              },
+              {
+                "name": "Integration Settings — End Assignments for Inactive Users",
+                "default": "Off"
+              }
+            ],
+            "enterpriseOnly": true
+          }
+        ]
+      }
+    },
+    {
+      "key": "project-lifecycle-management",
+      "name": "Project Lifecycle Management",
+      "tiers": [
+        {
+          "key": "plm-owners",
+          "name": "Project Lifecycle Management",
+          "hours": 65,
+          "duration": "14 weeks",
+          "pricing": {
+            "comm": 16250,
+            "smb": 13000
+          },
+          "inScopeTools": [
+            "Prime Contracts",
+            "Commitments",
+            "Budget",
+            "Change Events / Orders",
+            "Invoicing",
+            "Direct Costs",
+            "Analytics Setup",
+            "Reports",
+            "Drawings",
+            "Correspondence",
+            "Action Plans",
+            "Punch List",
+            "Inspections",
+            "Bid Management"
+          ],
+          "toolList": [
+            {
+              "key": "prime-contracts",
+              "name": "Prime Contracts",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/prime-contracts-project"
+            },
+            {
+              "key": "commitments",
+              "name": "Commitments",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/commitments-project"
+            },
+            {
+              "key": "budget",
+              "name": "Budget",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/budget-project"
+            },
+            {
+              "key": "change-events",
+              "name": "Change Events / Orders",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/change-events-project"
+            },
+            {
+              "key": "invoicing",
+              "name": "Invoicing",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project"
+            },
+            {
+              "key": "direct-costs",
+              "name": "Direct Costs",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project"
+            },
+            {
+              "key": "analytics-setup",
+              "name": "Analytics Setup",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/analytics-company"
+            },
+            {
+              "key": "reports",
+              "name": "Reports",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project"
+            },
+            {
+              "key": "drawings",
+              "name": "Drawings",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project"
+            },
+            {
+              "key": "correspondence",
+              "name": "Correspondence",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project"
+            },
+            {
+              "key": "action-plans",
+              "name": "Action Plans",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/action-plans-project"
+            },
+            {
+              "key": "punch-list",
+              "name": "Punch List",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project"
+            },
+            {
+              "key": "inspections",
+              "name": "Inspections",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project"
+            },
+            {
+              "key": "bid-management",
+              "name": "Bid Management",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/bidding-project"
+            }
+          ]
+        }
+      ],
+      "deliverables": [
+        {
+          "key": "plan",
+          "name": "Implementation Project Plan",
+          "owner": "PM/PC",
+          "description": "Smartsheet live record of milestones, consultation dates, statuses."
+        },
+        {
+          "key": "workbook",
+          "name": "Configuration Workbook",
+          "owner": "SPC",
+          "description": "Per-setting log of Procore defaults + changes during build."
+        },
+        {
+          "key": "discovery",
+          "name": "Discovery Workshop Summary",
+          "owner": "SPC",
+          "description": "Current vs. Desired State artifact from discovery."
+        },
+        {
+          "key": "validation",
+          "name": "Validation Script",
+          "owner": "SPC",
+          "description": "Customer-facing UAT script — checklist organised by tool."
+        },
+        {
+          "key": "closeout",
+          "name": "Project Closeout Document",
+          "owner": "PM/PC",
+          "description": "Final summary, lessons learned, transition resources."
+        }
+      ],
+      "configurationScope": [
+        {
+          "key": "fin",
+          "name": "Owner financials configuration (Prime Contract, Commitments, Budget, Invoicing)"
+        },
+        {
+          "key": "precon",
+          "name": "Preconstruction & bidding setup"
+        },
+        {
+          "key": "spt",
+          "name": "Standard Project Template updates"
+        },
+        {
+          "key": "ap",
+          "name": "Action Plans company templates"
+        },
+        {
+          "key": "tools",
+          "name": "Project tools: Drawings, Correspondence, Punch List, Inspections"
+        },
+        {
+          "key": "reporting",
+          "name": "Reports & Analytics setup"
+        }
+      ],
+      "toolDiscoveryPrompts": {
+        "questions": [
+          "Is an ERP integrated? Budget integrates only when the Prime Contract integrates — confirm the trigger.",
+          "Accounting method: Amount-based, Unit/Quantity-based, or mixed? Default retainage %?",
+          "Change order tiers — 1-Tier (CCO), 2-Tier (CPCO > CCO), or 3-Tier (COR)?",
+          "Owner invoice detail level — PCCO, PCO, or Line Item? Billing periods?",
+          "Which preconstruction / bidding workflow is used, and how do awarded bids convert to commitments?",
+          "Which Action Plan templates, verification methods, and plan statuses are required?"
+        ]
+      },
+      "consultationAgenda": {
+        "name": "Project Lifecycle Management Agenda (Owners — multi-session)",
+        "subtitle": "Owner lifecycle spans financials + execution. Sample blocks; split across sessions per scope.",
+        "blocks": [
+          {
+            "time": "Session 1",
+            "kind": "Process Decided",
+            "topic": "Financial admin: WBS / segments, ERP sync trigger, currency, tax codes. Budget views & locking."
+          },
+          {
+            "time": "Session 1",
+            "kind": "Process Decided",
+            "topic": "Prime Contract & Commitments: accounting method, retainage, SOV methodology, CO tiers."
+          },
+          {
+            "time": "Session 2",
+            "kind": "Process Decided",
+            "topic": "Change Events / Orders & Owner Invoicing: origins, revenue columns, billing periods, signatures."
+          },
+          {
+            "time": "Session 2",
+            "kind": "Process Decided",
+            "topic": "Direct Costs, Reports & Analytics setup."
+          },
+          {
+            "time": "Session 3",
+            "kind": "Process Decided",
+            "topic": "Project tools: Drawings, Correspondence, Punch List, Inspections, Action Plans, Bidding."
+          }
+        ]
+      },
+      "assignedTo": {
+        "plm-owners": {
+          "namer": "Project Manager (PM)",
+          "note": "Project Lifecycle Management (Owners) deals route to PMs."
+        }
+      },
+      "workbook": {
+        "sections": [
+          {
+            "key": "admin",
+            "name": "Admin (Company)",
+            "settings": [
+              {
+                "name": "Verify Company Name + Time Zone + Logo",
+                "default": "N/A",
+                "decisionLogic": "Confirm the basic identity fields are populated correctly."
+              },
+              {
+                "name": "Personal Avatars in the Directory",
+                "default": "Enabled",
+                "decisionLogic": "Disable if the client wants only initials shown."
+              },
+              {
+                "name": "Show Project Number in Navigation",
+                "default": "Enabled",
+                "decisionLogic": "Adjust for clients who don't number projects."
+              },
+              {
+                "name": "Monthly Sandbox Environment",
+                "default": "Disabled",
+                "decisionLogic": "Enable if the customer wants a recurring Sandbox refresh."
+              },
+              {
+                "name": "Surveys in Procore",
+                "default": "Enabled",
+                "decisionLogic": "Disable only if explicitly requested."
+              },
+              {
+                "name": "Account Setup Page",
+                "default": "Enabled"
+              },
+              {
+                "name": "Offices configured",
+                "default": "'Main' is the Corporate Office",
+                "decisionLogic": "Add offices per the discovery workshop. Note all offices created."
+              },
+              {
+                "name": "Terms & Conditions",
+                "default": "None populated",
+                "decisionLogic": "Populate if client provides text. Enable T&Cs and trigger re-acceptance separately."
+              },
+              {
+                "name": "Disable overdue emails during the weekend",
+                "default": "Disabled (users WILL receive overdue emails on weekends)",
+                "decisionLogic": "Enable if client doesn't want weekend notifications."
+              }
+            ]
+          },
+          {
+            "key": "plm-preconstruction",
+            "name": "Preconstruction",
+            "settings": [
+              {
+                "name": "Bid Packages",
+                "default": ""
+              },
+              {
+                "name": "Package Structure",
+                "default": "By CSI Division",
+                "decisionLogic": "How will bid packages be grouped (by CSI, Trade, or Phase)?"
+              },
+              {
+                "name": "Document Versioning",
+                "default": "Separate Folders",
+                "decisionLogic": "How will \"Bid Sets\" be distinguished from \"Construction Sets\"?"
+              },
+              {
+                "name": "Bidding Workflow",
+                "default": ""
+              },
+              {
+                "name": "Bid Invitations",
+                "default": "Database",
+                "decisionLogic": "Will invitations be sent to the full Database or a Pre-Qualified list?"
+              },
+              {
+                "name": "Submission Tracking",
+                "default": "Seal Bids: No",
+                "decisionLogic": "Define the deadline and if \"Seal Bids\" is required for the client."
+              },
+              {
+                "name": "Awarding & Award Logic",
+                "default": ""
+              },
+              {
+                "name": "Bid Leveling Process",
+                "default": "Leveling Sheet",
+                "decisionLogic": "How is the \"Apparent Low Bidder\" determined and documented?"
+              },
+              {
+                "name": "Conversion to Financials",
+                "default": "Award to Commitment",
+                "decisionLogic": "Logic for converting an awarded bid into a Commitment/Contract."
+              }
+            ]
+          },
+          {
+            "key": "plm-financial-admin",
+            "name": "Financial Admin (Company)",
+            "settings": [
+              {
+                "name": "Work Breakdown Structure",
+                "default": "",
+                "decisionLogic": "If ERP is integrated, WBS segments are managed via the integration and are read-only in Procore"
+              },
+              {
+                "name": "Review Segments (Cost Code, Cost Type, etc.)",
+                "default": "Standard (Cost Code/Type)",
+                "decisionLogic": "Are we using custom segments or standard Cost Code/Type? Note if custom segments are required"
+              },
+              {
+                "name": "Identify ERP System for Integration",
+                "default": "None",
+                "decisionLogic": "e.g., Sage 300, Vista, QuickBooks"
+              },
+              {
+                "name": "Workflows (Financials)",
+                "default": ""
+              },
+              {
+                "name": "Review ERP Sync Settings",
+                "default": "Disabled"
+              },
+              {
+                "name": "Review Prime Contract CO Workflows",
+                "default": "N/A",
+                "decisionLogic": "Screenshot/PDF export of workflow required"
+              },
+              {
+                "name": "Review Commitment CO Workflows",
+                "default": "N/A",
+                "decisionLogic": "Screenshot/PDF export of workflow required"
+              },
+              {
+                "name": "Review Invoice (Owner/Sub) Workflows",
+                "default": "N/A",
+                "decisionLogic": "Screenshot/PDF export of workflow required"
+              },
+              {
+                "name": "Currency Settings: Multicurrency",
+                "default": "N/A"
+              },
+              {
+                "name": "Expense Allocations",
+                "default": "",
+                "decisionLogic": "**Recommend we dont touch"
+              },
+              {
+                "name": "Procore Explore",
+                "default": "",
+                "decisionLogic": "**Recommend we dont touch, this enables beta funcitonality"
+              },
+              {
+                "name": "Root Cause Analysis?",
+                "default": "",
+                "decisionLogic": "Listed under Company Admin in Source 1. This is often used in conjunction with Financials (specifically Change Events) to track why costs are occurring."
+              },
+              {
+                "name": "Review Segment Item Patterns",
+                "default": "N/A"
+              },
+              {
+                "name": "Sub Jobs",
+                "default": "Disabled",
+                "decisionLogic": "Will the client utilize Sub Jobs for phasing?"
+              },
+              {
+                "name": "ERP Integration Trigger",
+                "default": "N/A",
+                "decisionLogic": "Logic: Budget integrates only when Prime Contract integrates."
+              },
+              {
+                "name": "Financial Admin",
+                "default": ""
+              },
+              {
+                "name": "Currency Settings",
+                "default": "USD Only",
+                "decisionLogic": "Are multi-currency features required for foreign projects?"
+              },
+              {
+                "name": "Review Unit of Measure (UOM) Master List",
+                "default": "Standard list"
+              },
+              {
+                "name": "Review Tax Codes",
+                "default": "None populated",
+                "decisionLogic": "tax is being tracked at the line-item level or as a financial markup?"
+              },
+              {
+                "name": "Root Cause Analysis",
+                "default": "Enabled",
+                "decisionLogic": "Enable tracking of \"Why\" costs occur (Design vs. Field Error)?"
+              },
+              {
+                "name": "Review how to create a workflow - max 1 total",
+                "default": "",
+                "decisionLogic": "N/A *Screenshot the created workflow, export it as a pdf and attach it to this filled out workbook when submitting deliverables*"
+              },
+              {
+                "name": "Review how to create custom workflow responses",
+                "default": "",
+                "decisionLogic": "Approve/Return/Reject"
+              },
+              {
+                "name": "Review how to enable workflow features on a tool by tool basis",
+                "default": "",
+                "decisionLogic": "Allow Project Level Templates (Disabled), Allow Terminate Workflow (Disabled) *Note down if this was leveraged and which toggles were enabled*"
+              },
+              {
+                "name": "Review the 'Tools with Workflows Enabled' table",
+                "default": "",
+                "decisionLogic": "N/A N/A"
+              }
+            ]
+          },
+          {
+            "key": "budget",
+            "name": "Budget",
+            "settings": [
+              {
+                "name": "Review Budget Views (Standard/Forecast)",
+                "default": "Procore Standard Budget View",
+                "decisionLogic": "Are we using \"Old Budget View\" or \"New Budget View\"? Note any custom columns created"
+              },
+              {
+                "name": "Lock Budget",
+                "default": "Unlocked",
+                "decisionLogic": "When should the budget be locked? (Prevents original edit)"
+              },
+              {
+                "name": "Advanced Forecasting",
+                "default": "Disabled - View Required",
+                "decisionLogic": "Enable spread of cost projections via curves (Bell, Linear)?"
+              },
+              {
+                "name": "Budget Changes — Net Zero Changes Review Budget Changes Settings",
+                "default": "Enabled",
+                "decisionLogic": "Do you intend to perform net-zero budget transfers?"
+              },
+              {
+                "name": "Budget Changes — Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Budget Changes — Document any custom fields/fieldsets/custom forms",
+                "default": "N/A"
+              },
+              {
+                "name": "Budget Changes — Production",
+                "default": ""
+              }
+            ]
+          },
+          {
+            "key": "prime-contract",
+            "name": "Prime Contract",
+            "settings": [
+              {
+                "name": "Accounting Method",
+                "default": "Amount Based",
+                "decisionLogic": "Amount Based vs. Unit/Quantity Based? Mixed? Unit vs. Amount Based"
+              },
+              {
+                "name": "Default Retainage %",
+                "default": "10%"
+              },
+              {
+                "name": "Enable Change Orders on the Prime Contract?",
+                "default": "Enabled"
+              },
+              {
+                "name": "Financial Markup",
+                "default": "N/A"
+              },
+              {
+                "name": "CO Detail Level",
+                "default": "PCCO Level",
+                "decisionLogic": "Level of detail on Owner Invoices (PCCO, PCO, or Line Item)?"
+              },
+              {
+                "name": "Always Editable SOV",
+                "default": "Disabled",
+                "decisionLogic": "Allow SOV edits after approval/CO processing?"
+              },
+              {
+                "name": "Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Custom Statuses",
+                "default": ""
+              },
+              {
+                "name": "Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "SOV Methodology",
+                "default": "Detailed SOV",
+                "decisionLogic": "Will we use detailed budget code allocation or a high-level summary?"
+              }
+            ]
+          },
+          {
+            "key": "commitments",
+            "name": "Commitments",
+            "settings": [
+              {
+                "name": "Default Commitment Type",
+                "default": "Contract/PO",
+                "decisionLogic": "Enable both Purchase Orders AND Subcontracts?"
+              },
+              {
+                "name": "Numbering Scheme",
+                "default": "Sequential"
+              },
+              {
+                "name": "Enable \"Contractor-Managed\" Invoices?",
+                "default": "Disabled"
+              },
+              {
+                "name": "Tier Settings",
+                "default": "1-Tier",
+                "decisionLogic": "1-Tier (CCO), 2-Tier (CPCO > CCO), or 3-Tier (COR)?"
+              },
+              {
+                "name": "Stored Materials",
+                "default": "Disabled",
+                "decisionLogic": "Enable retainage on stored materials?"
+              },
+              {
+                "name": "Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Custom Statuses",
+                "default": ""
+              },
+              {
+                "name": "Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "Over-billing",
+                "default": "Disabled",
+                "decisionLogic": "Allow subcontractors to bill over the scheduled value?"
+              },
+              {
+                "name": "Collaboration Logic",
+                "default": "Invited to Bill",
+                "decisionLogic": "Will subs be \"Invited to Bill\" or is it an open monthly window?"
+              }
+            ]
+          },
+          {
+            "key": "change-events",
+            "name": "Change Events",
+            "settings": [
+              {
+                "name": "Origin & Display — Revenue Columns",
+                "default": "Enabled",
+                "decisionLogic": "Display Revenue ROM, Latest Price, and Over/Under?"
+              },
+              {
+                "name": "Origin & Display — Review Change Event Statuses - Any Custom Statuses",
+                "default": "Draft/Pending/Approved"
+              },
+              {
+                "name": "Origin & Display — Attachment Sync",
+                "default": "Enabled",
+                "decisionLogic": "Copy attachments from RFQs to Prime/Commitment COs?"
+              },
+              {
+                "name": "Origin & Display — Link Change Events to Budget?",
+                "default": "Enabled"
+              },
+              {
+                "name": "Origin & Display — Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Origin & Display — Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "Origin & Display — Financial Markups",
+                "default": "Disabled",
+                "decisionLogic": "Apply markups to ROM for estimate exports?"
+              },
+              {
+                "name": "Origin & Display — Origin Settings",
+                "default": "All",
+                "decisionLogic": "Which tools trigger CEs? (RFIs, Observations, Meetings)?"
+              }
+            ]
+          },
+          {
+            "key": "change-orders",
+            "name": "Change Orders",
+            "settings": [
+              {
+                "name": "Review PCO/CCO/OCO Tiers",
+                "default": "1-Tier",
+                "decisionLogic": "Note if 2-tier or 3-tier is required"
+              },
+              {
+                "name": "Review CO Numbering Prefixes",
+                "default": "None"
+              },
+              {
+                "name": "Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "Review Tiers",
+                "default": "1-Tier",
+                "decisionLogic": "1-Tier (CCO), 2-Tier (CPCO > CCO), or 3-Tier (COR)?"
+              },
+              {
+                "name": "Markup Visibility",
+                "default": "Visible",
+                "decisionLogic": "Should markups be visible to the Owner on PCCO PDFs?"
+              }
+            ]
+          },
+          {
+            "key": "invoicing",
+            "name": "Invoicing (Owner)",
+            "settings": [
+              {
+                "name": "Owner Invoices — Billing Periods",
+                "default": "1st - 30th",
+                "decisionLogic": "Define \"From\" and \"To\" dates for monthly cycles."
+              },
+              {
+                "name": "Owner Invoices — Invoice Reminders",
+                "default": "Never",
+                "decisionLogic": "Frequency of automated reminders to subs (1, 2, or 3 days)?"
+              },
+              {
+                "name": "Owner Invoices — Over-billing",
+                "default": "Disabled",
+                "decisionLogic": "Allow subcontractors to bill over the scheduled value?"
+              },
+              {
+                "name": "Owner Invoices — Enable Digital Signatures (DocuSign)?",
+                "default": "Disabled"
+              },
+              {
+                "name": "Owner Invoices — Review Sub Invoice PDF Export Settings",
+                "default": "Standard"
+              },
+              {
+                "name": "Owner Invoices — Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Owner Invoices — Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "Owner Invoices — Payment & Reminders",
+                "default": ""
+              },
+              {
+                "name": "Owner Invoices — Stored Materials",
+                "default": "Disabled",
+                "decisionLogic": "Enable retainage on stored materials?"
+              }
+            ]
+          },
+          {
+            "key": "direct-costs",
+            "name": "Direct Costs",
+            "settings": [
+              {
+                "name": "Review Direct Cost Categories",
+                "default": "Travel/Materials/Labor"
+              },
+              {
+                "name": "Enable Direct Cost Sync to Budget?",
+                "default": "Enabled"
+              },
+              {
+                "name": "Custom Fields & Fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Document any custom fields/fieldsets",
+                "default": "N/A"
+              },
+              {
+                "name": "Timesheet Sync",
+                "default": "Disabled",
+                "decisionLogic": "Should labor costs from Timesheets automatically hit Direct Costs?"
+              },
+              {
+                "name": "Disbursement",
+                "default": ""
+              },
+              {
+                "name": "Disbursement WF",
+                "default": "N/A",
+                "decisionLogic": "Define the Pay Admin vs. Disburser roles."
+              },
+              {
+                "name": "Lien Waivers",
+                "default": "Disabled",
+                "decisionLogic": "Use Company Level templates for automated waivers?"
+              }
+            ]
+          },
+          {
+            "key": "drawings",
+            "name": "Drawings",
+            "settings": [
+              {
+                "name": "Allow Standard users to delete published markup",
+                "default": "No"
+              },
+              {
+                "name": "Enable Drawings by Area",
+                "default": "No"
+              },
+              {
+                "name": "Drawing Log Subscribers",
+                "default": "None populated",
+                "decisionLogic": "Note the roles that should be added per discovery."
+              },
+              {
+                "name": "Discipline list + abbreviations",
+                "default": "OOTB list (A/C/E/F/G/H/I/L/M/P/Q/R/S/T/X/Z + Garage variants)",
+                "decisionLogic": "Add any additional abbreviations needed."
+              }
+            ]
+          },
+          {
+            "key": "correspondence",
+            "name": "Correspondence",
+            "settings": [
+              {
+                "name": "Correspondence Types created",
+                "default": "None populated",
+                "decisionLogic": "Up to 2 templates without workflow OR 1 template with a workflow.",
+                "notes": "Screenshot + PDF attach to deliverable."
+              },
+              {
+                "name": "Statuses per type",
+                "default": "Draft / Open / Closed",
+                "decisionLogic": "Add custom statuses where the client's process needs them."
+              }
+            ]
+          },
+          {
+            "key": "punch-list",
+            "name": "Punch List",
+            "settings": [
+              {
+                "name": "Company-level Punch List Templates",
+                "default": "None",
+                "decisionLogic": "Push standard templates per discovery."
+              },
+              {
+                "name": "Custom Fields / Fieldsets",
+                "default": "None"
+              }
+            ]
+          },
+          {
+            "key": "inspections",
+            "name": "Inspections",
+            "settings": [
+              {
+                "name": "Inspection Templates built",
+                "default": "None",
+                "decisionLogic": "Up to 5 templates per the package scope. Build per discovery."
+              },
+              {
+                "name": "Inspection Item Types + responses",
+                "default": "OOTB",
+                "decisionLogic": "Add custom response sets if client needs them."
+              },
+              {
+                "name": "Distribution + email reminders",
+                "default": "OOTB"
+              }
+            ]
+          },
+          {
+            "key": "bid-management",
+            "name": "Bid Management",
+            "settings": [
+              {
+                "name": "Bid Form templates",
+                "default": "None",
+                "decisionLogic": "Build standard bid form per discovery."
+              },
+              {
+                "name": "Bid Levelling settings",
+                "default": "Standard"
+              },
+              {
+                "name": "Distribution + email cadence",
+                "default": "OOTB"
+              }
+            ]
+          },
+          {
+            "key": "action-plans",
+            "name": "Action Plans (Owners)",
+            "settings": [
+              {
+                "name": "Templates — Review how to create a company level template",
+                "default": "N/A"
+              },
+              {
+                "name": "Templates — Review how to edit 'Out of the box' company level templates",
+                "default": "N/A"
+              },
+              {
+                "name": "Templates — Creation of up to '5' company level templates by the SPC IS included in the scope of this PS package",
+                "default": "*Export the created inspection template as a pdf and attach it to this filled out workbook when submitting deliverables*"
+              },
+              {
+                "name": "Templates — Selection of Specific Template with Responses/Assignees",
+                "default": ""
+              },
+              {
+                "name": "Templates — Discuss default action plan types",
+                "default": "Types, Verification Methods, Plan Statuses"
+              },
+              {
+                "name": "Templates — *Note any created Action Plan types*",
+                "default": ""
+              },
+              {
+                "name": "Templates — Discuss default fieldsets",
+                "default": ""
+              },
+              {
+                "name": "Templates — *Note any created Action Plan fieldsets*",
+                "default": ""
+              }
+            ]
+          },
+          {
+            "key": "reports",
+            "name": "Reports",
+            "settings": [
+              {
+                "name": "Custom Reports built",
+                "default": "None",
+                "decisionLogic": "Up to 3 reports per the package scope. Build per discovery."
+              },
+              {
+                "name": "Distribution + scheduling",
+                "default": "Manual"
+              }
+            ]
+          },
+          {
+            "key": "analytics-setup",
+            "name": "Analytics Setup",
+            "settings": [
+              {
+                "name": "PE Analytics dashboards",
+                "default": "Defaults enabled",
+                "decisionLogic": "Enable the default PE analytics dashboards. Custom dashboards are SOW scope only."
+              }
+            ]
+          },
+          {
+            "key": "permissions",
+            "name": "Permissions (Company + Project)",
+            "settings": [
+              {
+                "name": "Review 'Out of the Box' Company Permission Templates",
+                "default": "N/A"
+              },
+              {
+                "name": "Edit Company Permission Templates per client direction",
+                "default": "N/A",
+                "notes": "Export updated templates as a PDF to the deliverable."
+              },
+              {
+                "name": "Review 'Out of the Box' Project Permission Templates",
+                "default": "N/A"
+              },
+              {
+                "name": "Edit Project Permission Templates per client direction",
+                "default": "N/A",
+                "notes": "Export updated templates as a PDF to the deliverable."
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "aiPrompts": {
@@ -2314,7 +3877,7 @@
     "desiredState": "Analyze this discovery call transcript and summarize the client's 'Desired State'. Capture the workflow improvements they want for each in-scope tool, the configuration decisions they've signaled (default response times, approval flows, custom fields, WBS structure), and any constraints flagged for the configuration sessions."
   },
   "training": {
-    "name": "GPS Package Training \u2014 SPC Onboarding",
+    "name": "GPS Package Training — SPC Onboarding",
     "subtitle": "The four-session internal training series every SPC completes on the GPS packages before delivering them.",
     "pillars": [
       {
@@ -2450,7 +4013,7 @@
           },
           {
             "name": "Understand the customer's go-live date",
-            "description": "Clarify if they are adding active projects before configuration is completed \u2014 those projects will not inherit the new configurations, to minimise risk."
+            "description": "Clarify if they are adding active projects before configuration is completed — those projects will not inherit the new configurations, to minimise risk."
           }
         ]
       },
@@ -2509,14 +4072,14 @@
   },
   "validationRR": {
     "name": "Validation R&R",
-    "window": "1\u20132 weeks",
+    "window": "1–2 weeks",
     "pcpm": [
-      "Confirm timeline for validation (1\u20132 weeks)",
+      "Confirm timeline for validation (1–2 weeks)",
       "Drive Validation completion",
       "Offer Product Q&A to go through the configurations together"
     ],
     "spc": [
-      "Lead Product Q&A \u2014 informal meeting to review any configuration changes requested",
+      "Lead Product Q&A — informal meeting to review any configuration changes requested",
       "Address any other product questions that have come up"
     ]
   },
@@ -2550,7 +4113,7 @@
       },
       {
         "key": "mvp",
-        "name": "MVP \u2014 Minimum Viable Product",
+        "name": "MVP — Minimum Viable Product",
         "description": "NOT a client-facing term. Internal strategy lens.",
         "items": [
           "Shortest distance between onboarding and value",
@@ -2575,7 +4138,7 @@
       },
       {
         "key": "validation",
-        "name": "Validation completed \u2014 Procore tools tested and sign-off on configuration received"
+        "name": "Validation completed — Procore tools tested and sign-off on configuration received"
       }
     ]
   },
@@ -2596,7 +4159,7 @@
       {
         "key": "defend-scope",
         "name": "Defend Scope Gracefully",
-        "description": "Clients will inevitably try to superimpose their broken legacy processes or ask for complex customizations, like custom CFO Excel reports \u2014 keep to scope."
+        "description": "Clients will inevitably try to superimpose their broken legacy processes or ask for complex customizations, like custom CFO Excel reports — keep to scope."
       },
       {
         "key": "velocity",
@@ -2626,7 +4189,7 @@
         "description": "An open floor for any final clarifying questions."
       }
     ],
-    "templates": "Follow up each call with an email summarizing key takeaways and action items \u2014 use the PM Detailed Call Summary Brief in Gong to generate the summary, then post it in the Slack channel."
+    "templates": "Follow up each call with an email summarizing key takeaways and action items — use the PM Detailed Call Summary Brief in Gong to generate the summary, then post it in the Slack channel."
   },
   "discoveryWorkshop": {
     "name": "Discovery Workshop",
@@ -2698,24 +4261,24 @@
     ]
   },
   "consultationShift": {
-    "name": "How Consultation Shifts \u2014 ACD vs PNPT",
-    "subtitle": "Slides 40-41. The order and the SPC's authorship changes \u2014 tool drives scope, SPC physically configures.",
+    "name": "How Consultation Shifts — ACD vs PNPT",
+    "subtitle": "Slides 40-41. The order and the SPC's authorship changes — tool drives scope, SPC physically configures.",
     "buckets": [
       {
         "key": "current-state",
-        "name": "Current State \u2014 Advise (ACD / SOW)",
-        "description": "Cycle: Process \u2192 Tool Mapping \u2192 Advise. SPC provides recommendations and educates on the setting changes that need to take place in line with SOPs. Customer has ownership of seeing through process configurations and SOPs. Process-first leads to scope ambiguity and longer build cycles \u2014 a great fit for SOWs because the customer pays for that level of depth."
+        "name": "Current State — Advise (ACD / SOW)",
+        "description": "Cycle: Process → Tool Mapping → Advise. SPC provides recommendations and educates on the setting changes that need to take place in line with SOPs. Customer has ownership of seeing through process configurations and SOPs. Process-first leads to scope ambiguity and longer build cycles — a great fit for SOWs because the customer pays for that level of depth."
       },
       {
         "key": "new-state",
-        "name": "New State \u2014 Advise & Configure (PNPT)",
-        "description": "Cycle: Tool \u2192 Process \u2192 Advise \u2192 Configure. The new packages start with the tool because the tool is what controls the scope. The SPC advises on the process nuances and then physically goes 'under the hood' to build the templates, workflows, and permissions for the client. The SPC is a strategic architect focused on MVP \u2014 depth of process is regulated by the tool scope. Driving decisions in real time to support configuration is critical."
+        "name": "New State — Advise & Configure (PNPT)",
+        "description": "Cycle: Tool → Process → Advise → Configure. The new packages start with the tool because the tool is what controls the scope. The SPC advises on the process nuances and then physically goes 'under the hood' to build the templates, workflows, and permissions for the client. The SPC is a strategic architect focused on MVP — depth of process is regulated by the tool scope. Driving decisions in real time to support configuration is critical."
       }
     ]
   },
   "talkTrackShifts": {
     "name": "Talk Track Shifts",
-    "subtitle": "Slide 42. The ACD talk track centered on what the customer should change. The PNPT talk track centers on what the SPC is about to configure \u2014 and asks one nuance question per setting to drive the decision in real time.",
+    "subtitle": "Slide 42. The ACD talk track centered on what the customer should change. The PNPT talk track centers on what the SPC is about to configure — and asks one nuance question per setting to drive the decision in real time.",
     "examples": [
       {
         "topic": "RFI default response time",
@@ -2762,7 +4325,7 @@
   },
   "configTrainingPurpose": {
     "name": "Configuration Training Purpose",
-    "subtitle": "Why we run the Configuration Training \u2014 Slide 58.",
+    "subtitle": "Why we run the Configuration Training — Slide 58.",
     "points": [
       {
         "name": "Comprehensive system architecture overview",
@@ -2776,7 +4339,7 @@
   },
   "configTrainingStructure": {
     "name": "Configuration Training Structure",
-    "subtitle": "Focus areas to review during the training \u2014 Slide 59.",
+    "subtitle": "Focus areas to review during the training — Slide 59.",
     "buckets": [
       {
         "key": "company-admin",
@@ -2796,7 +4359,7 @@
       {
         "key": "company-templates",
         "name": "Company Templates",
-        "description": "Review of Company templates that were built \u2014 inspections, action plans, budget views, etc."
+        "description": "Review of Company templates that were built — inspections, action plans, budget views, etc."
       },
       {
         "key": "workflows",
@@ -2816,11 +4379,11 @@
     "points": [
       {
         "name": "Checklist",
-        "description": "Organized as a checklist broken down by specific configuration packages and tools \u2014 e.g. Account Configuration, Project Setup, Project Execution, and Cost Management. For each tool, the client verifies configuration settings against the Configuration Workbook and executes specific tasks."
+        "description": "Organized as a checklist broken down by specific configuration packages and tools — e.g. Account Configuration, Project Setup, Project Execution, and Cost Management. For each tool, the client verifies configuration settings against the Configuration Workbook and executes specific tasks."
       },
       {
         "name": "Testing Instructions",
-        "description": "Clients verify workflow routing or contract commitments \u2014 validating their settings against the Configuration Workbook before going live."
+        "description": "Clients verify workflow routing or contract commitments — validating their settings against the Configuration Workbook before going live."
       },
       {
         "name": "Support References",
@@ -2830,7 +4393,7 @@
   },
   "projectCloseout": {
     "name": "Project Closeout",
-    "subtitle": "Two artifacts close the project \u2014 Slide 64.",
+    "subtitle": "Two artifacts close the project — Slide 64.",
     "buckets": [
       {
         "key": "deliverable",
@@ -2845,8 +4408,8 @@
     ]
   },
   "closeoutPhase": {
-    "name": "Closeout Phase \u2014 System Tasks",
-    "subtitle": "Internal closeout checklist \u2014 Slide 65.",
+    "name": "Closeout Phase — System Tasks",
+    "subtitle": "Internal closeout checklist — Slide 65.",
     "points": [
       {
         "name": "Knowledge Transfer",
@@ -2868,7 +4431,7 @@
   },
   "spcResources": {
     "name": "SPC Resources",
-    "subtitle": "Where the SPC goes for help \u2014 Slide 66.",
+    "subtitle": "Where the SPC goes for help — Slide 66.",
     "items": [
       {
         "name": "Package Delivery Guide",
@@ -2884,13 +4447,13 @@
       },
       {
         "name": "#gps_2026_packages Slack channel",
-        "description": "Post questions, share patterns. Office Hours start week of 04/06 \u2014 twice weekly options."
+        "description": "Post questions, share patterns. Office Hours start week of 04/06 — twice weekly options."
       }
     ]
   },
   "initiationSystems": {
-    "name": "Project Initiation \u2014 Systems Checklist",
-    "subtitle": "Spin up the working surfaces the moment the project is assigned \u2014 Slide 20.",
+    "name": "Project Initiation — Systems Checklist",
+    "subtitle": "Spin up the working surfaces the moment the project is assigned — Slide 20.",
     "points": [
       {
         "name": "Google Drive folder structure",
@@ -2902,7 +4465,7 @@
       },
       {
         "name": "NO Project Notebook required",
-        "description": "Project Notebooks are not used in this motion \u2014 use Slack for all project notes."
+        "description": "Project Notebooks are not used in this motion — use Slack for all project notes."
       },
       {
         "name": "Smartsheet workspace",
@@ -2924,7 +4487,7 @@
   },
   "initiationPitStop": {
     "name": "Internal Pit Stop (Pre-Kickoff)",
-    "subtitle": "Schedule with the AE before meeting with the client to verify information and address gaps before the Kickoff call \u2014 Slide 21.",
+    "subtitle": "Schedule with the AE before meeting with the client to verify information and address gaps before the Kickoff call — Slide 21.",
     "points": [
       {
         "name": "Attendees",
@@ -2932,13 +4495,13 @@
       },
       {
         "name": "Identify",
-        "description": "Goals \u00b7 Milestones & key dates \u00b7 Tools \u00b7 Projects."
+        "description": "Goals · Milestones & key dates · Tools · Projects."
       }
     ]
   },
   "initiationResourcing": {
     "name": "Project Resourcing & Forecasting",
-    "subtitle": "Resource at assignment \u2014 these packages cannot wait for a kickoff to find an SPC \u2014 Slide 22.",
+    "subtitle": "Resource at assignment — these packages cannot wait for a kickoff to find an SPC — Slide 22.",
     "points": [
       {
         "name": "Create Resource Requests immediately",
@@ -2959,12 +4522,12 @@
         "rows": [
           {
             "role": "PC",
-            "weekly": "4 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1.5",
+            "weekly": "4 · 0.5 · 0.5 · 0.5 · 0.5 · 0.5 · 0.5 · 1.5",
             "total": 8.5
           },
           {
             "role": "SPC",
-            "weekly": "\u2014 \u00b7 2.5 \u00b7 \u2014 \u00b7 5 \u00b7 2.5 \u00b7 2 \u00b7 \u2014 \u00b7 3",
+            "weekly": "— · 2.5 · — · 5 · 2.5 · 2 · — · 3",
             "total": 15
           }
         ]
@@ -2974,12 +4537,12 @@
         "rows": [
           {
             "role": "PC",
-            "weekly": "4 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1 \u00b7 1.5",
+            "weekly": "4 · 0.5 · 0.5 · 0.5 · 0.5 · 0.5 · 0.5 · 0.5 · 1 · 1.5",
             "total": 10
           },
           {
             "role": "SPC",
-            "weekly": "\u2014 \u00b7 2.5 \u00b7 \u2014 \u00b7 1.5 \u00b7 3 \u00b7 8 \u00b7 2.5 \u00b7 \u2014 \u00b7 5 \u00b7 1.5 \u00b7 5",
+            "weekly": "— · 2.5 · — · 1.5 · 3 · 8 · 2.5 · — · 5 · 1.5 · 5",
             "total": 29
           }
         ]
@@ -2989,22 +4552,22 @@
         "rows": [
           {
             "role": "PC",
-            "weekly": "4 \u00b7 1 \u00b7 0.5 \u00b7 1 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 0.5 \u00b7 1 \u00b7 0.5 \u00b7 \u2014 \u00b7 1.5",
+            "weekly": "4 · 1 · 0.5 · 1 · 0.5 · 0.5 · 0.5 · 0.5 · 1 · 0.5 · — · 1.5",
             "total": 13
           },
           {
             "role": "SPC",
-            "weekly": "\u2014 \u00b7 3.5 \u00b7 \u2014 \u00b7 2.5 \u00b7 3 \u00b7 8 \u00b7 \u2014 \u00b7 3 \u00b7 3.5 \u00b7 2 \u00b7 \u2014 \u00b7 1.5 \u00b7 5",
+            "weekly": "— · 3.5 · — · 2.5 · 3 · 8 · — · 3 · 3.5 · 2 · — · 1.5 · 5",
             "total": 35
           },
           {
             "role": "SPC BIM/DC",
-            "weekly": "\u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 2 \u00b7 5 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014",
+            "weekly": "— · — · — · — · — · — · 2 · 5 · — · — · — · — · —",
             "total": 7
           },
           {
             "role": "AIS",
-            "weekly": "\u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 \u2014 \u00b7 1 \u00b7 1 \u00b7 1 \u00b7 1 \u00b7 \u2014 \u00b7 \u2014",
+            "weekly": "— · — · — · — · — · — · — · 1 · 1 · 1 · 1 · — · —",
             "total": 5
           }
         ]
@@ -3013,11 +4576,11 @@
   },
   "budgetScheduleManagement": {
     "name": "Budget & Schedule Management",
-    "subtitle": "Internal cadence rules \u2014 Slide 23.",
+    "subtitle": "Internal cadence rules — Slide 23.",
     "points": [
       {
         "name": "Budget is internal",
-        "description": "\u274c No client budget updates  \u00b7  \u2705 Deliver on budget in Certinia."
+        "description": "❌ No client budget updates  ·  ✅ Deliver on budget in Certinia."
       },
       {
         "name": "Timecard Entry",
@@ -3035,7 +4598,7 @@
   },
   "kickoffCallFrame": {
     "name": "Project Kickoff Call",
-    "subtitle": "Align on goals, scope, and the project timeline \u2014 Slide 28.",
+    "subtitle": "Align on goals, scope, and the project timeline — Slide 28.",
     "buckets": [
       {
         "key": "journey",
@@ -3056,19 +4619,19 @@
   },
   "schedulingRules": {
     "name": "Scheduling Rules & Naming Conventions",
-    "subtitle": "Critical because of the accelerated timelines \u2014 Slide 29.",
+    "subtitle": "Critical because of the accelerated timelines — Slide 29.",
     "points": [
       {
         "name": "No more than one 4-hour meeting per SPC calendar per day",
         "description": "Hard rule. A 4-hour block is a full morning or afternoon."
       },
       {
-        "name": "NAMER \u2014 SPCs block billable time",
+        "name": "NAMER — SPCs block billable time",
         "description": "SPCs are responsible for blocking time on their own calendar to complete deliverables for the client. Title the block: BILLABLE | CLIENT NAME | DELIVERABLE NAME"
       },
       {
-        "name": "EUROPE \u2014 PMs book the time",
-        "description": "PMs are responsible for booking deliverable-completion time. Title with the nature of the work + deadline. Example: 'SOP Development for XYZ Co \u2014 deadline Friday 21st March'."
+        "name": "EUROPE — PMs book the time",
+        "description": "PMs are responsible for booking deliverable-completion time. Title with the nature of the work + deadline. Example: 'SOP Development for XYZ Co — deadline Friday 21st March'."
       },
       {
         "name": "Templates / Agenda provided per package",
@@ -3078,7 +4641,7 @@
   },
   "kickoffFollowup": {
     "name": "Kickoff Follow-up",
-    "subtitle": "PM/PC responsibility \u2014 Slide 30. The post-kickoff packet the customer + the GPS team both need.",
+    "subtitle": "PM/PC responsibility — Slide 30. The post-kickoff packet the customer + the GPS team both need.",
     "points": [
       {
         "name": "PM Detailed Call Summary Brief in Gong",
@@ -3112,7 +4675,7 @@
   },
   "productCatalog": {
     "name": "PNPT Product & Services SKU Catalog",
-    "subtitle": "All PS Package SKUs across the four product families \u2014 GPS Slide 6.",
+    "subtitle": "All PS Package SKUs across the four product families — GPS Slide 6.",
     "families": [
       {
         "name": "Project Execution",
@@ -3214,28 +4777,28 @@
     "buckets": [
       {
         "key": "upmarket-am",
-        "name": "Upmarket \u2014 Account Manager",
-        "description": "Primary point contact for the overall partnership. Responsibilities: Commercial questions \u00b7 Business Reviews \u00b7 Support evaluation of additional Procore products."
+        "name": "Upmarket — Account Manager",
+        "description": "Primary point contact for the overall partnership. Responsibilities: Commercial questions · Business Reviews · Support evaluation of additional Procore products."
       },
       {
         "key": "upmarket-cse",
-        "name": "Upmarket \u2014 Customer Success Engineer / Team",
-        "description": "Ensures the customer effectively utilizes the Procore platform to achieve their business goals. Responsibilities: Adoption reviews \u00b7 Primary contact for technical questions post implementation."
+        "name": "Upmarket — Customer Success Engineer / Team",
+        "description": "Ensures the customer effectively utilizes the Procore platform to achieve their business goals. Responsibilities: Adoption reviews · Primary contact for technical questions post implementation."
       },
       {
         "key": "upmarket-pc",
-        "name": "Upmarket \u2014 Project Coordinator (Professional Services)",
-        "description": "Primary contact for PS execution throughout the project lifecycle, from kickoff to closeout. Responsibilities: Leading the execution of professional services \u00b7 Aligning client stakeholders and Procore resources \u00b7 Maintaining project plan and communication \u00b7 Scheduling \u00b7 Managing project scope and risk."
+        "name": "Upmarket — Project Coordinator (Professional Services)",
+        "description": "Primary contact for PS execution throughout the project lifecycle, from kickoff to closeout. Responsibilities: Leading the execution of professional services · Aligning client stakeholders and Procore resources · Maintaining project plan and communication · Scheduling · Managing project scope and risk."
       },
       {
         "key": "smb-pc",
-        "name": "SMB (\u2264 $5M ACV) \u2014 Project Coordinator",
-        "description": "Same PC responsibilities as upmarket \u2014 leading PS execution, aligning stakeholders, plan + communication, scheduling, scope + risk."
+        "name": "SMB (≤ $5M ACV) — Project Coordinator",
+        "description": "Same PC responsibilities as upmarket — leading PS execution, aligning stakeholders, plan + communication, scheduling, scope + risk."
       },
       {
         "key": "smb-renewals",
-        "name": "SMB (\u2264 $5M ACV) \u2014 Renewals Manager",
-        "description": "Primary point contact for the overall partnership (instead of AM + CSE). Responsibilities: Ongoing questions & guidance \u00b7 Support evaluation of additional Procore products. No CSE in this segment."
+        "name": "SMB (≤ $5M ACV) — Renewals Manager",
+        "description": "Primary point contact for the overall partnership (instead of AM + CSE). Responsibilities: Ongoing questions & guidance · Support evaluation of additional Procore products. No CSE in this segment."
       }
     ]
   },
@@ -3260,19 +4823,19 @@
     "subtitle": "The five sections of the kickoff call.",
     "points": [
       {
-        "name": "01 \u2014 Introductions & Project Team"
+        "name": "01 — Introductions & Project Team"
       },
       {
-        "name": "02 \u2014 Professional Service Package Methodology + Resources"
+        "name": "02 — Professional Service Package Methodology + Resources"
       },
       {
-        "name": "03 \u2014 Scope & Deliverables"
+        "name": "03 — Scope & Deliverables"
       },
       {
-        "name": "04 \u2014 Project Plan & Scheduling"
+        "name": "04 — Project Plan & Scheduling"
       },
       {
-        "name": "05 \u2014 Next Steps & Action Items"
+        "name": "05 — Next Steps & Action Items"
       }
     ]
   },
@@ -3282,7 +4845,7 @@
     "points": [
       {
         "name": "Learn.Procore.com",
-        "description": "Multiple ways to gain product knowledge \u2014 central hub for the Procore committee."
+        "description": "Multiple ways to gain product knowledge — central hub for the Procore committee."
       },
       {
         "name": "Procore Tool Training",
@@ -3294,33 +4857,33 @@
       },
       {
         "name": "Total time to complete",
-        "description": "1\u20133 hours per product category."
+        "description": "1–3 hours per product category."
       }
     ],
     "items": [
       {
         "name": "Company Admin",
-        "description": "Now \u2014 foundational. Required for the implementation lead."
+        "description": "Now — foundational. Required for the implementation lead."
       },
       {
         "name": "Core Tools",
-        "description": "Now \u2014 RFIs, Submittals, Drawings, Daily Log, Observations."
+        "description": "Now — RFIs, Submittals, Drawings, Daily Log, Observations."
       },
       {
         "name": "PM Tools",
-        "description": "Next \u2014 Inspections, Punch List, Meetings."
+        "description": "Next — Inspections, Punch List, Meetings."
       },
       {
         "name": "Financial Mgmt",
-        "description": "Next \u2014 Budget, Prime Contracts, Commitments, Invoicing, Change Events."
+        "description": "Next — Budget, Prime Contracts, Commitments, Invoicing, Change Events."
       },
       {
         "name": "Quality + Safety",
-        "description": "Later \u2014 Inspections (deeper), Action Plans, Incidents."
+        "description": "Later — Inspections (deeper), Action Plans, Incidents."
       },
       {
         "name": "Preconstruction",
-        "description": "Later \u2014 Bidding, Estimating, Takeoff."
+        "description": "Later — Bidding, Estimating, Takeoff."
       }
     ]
   },
@@ -3336,12 +4899,12 @@
       {
         "key": "implementation-lead",
         "name": "Implementation Lead",
-        "description": "Manages implementation from the customer's side; coordinates schedule + Procore committee. Time commitment: 4\u20135 hours per week +."
+        "description": "Manages implementation from the customer's side; coordinates schedule + Procore committee. Time commitment: 4–5 hours per week +."
       },
       {
         "key": "key-experts",
         "name": "Key Experts",
-        "description": "Key players such as Project Managers, Project Coordinators, Accounting, etc. \u2014 consult on processes & requirements. Serve as Procore champions. Time commitment: 3\u20134 hours per week."
+        "description": "Key players such as Project Managers, Project Coordinators, Accounting, etc. — consult on processes & requirements. Serve as Procore champions. Time commitment: 3–4 hours per week."
       }
     ],
     "points": [
@@ -3374,7 +4937,7 @@
       },
       {
         "name": "Project Coordinator follow-up email",
-        "description": "Send link to project plan \u00b7 Send calendar invites."
+        "description": "Send link to project plan · Send calendar invites."
       },
       {
         "name": "[Client] Procore committee to complete Certification training"
@@ -3386,7 +4949,7 @@
     ]
   },
   "validationTestCases": {
-    "name": "Validation Script \u2014 Functional Test Cases",
+    "name": "Validation Script — Functional Test Cases",
     "subtitle": "Example test cases the client executes in the Sandbox Test Project to verify the build.",
     "buckets": [
       {
@@ -3407,7 +4970,7 @@
     "points": [
       {
         "name": "Complete prerequisites",
-        "description": "Client completes the required prerequisites \u2014 certifications and completing validation in the Sandbox Test Project."
+        "description": "Client completes the required prerequisites — certifications and completing validation in the Sandbox Test Project."
       },
       {
         "name": "Execute & annotate test cases",
@@ -3415,7 +4978,7 @@
       },
       {
         "name": "SPC reviews & adjusts",
-        "description": "The SPC reviews the feedback and performs one-time technical adjustments for any failed items that fall within the prescriptive MVP scope \u2014 or provides technical justification if a requested change falls outside that scope."
+        "description": "The SPC reviews the feedback and performs one-time technical adjustments for any failed items that fall within the prescriptive MVP scope — or provides technical justification if a requested change falls outside that scope."
       },
       {
         "name": "Configuration approved",
@@ -3424,8 +4987,8 @@
     ]
   },
   "productQA": {
-    "name": "Product Q&A \u2014 Outline & Methodology",
-    "subtitle": "The final technical checkpoint between the validation phase and official project closeout \u2014 tie up loose ends, address final product questions from testing, and secure the client's sign-off on the configuration scope before transition to the CSE.",
+    "name": "Product Q&A — Outline & Methodology",
+    "subtitle": "The final technical checkpoint between the validation phase and official project closeout — tie up loose ends, address final product questions from testing, and secure the client's sign-off on the configuration scope before transition to the CSE.",
     "buckets": [
       {
         "key": "timing",
@@ -3450,7 +5013,7 @@
     ]
   },
   "pmPcResponsibilities": {
-    "name": "PM/PC Responsibilities \u2014 Validation",
+    "name": "PM/PC Responsibilities — Validation",
     "subtitle": "What the PM/PC owns through the validation and Product Q&A window.",
     "points": [
       {
@@ -3472,12 +5035,12 @@
       },
       {
         "name": "Check-in / Progress Calls",
-        "description": "15\u201330 minutes depending on the determined client cadence. If the client doesn't have bandwidth to meet, the PC can join the last 15 minutes of an SPC meeting and send a weekly Implementation Update using the Outreach Template."
+        "description": "15–30 minutes depending on the determined client cadence. If the client doesn't have bandwidth to meet, the PC can join the last 15 minutes of an SPC meeting and send a weekly Implementation Update using the Outreach Template."
       }
     ]
   },
   "validationChecklist": {
-    "name": "Validation Script \u2014 UAT Checklist",
+    "name": "Validation Script — UAT Checklist",
     "subtitle": "The client-facing User Acceptance Testing checklist (NAMER Validation Script). Foundation sections apply to every project; package sections shown match the selected package and tier. Each task links to its Procore support article.",
     "sections": {
       "Account Configuration": [
@@ -5294,6 +6857,24 @@
         ],
         "pe-enterprise": [
           "Project Execution Enterprise"
+        ]
+      },
+      "resource-management": {
+        "rm-tracking": [
+          "Resource Tracking"
+        ],
+        "rm-planning": [
+          "Resource Planning"
+        ],
+        "rm-advanced": [
+          "Resource Tracking",
+          "Resource Planning",
+          "Resource Management"
+        ]
+      },
+      "project-lifecycle-management": {
+        "plm-owners": [
+          "Project Lifecycle Management"
         ]
       }
     }
