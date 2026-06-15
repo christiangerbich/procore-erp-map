@@ -92,8 +92,14 @@
       "tier": "project"
     },
     {
-      "id": "payments",
-      "label": "Payments",
+      "id": "commitment-payments",
+      "label": "Commitment Payments",
+      "type": "module",
+      "tier": "project"
+    },
+    {
+      "id": "prime-contract-payments",
+      "label": "Prime Contract Payments",
       "type": "module",
       "tier": "project"
     },
@@ -2126,10 +2132,6 @@
     },
     {
       "source": "procore",
-      "target": "payments"
-    },
-    {
-      "source": "procore",
       "target": "prime-contracts"
     },
     {
@@ -2295,15 +2297,6 @@
         "Budget Modifications export as Internal JC Change Orders.",
         "Commitment COs export to SL/PO Change Orders.",
         "PCCOs export as External JC Change Orders with item code and revenue amount."
-      ]
-    },
-    {
-      "source": "viewpoint-vista",
-      "target": "payments",
-      "direction": "both",
-      "notes": [
-        "Payment Status, Amount, Date sync bidirectionally (US only with Procore Pay).",
-        "Payment Method, Check Number, Account information included."
       ]
     },
     {
@@ -2595,14 +2588,6 @@
       ]
     },
     {
-      "source": "yardi-voyager",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Paid invoice details (number, amount, check #, payment method, date) import for reconciliation."
-      ]
-    },
-    {
       "source": "netsuite",
       "target": "vendors",
       "direction": "both",
@@ -2655,15 +2640,6 @@
       "notes": [
         "Procore Owner Invoices \u2192 NetSuite Customer Sales Invoices.",
         "Project info \u2192 NetSuite customer; subtotal mapping follows standard pattern."
-      ]
-    },
-    {
-      "source": "netsuite",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Commitment payments import from NetSuite \u2014 applied invoice, date, check #, amount flow in.",
-        "Procore Pay (US only): amount, date paid sync bidirectionally; check # and bank account \u2192 check # / account fields."
       ]
     },
     {
@@ -2757,15 +2733,6 @@
       "notes": [
         "Commitment and budget modifications export with system-generated approval dates.",
         "Line-item details (cost codes, quantities, amounts) transfer."
-      ]
-    },
-    {
-      "source": "acumatica-edge",
-      "target": "payments",
-      "direction": "both",
-      "notes": [
-        "Subcontractor payment records import back when AP Bills are paid.",
-        "Payment references and amounts update invoice status."
       ]
     },
     {
@@ -2881,15 +2848,6 @@
     },
     {
       "source": "acumatica-vision",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Imported from Acumatica when AP bills are paid; date, check/reference number, amount.",
-        "Procore Pay (US only) export/import date funded, payment method, amount."
-      ]
-    },
-    {
-      "source": "acumatica-vision",
       "target": "prime-contracts",
       "direction": "both",
       "notes": [
@@ -2967,14 +2925,6 @@
       "notes": [
         "CCO Number, Description, Contract Code, Cost Code, Cost Type, Date Created, External ID export.",
         "Updates the current contract amount in MRI."
-      ]
-    },
-    {
-      "source": "mri-platform-x",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Contract Invoice Payments import from MRI to Procore (read-only data flow)."
       ]
     },
     {
@@ -3257,15 +3207,6 @@
     },
     {
       "source": "cmic",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Procore Pay \u2192 CMiC export available only to US customers with Procore Pay license.",
-        "Check #, amount, date fields synchronize."
-      ]
-    },
-    {
-      "source": "cmic",
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
@@ -3346,17 +3287,6 @@
         "Procore Owner Invoices \u2192 QBO Customer Invoices.",
         "Project info \u2192 QBO customer; subtotal \u2192 summary line.",
         "Retainage gets its own QBO retainage service item line."
-      ]
-    },
-    {
-      "source": "quickbooks-online",
-      "target": "payments",
-      "direction": "both",
-      "notes": [
-        "QBO bill payments import as Commitment Payments Issued in Procore (date, amount, method, reference number, memo).",
-        "Procore Pay payments export to QBO as bill payments (ACH vs. check method preserved).",
-        "Export from Procore to QBO is only available to companies licensed for Procore Pay.",
-        "Procore Pay \u2192 QBO export is available in United States markets only."
       ]
     },
     {
@@ -3512,15 +3442,6 @@
       ]
     },
     {
-      "source": "xero",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Bill payments from Xero import as commitment payment records with amount, date, reference info.",
-        "Bill Payments do NOT reflect tax when pulled into Procore."
-      ]
-    },
-    {
       "source": "foundation",
       "target": "vendors",
       "direction": "both",
@@ -3645,17 +3566,6 @@
         "Commitment + Prime Contract Change Orders both sync bidirectionally.",
         "Subcontract/PO Change Orders \u2194 Foundation Job Contract Change Orders.",
         "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction."
-      ]
-    },
-    {
-      "source": "foundation",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Foundation AP Payments \u2192 Procore Payments (one-way per Agave's MD).",
-        "Known Limitation: 'Contract Payments syncing from Procore to Foundation is not supported.'",
-        "Each AP Payment Line Item treated as the actual payment record.",
-        "Methods: Credit Card, EFT/ACH (Electronic), Handwritten/Printed Check."
       ]
     },
     {
@@ -3913,16 +3823,6 @@
     },
     {
       "source": "acumatica-agave",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "AP Payments: Acumatica \u2192 Procore (per Agave MD \u2014 synced via Generic Inquiry).",
-        "Known Limitation: Contract Payments Procore \u2192 Acumatica NOT supported.",
-        "Splits payments across multiple projects/commitments as needed."
-      ]
-    },
-    {
-      "source": "acumatica-agave",
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
@@ -4165,17 +4065,6 @@
       "notes": [
         "CCOs + PCCOs both Procore \u2192 Sage 100 (per Agave MD: 'syncs Procore Subcontract Change Orders to Sage 100' AND 'Procore Potential Change Orders (PCOs) to Sage 100').",
         "Subcontractor COs export with offsetting budget lines to prevent duplicate budget mods."
-      ]
-    },
-    {
-      "source": "sage-100-agave",
-      "target": "payments",
-      "direction": "from-erp",
-      "configurable": true,
-      "notes": [
-        "AP Payments: Sage 100 \u2192 Procore (per Agave MD: 'sync Sage 100C Vendor Payments to Procore Payments').",
-        "Each AP Payment Line Item treated as the actual payment record.",
-        "Methods: ACH\u2192Electronic, Check\u2192Check, CC\u2192CC, Voucher\u2192Electronic."
       ]
     },
     {
@@ -4441,16 +4330,6 @@
     },
     {
       "source": "viewpoint-spectrum-agave",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "MD (AP Payments): 'Agave syncs Spectrum AP Payments (Credit Card and Check Payments) to Procore.'",
-        "MD (AR Payments): 'Agave syncs Spectrum AR Payments (Cash Receipts) to Procore as payments on the Prime Contract.'",
-        "Splits payments across multiple invoices/contracts into separate Procore records."
-      ]
-    },
-    {
-      "source": "viewpoint-spectrum-agave",
       "target": "prime-contracts",
       "direction": "both",
       "configurable": true,
@@ -4601,15 +4480,6 @@
     },
     {
       "source": "viewpoint-vista-agave",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Vista AP Payments \u2192 Procore Subcontractor Payments + Vista AR Cash Receipts \u2192 Procore Prime Contract Payments (per Agave MD).",
-        "Methods: Check\u2192Check, Credit Service/EFT/ePayments\u2192Electronic."
-      ]
-    },
-    {
-      "source": "viewpoint-vista-agave",
       "target": "prime-contracts",
       "direction": "both",
       "configurable": true,
@@ -4693,14 +4563,6 @@
       "direction": "to-erp",
       "notes": [
         "Budget Changes export as Acumatica Change Orders."
-      ]
-    },
-    {
-      "source": "smoothx-acumatica",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Head Contract payments and Commitment payments flow Acumatica \u2192 Procore (updates paid date)."
       ]
     },
     {
@@ -4822,16 +4684,6 @@
     },
     {
       "source": "smoothx-qbo",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Prime Contract Invoice Payments Received \u2190 QBO Sales Invoice Payments.",
-        "Commitment Invoice Payments Issued \u2190 QBO Bill Payments (Related to a Purchase Order).",
-        "Taxes are removed from the Procore Payment on sync from QBO (disableable)."
-      ]
-    },
-    {
-      "source": "smoothx-qbo",
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
@@ -4899,15 +4751,6 @@
       "notes": [
         "Procore Direct Cost (Invoice & Expense) \u2194 MYOB Bills (excluding Payment Application).",
         "Live Sync (bottom band) also imports MYOB Spend Money \u2192 Procore Direct Cost, and MYOB Wages \u2192 Procore Direct Cost Payroll."
-      ]
-    },
-    {
-      "source": "smoothx-myob",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Head Contract Payments Received \u2190 MYOB Sales Invoice Payments.",
-        "Commitment Payments Issued \u2190 MYOB Bill Payments."
       ]
     },
     {
@@ -5019,16 +4862,6 @@
     },
     {
       "source": "smoothx-myob-acumatica",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Head Contract Payments Received \u2190 MYOB Acumatica Receivables Invoice Payments.",
-        "Commitment Payments Issued \u2190 MYOB Acumatica Payables Bill Payments (related to a Purchase Order).",
-        "Requires Procore Invoicing module (\u2074)."
-      ]
-    },
-    {
-      "source": "smoothx-myob-acumatica",
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
@@ -5085,15 +4918,6 @@
       "notes": [
         "Procore Direct Cost (Expense) \u2194 Zoho Bills (excluding Payment Application).",
         "Procore Direct Cost Payroll is built from Procore Site Diary or Scheduled (Procore-internal flow)."
-      ]
-    },
-    {
-      "source": "smoothx-zoho",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Prime Contract Payments Received \u2190 Zoho Sales Invoice Payments.",
-        "Commitments Payments Issued \u2190 Zoho Bill Payments."
       ]
     },
     {
@@ -5194,16 +5018,6 @@
     },
     {
       "source": "smoothx-qbd",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Prime Contract Payments Received \u2190 QBD Sales Invoice Payments.",
-        "Commitment Invoice Payments Issued \u2190 QBD Bill Payments (Related to a Purchase Order).",
-        "Requires Procore Invoicing module (\u00b3)."
-      ]
-    },
-    {
-      "source": "smoothx-qbd",
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
@@ -5300,15 +5114,6 @@
         "Procore Direct Costs \u2194 Xero Bills (NOT related to a Purchase Order).",
         "Scheduled Sync (hourly): Xero Spend Money, Receive Money, Credit Note, and Manual Journal \u2192 Procore Direct Cost.",
         "Scheduled Sync (optional): Xero Timesheets \u2192 Procore Direct Cost Payroll."
-      ]
-    },
-    {
-      "source": "smoothx-xero",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Prime/Main/Head Contract Invoice Payments Received \u2190 Xero Sales Invoice Payments.",
-        "Commitment Invoice Payments Issued \u2190 Xero Bill Payments (Related to a Purchase Order)."
       ]
     },
     {
@@ -5417,14 +5222,6 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budgets \u2192 Advanced Payments (context for amortization schedule)."
-      ]
-    },
-    {
-      "source": "smoothx-advanced-payments",
-      "target": "payments",
-      "direction": "from-erp",
-      "notes": [
-        "Advanced Payments monitors Procore Payments to lock claim editing once payment is processed."
       ]
     },
     {
@@ -5600,13 +5397,297 @@
       ]
     },
     {
-      "source": "computerease",
-      "target": "payments",
+      "source": "viewpoint-vista",
+      "target": "commitment-payments",
+      "direction": "both",
+      "notes": [
+        "Trimble Vista Subcontractor Invoice Payments \u2194 Procore Payments Issued (Commitments).",
+        "Check & Credit Card, full & partial payments, and post-sync changes (e.g. voided checks) sync.",
+        "Bidirectional with Procore Pay (US only)."
+      ]
+    },
+    {
+      "source": "yardi-voyager",
+      "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Deltek ComputerEase contract payments \u2192 Procore Payments.",
-        "Direction follows the Agave norm (payments are recorded in the ERP, like Foundation/Vista/Spectrum); confirm in Agave."
+        "Yardi Voyager paid subcontractor invoices \u2192 Procore Commitment Payments Issued.",
+        "Amount paid, payment type, method, and date import for reconciliation (read-only)."
       ]
+    },
+    {
+      "source": "netsuite",
+      "target": "commitment-payments",
+      "direction": "both",
+      "notes": [
+        "NetSuite commitment payments \u2192 Procore (applied invoice, date, check #, amount).",
+        "Procore Pay (US): amount and date paid sync bidirectionally; check # / bank account map to check # / account."
+      ]
+    },
+    {
+      "source": "acumatica-edge",
+      "target": "commitment-payments",
+      "direction": "both",
+      "notes": [
+        "Acumatica subcontractor payment records import when AP Bills are paid.",
+        "Payment references and amounts update the commitment invoice status."
+      ]
+    },
+    {
+      "source": "acumatica-vision",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Imported from Acumatica when AP bills are paid (date, check/reference number, amount).",
+        "Procore Pay (US): date funded, payment method, amount export/import."
+      ]
+    },
+    {
+      "source": "mri-platform-x",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "MRI Platform X paid & posted invoices \u2192 Procore Payments Issued on the relevant subcontract (Commitments).",
+        "Payments run 03:00 EST; read-only import."
+      ]
+    },
+    {
+      "source": "cmic",
+      "target": "commitment-payments",
+      "direction": "both",
+      "notes": [
+        "CMiC AP / Subcontract Invoice Payments \u2192 Procore Payments Issued (Commitments).",
+        "Export Procore \u2192 CMiC only for US customers licensed for Procore Pay (check #, amount, date)."
+      ]
+    },
+    {
+      "source": "quickbooks-online",
+      "target": "commitment-payments",
+      "direction": "both",
+      "notes": [
+        "QBO bill payments import as Commitment Payments Issued (date, amount, method, reference, memo).",
+        "Procore Pay payments export to QBO as bill payments (ACH vs. check preserved); export US-only."
+      ]
+    },
+    {
+      "source": "xero",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Xero bill payments import as Procore commitment payment records (amount, date, reference).",
+        "Bill Payments do NOT reflect tax when pulled into Procore."
+      ]
+    },
+    {
+      "source": "foundation",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Foundation AP Payments \u2192 Procore Commitment Payments (one-way per Agave's MD).",
+        "Known Limitation: Prime/Contract Payments syncing Procore \u2192 Foundation is not supported.",
+        "Methods: Credit Card, EFT/ACH (Electronic), Handwritten/Printed Check."
+      ]
+    },
+    {
+      "source": "acumatica-agave",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "AP Payments: Acumatica \u2192 Procore Commitment Payments (Agave Generic Inquiry).",
+        "Known Limitation: Prime/Contract Payments Procore \u2192 Acumatica NOT supported.",
+        "Splits payments across multiple projects/commitments as needed."
+      ]
+    },
+    {
+      "source": "sage-100-agave",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Sage 100C Vendor Payments \u2192 Procore Commitment Payments (per Agave MD).",
+        "Methods: ACH/Voucher \u2192 Electronic, Check, Credit Card."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum-agave",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Spectrum AP Payments (Credit Card & Check) \u2192 Procore Commitment Payments (per Agave MD)."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum-agave",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Spectrum AR Payments (Cash Receipts) \u2192 Procore Prime Contract Payments (per Agave MD).",
+        "Splits across invoices/contracts into separate Procore records."
+      ]
+    },
+    {
+      "source": "viewpoint-vista-agave",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Vista AP Payments \u2192 Procore Subcontractor / Commitment Payments (per Agave MD).",
+        "Methods: Check, Credit Service/EFT/ePayments \u2192 Electronic."
+      ]
+    },
+    {
+      "source": "viewpoint-vista-agave",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Vista AR Cash Receipts \u2192 Procore Prime Contract Payments (per Agave MD)."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Deltek ComputerEase contract payments \u2192 Procore Commitment Payments.",
+        "Per the Agave catalog (absent from the local MD snapshot); modeled on Foundation/Vista AP behavior \u2014 confirm in Agave."
+      ]
+    },
+    {
+      "source": "smoothx-acumatica",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Acumatica Commitment payments \u2192 Procore (updates paid date)."
+      ]
+    },
+    {
+      "source": "smoothx-acumatica",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Acumatica Head Contract payments \u2192 Procore (updates paid date)."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "QBO Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued.",
+        "Taxes removed from the Procore payment on sync (disableable)."
+      ]
+    },
+    {
+      "source": "smoothx-qbo",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "QBO Sales Invoice Payments \u2192 Procore Prime Contract Invoice Payments Received."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "MYOB Bill Payments \u2192 Procore Commitment Payments Issued."
+      ]
+    },
+    {
+      "source": "smoothx-myob",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "MYOB Sales Invoice Payments \u2192 Procore Head Contract Payments Received."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "MYOB Acumatica Payables Bill Payments (related to a PO) \u2192 Procore Commitment Payments Issued."
+      ]
+    },
+    {
+      "source": "smoothx-myob-acumatica",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "MYOB Acumatica Receivables Invoice Payments \u2192 Procore Head Contract Payments Received.",
+        "Requires the Procore Invoicing module."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Zoho Bill Payments \u2192 Procore Commitment Payments Issued."
+      ]
+    },
+    {
+      "source": "smoothx-zoho",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Zoho Sales Invoice Payments \u2192 Procore Prime Contract Payments Received."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "QBD Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued.",
+        "Requires the Procore Invoicing module."
+      ]
+    },
+    {
+      "source": "smoothx-qbd",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "QBD Sales Invoice Payments \u2192 Procore Prime Contract Payments Received."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Xero Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued."
+      ]
+    },
+    {
+      "source": "smoothx-xero",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Xero Sales Invoice Payments \u2192 Procore Prime/Main/Head Contract Invoice Payments Received."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Advanced Payments monitors Procore Payments to lock claim editing once payment is processed."
+      ]
+    },
+    {
+      "source": "smoothx-advanced-payments",
+      "target": "prime-contract-payments",
+      "direction": "from-erp",
+      "notes": [
+        "Advanced Payments monitors Procore Payments to lock claim editing once payment is processed."
+      ]
+    },
+    {
+      "source": "procore",
+      "target": "commitment-payments"
+    },
+    {
+      "source": "procore",
+      "target": "prime-contract-payments"
     }
   ]
 }
