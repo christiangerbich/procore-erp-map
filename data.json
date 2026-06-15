@@ -120,7 +120,7 @@
       "label": "Viewpoint Spectrum",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/viewpoint-spectrum",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/viewpoint-spectrum",
       "overview": "Integration by Procore that connects Procore project financials with Trimble Viewpoint Spectrum accounting. Targeted at construction firms using Spectrum for AP, job cost, and prime contracts.",
       "resources": [
         {
@@ -178,7 +178,7 @@
       "label": "Viewpoint Vista",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/vista",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/vista",
       "overview": "Integration by Procore that connects Procore with Trimble Viewpoint Vista, an enterprise construction ERP. Supports a wide range of bidirectional flows including budgets, prime contracts, direct costs, and payments.",
       "resources": [
         {
@@ -237,7 +237,7 @@
       "label": "QuickBooks Desktop",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/quickbooks",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/quickbooks-desktop",
       "overview": "Direct connector that links Procore with a QuickBooks Desktop company file via the QuickBooks Web Connector. Targeted at smaller construction firms running QuickBooks Desktop for AP, job costing, and budgets.",
       "resources": [
         {
@@ -295,7 +295,7 @@
       "label": "Sage 300 CRE",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/sage-300-cre",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/sage-300-cre",
       "overview": "Direct connector for Sage 300 CRE (Construction & Real Estate), a long-established construction accounting system. Supports payroll/timesheet export and a deep set of bidirectional financial flows.",
       "resources": [
         {
@@ -355,7 +355,7 @@
       "label": "Yardi Voyager",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/yardi-voyager",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/yardi-voyager",
       "overview": "Direct connector for Yardi Voyager, an ERP common in commercial real estate development. Supports vendor, job, budget, commitment, and payment sync with bidirectional invoices.",
       "resources": [
         {
@@ -414,7 +414,7 @@
       "label": "NetSuite",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/netsuite",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/netsuite",
       "overview": "Direct connector for Oracle NetSuite, a popular cloud ERP. Used by construction firms running NetSuite for financials; the Procore integration focuses on vendors, jobs, cost codes, direct costs, invoices, and payments \u2014 budgets/commitments are not supported.",
       "resources": [
         {
@@ -469,7 +469,7 @@
       "label": "Acumatica (Edge)",
       "type": "erp",
       "connector": "Procore Edge",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/acumatica-construction",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/acumatica-construction",
       "overview": "Procore Edge connector for Acumatica Construction Edition. Provides one of the deepest integration scopes: bidirectional vendors, cost codes, jobs, budgets, direct costs, and payments; plus exported commitments, invoices, change orders, and prime contracts.",
       "resources": [
         {
@@ -530,7 +530,7 @@
       "label": "Acumatica (Vision)",
       "type": "erp",
       "connector": "Procore Vision",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/acumatica-vision",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/acumatica-vision",
       "overview": "Procore Vision connector for Acumatica Cloud ERP. Vision is Procore's newer, deeper Acumatica integration (coming in 2025). Procore-to-Acumatica direction dominates: jobs, invoices, change orders, and prime contracts all export.",
       "resources": [
         {
@@ -590,7 +590,7 @@
       "label": "MRI Platform X",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/mri-project-financials",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/mri-project-financials",
       "overview": "Integration by Procore for MRI Platform X (Project Financials). Used predominantly by real estate developers; bidirectional master data with one-way export for commitments and invoices, plus payment imports.",
       "resources": [
         {
@@ -647,7 +647,7 @@
       "label": "Sage Intacct",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/sage-intacct",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/sage-intacct",
       "overview": "Direct connector for Sage Intacct, a popular cloud-based financial management platform. Deep bidirectional sync of master data and budgets with one-way export of commitments, invoices, and change orders.",
       "resources": [
         {
@@ -706,7 +706,7 @@
       "label": "Sage 100 Contractor",
       "type": "erp",
       "connector": "Direct connector",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/sage-100",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/sage-100",
       "overview": "Direct connector for Sage 100 Contractor (formerly Master Builder), a mid-market construction accounting platform. Bidirectional master data with one-way export for commitments, invoices, and change orders.",
       "resources": [
         {
@@ -764,7 +764,7 @@
       "label": "CMiC",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/cmic",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/cmic",
       "overview": "Integration by Procore for CMiC, a large-enterprise construction ERP. Deep integration covering bidirectional master data plus exported commitments and invoices and imported direct costs, payments, and prime contracts.",
       "resources": [
         {
@@ -824,7 +824,7 @@
       "label": "QuickBooks Online",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/qbo",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/qbo",
       "overview": "Connects Procore with your QBO accounting system, uniting office and field teams with one source of project financial data. Targeted at construction companies that need synchronized financial information across departments.",
       "resources": [
         {
@@ -881,7 +881,7 @@
       "label": "Workday",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/workday",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/workday",
       "overview": "Integration by Procore for Workday, an enterprise HCM and financials platform. Bidirectional master data; commitments and invoices export as Supplier Contracts and Supplier Invoices respectively.",
       "resources": [
         {
@@ -940,7 +940,7 @@
       "label": "Xero",
       "type": "erp",
       "connector": "Integration by Procore",
-      "supportUrl": "https://support.procore.com/products/online/user-guide/company-level/erp-integrations/xero",
+      "supportUrl": "https://v2.support.procore.com/product-manuals/xero",
       "overview": "Integration by Procore for Xero, a cloud accounting platform popular with smaller firms (esp. in AU/NZ/UK). Bidirectional vendors/jobs/cost codes; exported commitments, invoices, change orders; imported direct costs and payments.",
       "resources": [
         {
@@ -998,85 +998,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-foundation",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-foundation",
+      "supportUrl": "https://useagave.com/sync/procore-foundation",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-foundation",
       "overview": "Foundation Software's construction accounting ERP. Available for Procore only via Agave Sync \u2014 Agave provides the entire integration layer: AP/AR Invoices and Payments, Vendors and Customers, Employees and Timecards, Budgets, Commitments, Job Costs, and Prime Contracts.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/employees"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/cost-types"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/sub-jobs"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/budget-line-items"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/change-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/prime-contracts"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ar-invoices"
-        },
-        {
-          "label": "AP Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ap-payments"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/expenses"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/timecard-entries"
-        },
-        {
-          "label": "Known Limitations",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/known-limitations"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-foundation"
         }
       ],
       "thingsToKnow": [
@@ -1088,24 +1016,7 @@
         "Email addresses for Employees only sync on initial creation \u2014 updates are ignored to protect Procore login integrity.",
         "Retention release is NOT yet supported for AR/AP Invoices.",
         "Cost Codes can only originate in Foundation \u2014 they sync ERP \u2192 Procore, not the other way."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/expenses",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/change-orders",
-        "payments": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/ap-payments",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/prime-contracts",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-foundation/timecard-entries"
-      }
+      ]
     },
     {
       "id": "computerease",
@@ -1113,65 +1024,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-computerease",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-computerease",
+      "supportUrl": "https://useagave.com/sync/procore-deltek-computerease",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-deltek-computerease",
       "overview": "Deltek ComputerEase (formerly just ComputerEase) construction accounting ERP. Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, purchase orders, job costs, and timecards \u2014 no AP/AR invoice or payment sync.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/employees"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/sub-jobs"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/cost-types"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/budget-line-items"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/prime-contract-change-orders"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/job-costs"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/timecard-entries"
-        },
-        {
-          "label": "FAQs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/FAQs"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-deltek-computerease"
         }
       ],
       "thingsToKnow": [
@@ -1183,19 +1042,7 @@
         "Payroll Job Cost descriptions are obscured to prevent salary data exposure in Procore.",
         "Budget Line Items (Sub Job + Cost Code + Cost Type) must be unique per project \u2014 duplicates error.",
         "Only POSTED ComputerEase Job Costs sync to Procore \u2014 unposted/draft items are skipped."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/budget-line-items",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/job-costs",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/prime-contract-change-orders",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-computerease/timecard-entries"
-      }
+      ]
     },
     {
       "id": "acumatica-agave",
@@ -1203,81 +1050,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica",
+      "supportUrl": "https://useagave.com/sync/procore-acumatica",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-acumatica",
       "overview": "Acumatica Construction Edition via Agave Sync. Procore-native has two Acumatica integrations (Edge + Vision); Agave provides a third route with the deepest scope of all three \u2014 every major financial object plus Employees and Timecards.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/employees"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/projects"
-        },
-        {
-          "label": "Sub Jobs & Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/sub-jobs"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/budget-line-items"
-        },
-        {
-          "label": "Budget Transfers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/budget-transfers"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/purchase-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/prime-contracts"
-        },
-        {
-          "label": "Prime Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/change-orders"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ar-invoices"
-        },
-        {
-          "label": "AP Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ap-payments"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/job-costs"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/timecard-entries"
-        },
-        {
-          "label": "Known Limitations",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/known-limitations"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-acumatica"
         }
       ],
       "thingsToKnow": [
@@ -1289,24 +1068,7 @@
         "Acumatica AP Invoices and AR Invoices export with default status 'On Hold'.",
         "Default Project-Level Task (e.g. '0000') can be designated to avoid syncing as Sub Job.",
         "Supports up to 3-tier cost code tiering when configured."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/job-costs",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/change-orders",
-        "payments": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/ap-payments",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/prime-contracts",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-acumatica/timecard-entries"
-      }
+      ]
     },
     {
       "id": "quickbooks-desktop-agave",
@@ -1314,69 +1076,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop",
+      "supportUrl": "https://useagave.com/sync/procore-quickbooks-desktop",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-quickbooks-desktop",
       "overview": "QuickBooks Desktop via Agave Sync. Wider scope than Procore-native QBD \u2014 Agave adds Employees, Timecards, AR Invoices, Customers, and bidirectional invoice flows that the Procore-native QBD connector doesn't support.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/employees"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/cost-types"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/projects"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/budget-line-items"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/change-orders"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/ar-invoices"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/job-costs"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/timecard-entries"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-quickbooks-desktop"
         }
       ],
       "thingsToKnow": [
@@ -1388,21 +1094,7 @@
         "Verify QB Desktop version compatibility before implementation.",
         "Customer field must be added as custom field in Procore for Project-to-QBD sync.",
         "QB Desktop Classes map to Procore Cost Types \u2014 required by Procore even if unused in QBD."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/cost-codes",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/job-costs",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/change-orders",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-quickbooks-desktop/timecard-entries"
-      }
+      ]
     },
     {
       "id": "sage-100-agave",
@@ -1410,77 +1102,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor",
+      "supportUrl": "https://useagave.com/sync/procore-sage-100-contractor",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-sage-100-contractor",
       "overview": "Sage 100 Contractor via Agave Sync. Compared to the Procore-native Sage 100 connector, Agave adds Employees, Timecards, Customers, and bidirectional invoice + payment flows.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/employees"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/sub-jobs"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/budget-line-items"
-        },
-        {
-          "label": "Budget Transfers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/budget-transfers"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/change-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/prime-contracts"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ar-invoices"
-        },
-        {
-          "label": "AP Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ap-payments"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/expenses"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/timecard-entries"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-sage-100-contractor"
         }
       ],
       "thingsToKnow": [
@@ -1492,23 +1120,7 @@
         "Budget locking in Procore prevents original amount updates without explicit unlock.",
         "Prime Contracts sync from Sage 100 Proposals (one line per cost code).",
         "Voided costs in Sage 100 change status to Draft in Procore."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/employees",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/expenses",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/change-orders",
-        "payments": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/ap-payments",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/prime-contracts",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-sage-100-contractor/timecard-entries"
-      }
+      ]
     },
     {
       "id": "sage-intacct-agave",
@@ -1516,69 +1128,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct",
+      "supportUrl": "https://useagave.com/sync/procore-sage-intacct",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-sage-intacct",
       "overview": "Sage Intacct via Agave Sync. Requires Sage Intacct Construction Accounting module + Web Services Subscription ($2,500/year). Can integrate at top-level entity or child-entity level \u2014 child-entity recommended for flexibility.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/vendors"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/cost-types"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/sub-jobs"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/budget-line-items"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/change-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/prime-contracts"
-        },
-        {
-          "label": "Prime Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/prime-contract-change-orders"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/ar-invoices"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/job-costs"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-sage-intacct"
         }
       ],
       "thingsToKnow": [
@@ -1590,21 +1146,7 @@
         "Budget view calculations may double-count when AP Invoices sync as Direct Costs \u2014 custom column config needed.",
         "Document number required in Sage Intacct configuration for Subcontracts/POs.",
         "Recommend Contract Date as required field in Procore \u2014 Sage Intacct mandates it."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/vendors",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/job-costs",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/change-orders",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-sage-intacct/prime-contracts"
-      }
+      ]
     },
     {
       "id": "viewpoint-spectrum-agave",
@@ -1612,93 +1154,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum",
+      "supportUrl": "https://useagave.com/sync/procore-viewpoint-spectrum",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-viewpoint-spectrum",
       "overview": "Trimble Viewpoint Spectrum via Agave Sync. Broadest connector scope across all Spectrum integrations \u2014 adds Employees, Timecards, Customers, Equipment, AR Invoices, AR Payments, and AP Payments beyond what Procore-native supports.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/employees"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/sub-jobs"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/cost-types"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/budget-line-items"
-        },
-        {
-          "label": "Budget Changes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/budget-transfers"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/change-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/prime-contracts"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ar-invoices"
-        },
-        {
-          "label": "AP Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ap-payments"
-        },
-        {
-          "label": "AR Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ar-payments"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/expenses"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/timecard-entries"
-        },
-        {
-          "label": "Equipment",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/asset"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-viewpoint-spectrum"
         }
       ],
       "thingsToKnow": [
@@ -1710,24 +1172,7 @@
         "Spectrum must use Master Job setup \u2014 child jobs sync as Sub Jobs in Procore.",
         "Custom fields on Procore Vendors are NOT supported.",
         "Multiple Info-Link tables required in Spectrum (varies by data type)."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/expenses",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/change-orders",
-        "payments": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/ap-payments",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/prime-contracts",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-spectrum/timecard-entries"
-      }
+      ]
     },
     {
       "id": "viewpoint-vista-agave",
@@ -1735,93 +1180,13 @@
       "type": "erp",
       "connector": "Agave Sync",
       "via": "agave",
-      "supportUrl": "https://sync-docs.agaveapi.com/docs/procore-and-vista",
-      "agaveResourceUrl": "https://sync-docs.agaveapi.com/docs/procore-and-vista",
+      "supportUrl": "https://useagave.com/sync/procore-viewpoint-vista",
+      "agaveResourceUrl": "https://useagave.com/sync/procore-viewpoint-vista",
       "overview": "Trimble Vista via Agave Sync. Most comprehensive Vista connector \u2014 adds Employees, Timecards, Customers, AR Payments and bidirectional financial flows that Procore-native handles differently or not at all.",
       "resources": [
         {
-          "label": "Overview",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista"
-        },
-        {
-          "label": "Vendors",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/vendors"
-        },
-        {
-          "label": "Customers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/customers"
-        },
-        {
-          "label": "Employees",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/employees"
-        },
-        {
-          "label": "Projects",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/projects"
-        },
-        {
-          "label": "Sub Jobs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/sub-jobs"
-        },
-        {
-          "label": "Cost Codes",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/cost-codes"
-        },
-        {
-          "label": "Cost Types",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/cost-types"
-        },
-        {
-          "label": "Budgets",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/budget-line-items"
-        },
-        {
-          "label": "Budget Transfers",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/budget-transfers"
-        },
-        {
-          "label": "Subcontracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/subcontracts"
-        },
-        {
-          "label": "Purchase Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/purchase-orders"
-        },
-        {
-          "label": "Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/change-orders"
-        },
-        {
-          "label": "Prime Change Orders",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/prime-contract-change-orders"
-        },
-        {
-          "label": "Prime Contracts",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/prime-contracts"
-        },
-        {
-          "label": "AP Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ap-invoices"
-        },
-        {
-          "label": "AR Invoices",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ar-invoices"
-        },
-        {
-          "label": "AP Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ap-payments"
-        },
-        {
-          "label": "AR Payments",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ar-payments"
-        },
-        {
-          "label": "Job Costs",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/job-costs"
-        },
-        {
-          "label": "Timecards",
-          "url": "https://sync-docs.agaveapi.com/docs/procore-and-vista/timecard-entries"
+          "label": "Agave Sync Catalog",
+          "url": "https://useagave.com/sync/procore-viewpoint-vista"
         }
       ],
       "thingsToKnow": [
@@ -1833,24 +1198,7 @@
         "Departments must be linked between Procore and Vista JC prior to Project export.",
         "Billing periods required in Procore projects for invoice syncing.",
         "Vista job numbering mask must follow predictable format (e.g. XXXXX-XX) for Sub Job parsing."
-      ],
-      "connectionUrls": {
-        "vendors": "https://sync-docs.agaveapi.com/docs/procore-and-vista/vendors",
-        "employees": "https://sync-docs.agaveapi.com/docs/procore-and-vista/employees",
-        "cost-codes": "https://sync-docs.agaveapi.com/docs/procore-and-vista/cost-codes",
-        "project-wbs": "https://sync-docs.agaveapi.com/docs/procore-and-vista/sub-jobs",
-        "jobs": "https://sync-docs.agaveapi.com/docs/procore-and-vista/projects",
-        "budgets": "https://sync-docs.agaveapi.com/docs/procore-and-vista/budget-line-items",
-        "subcontracts": "https://sync-docs.agaveapi.com/docs/procore-and-vista/subcontracts",
-        "purchase-orders": "https://sync-docs.agaveapi.com/docs/procore-and-vista/purchase-orders",
-        "direct-costs": "https://sync-docs.agaveapi.com/docs/procore-and-vista/job-costs",
-        "sub-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ap-invoices",
-        "owner-invoices": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ar-invoices",
-        "change-orders": "https://sync-docs.agaveapi.com/docs/procore-and-vista/change-orders",
-        "payments": "https://sync-docs.agaveapi.com/docs/procore-and-vista/ap-payments",
-        "prime-contracts": "https://sync-docs.agaveapi.com/docs/procore-and-vista/prime-contracts",
-        "timecards": "https://sync-docs.agaveapi.com/docs/procore-and-vista/timecard-entries"
-      }
+      ]
     },
     {
       "id": "smoothx-acumatica",
@@ -5252,8 +4600,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes \u2192 Spectrum Budget Transfers (via Agave).",
-        "See Agave docs: sync-docs.agaveapi.com/docs/procore-and-spectrum/budget-transfers."
+        "Procore Budget Changes \u2192 Spectrum Budget Transfers (via Agave)."
       ]
     },
     {
