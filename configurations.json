@@ -203,7 +203,7 @@
           "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) and send to customer"
         },
         {
-          "text": "Provide pre-consultation homework (WBS / cost code list, forms, distribution lists, decisions)"
+          "text": "Confirm committee Procore Certification is completed before consultations; revisit tool specifics at the configuration calls"
         },
         {
           "text": "Flag any gap risks to the RAID log — anything not covered by MVP scope"
@@ -254,7 +254,7 @@
           "text": "Per-tool consultation: Role-reversal — customer drives, SPC observes"
         },
         {
-          "text": "Per-tool consultation: Workbook gap check before ending the call"
+          "text": "Per-tool consultation: Configure — clarify any remaining gaps before ending the call (capture in the Workbook)"
         },
         {
           "text": "Heads-down: Company Admin (general settings, trades, fieldsets)"
@@ -278,7 +278,7 @@
           "text": "Configuration Workbook: complete EVERY setting change in real time"
         },
         {
-          "text": "Send weekly check-in (template) — track Plan + RAID with customer"
+          "text": "Send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID"
         }
       ],
       "duration": "4 hours per tool-group consultation + ~2 hours heads-down configuration per group",
