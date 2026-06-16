@@ -2200,6 +2200,26 @@ main {
   letter-spacing: 0.02em;
   color: var(--color-text-muted);
 }
+.config-bar-slick,
+.packages-slick {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--color-orange);
+  border-radius: 999px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-orange);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.config-bar-slick:hover,
+.packages-slick:hover {
+  background: var(--color-orange);
+  color: var(--color-black);
+}
 .config-phase-meta-dur {
   margin-top: 2px;
   font-style: italic;

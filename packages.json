@@ -1,5 +1,5 @@
 {
-  "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange \u2014 matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later. Tool display names follow Procore's point-of-view dictionaries where they differ: tools[].names = {owner, sc} overrides (gc = default name). Source: support FAQ 'What tool names and terms are different in Procore for general contractors, owners and specialty contractors?' - only officially documented renames are encoded.",
+  "_comment": "PNPT Procore Professional Services packages. Tools live at the PACKAGE level (with a position and an optional constraint), and each tier references which tools it includes via toolIds. connections describe canonical data flow between tools (direction: 'to' = source -> target dashed orange, 'from' = target -> source dashed black, 'both' = bidirectional solid orange — matching the ERP Connector Map convention). The renderer draws a node-link diagram and highlights the tools belonging to the currently selected tier(s). Verticals (GC/Owner/Specialty) gate which packages are available; per-vertical tool overrides can be added via tier.toolsByVertical or tool.names later. Tool display names follow Procore's point-of-view dictionaries where they differ: tools[].names = {owner, sc} overrides (gc = default name). Source: support FAQ 'What tool names and terms are different in Procore for general contractors, owners and specialty contractors?' - only officially documented renames are encoded.",
   "assistants": {
     "_comment": "NotebookLM notebook used by the 'Ask AI' bar in the PNPT Package Builder side panel.",
     "pnpt": "https://notebooklm.google.com/notebook/d48d9bca-c182-47c7-8a7e-16e53462e040"
@@ -16,7 +16,7 @@
       "key": "ai",
       "name": "AI / Data Grid",
       "color": "#566578",
-      "description": "Procore's native AI features \u2014 AI Takeoff, Drawings/Submittal/RFI AI, Daily Log AI, Inspection & Observation AI, T&M Ticket AI, and Data Grid for AP invoice extraction in Direct Costs.",
+      "description": "Procore's native AI features — AI Takeoff, Drawings/Submittal/RFI AI, Daily Log AI, Inspection & Observation AI, T&M Ticket AI, and Data Grid for AP invoice extraction in Direct Costs.",
       "icon": "sparkles"
     },
     {
@@ -479,7 +479,7 @@
           "permissions": {
             "readOnly": "View the budget, cost tools, and reports. Cannot edit budgets, lock budgets, or approve changes.",
             "standard": "Create and edit cost-tool items where permitted. Cannot lock the budget or change tool settings.",
-            "admin": "Full control \u2014 manage budgets, contracts, commitments, change orders, invoicing, and configure tool settings."
+            "admin": "Full control — manage budgets, contracts, commitments, change orders, invoicing, and configure tool settings."
           },
           "procorePermissionOptions": [
             "Standard",
@@ -543,7 +543,7 @@
           "permissions": {
             "readOnly": "Standard view, plus view of Estimating, Cost Catalog, Bid Board, and Analytics dashboards.",
             "standard": "Standard rights plus create/edit estimates, bids, and takeoffs.",
-            "admin": "Full Enterprise control \u2014 including Analytics, Estimating, Bid Board, Cost Catalog, and Takeoff configuration."
+            "admin": "Full Enterprise control — including Analytics, Estimating, Bid Board, Cost Catalog, and Takeoff configuration."
           },
           "procorePermissionOptions": [
             "Standard",
@@ -555,7 +555,7 @@
           "key": "payments-sow",
           "name": "Payments (SOW only)",
           "shortName": "Payments",
-          "note": "SOW-only engagement \u2014 not a productized PS package, but bundled here for reference.",
+          "note": "SOW-only engagement — not a productized PS package, but bundled here for reference.",
           "toolIds": [
             "lien-waivers",
             "payment-management",
@@ -586,7 +586,7 @@
           "permissions": {
             "readOnly": "View payment status and lien-waiver records.",
             "standard": "Create and edit payments and waivers where permitted; route to approvers.",
-            "admin": "Full Payments control \u2014 including approval routing and compliance configuration."
+            "admin": "Full Payments control — including approval routing and compliance configuration."
           },
           "procorePermissionOptions": [
             "Standard",
@@ -594,7 +594,11 @@
             "None"
           ]
         }
-      ]
+      ],
+      "slick": {
+        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
+        "slide": 11
+      }
     },
     {
       "key": "project-execution",
@@ -725,7 +729,7 @@
             "y": 400
           },
           "supportUrl": "https://v2.support.procore.com/product-manuals/daily-log-project",
-          "description": "Daily site report \u2014 manpower, equipment, weather, deliveries, notes, and observations.",
+          "description": "Daily site report — manpower, equipment, weather, deliveries, notes, and observations.",
           "capabilities": [
             "ai",
             "analytics",
@@ -742,7 +746,7 @@
           },
           "constraint": "Up to 2 templates (1 if workflow)",
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
-          "description": "Configurable correspondence types \u2014 meeting minutes, transmittals, NCRs, and field issues.",
+          "description": "Configurable correspondence types — meeting minutes, transmittals, NCRs, and field issues.",
           "capabilities": [
             "analytics",
             "mobile"
@@ -1386,7 +1390,11 @@
             "None"
           ]
         }
-      ]
+      ],
+      "slick": {
+        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
+        "slide": 10
+      }
     },
     {
       "key": "resource-management",
@@ -1775,7 +1783,11 @@
             "None"
           ]
         }
-      ]
+      ],
+      "slick": {
+        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
+        "slide": 12
+      }
     }
   ]
 }

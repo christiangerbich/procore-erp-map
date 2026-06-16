@@ -1140,7 +1140,24 @@
       packagesTierToggle.innerHTML = "";
       return;
     }
-    document.getElementById("packages-title").textContent = activePackage.name;
+    const ptitle = document.getElementById("packages-title");
+    ptitle.textContent = activePackage.name;
+    // Package Slick link (APRIL 2026 PNPT PS Package Overview deck).
+    let pslick = ptitle.parentNode.querySelector(".packages-slick");
+    if (activePackage.slick && activePackage.slick.url) {
+      if (!pslick) {
+        pslick = document.createElement("a");
+        pslick.className = "packages-slick";
+        pslick.target = "_blank";
+        pslick.rel = "noopener";
+        ptitle.parentNode.appendChild(pslick);
+      }
+      pslick.href = activePackage.slick.url;
+      pslick.textContent = "Package Slick" + (activePackage.slick.slide ? " · slide " + activePackage.slick.slide : "") + " ↗";
+      pslick.hidden = false;
+    } else if (pslick) {
+      pslick.hidden = true;
+    }
     renderPackagesTierToggle();
     renderPackagesGraph();
     renderPackagesDetails();
@@ -2682,6 +2699,23 @@
     if (tier && tier.pricing && tier.pricing.comm != null) parts.push("COMM $" + tier.pricing.comm.toLocaleString());
     if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
     stats.textContent = parts.join("  ·  ");
+
+    // Package Slick link (APRIL 2026 PNPT PS Package Overview deck).
+    let slick = titleEl.parentNode.querySelector(".config-bar-slick");
+    if (pkg && pkg.slick && pkg.slick.url) {
+      if (!slick) {
+        slick = document.createElement("a");
+        slick.className = "config-bar-slick";
+        slick.target = "_blank";
+        slick.rel = "noopener";
+        titleEl.parentNode.appendChild(slick);
+      }
+      slick.href = pkg.slick.url;
+      slick.textContent = "Package Slick" + (pkg.slick.slide ? " · slide " + pkg.slick.slide : "") + " ↗";
+      slick.hidden = false;
+    } else if (slick) {
+      slick.hidden = true;
+    }
 
     // Client picker dropdown
     clientPickEl.innerHTML = "";
