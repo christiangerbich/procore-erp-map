@@ -36,7 +36,7 @@
           "text": "Forecast the project in Certinia using the PNPT forecasting curve"
         },
         {
-          "text": "Send welcome email and attach the package Slick"
+          "text": "Send the kickoff-scheduling email using the GPS-PM Schedule Kickoff Call Outreach Template"
         },
         {
           "text": "Customer self-paced: complete Procore Tool Certifications before discovery (front-loaded to accelerate configuration sessions)"
@@ -76,7 +76,7 @@
       "description": "Rebranded from the Alignment Call. Highly prescriptive — introduce the package journey, set scope and deliverable expectations, and schedule every meeting on the call (discovery, consultations, configuration training, validation Q&A, closeout) before the customer leaves.",
       "tasks": [
         {
-          "text": "Send kickoff invite via Outreach template (attach Slick + agenda)"
+          "text": "Send kickoff invite via Outreach template (with agenda)"
         },
         {
           "text": "Run the kickoff deck: Introductions (PM/PC, AM, CSE)"
@@ -100,7 +100,7 @@
           "text": "Explain Basic Platform → Connected Platform framing (default settings + Procore consulting & configuration overlay)"
         },
         {
-          "text": "Walk the 5-phase flywheel methodology"
+          "text": "Walk the 5-phase methodology (Kickoff, Discovery, Build, Validate, Go-Live)"
         },
         {
           "text": "Deep dive Scope & Deliverables for the package"
@@ -109,7 +109,7 @@
           "text": "Walk timeline slide — call out deliverable touchpoints"
         },
         {
-          "text": "Confirm in-scope vs self-guided tools (1:1 swaps OK, no scope additions)"
+          "text": "Confirm in-scope (Advise & Configure) vs self-guided tools — note strict package guardrails"
         },
         {
           "text": "Call out Definition of Done (scope + configs + validation = complete)"
@@ -121,7 +121,7 @@
           "text": "Schedule ALL meetings: discovery, consultations, configuration training, validation Q&A, closeout"
         },
         {
-          "text": "Confirm pre-discovery action items (WBS, cost code list, forms, distribution)"
+          "text": "Confirm pre-discovery action items (WBS / cost code list)"
         },
         {
           "text": "Send follow-up email (Outreach template) + update RAID with any kickoff risks"
@@ -315,10 +315,10 @@
           "text": "Run Configuration Training: Company Admin tool overview + configured changes"
         },
         {
-          "text": "Configuration Training: Permissions Templates overview + 4 access levels + granular"
+          "text": "Configuration Training: Permissions Templates overview + 4 permission levels (None, Read Only, Standard, Admin) + granular"
         },
         {
-          "text": "Configuration Training: Directory overview (NOT importing — customer or RAS owns this)"
+          "text": "Configuration Training: Directory overview — customer owns the import (SPC does not import the directory; only WBS is in scope)"
         },
         {
           "text": "Configuration Training: Company-level templates review"
@@ -333,7 +333,7 @@
           "text": "Send Outreach validation kickoff email with attached Configuration Workbook + Validation Script"
         },
         {
-          "text": "Set the validation window expectation (short turnaround)"
+          "text": "Set the validation window expectation (1-2 weeks)"
         },
         {
           "text": "Run Product Q&A meeting(s) — address validation findings"
@@ -378,7 +378,7 @@
           "text": "Build the Project Closeout Document — pull Implementation Summary from Gong"
         },
         {
-          "text": "Closeout Document: Key Configuration Achievements + Lessons Learned"
+          "text": "Closeout Document: Key Alignment Results + Lessons Learned"
         },
         {
           "text": "Closeout Document: Definition of Done checklist (all green)"
@@ -390,7 +390,7 @@
           "text": "Closeout Document: Remaining Tasks + Remaining Risks (from Plan + RAID)"
         },
         {
-          "text": "Closeout Document: Consultant Recommendations (betas, future SOW candidates)"
+          "text": "Closeout Document: Consultant Recommendations & Long-Term Success (Smart Practices)"
         },
         {
           "text": "Run knowledge transfer with CSE / AM / Renewals Manager — meeting or Slack summary"
@@ -402,16 +402,16 @@
           "text": "Walk customer through the Closeout Deliverable and confirm Definition of Done"
         },
         {
-          "text": "Value-prop CSAT survey on the call (mention follow-up midpoint + final surveys)"
+          "text": "Value-prop CSAT survey (bonus for following up to complete)"
         },
         {
           "text": "Close project in Certinia (timecards approved, budget reconciled)"
         },
         {
-          "text": "Update Salesforce general notes + archive Smartsheet workspace"
+          "text": "Update Salesforce Implementation Stage (Complete → Closed) + archive Smartsheet workspace"
         },
         {
-          "text": "Remove project users from IPA / shared drive access list"
+          "text": "Inactivate all demo users from the client's account in IPA"
         },
         {
           "text": "Final Slack summary in account channel + share folder link"
