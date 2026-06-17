@@ -105,6 +105,10 @@
         </div>
         <div class="config-bar-controls">
           <label class="config-field">
+            <span class="config-field-label">SPC</span>
+            <select id="config-spc-pick" aria-label="Filter clients by SPC"></select>
+          </label>
+          <label class="config-field">
             <span class="config-field-label">Client</span>
             <div class="config-client-row">
               <select id="config-client-pick" aria-label="Switch client"></select>
@@ -115,6 +119,11 @@
           <label class="config-field">
             <span class="config-field-label">Client name</span>
             <input id="config-client-name" type="text" placeholder="Client name" autocomplete="off" />
+          </label>
+          <label class="config-field">
+            <span class="config-field-label">Owner (SPC)</span>
+            <input id="config-client-spc" type="text" placeholder="Assign SPC" autocomplete="off" list="config-spc-list" />
+            <datalist id="config-spc-list"></datalist>
           </label>
           <label class="config-field">
             <span class="config-field-label">Package</span>

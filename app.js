@@ -2476,6 +2476,7 @@
   const CONFIG_LS_KEY_V2 = "pnpt-config-tracker:v2";
   const CONFIG_LS_KEY_V1 = "pnpt-config-tracker:v1";
   let configMulti = loadMultiState();
+  if (configMulti.activeSpc == null) configMulti.activeSpc = ""; // "" = show all SPCs
   let configState = configMulti.clients[configMulti.activeClientId];
   let configActivePhase = (configData.phases && configData.phases[0] && configData.phases[0].key) || "initiation";
 
@@ -2489,6 +2490,7 @@
       name: name || "",
       packageKey: firstPkg.key || "cost-management",
       tierKey: (firstPkg.tiers && firstPkg.tiers[0] && firstPkg.tiers[0].key) || "standard",
+      spc: "",          // consultant who owns this client (SPC roster filter)
       createdAt: Date.now(),
       tasks: {},        // tasks[phaseKey] = { [taskIdx]: true }
       workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated, changed, notes } }
@@ -2554,6 +2556,20 @@
       .map((id) => configMulti.clients[id])
       .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
   }
+  // Distinct, non-empty SPC names across all clients (for the roster filter).
+  function spcList() {
+    const seen = {};
+    Object.keys(configMulti.clients).forEach((id) => {
+      const s = (configMulti.clients[id].spc || "").trim();
+      if (s) seen[s] = true;
+    });
+    return Object.keys(seen).sort((a, b) => a.localeCompare(b));
+  }
+  // Clients owned by the active SPC ("" activeSpc = show all).
+  function clientsForActiveSpc() {
+    const spc = configMulti.activeSpc || "";
+    return clientList().filter((c) => !spc || (c.spc || "") === spc);
+  }
   function switchClient(id) {
     if (!configMulti.clients[id]) return;
     configMulti.activeClientId = id;
@@ -2566,6 +2582,7 @@
     const raw = prompt("Client name?");
     if (raw === null) return;
     const c = defaultClient((raw || "").trim());
+    if (configMulti.activeSpc) c.spc = configMulti.activeSpc; // inherit the active roster
     configMulti.clients[c.id] = c;
     configMulti.activeClientId = c.id;
     configState = c;
@@ -2657,13 +2674,64 @@
     if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
     stats.textContent = parts.join("  ·  ");
 
-    // Client picker dropdown
+    // SPC roster selector — filter the client list to one consultant.
+    const spcPickEl = document.getElementById("config-spc-pick");
+    if (spcPickEl) {
+      spcPickEl.innerHTML = "";
+      const mkOpt = (val, label, sel) => {
+        const o = document.createElement("option");
+        o.value = val; o.textContent = label; if (sel) o.selected = true;
+        return o;
+      };
+      spcPickEl.appendChild(mkOpt("__all__", "All SPCs", !configMulti.activeSpc));
+      spcList().forEach((name) =>
+        spcPickEl.appendChild(mkOpt(name, name, name === configMulti.activeSpc)));
+      spcPickEl.appendChild(mkOpt("__add__", "＋ Add SPC…", false));
+      spcPickEl.onchange = () => {
+        const v = spcPickEl.value;
+        if (v === "__add__") {
+          const name = (prompt("Your name (SPC)?") || "").trim();
+          if (!name) { renderConfigBar(); return; }
+          configMulti.activeSpc = name;
+        } else {
+          configMulti.activeSpc = v === "__all__" ? "" : v;
+        }
+        const list = clientsForActiveSpc();
+        if (configMulti.activeSpc && !list.length) {
+          // brand-new roster: start this SPC with a blank client
+          const c = defaultClient("");
+          c.spc = configMulti.activeSpc;
+          configMulti.clients[c.id] = c;
+          configMulti.activeClientId = c.id;
+          configState = c;
+          saveConfigState();
+          renderConfigView();
+          return;
+        }
+        if (list.length && !list.some((c) => c.id === configMulti.activeClientId)) {
+          switchClient(list[0].id);
+          return;
+        }
+        saveConfigState();
+        renderConfigView();
+      };
+    }
+
+    // Client picker dropdown (scoped to the active SPC roster)
     clientPickEl.innerHTML = "";
-    const clients = clientList();
+    const clients = clientsForActiveSpc();
+    if (!clients.length) {
+      const opt = document.createElement("option");
+      opt.textContent = "(no clients — click + to add)";
+      opt.disabled = true; opt.selected = true;
+      clientPickEl.appendChild(opt);
+    }
     clients.forEach((c) => {
       const opt = document.createElement("option");
       opt.value = c.id;
-      opt.textContent = (c.name || "(unnamed)") + "  ·  " + (c.packageKey || "");
+      let label = (c.name || "(unnamed)") + "  ·  " + (c.packageKey || "");
+      if (!configMulti.activeSpc) label += "  ·  " + (c.spc || "unassigned");
+      opt.textContent = label;
       if (c.id === configMulti.activeClientId) opt.selected = true;
       clientPickEl.appendChild(opt);
     });
@@ -2680,6 +2748,26 @@
       if (opt) opt.textContent = (configState.name || "(unnamed)") + "  ·  " + (configState.packageKey || "");
       saveConfigState();
     };
+
+    // Owner (SPC) input — tag/claim the active client to a consultant's roster.
+    const clientSpcEl = document.getElementById("config-client-spc");
+    if (clientSpcEl) {
+      const dl = document.getElementById("config-spc-list");
+      if (dl) {
+        dl.innerHTML = "";
+        spcList().forEach((name) => {
+          const o = document.createElement("option");
+          o.value = name; dl.appendChild(o);
+        });
+      }
+      clientSpcEl.value = configState.spc || "";
+      clientSpcEl.oninput = () => {
+        configState.spc = clientSpcEl.value.trim();
+        saveConfigState();
+      };
+      // On commit the name may be new — refresh the roster dropdown + filter.
+      clientSpcEl.onchange = () => renderConfigBar();
+    }
 
     pkgEl.innerHTML = "";
     (configData.packages || []).forEach((p) => {
