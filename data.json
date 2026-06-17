@@ -2855,24 +2855,26 @@
     {
       "source": "foundation",
       "target": "owner-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "Procore Owner Invoices \u2194 Foundation AR Invoices (Unposted status).",
         "Default A/R + Retainage Ledger Accounts must be configured by Agave Account Manager.",
         "Billing Period and Due Date required in Procore for sync.",
-        "Retention release NOT yet supported."
+        "Retention release NOT yet supported.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
       "source": "foundation",
       "target": "change-orders",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "Commitment + Prime Contract Change Orders both sync bidirectionally.",
         "Subcontract/PO Change Orders \u2194 Foundation Job Contract Change Orders.",
-        "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction."
+        "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
@@ -3107,12 +3109,13 @@
     {
       "source": "acumatica-agave",
       "target": "owner-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "AR Invoices bidirectional (per Agave MD: 'Procore \u2192 Acumatica and Acumatica \u2192 Procore').",
         "Supports Materials Stored and Retainage.",
-        "Default revenue GL Account applied (contact Agave rep to configure)."
+        "Default revenue GL Account applied (contact Agave rep to configure).",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
@@ -3364,19 +3367,21 @@
     {
       "source": "sage-100-agave",
       "target": "sub-invoices",
-      "direction": "from-erp",
+      "direction": "to-erp",
       "notes": [
         "AP Invoices: Sage 100 \u2192 Procore (per Agave MD FAQ: 'syncing AP Invoices from Sage 100 Contractor to Procore').",
-        "Subtotal + retention amounts calculated using cumulative work/materials completed."
+        "Subtotal + retention amounts calculated using cumulative work/materials completed.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
       "source": "sage-100-agave",
       "target": "owner-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Owner Invoices \u2192 Sage 3-2 Receivable Invoices; Sage job-cost billing periods \u2192 Procore AR Invoices (bidirectional per Agave MD)."
+        "Procore Owner Invoices \u2192 Sage 3-2 Receivable Invoices; Sage job-cost billing periods \u2192 Procore AR Invoices (bidirectional per Agave MD).",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
@@ -3459,22 +3464,24 @@
     {
       "source": "sage-intacct-agave",
       "target": "subcontracts",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "MD: 'sync Sage Intacct Subcontracts with Procore Subcontracts and vice versa.'",
         "Contract Date required in Procore.",
-        "Document number required in Sage Intacct config \u2014 contact Agave implementation team."
+        "Document number required in Sage Intacct config \u2014 contact Agave implementation team.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
       "source": "sage-intacct-agave",
       "target": "purchase-orders",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "MD: 'sync Sage Intacct Purchase Orders with Procore Purchase Orders and vice versa.'",
-        "Payment Terms field must match valid terms in Sage Intacct."
+        "Payment Terms field must match valid terms in Sage Intacct.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
@@ -3490,20 +3497,33 @@
     {
       "source": "sage-intacct-agave",
       "target": "sub-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "MD: 'import Procore Contract Invoices to Sage Intacct Purchasing Transactions and vice-versa.'",
-        "Requires open billing periods in Procore."
+        "Requires open billing periods in Procore.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
       "source": "sage-intacct-agave",
       "target": "owner-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "MD: 'import Procore Owner Invoices to Sage Intacct AR Invoices and vice-versa.'"
+        "MD: 'import Procore Owner Invoices to Sage Intacct AR Invoices and vice-versa.'",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+      ]
+    },
+    {
+      "source": "sage-intacct-agave",
+      "target": "commitment-payments",
+      "direction": "from-erp",
+      "configurable": true,
+      "notes": [
+        "Live Agave catalog (useagave.com): 'Contract Payments \u2192 Sage Intacct AP Payments.'",
+        "Was missing entirely. Direction set to from-erp to match the commitment-payments convention used by the other Agave ERPs; the catalog renders AP Payments as a Procore\u2192ERP arrow, so flip to to-erp if you prefer catalog-literal.",
+        "NOT in the Agave corpus MD \u2014 sourced from the live useagave.com catalog."
       ]
     },
     {
@@ -3580,24 +3600,26 @@
     {
       "source": "viewpoint-spectrum-agave",
       "target": "subcontracts",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "Procore Subcontracts \u2194 Spectrum Subcontracts.",
         "Spectrum commitment numbers limited to 10 chars \u2014 Agave can auto-truncate longer Procore numbers.",
         "GL Account required (Cost Type, Vendor, or Agave-configured default).",
-        "Special characters in Vendor Codes cause sync failures."
+        "Special characters in Vendor Codes cause sync failures.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
       "source": "viewpoint-spectrum-agave",
       "target": "purchase-orders",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "Procore Purchase Orders \u2194 Spectrum Purchase Orders.",
         "Same 10-character limit as Subcontracts.",
-        "Locked tables error if another Spectrum user has the record open."
+        "Locked tables error if another Spectrum user has the record open.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
@@ -4688,11 +4710,12 @@
     {
       "source": "computerease",
       "target": "owner-invoices",
-      "direction": "both",
+      "direction": "to-erp",
       "configurable": true,
       "notes": [
         "Procore Owner Invoices \u2194 Deltek ComputerEase AR Invoices.",
-        "Per Agave's current Procore\u2194ComputerEase sync catalog."
+        "Per Agave's current Procore\u2194ComputerEase sync catalog.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
     {
