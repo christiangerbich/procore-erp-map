@@ -594,11 +594,7 @@
             "None"
           ]
         }
-      ],
-      "slick": {
-        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
-        "slide": 11
-      }
+      ]
     },
     {
       "key": "project-execution",
@@ -1390,11 +1386,7 @@
             "None"
           ]
         }
-      ],
-      "slick": {
-        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
-        "slide": 10
-      }
+      ]
     },
     {
       "key": "resource-management",
@@ -1783,11 +1775,7 @@
             "None"
           ]
         }
-      ],
-      "slick": {
-        "url": "https://docs.google.com/presentation/d/1taYO4LErngK_tjfnnGozj6fwpNDcVcv_k3pgwKTrrCA/edit",
-        "slide": 12
-      }
+      ]
     }
   ]
 }

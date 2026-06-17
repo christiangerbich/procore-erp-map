@@ -985,8 +985,6 @@ main {
 }
 #assistant-ai-agave:hover   { background: var(--color-metal);  border-color: var(--color-metal);  color: #fff; }
 #assistant-ai-procore:hover { background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black); }
-.assistant-ai-btn-vertex { cursor: pointer; }
-.assistant-ai-btn-vertex:hover { background: var(--color-black); border-color: var(--color-black); color: #fff; }
 
 /* Contextual NotebookLM link inside a selected node's details. */
 .details-ai-link {
@@ -2200,26 +2198,6 @@ main {
   letter-spacing: 0.02em;
   color: var(--color-text-muted);
 }
-.config-bar-slick,
-.packages-slick {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 3px 10px;
-  border: 1px solid var(--color-orange);
-  border-radius: 999px;
-  font-family: "DM Mono", ui-monospace, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-orange);
-  text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.config-bar-slick:hover,
-.packages-slick:hover {
-  background: var(--color-orange);
-  color: var(--color-black);
-}
 .config-phase-meta-dur {
   margin-top: 2px;
   font-style: italic;
@@ -2992,9 +2970,6 @@ body.is-locked { overflow: hidden; }
 @media (max-width: 620px) {
   .app-footer { flex-direction: column; align-items: flex-start; }
 }
-
-/* "Full docs" Vertex search trigger inside the Config Tracker bar. */
-.config-docs-btn { align-self: center; }
 
 /* Validation Script — UAT checklist (Validate phase). */
 .config-validation { margin-top: 26px; max-width: 860px; }

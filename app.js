@@ -1140,24 +1140,7 @@
       packagesTierToggle.innerHTML = "";
       return;
     }
-    const ptitle = document.getElementById("packages-title");
-    ptitle.textContent = activePackage.name;
-    // Package Slick link (APRIL 2026 PNPT PS Package Overview deck).
-    let pslick = ptitle.parentNode.querySelector(".packages-slick");
-    if (activePackage.slick && activePackage.slick.url) {
-      if (!pslick) {
-        pslick = document.createElement("a");
-        pslick.className = "packages-slick";
-        pslick.target = "_blank";
-        pslick.rel = "noopener";
-        ptitle.parentNode.appendChild(pslick);
-      }
-      pslick.href = activePackage.slick.url;
-      pslick.textContent = "Package Slick" + (activePackage.slick.slide ? " · slide " + activePackage.slick.slide : "") + " ↗";
-      pslick.hidden = false;
-    } else if (pslick) {
-      pslick.hidden = true;
-    }
+    document.getElementById("packages-title").textContent = activePackage.name;
     renderPackagesTierToggle();
     renderPackagesGraph();
     renderPackagesDetails();
@@ -1972,32 +1955,6 @@
   if (NOTEBOOKS.agave) aiAgaveEl.href = NOTEBOOKS.agave; else aiAgaveEl.hidden = true;
   if (NOTEBOOKS.procore) aiProcoreEl.href = NOTEBOOKS.procore; else aiProcoreEl.hidden = true;
 
-  // Vertex AI Search widget (Layer 2): conversational search over the FULL
-  // Procore corpus. Activates only when a Config ID is present in
-  // data.assistants.vertexConfigId — otherwise the trigger stays hidden so
-  // the page works with no Google Cloud dependency. The widget binds to the
-  // trigger button via triggerId and opens a modal search overlay.
-  const vertexTriggerEl = document.getElementById("vertex-trigger");
-  if (NOTEBOOKS.vertexConfigId && vertexTriggerEl) {
-    const s = document.createElement("script");
-    s.src = "https://cloud.google.com/ai/gen-app-builder/client?hl=en_US";
-    s.async = true;
-    document.head.appendChild(s);
-    const widget = document.createElement("gen-search-widget");
-    widget.setAttribute("configId", NOTEBOOKS.vertexConfigId);
-    widget.setAttribute("triggerId", "vertex-trigger");
-    document.body.appendChild(widget);
-    vertexTriggerEl.hidden = false;
-    // The widget binds to a single triggerId, so the PNPT modes get proxy
-    // buttons that forward their click to the real trigger.
-    ["vertex-trigger-pkg", "vertex-trigger-config"].forEach((id) => {
-      const b = document.getElementById(id);
-      if (!b) return;
-      b.hidden = false;
-      b.addEventListener("click", () => vertexTriggerEl.click());
-    });
-  }
-
   function describeDirection(dir) {
     if (dir === "both") return "bidirectional two-way sync";
     if (dir === "to-erp") return "Procore to ERP export outbound one-way";
@@ -2699,23 +2656,6 @@
     if (tier && tier.pricing && tier.pricing.comm != null) parts.push("COMM $" + tier.pricing.comm.toLocaleString());
     if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
     stats.textContent = parts.join("  ·  ");
-
-    // Package Slick link (APRIL 2026 PNPT PS Package Overview deck).
-    let slick = titleEl.parentNode.querySelector(".config-bar-slick");
-    if (pkg && pkg.slick && pkg.slick.url) {
-      if (!slick) {
-        slick = document.createElement("a");
-        slick.className = "config-bar-slick";
-        slick.target = "_blank";
-        slick.rel = "noopener";
-        titleEl.parentNode.appendChild(slick);
-      }
-      slick.href = pkg.slick.url;
-      slick.textContent = "Package Slick" + (pkg.slick.slide ? " · slide " + pkg.slick.slide : "") + " ↗";
-      slick.hidden = false;
-    } else if (slick) {
-      slick.hidden = true;
-    }
 
     // Client picker dropdown
     clientPickEl.innerHTML = "";
