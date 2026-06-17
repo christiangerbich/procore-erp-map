@@ -1,10 +1,10 @@
 {
-  "_comment": "Connections, directions, overview text, technical resources, things-to-know, and per-link data-mapping notes for all 15 ERP integrations. Sourced from each ERP's Procore product manual on v2.support.procore.com (overview / tutorials / permissions / diagrams / things-to-know / detailed-data-mapping / faq-or-troubleshooting). direction values: 'both' = bidirectional sync, 'to-erp' = Procore → ERP (export only), 'from-erp' = ERP → Procore (import only). Procore-to-module links are structural and have no direction or notes.",
+  "_comment": "Connections, directions, overview text, technical resources, things-to-know, and per-link data-mapping notes for all 15 ERP integrations. Sourced from each ERP's Procore product manual on v2.support.procore.com (overview / tutorials / permissions / diagrams / things-to-know / detailed-data-mapping / faq-or-troubleshooting). direction values: 'both' = bidirectional sync, 'to-erp' = Procore \u2192 ERP (export only), 'from-erp' = ERP \u2192 Procore (import only). Procore-to-module links are structural and have no direction or notes.",
   "assistants": {
     "_comment": "NotebookLM notebooks used by the in-page AI links. agave = Agave Sync support corpus; procore = Procore-native ERP support corpus. Side panel links are context-aware: Agave nodes link to the Agave notebook, Procore-native nodes to the Procore notebook.",
     "agave": "https://notebooklm.google.com/notebook/9954ce7f-ca15-438f-8524-1da830ac5447",
     "procore": "https://notebooklm.google.com/notebook/8a93a1ce-34d6-4315-b3f5-3d53c18ba78f",
-    "_vertexComment": "Paste the Vertex AI Search widget Config ID here to activate the 'Full docs' conversational search over the entire Procore corpus. Get it from Google Cloud → Agent Builder → your Search app → Integration → Widget. Leave blank to hide the button. Also add your site's domain (e.g. *.github.io) to the widget's allowed domains in the console.",
+    "_vertexComment": "Paste the Vertex AI Search widget Config ID here to activate the 'Full docs' conversational search over the entire Procore corpus. Get it from Google Cloud \u2192 Agent Builder \u2192 your Search app \u2192 Integration \u2192 Widget. Leave blank to hide the button. Also add your site's domain (e.g. *.github.io) to the widget's allowed domains in the console.",
     "vertexConfigId": "aa1690cf-ef0b-4c4a-a4c7-752ccde6823e"
   },
   "nodes": [
@@ -159,7 +159,7 @@
         "Sub-jobs are disabled on Spectrum-connected projects.",
         "Budgets must be locked before export and stay locked during sync.",
         "After commitments sync, you cannot edit contract company, status, or SOV line items.",
-        "Unit of Measure (UOM) and Unit Qty values do NOT sync — must be entered manually in both systems."
+        "Unit of Measure (UOM) and Unit Qty values do NOT sync \u2014 must be entered manually in both systems."
       ],
       "dataMappingSections": {
         "vendors": "Companies/Vendors",
@@ -211,12 +211,12 @@
         }
       ],
       "thingsToKnow": [
-        "Job Names have a 60-character limit — exports fail if exceeded.",
+        "Job Names have a 60-character limit \u2014 exports fail if exceeded.",
         "In-progress projects cannot sync; professional services required to onboard them.",
         "Once a budget is exported to Vista, the import direction for that job is disabled.",
         "Unit of Measure (UOM) and Unit Qty values do NOT sync.",
-        "Commitment identifiers must be ≤30 characters and cannot include slashes.",
-        "Vista only allows modifying the same contract line item once per change order — Procore aggregates multiple changes into one.",
+        "Commitment identifiers must be \u226430 characters and cannot include slashes.",
+        "Vista only allows modifying the same contract line item once per change order \u2014 Procore aggregates multiple changes into one.",
         "Vendor address changes only sync if the 'Vendors will be automatically updated' setting is enabled."
       ],
       "dataMappingSections": {
@@ -274,9 +274,9 @@
         "Cannot sync data on projects created before ERP implementation went live.",
         "Sync requires the QuickBooks Web Connector to be running on a logged-in Windows machine.",
         "Prime contracts, timesheets, timecards, owner invoices, and payments do NOT sync.",
-        "Cost transactions must be coded to synced Service Items — items coded to unsynced accounts won't transfer.",
+        "Cost transactions must be coded to synced Service Items \u2014 items coded to unsynced accounts won't transfer.",
         "Cost codes cannot exceed 96 characters.",
-        "Existing Procore projects cannot be linked to existing QBD jobs — records must originate in one system."
+        "Existing Procore projects cannot be linked to existing QBD jobs \u2014 records must originate in one system."
       ],
       "dataMappingSections": {
         "vendors": "Vendors",
@@ -330,10 +330,10 @@
       "thingsToKnow": [
         "New cost codes must be created in Sage 300 CRE, not in Procore.",
         "Projects exported to Sage 300 CRE cannot be re-imported into Procore.",
-        "Tax information is not exported from Procore invoices — must be added manually in Sage.",
+        "Tax information is not exported from Procore invoices \u2014 must be added manually in Sage.",
         "Budget unlocking is restricted after export; requires manual posting and sync via the hh2 client.",
         "Address changes only sync if the auto-update setting is enabled.",
-        "Sage 300 CRE limits modifying the same commitment line item once per CCO — Procore aggregates multiple changes."
+        "Sage 300 CRE limits modifying the same commitment line item once per CCO \u2014 Procore aggregates multiple changes."
       ],
       "dataMappingSections": {
         "vendors": "Companies",
@@ -389,7 +389,7 @@
       ],
       "thingsToKnow": [
         "In-progress projects cannot sync; professional services required.",
-        "Yardi job IDs limited to 16 characters — caps Procore project naming.",
+        "Yardi job IDs limited to 16 characters \u2014 caps Procore project naming.",
         "All Yardi jobs must be under the same entity.",
         "Commitment titles capped at 30 characters in Yardi (longer titles truncate).",
         "Cost codes in a project template must already exist in the Yardi project before applying.",
@@ -415,7 +415,7 @@
       "type": "erp",
       "connector": "Direct connector",
       "supportUrl": "https://v2.support.procore.com/product-manuals/netsuite",
-      "overview": "Direct connector for Oracle NetSuite, a popular cloud ERP. Used by construction firms running NetSuite for financials; the Procore integration focuses on vendors, jobs, cost codes, direct costs, invoices, and payments — budgets/commitments are not supported.",
+      "overview": "Direct connector for Oracle NetSuite, a popular cloud ERP. Used by construction firms running NetSuite for financials; the Procore integration focuses on vendors, jobs, cost codes, direct costs, invoices, and payments \u2014 budgets/commitments are not supported.",
       "resources": [
         {
           "label": "Overview",
@@ -447,12 +447,12 @@
         }
       ],
       "thingsToKnow": [
-        "Single-tier cost codes are NOT supported — minimum 2-tier WBS required.",
+        "Single-tier cost codes are NOT supported \u2014 minimum 2-tier WBS required.",
         "Limited to 1 NetSuite subsidiary per Procore site.",
         "Prime contracts, budgets, commitments, change orders, and timecards do NOT sync.",
         "Only accounting approvers can export cost codes, jobs, vendors, and sub invoices.",
         "In-progress projects can't be onboarded without professional services.",
-        "Vendor edits flow NetSuite → Procore only — Procore changes don't update synced NetSuite vendors.",
+        "Vendor edits flow NetSuite \u2192 Procore only \u2014 Procore changes don't update synced NetSuite vendors.",
         "Job costs entered in NetSuite must use the integration-created project-specific items to come back to Procore."
       ],
       "dataMappingSections": {
@@ -502,13 +502,13 @@
         }
       ],
       "thingsToKnow": [
-        "Commitments must originate in Procore — Acumatica-created commitments don't sync.",
+        "Commitments must originate in Procore \u2014 Acumatica-created commitments don't sync.",
         "After exporting a budget, the import direction for that job becomes unavailable.",
         "In-progress projects cannot sync without professional services.",
         "Acumatica enforces a 30-character maximum on project names.",
         "Sub Jobs require a default 'Empty Sub Job' task that cannot be deleted or edited.",
         "All cost codes need at least one cost type assignment before exporting a project.",
-        "Budget sync is amount-based only — UOM and quantities do not transfer."
+        "Budget sync is amount-based only \u2014 UOM and quantities do not transfer."
       ],
       "dataMappingSections": {
         "vendors": "Companies/Vendors",
@@ -563,10 +563,10 @@
         }
       ],
       "thingsToKnow": [
-        "Procore Vision for Acumatica is rolling out — coming in 2025.",
-        "Project sync is export-only — projects must originate in Procore.",
-        "UOM and Unit Qty values do NOT sync — amount-based budgets only.",
-        "Commitments must originate in Procore — Acumatica-created commitments don't import.",
+        "Procore Vision for Acumatica is rolling out \u2014 coming in 2025.",
+        "Project sync is export-only \u2014 projects must originate in Procore.",
+        "UOM and Unit Qty values do NOT sync \u2014 amount-based budgets only.",
+        "Commitments must originate in Procore \u2014 Acumatica-created commitments don't import.",
         "Acumatica enforces a 30-character maximum on project names.",
         "All project-level cost codes must come from the ERP-synced standard list.",
         "Manual ERP Vendor ID entry required by an accounting approver when exporting companies."
@@ -624,10 +624,10 @@
       ],
       "thingsToKnow": [
         "In-progress projects cannot sync.",
-        "Sub-jobs are NOT supported — each MRI job equals exactly one Procore project.",
+        "Sub-jobs are NOT supported \u2014 each MRI job equals exactly one Procore project.",
         "All integrated projects must share one unified cost code list originating from MRI.",
         "All commitment SOV line items must tie to ERP-synced cost codes/categories.",
-        "Retainage release will NOT occur automatically — must be processed manually in MRI.",
+        "Retainage release will NOT occur automatically \u2014 must be processed manually in MRI.",
         "Verify duplicate company records don't exist before adding MRI vendors.",
         "Tax codes do NOT export with commitments."
       ],
@@ -681,9 +681,9 @@
       ],
       "thingsToKnow": [
         "In-progress projects cannot sync without professional services.",
-        "UOM and Unit Qty values do NOT sync — amount-based budgets only.",
+        "UOM and Unit Qty values do NOT sync \u2014 amount-based budgets only.",
         "Address changes in Sage Intacct don't auto-sync back to Procore after initial linking.",
-        "Companies must be created at top level in Sage Intacct — entity-level companies aren't detected.",
+        "Companies must be created at top level in Sage Intacct \u2014 entity-level companies aren't detected.",
         "After commitments sync, Procore restricts editing synced fields.",
         "Prime Contract Change Orders won't create corresponding line items in Sage Intacct even when created in Procore."
       ],
@@ -739,11 +739,11 @@
         }
       ],
       "thingsToKnow": [
-        "Commitments must originate in Procore — never create them directly in Sage 100 Contractor.",
-        "Purchase Orders must be quantity-based — Sage 100 doesn't support amount-based POs.",
+        "Commitments must originate in Procore \u2014 never create them directly in Sage 100 Contractor.",
+        "Purchase Orders must be quantity-based \u2014 Sage 100 doesn't support amount-based POs.",
         "Once a budget is exported, you can no longer import budget/job data back from Sage 100 for that project.",
-        "Project-level cost codes must originate from the ERP-synced standard list — custom WBS unsupported.",
-        "Retainage handling differs between systems — released retainage cannot sync.",
+        "Project-level cost codes must originate from the ERP-synced standard list \u2014 custom WBS unsupported.",
+        "Retainage handling differs between systems \u2014 released retainage cannot sync.",
         "In-progress projects cannot sync without professional services.",
         "Vendors need invoice defaults / ledger accounts configured in Sage 100 before subcontractor invoice export."
       ],
@@ -797,11 +797,11 @@
         }
       ],
       "thingsToKnow": [
-        "Most syncing is MANUAL — only Job Costs sync automatically.",
+        "Most syncing is MANUAL \u2014 only Job Costs sync automatically.",
         "After exporting a budget to CMiC, you cannot unlock, resend, add line items, or create modifications until posted in CMiC.",
         "In-progress projects cannot sync without professional services.",
         "Each CMiC company has its own cost code list, but Procore uses one shared list across all companies.",
-        "Vendor address changes don't sync — CMiC addresses are billing, Procore addresses are project mailing.",
+        "Vendor address changes don't sync \u2014 CMiC addresses are billing, Procore addresses are project mailing.",
         "Multi-company setups require matching division/tier counts across cost code lists.",
         "Every project cost code must have a cost type assignment before budget export."
       ],
@@ -858,11 +858,11 @@
       ],
       "thingsToKnow": [
         "Only QBO Plus or Advanced subscriptions are supported (Simple Start and Essentials are NOT supported).",
-        "Single-tier cost codes aren't supported — minimum 2-tier WBS required.",
+        "Single-tier cost codes aren't supported \u2014 minimum 2-tier WBS required.",
         "Projects must be created in QBO first; Procore-created projects cannot be exported.",
-        "Invoice numbers have a 21-character limit in QBO — Procore numbers must not exceed this.",
+        "Invoice numbers have a 21-character limit in QBO \u2014 Procore numbers must not exceed this.",
         "Direct Costs synced from QBO are read-only in Procore; edit in QBO to update.",
-        "Vendor/Company edits don't sync after initial creation — changes in one system don't propagate to the other.",
+        "Vendor/Company edits don't sync after initial creation \u2014 changes in one system don't propagate to the other.",
         "Multi-currency invoices only export if vendor/customer uses the QBO home currency.",
         "Budgets, Commitments, Timesheets, Prime Contracts, and PCCOs do NOT sync."
       ],
@@ -975,11 +975,11 @@
       "thingsToKnow": [
         "Limited to 1 Xero Organization per Procore site.",
         "Maximum 4,000 cost codes (Xero's product/service limit); codes capped at 30 characters.",
-        "Only new projects using the Xero Standard Cost Code list are eligible — in-progress projects can't transfer.",
+        "Only new projects using the Xero Standard Cost Code list are eligible \u2014 in-progress projects can't transfer.",
         "Sub-jobs are NOT supported for Xero-integrated projects.",
         "Purchase and sales accounts must be assigned manually in Xero after cost codes are created.",
         "Prime contracts, budgets, and timecards do NOT sync.",
-        "Xero blocks multiple modifications to the same contract line item — Procore aggregates them."
+        "Xero blocks multiple modifications to the same contract line item \u2014 Procore aggregates them."
       ],
       "dataMappingSections": {
         "vendors": "Vendors",
@@ -1000,7 +1000,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-foundation",
       "agaveResourceUrl": "https://useagave.com/sync/procore-foundation",
-      "overview": "Foundation Software's construction accounting ERP. Available for Procore only via Agave Sync — Agave provides the entire integration layer: AP/AR Invoices and Payments, Vendors and Customers, Employees and Timecards, Budgets, Commitments, Job Costs, and Prime Contracts.",
+      "overview": "Foundation Software's construction accounting ERP. Available for Procore only via Agave Sync \u2014 Agave provides the entire integration layer: AP/AR Invoices and Payments, Vendors and Customers, Employees and Timecards, Budgets, Commitments, Job Costs, and Prime Contracts.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1008,14 +1008,14 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → Foundation NOT supported for: Contract Payments, Direct Costs, Prime Contracts.",
+        "Procore \u2192 Foundation NOT supported for: Contract Payments, Direct Costs, Prime Contracts.",
         "Budget Line Items, Prime Contract Change Orders, and Budget Modifications sync to Foundation only via Foundation's DataGenie workflow.",
-        "Attachments/file PDFs cannot sync — only URLs to files are supported.",
-        "Foundation enforces a 10-character ID limit on Purchase Orders and Subcontracts (shared table) — recommend custom ID format.",
+        "Attachments/file PDFs cannot sync \u2014 only URLs to files are supported.",
+        "Foundation enforces a 10-character ID limit on Purchase Orders and Subcontracts (shared table) \u2014 recommend custom ID format.",
         "FSI Importer + Microsoft ODBC + Agave Connector must be installed and the Connector kept open/minimized.",
-        "Email addresses for Employees only sync on initial creation — updates are ignored to protect Procore login integrity.",
+        "Email addresses for Employees only sync on initial creation \u2014 updates are ignored to protect Procore login integrity.",
         "Retention release is NOT yet supported for AR/AP Invoices.",
-        "Cost Codes can only originate in Foundation — they sync ERP → Procore, not the other way."
+        "Cost Codes can only originate in Foundation \u2014 they sync ERP \u2192 Procore, not the other way."
       ]
     },
     {
@@ -1026,7 +1026,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-deltek-computerease",
       "agaveResourceUrl": "https://useagave.com/sync/procore-deltek-computerease",
-      "overview": "Deltek ComputerEase (formerly just ComputerEase) construction accounting ERP. Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, purchase orders, job costs, and timecards — no AP/AR invoice or payment sync.",
+      "overview": "Deltek ComputerEase (formerly just ComputerEase) construction accounting ERP. Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, purchase orders, job costs, and timecards \u2014 no AP/AR invoice or payment sync.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1034,14 +1034,14 @@
         }
       ],
       "thingsToKnow": [
-        "No AP Invoice (Subcontractor Invoice) sync — invoices stay in Procore only.",
+        "No AP Invoice (Subcontractor Invoice) sync \u2014 invoices stay in Procore only.",
         "No AR Invoice (Owner Invoice) or AP Payment sync.",
-        "No Prime Contract sync — only Prime Contract Change Orders (mapped to Job RFCs).",
+        "No Prime Contract sync \u2014 only Prime Contract Change Orders (mapped to Job RFCs).",
         "Cost Codes in ComputerEase are called 'Category Codes'; Sub Jobs are called 'Phases'.",
-        "Cost Types are link-only at company level — must be created in both systems manually before linking.",
+        "Cost Types are link-only at company level \u2014 must be created in both systems manually before linking.",
         "Payroll Job Cost descriptions are obscured to prevent salary data exposure in Procore.",
-        "Budget Line Items (Sub Job + Cost Code + Cost Type) must be unique per project — duplicates error.",
-        "Only POSTED ComputerEase Job Costs sync to Procore — unposted/draft items are skipped."
+        "Budget Line Items (Sub Job + Cost Code + Cost Type) must be unique per project \u2014 duplicates error.",
+        "Only POSTED ComputerEase Job Costs sync to Procore \u2014 unposted/draft items are skipped."
       ]
     },
     {
@@ -1052,7 +1052,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-acumatica",
       "agaveResourceUrl": "https://useagave.com/sync/procore-acumatica",
-      "overview": "Acumatica Construction Edition via Agave Sync. Procore-native has two Acumatica integrations (Edge + Vision); Agave provides a third route with the deepest scope of all three — every major financial object plus Employees and Timecards.",
+      "overview": "Acumatica Construction Edition via Agave Sync. Procore-native has two Acumatica integrations (Edge + Vision); Agave provides a third route with the deepest scope of all three \u2014 every major financial object plus Employees and Timecards.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1060,11 +1060,11 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → Acumatica NOT supported for: Departments, Contract Payments, Direct Costs, Equipment.",
-        "Attachments/file PDFs cannot sync — only URLs to files are supported.",
+        "Procore \u2192 Acumatica NOT supported for: Departments, Contract Payments, Direct Costs, Equipment.",
+        "Attachments/file PDFs cannot sync \u2014 only URLs to files are supported.",
         "Retainage release not supported for AR or AP Invoices (coming soon for AP with restrictions).",
         "Custom fields on Procore Company records are NOT supported.",
-        "GL Accounts must be explicitly configured — required for all commitment and invoice line items.",
+        "GL Accounts must be explicitly configured \u2014 required for all commitment and invoice line items.",
         "Acumatica AP Invoices and AR Invoices export with default status 'On Hold'.",
         "Default Project-Level Task (e.g. '0000') can be designated to avoid syncing as Sub Job.",
         "Supports up to 3-tier cost code tiering when configured."
@@ -1078,7 +1078,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-quickbooks-desktop",
       "agaveResourceUrl": "https://useagave.com/sync/procore-quickbooks-desktop",
-      "overview": "QuickBooks Desktop via Agave Sync. Wider scope than Procore-native QBD — Agave adds Employees, Timecards, AR Invoices, Customers, and bidirectional invoice flows that the Procore-native QBD connector doesn't support.",
+      "overview": "QuickBooks Desktop via Agave Sync. Wider scope than Procore-native QBD \u2014 Agave adds Employees, Timecards, AR Invoices, Customers, and bidirectional invoice flows that the Procore-native QBD connector doesn't support.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1086,14 +1086,14 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → QB Desktop NOT supported for: Direct Costs, Sub Jobs.",
-        "Attachments/file PDFs cannot sync — only URLs to files are supported.",
+        "Procore \u2192 QB Desktop NOT supported for: Direct Costs, Sub Jobs.",
+        "Attachments/file PDFs cannot sync \u2014 only URLs to files are supported.",
         "QB Desktop Chart of Accounts / G/L tracking must use Item-based tracking to work with Procore.",
         "Billing Periods must be configured in Procore Projects before syncing AP/AR Invoices.",
         "Custom fields on Procore Company records are NOT supported.",
         "Verify QB Desktop version compatibility before implementation.",
         "Customer field must be added as custom field in Procore for Project-to-QBD sync.",
-        "QB Desktop Classes map to Procore Cost Types — required by Procore even if unused in QBD."
+        "QB Desktop Classes map to Procore Cost Types \u2014 required by Procore even if unused in QBD."
       ]
     },
     {
@@ -1112,8 +1112,8 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → Sage 100 NOT supported for: Departments, WBS Segments, Sub Jobs, Direct Costs.",
-        "Attachments/file PDFs cannot sync — only URLs to files are supported.",
+        "Procore \u2192 Sage 100 NOT supported for: Departments, WBS Segments, Sub Jobs, Direct Costs.",
+        "Attachments/file PDFs cannot sync \u2014 only URLs to files are supported.",
         "Custom fields on Procore Company records are NOT supported.",
         "Sub Jobs (Phases) is an optional feature requiring enablement by Account Manager.",
         "One-to-one cost code line item mapping required in Sage 100 budgets and proposals.",
@@ -1130,7 +1130,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-sage-intacct",
       "agaveResourceUrl": "https://useagave.com/sync/procore-sage-intacct",
-      "overview": "Sage Intacct via Agave Sync. Requires Sage Intacct Construction Accounting module + Web Services Subscription ($2,500/year). Can integrate at top-level entity or child-entity level — child-entity recommended for flexibility.",
+      "overview": "Sage Intacct via Agave Sync. Requires Sage Intacct Construction Accounting module + Web Services Subscription ($2,500/year). Can integrate at top-level entity or child-entity level \u2014 child-entity recommended for flexibility.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1139,13 +1139,13 @@
       ],
       "thingsToKnow": [
         "Sage Intacct Construction Accounting module + Web Services Subscription required ($2,500/year for 100k requests).",
-        "Top-level entity integration may process significantly more data — child-entity recommended.",
+        "Top-level entity integration may process significantly more data \u2014 child-entity recommended.",
         "Custom fields on Procore Company records are NOT supported.",
-        "Vendors sync ERP → Procore only (not bidirectional).",
-        "Budget Line Items only sync Sage Intacct → Procore for 'Original' workflow type.",
-        "Budget view calculations may double-count when AP Invoices sync as Direct Costs — custom column config needed.",
+        "Vendors sync ERP \u2192 Procore only (not bidirectional).",
+        "Budget Line Items only sync Sage Intacct \u2192 Procore for 'Original' workflow type.",
+        "Budget view calculations may double-count when AP Invoices sync as Direct Costs \u2014 custom column config needed.",
         "Document number required in Sage Intacct configuration for Subcontracts/POs.",
-        "Recommend Contract Date as required field in Procore — Sage Intacct mandates it."
+        "Recommend Contract Date as required field in Procore \u2014 Sage Intacct mandates it."
       ]
     },
     {
@@ -1156,7 +1156,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-viewpoint-spectrum",
       "agaveResourceUrl": "https://useagave.com/sync/procore-viewpoint-spectrum",
-      "overview": "Trimble Viewpoint Spectrum via Agave Sync. Broadest connector scope across all Spectrum integrations — adds Employees, Timecards, Customers, Equipment, AR Invoices, AR Payments, and AP Payments beyond what Procore-native supports.",
+      "overview": "Trimble Viewpoint Spectrum via Agave Sync. Broadest connector scope across all Spectrum integrations \u2014 adds Employees, Timecards, Customers, Equipment, AR Invoices, AR Payments, and AP Payments beyond what Procore-native supports.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1164,12 +1164,12 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → Spectrum NOT supported for: Departments, Contract Payments, Direct Costs, Employees.",
-        "Spectrum commitment numbers limited to 10 characters — Agave can auto-truncate longer Procore numbers.",
-        "Retainage release not supported for AR or AP Invoices — must release manually in Spectrum.",
-        "GL Accounts required in Spectrum — derived from Cost Type, Vendor default, or Agave-configured default.",
+        "Procore \u2192 Spectrum NOT supported for: Departments, Contract Payments, Direct Costs, Employees.",
+        "Spectrum commitment numbers limited to 10 characters \u2014 Agave can auto-truncate longer Procore numbers.",
+        "Retainage release not supported for AR or AP Invoices \u2014 must release manually in Spectrum.",
+        "GL Accounts required in Spectrum \u2014 derived from Cost Type, Vendor default, or Agave-configured default.",
         "Special characters in Vendor Codes cause sync failures.",
-        "Spectrum must use Master Job setup — child jobs sync as Sub Jobs in Procore.",
+        "Spectrum must use Master Job setup \u2014 child jobs sync as Sub Jobs in Procore.",
         "Custom fields on Procore Vendors are NOT supported.",
         "Multiple Info-Link tables required in Spectrum (varies by data type)."
       ]
@@ -1182,7 +1182,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-viewpoint-vista",
       "agaveResourceUrl": "https://useagave.com/sync/procore-viewpoint-vista",
-      "overview": "Trimble Vista via Agave Sync. Most comprehensive Vista connector — adds Employees, Timecards, Customers, AR Payments and bidirectional financial flows that Procore-native handles differently or not at all.",
+      "overview": "Trimble Vista via Agave Sync. Most comprehensive Vista connector \u2014 adds Employees, Timecards, Customers, AR Payments and bidirectional financial flows that Procore-native handles differently or not at all.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1190,10 +1190,10 @@
         }
       ],
       "thingsToKnow": [
-        "Procore → Vista NOT supported for: Departments, Direct Costs.",
+        "Procore \u2192 Vista NOT supported for: Departments, Direct Costs.",
         "Custom fields on Procore Companies are NOT supported.",
         "Sub Jobs cannot reference multiple Sub Jobs within a single AP/AR transaction.",
-        "Budget Phase Locking in Vista may prevent cost posting — must unlock on Job record.",
+        "Budget Phase Locking in Vista may prevent cost posting \u2014 must unlock on Job record.",
         "Only one Prime Contract per project allowed in Vista (Procore allows multiples).",
         "Departments must be linked between Procore and Vista JC prior to Project export.",
         "Billing periods required in Procore projects for invoice syncing.",
@@ -1299,7 +1299,7 @@
       "via": "smoothx",
       "connector": "SmoothX",
       "supportUrl": "https://www.smoothx.com/procore-quickbooks-online-integration/",
-      "overview": "SmoothX real-time integration between Procore and QuickBooks Online. Claims 99.99% uptime with sub-6-second sync — used by 700+ Procore clients across 2,000+ installations.",
+      "overview": "SmoothX real-time integration between Procore and QuickBooks Online. Claims 99.99% uptime with sub-6-second sync \u2014 used by 700+ Procore clients across 2,000+ installations.",
       "resources": [
         {
           "label": "SmoothX integration page",
@@ -1311,10 +1311,10 @@
         "Cost Codes map to QBO Chart of Accounts or Products/Services.",
         "Cost Types map as WBS Segment or QBO Classes.",
         "Prime Contracts sync with QBO Quotes/Estimates (incl. retainage + change orders).",
-        "Tax Codes flow QBO → Procore only.",
+        "Tax Codes flow QBO \u2192 Procore only.",
         "Taxes removed from Procore payments on sync from QBO (disableable).",
-        "Bank Feed / Journal data flows QBO → Procore Expense Direct Costs.",
-        "Payroll Time Activities flow QBO → Procore Payroll Direct Costs."
+        "Bank Feed / Journal data flows QBO \u2192 Procore Expense Direct Costs.",
+        "Payroll Time Activities flow QBO \u2192 Procore Payroll Direct Costs."
       ]
     },
     {
@@ -1335,7 +1335,7 @@
         "Onboarding under 30 minutes; 48-hour dashboard operational timeframe.",
         "Setup is SmoothX-team-managed, not self-service.",
         "QB Desktop capacity: up to 1M customers, vendors, and inventory items.",
-        "Sync is predominantly Procore → QBD (export-heavy).",
+        "Sync is predominantly Procore \u2192 QBD (export-heavy).",
         "Change Orders, Owner Invoices, and Payments not part of the standard sync scope."
       ]
     },
@@ -1369,7 +1369,7 @@
       "via": "smoothx",
       "connector": "SmoothX add-on",
       "supportUrl": "https://www.smoothx.com/procore-proscan-plus/",
-      "overview": "SmoothX add-on product — not an ERP. OCR-powered invoice scanning that imports vendor invoices directly into Procore Direct Costs, bridging Procore to the connected accounting system (e.g. Xero).",
+      "overview": "SmoothX add-on product \u2014 not an ERP. OCR-powered invoice scanning that imports vendor invoices directly into Procore Direct Costs, bridging Procore to the connected accounting system (e.g. Xero).",
       "resources": [
         {
           "label": "SmoothX product page",
@@ -1377,7 +1377,7 @@
         }
       ],
       "thingsToKnow": [
-        "Add-on, not a standalone ERP — sits alongside a SmoothX ERP integration.",
+        "Add-on, not a standalone ERP \u2014 sits alongside a SmoothX ERP integration.",
         "OCR captures invoices and pushes them as Procore Direct Costs.",
         "Bidirectional sync for Progress Claims, Cost Codes, Cost Types, Contacts.",
         "Progress Claims editable until payment is made in the connected accounting system.",
@@ -1391,7 +1391,7 @@
       "via": "smoothx",
       "connector": "SmoothX add-on",
       "supportUrl": "https://www.smoothx.com/procore-cost-plus/",
-      "overview": "SmoothX add-on product — not an ERP. Automates cost-code-level margin management and Cost Plus invoicing inside Procore. Catches late-entered costs and prevents under-billing or double-billing on cost-plus contracts.",
+      "overview": "SmoothX add-on product \u2014 not an ERP. Automates cost-code-level margin management and Cost Plus invoicing inside Procore. Catches late-entered costs and prevents under-billing or double-billing on cost-plus contracts.",
       "resources": [
         {
           "label": "SmoothX product page",
@@ -1399,7 +1399,7 @@
         }
       ],
       "thingsToKnow": [
-        "Add-on, not a standalone ERP — extends Procore's invoicing.",
+        "Add-on, not a standalone ERP \u2014 extends Procore's invoicing.",
         "Uses Procore Cost Codes for margin automation and reporting.",
         "Captures all project costs (Direct Costs) for billing.",
         "Progress Claims editable until payment is recorded in accounting.",
@@ -1413,7 +1413,7 @@
       "via": "smoothx",
       "connector": "SmoothX add-on",
       "supportUrl": "https://www.smoothx.com/procore-advanced-payments/",
-      "overview": "SmoothX add-on product — not an ERP. Embedded Procore app that manages advance-payment applications, recoveries, and amortizations (built for FIDIC and other international contract standards).",
+      "overview": "SmoothX add-on product \u2014 not an ERP. Embedded Procore app that manages advance-payment applications, recoveries, and amortizations (built for FIDIC and other international contract standards).",
       "resources": [
         {
           "label": "SmoothX product page",
@@ -1421,7 +1421,7 @@
         }
       ],
       "thingsToKnow": [
-        "Embedded app inside Procore — complements rather than replaces native financial tools.",
+        "Embedded app inside Procore \u2014 complements rather than replaces native financial tools.",
         "Targets FIDIC and international contract standards.",
         "Supports unlimited deductions and bonuses on applications.",
         "Progress Claims locked once payment processing begins in the accounting system.",
@@ -1491,7 +1491,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Company Name → Spectrum Name; address, phone, fax, email sync both ways.",
+        "Company Name \u2192 Spectrum Name; address, phone, fax, email sync both ways.",
         "Vendor Type and ERP Vendor ID are entered manually by an accounting approver during export."
       ]
     },
@@ -1500,7 +1500,7 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Spectrum phases/cost types → Procore (import); newly-added project cost codes export to Spectrum on budget export."
+        "Spectrum phases/cost types \u2192 Procore (import); newly-added project cost codes export to Spectrum on budget export."
       ]
     },
     {
@@ -1508,7 +1508,7 @@
       "target": "jobs",
       "direction": "both",
       "notes": [
-        "Procore Project Number → Spectrum Job Code.",
+        "Procore Project Number \u2192 Spectrum Job Code.",
         "Spectrum Job ID is entered manually by an accounting approver during export.",
         "Name, address, and job template are required for export."
       ]
@@ -1526,7 +1526,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Commitment # → Subcontract Number; vendor code and retainage % sync.",
+        "Commitment # \u2192 Subcontract Number; vendor code and retainage % sync.",
         "Line items (cost codes, descriptions, unit cost, quantity, contract amount) export.",
         "Spectrum's Purchase Order Module is NOT supported by this connector."
       ]
@@ -1610,7 +1610,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Vista SL Subcontracts (SLHD/SLIT tables).",
+        "Procore Subcontracts \u2192 Vista SL Subcontracts (SLHD/SLIT tables).",
         "Contract Company must have an ERP Vendor ID.",
         "Line-level: Phase, Cost Type, Qty, Unit Cost, Amount."
       ]
@@ -1620,7 +1620,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Vista PO Purchase Orders (POHD/POIT tables).",
+        "Procore Purchase Orders \u2192 Vista PO Purchase Orders (POHD/POIT tables).",
         "Contract Company must have an ERP Vendor ID.",
         "Same line-item fields as Subcontracts."
       ]
@@ -1630,7 +1630,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Vista JTD cost detail → Procore Direct Costs (import only)."
+        "Vista JTD cost detail \u2192 Procore Direct Costs (import only)."
       ]
     },
     {
@@ -1638,7 +1638,7 @@
       "target": "change-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore CCOs & PCCOs → Vista (export only); change orders are not imported from Vista."
+        "Procore CCOs & PCCOs \u2192 Vista (export only); change orders are not imported from Vista."
       ]
     },
     {
@@ -1655,7 +1655,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Company name → Vendor Name; street/city/state/ZIP → billing address.",
+        "Company name \u2192 Vendor Name; street/city/state/ZIP \u2192 billing address.",
         "Business Phone and Business Fax map to QB main and fax fields."
       ]
     },
@@ -1664,7 +1664,7 @@
       "target": "cost-codes",
       "direction": "to-erp",
       "notes": [
-        "Procore cost codes export as QB Items; code → Item Name/Number.",
+        "Procore cost codes export as QB Items; code \u2192 Item Name/Number.",
         "Expense and income accounts are auto-assigned during export.",
         "Codes capped at 96 characters."
       ]
@@ -1674,9 +1674,9 @@
       "target": "jobs",
       "direction": "both",
       "notes": [
-        "Project name → Job Name / Customer Name in QB Customer Center.",
+        "Project name \u2192 Job Name / Customer Name in QB Customer Center.",
         "Project address syncs bidirectionally; Ship To defaults from bill-to if unpopulated.",
-        "Records must originate in one system — can't link existing records."
+        "Records must originate in one system \u2014 can't link existing records."
       ]
     },
     {
@@ -1684,9 +1684,9 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Budget line items create QB Estimates; cost code → Item, original budget amount → Rate and Amount.",
+        "Budget line items create QB Estimates; cost code \u2192 Item, original budget amount \u2192 Rate and Amount.",
         "Budget modifications appear as additional line items with negative/positive amounts.",
-        "Budgets are export-only — QB Estimates can't import back."
+        "Budgets are export-only \u2014 QB Estimates can't import back."
       ]
     },
     {
@@ -1695,9 +1695,9 @@
       "direction": "to-erp",
       "notes": [
         "Procore commitments export as QBD Purchase Orders.",
-        "Commitment # → PO number; contract company → Vendor; title → description.",
-        "SOV (cost code, description, qty, unit cost) → PO line items.",
-        "Subcontracts are NOT a separate concept in QBD — both Subs and POs become QBD POs."
+        "Commitment # \u2192 PO number; contract company \u2192 Vendor; title \u2192 description.",
+        "SOV (cost code, description, qty, unit cost) \u2192 PO line items.",
+        "Subcontracts are NOT a separate concept in QBD \u2014 both Subs and POs become QBD POs."
       ]
     },
     {
@@ -1713,8 +1713,8 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → QBD Vendor Bills.",
-        "Billing date / payment due date create vendor bills; invoice # → reference number.",
+        "Procore Sub Invoices \u2192 QBD Vendor Bills.",
+        "Billing date / payment due date create vendor bills; invoice # \u2192 reference number.",
         "Detail tab items (cost code, qty, unit price, period value) sync to bill line items.",
         "Retainage codes to a designated item."
       ]
@@ -1733,7 +1733,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "ERP Company ID → Vendor ID, entered manually by approver during export.",
+        "ERP Company ID \u2192 Vendor ID, entered manually by approver during export.",
         "Name, address, phone, fax sync bidirectionally."
       ]
     },
@@ -1752,7 +1752,7 @@
       "direction": "both",
       "notes": [
         "Sub jobs can be imported from Sage 300 CRE or exported from Procore.",
-        "Custom WBS segments are NOT supported — Project WBS limited to sub jobs and standard codes."
+        "Custom WBS segments are NOT supported \u2014 Project WBS limited to sub jobs and standard codes."
       ]
     },
     {
@@ -1779,7 +1779,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Sage 300 CRE Subcontracts.",
+        "Procore Subcontracts \u2192 Sage 300 CRE Subcontracts.",
         "Contract Company Vendor ID required; cost codes, categories, retainage exported."
       ]
     },
@@ -1788,7 +1788,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Sage 300 CRE Purchase Orders.",
+        "Procore Purchase Orders \u2192 Sage 300 CRE Purchase Orders.",
         "Same fields as Subcontracts; units / unit costs determined by commitment type."
       ]
     },
@@ -1797,7 +1797,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Sage 300 CRE job-cost transaction detail → Procore Direct Costs (import only)."
+        "Sage 300 CRE job-cost transaction detail \u2192 Procore Direct Costs (import only)."
       ]
     },
     {
@@ -1805,9 +1805,9 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Sage 300 CRE AP invoices.",
+        "Procore Sub Invoices \u2192 Sage 300 CRE AP invoices.",
         "Invoice number prefills ERP ID but approver can modify before export.",
-        "Original amount and retainage export separately; current payment due = Original Amount − Retainage."
+        "Original amount and retainage export separately; current payment due = Original Amount \u2212 Retainage."
       ]
     },
     {
@@ -1815,7 +1815,7 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Owner Invoices → Sage 300 CRE AR invoices (newer feature, ~Aug 2025).",
+        "Procore Owner Invoices \u2192 Sage 300 CRE AR invoices (newer feature, ~Aug 2025).",
         "Cost code/category and project mapping preserved."
       ]
     },
@@ -1842,7 +1842,7 @@
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
-        "Procore Timesheets / payroll data → Sage 300 CRE.",
+        "Procore Timesheets / payroll data \u2192 Sage 300 CRE.",
         "Sage 300 CRE is the only Procore-native connector that supports timecard sync."
       ]
     },
@@ -1860,7 +1860,7 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore cost codes ↔ Yardi cost categories/codes for consistent budget tracking."
+        "Procore cost codes \u2194 Yardi cost categories/codes for consistent budget tracking."
       ]
     },
     {
@@ -1894,7 +1894,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Yardi Voyager contracts.",
+        "Procore Subcontracts \u2192 Yardi Voyager contracts.",
         "Contract name, vendor, status, dates, retainage %, cost codes, amounts export.",
         "Titles capped at 30 characters (longer titles truncate).",
         "Purchase Orders require Implementation Specialist configuration before syncing."
@@ -1914,7 +1914,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore subcontractor invoices → Yardi AP (export only). Corpus: 'supports the export of subcontractor invoices only.'"
+        "Procore subcontractor invoices \u2192 Yardi AP (export only). Corpus: 'supports the export of subcontractor invoices only.'"
       ]
     },
     {
@@ -1930,8 +1930,8 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Company name → vendor name; address/city/state/ZIP, phone, fax, email, website sync both ways.",
-        "Vendor edits flow NetSuite → Procore only after initial sync."
+        "Company name \u2192 vendor name; address/city/state/ZIP, phone, fax, email, website sync both ways.",
+        "Vendor edits flow NetSuite \u2192 Procore only after initial sync."
       ]
     },
     {
@@ -1939,8 +1939,8 @@
       "target": "cost-codes",
       "direction": "to-erp",
       "notes": [
-        "WBS codes combine Project Number + Budget Code (Cost Type) → NetSuite item names.",
-        "Project-specific cost codes are NOT supported — only standard list codes."
+        "WBS codes combine Project Number + Budget Code (Cost Type) \u2192 NetSuite item names.",
+        "Project-specific cost codes are NOT supported \u2014 only standard list codes."
       ]
     },
     {
@@ -1957,8 +1957,8 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Cost Type determines NetSuite destination — invoices → vendor bills, expenses → journal entries.",
-        "Received date → transaction date; description auto-generates from cost type + document number."
+        "Cost Type determines NetSuite destination \u2014 invoices \u2192 vendor bills, expenses \u2192 journal entries.",
+        "Received date \u2192 transaction date; description auto-generates from cost type + document number."
       ]
     },
     {
@@ -1966,9 +1966,9 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → NetSuite Vendor Bills.",
+        "Procore Sub Invoices \u2192 NetSuite Vendor Bills.",
         "Billing date, vendor, invoice # export.",
-        "WBS budget codes → line items; retainage gets its own coded line if applicable."
+        "WBS budget codes \u2192 line items; retainage gets its own coded line if applicable."
       ]
     },
     {
@@ -1976,8 +1976,8 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Owner Invoices → NetSuite Customer Sales Invoices.",
-        "Project info → NetSuite customer; subtotal mapping follows standard pattern."
+        "Procore Owner Invoices \u2192 NetSuite Customer Sales Invoices.",
+        "Project info \u2192 NetSuite customer; subtotal mapping follows standard pattern."
       ]
     },
     {
@@ -2012,7 +2012,7 @@
       "target": "jobs",
       "direction": "both",
       "notes": [
-        "Project number → Acumatica Project ID, entered manually by approver.",
+        "Project number \u2192 Acumatica Project ID, entered manually by approver.",
         "Location data (address, coordinates) and timeline sync automatically.",
         "Names capped at 30 characters."
       ]
@@ -2024,7 +2024,7 @@
       "notes": [
         "Original budgeted amounts flow from Procore to Acumatica cost budgets.",
         "Budget line items tie to project tasks, cost codes, account groups.",
-        "Amount-based only — UOM/qty do not transfer."
+        "Amount-based only \u2014 UOM/qty do not transfer."
       ]
     },
     {
@@ -2032,9 +2032,9 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Acumatica Subcontracts (status 'Open').",
-        "SOV (quantities, unit costs, extended costs) → commitment line items.",
-        "Must originate in Procore — Acumatica-created commitments don't sync."
+        "Procore Subcontracts \u2192 Acumatica Subcontracts (status 'Open').",
+        "SOV (quantities, unit costs, extended costs) \u2192 commitment line items.",
+        "Must originate in Procore \u2014 Acumatica-created commitments don't sync."
       ]
     },
     {
@@ -2042,7 +2042,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Acumatica Purchase Orders (status 'Open').",
+        "Procore Purchase Orders \u2192 Acumatica Purchase Orders (status 'Open').",
         "Same SOV fields as Subcontracts."
       ]
     },
@@ -2051,7 +2051,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Acumatica Edge job costs → Procore Direct Costs (import only per Procore corpus)."
+        "Acumatica Edge job costs \u2192 Procore Direct Costs (import only per Procore corpus)."
       ]
     },
     {
@@ -2059,7 +2059,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Acumatica AP Bills ('On Hold' status).",
+        "Procore Sub Invoices \u2192 Acumatica AP Bills ('On Hold' status).",
         "Only Sub Invoices created against Subcontracts will export."
       ]
     },
@@ -2078,7 +2078,7 @@
       "direction": "to-erp",
       "notes": [
         "Contract values export as single revenue budget line items.",
-        "Contract number must be ≤7 alphanumeric characters.",
+        "Contract number must be \u22647 alphanumeric characters.",
         "Change orders sync as revenue change orders with markup calculations."
       ]
     },
@@ -2106,7 +2106,7 @@
       "direction": "to-erp",
       "notes": [
         "Sub Jobs / Project Tasks export with the Project record.",
-        "Project syncing is Export only — project WBS originates in Procore."
+        "Project syncing is Export only \u2014 project WBS originates in Procore."
       ]
     },
     {
@@ -2114,9 +2114,9 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Project number/name, address, dates → Acumatica Project ID / Description.",
+        "Project number/name, address, dates \u2192 Acumatica Project ID / Description.",
         "Includes location coordinates and template mapping.",
-        "Export only — projects must originate in Procore."
+        "Export only \u2014 projects must originate in Procore."
       ]
     },
     {
@@ -2124,7 +2124,7 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget → Acumatica Vision. Corpus: 'Budget Estimate syncing is an export feature only.'"
+        "Procore Budget \u2192 Acumatica Vision. Corpus: 'Budget Estimate syncing is an export feature only.'"
       ]
     },
     {
@@ -2132,7 +2132,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Commitments → Acumatica Vision. Corpus: 'Commitments must always be created in Procore... cannot be imported.'"
+        "Procore Commitments \u2192 Acumatica Vision. Corpus: 'Commitments must always be created in Procore... cannot be imported.'"
       ]
     },
     {
@@ -2140,7 +2140,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Acumatica Vision (PO301000). Export only."
+        "Procore Purchase Orders \u2192 Acumatica Vision (PO301000). Export only."
       ]
     },
     {
@@ -2148,7 +2148,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Acumatica Vision job costs → Procore Direct Costs (import only)."
+        "Acumatica Vision job costs \u2192 Procore Direct Costs (import only)."
       ]
     },
     {
@@ -2156,7 +2156,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Acumatica AP Bills ('On Hold' status).",
+        "Procore Sub Invoices \u2192 Acumatica AP Bills ('On Hold' status).",
         "Detail includes budget codes, retainage details, accounting date."
       ]
     },
@@ -2165,7 +2165,7 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Owner Invoices → Acumatica AR Invoices.",
+        "Procore Owner Invoices \u2192 Acumatica AR Invoices.",
         "Owner Invoice payment syncing is NOT supported."
       ]
     },
@@ -2183,7 +2183,7 @@
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
-        "Acumatica Vision → Procore Prime Contracts. Corpus: 'Prime Contracts are imported only.'"
+        "Acumatica Vision \u2192 Procore Prime Contracts. Corpus: 'Prime Contracts are imported only.'"
       ]
     },
     {
@@ -2191,7 +2191,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Company ID → Vendor; Name, Address, City, State, ZIP, Country sync bidirectionally.",
+        "Company ID \u2192 Vendor; Name, Address, City, State, ZIP, Country sync bidirectionally.",
         "ERP Vendor ID on Contract Company is required for commitment exports."
       ]
     },
@@ -2200,7 +2200,7 @@
       "target": "cost-codes",
       "direction": "from-erp",
       "notes": [
-        "MRI cost-code list → Procore (must originate in MRI; managed by Calance)."
+        "MRI cost-code list \u2192 Procore (must originate in MRI; managed by Calance)."
       ]
     },
     {
@@ -2208,7 +2208,7 @@
       "target": "jobs",
       "direction": "from-erp",
       "notes": [
-        "MRI jobs → Procore projects (import). Corpus: 'All jobs from MRI Platform X will equal precisely one Procore project.'"
+        "MRI jobs \u2192 Procore projects (import). Corpus: 'All jobs from MRI Platform X will equal precisely one Procore project.'"
       ]
     },
     {
@@ -2216,7 +2216,7 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Procore budget → MRI (export only)."
+        "Procore budget \u2192 MRI (export only)."
       ]
     },
     {
@@ -2224,7 +2224,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → MRI Contract records.",
+        "Procore Subcontracts \u2192 MRI Contract records.",
         "Contract Number, Title, Vendor, Status, Original Contract Amount, Date Created export.",
         "Contract Company must have an ERP Vendor ID to export."
       ]
@@ -2234,7 +2234,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Invoice, Sub Invoice, Expense types → MRI Payables (with/without commitment) and Journal Entries.",
+        "Invoice, Sub Invoice, Expense types \u2192 MRI Payables (with/without commitment) and Journal Entries.",
         "Items include Type, Invoice Number, Description, Status, Date, Received/Paid Dates, Line Description, Amount Paid."
       ]
     },
@@ -2243,7 +2243,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → MRI Platform X AP module (auto-posted).",
+        "Procore Sub Invoices \u2192 MRI Platform X AP module (auto-posted).",
         "Contract Company, Invoice Number, Current Payment Due, Billing Date, Billing Period export."
       ]
     },
@@ -2307,7 +2307,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Sage Intacct Subcontracts.",
+        "Procore Subcontracts \u2192 Sage Intacct Subcontracts.",
         "Vendor info, contract number, line items (Job ID, cost code/type, qty, unit cost, retainage %) export."
       ]
     },
@@ -2316,7 +2316,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Sage Intacct Purchase Orders.",
+        "Procore Purchase Orders \u2192 Sage Intacct Purchase Orders.",
         "Same line-item structure as Subcontracts."
       ]
     },
@@ -2334,7 +2334,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Sage Intacct AP Invoices.",
+        "Procore Sub Invoices \u2192 Sage Intacct AP Invoices.",
         "ERP ID (invoice number) maps; approver can modify before export.",
         "Project, cost code, cost type, retainage amount distribute costs to job accounts."
       ]
@@ -2371,7 +2371,7 @@
       "target": "cost-codes",
       "direction": "from-erp",
       "notes": [
-        "Sage 100 standard cost-code list → Procore (managed in Sage, Menu 6-5). Project codes push only via budget export."
+        "Sage 100 standard cost-code list \u2192 Procore (managed in Sage, Menu 6-5). Project codes push only via budget export."
       ]
     },
     {
@@ -2380,7 +2380,7 @@
       "direction": "from-erp",
       "notes": [
         "Phases in Sage 100 import as Sub Jobs in Procore.",
-        "Custom WBS segments are NOT supported — Project WBS limited to imported phases."
+        "Custom WBS segments are NOT supported \u2014 Project WBS limited to imported phases."
       ]
     },
     {
@@ -2398,7 +2398,7 @@
       "direction": "both",
       "notes": [
         "Original budget amounts and cost codes/types sync both directions.",
-        "Modifications export from Procore only — appear as negative/positive line adjustments in Sage."
+        "Modifications export from Procore only \u2014 appear as negative/positive line adjustments in Sage."
       ]
     },
     {
@@ -2406,9 +2406,9 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Sage 100 Subcontracts.",
+        "Procore Subcontracts \u2192 Sage 100 Subcontracts.",
         "Contract amounts, vendors, cost codes, quantities export.",
-        "System date at commitment creation → subcontract date in Sage."
+        "System date at commitment creation \u2192 subcontract date in Sage."
       ]
     },
     {
@@ -2416,8 +2416,8 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase Orders → Sage 100 Purchase Orders.",
-        "POs MUST be quantity-based — amount-based POs result in zero-dollar exports."
+        "Procore Purchase Orders \u2192 Sage 100 Purchase Orders.",
+        "POs MUST be quantity-based \u2014 amount-based POs result in zero-dollar exports."
       ]
     },
     {
@@ -2425,7 +2425,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Job costs import from Sage 100 only — Menu 1-3 Journal, 4-2 AP invoice, 5-2 Payroll.",
+        "Job costs import from Sage 100 only \u2014 Menu 1-3 Journal, 4-2 AP invoice, 5-2 Payroll.",
         "Committed costs (invoiced) tie to accounts payable invoices."
       ]
     },
@@ -2434,9 +2434,9 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Sage 100 AP invoices.",
+        "Procore Sub Invoices \u2192 Sage 100 AP invoices.",
         "Billing period, invoice number, line item details export.",
-        "Released retainage cannot sync — handle separately in each system."
+        "Released retainage cannot sync \u2014 handle separately in each system."
       ]
     },
     {
@@ -2462,7 +2462,7 @@
       "target": "cost-codes",
       "direction": "from-erp",
       "notes": [
-        "CMiC WBS/Cost Codes → Procore (ERP-managed). Corpus: 'New cost codes must be created in your ERP system, and cannot be created in Procore.'"
+        "CMiC WBS/Cost Codes \u2192 Procore (ERP-managed). Corpus: 'New cost codes must be created in your ERP system, and cannot be created in Procore.'"
       ]
     },
     {
@@ -2498,7 +2498,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → CMiC Subcontracts.",
+        "Procore Subcontracts \u2192 CMiC Subcontracts.",
         "Header (number, dates, vendor, retainage) + line items (quantity, rate, amount) export.",
         "Vendor must have an ERP Vendor ID to export."
       ]
@@ -2508,7 +2508,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Transaction details import from CMiC Job Costing records — vendor, date, invoice #, cost code/type allocation.",
+        "Transaction details import from CMiC Job Costing records \u2014 vendor, date, invoice #, cost code/type allocation.",
         "Description field can include image URLs when feature is enabled."
       ]
     },
@@ -2517,7 +2517,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → CMiC AP invoices.",
+        "Procore Sub Invoices \u2192 CMiC AP invoices.",
         "Vendor, dates, amounts, retainage + distribution detail (job, cost code, category) export.",
         "Payment status, check #, funding date sync bidirectionally."
       ]
@@ -2546,8 +2546,8 @@
       "direction": "both",
       "notes": [
         "Company name, address (city/state/ZIP/country), phone, fax, email, website sync both ways.",
-        "Entity Type / EIN → QBO Business ID No.",
-        "Edits after initial creation do NOT propagate — change must be made in both systems."
+        "Entity Type / EIN \u2192 QBO Business ID No.",
+        "Edits after initial creation do NOT propagate \u2014 change must be made in both systems."
       ]
     },
     {
@@ -2566,7 +2566,7 @@
       "target": "jobs",
       "direction": "from-erp",
       "notes": [
-        "QBO projects → Procore (import only). Corpus: 'Projects created directly in Procore can NOT be exported to QuickBooks Online.'"
+        "QBO projects \u2192 Procore (import only). Corpus: 'Projects created directly in Procore can NOT be exported to QuickBooks Online.'"
       ]
     },
     {
@@ -2575,9 +2575,9 @@
       "direction": "from-erp",
       "notes": [
         "Bills, expenses, and vendor credits from QBO import as Direct Costs in Procore.",
-        "Invoice amount → direct cost amount; transaction date → received date.",
+        "Invoice amount \u2192 direct cost amount; transaction date \u2192 received date.",
         "Status defaults to Approved on import.",
-        "QBO vendor bills created by the integration (synced sub invoices) are excluded — no duplicates.",
+        "QBO vendor bills created by the integration (synced sub invoices) are excluded \u2014 no duplicates.",
         "Imported direct costs are read-only in Procore."
       ]
     },
@@ -2586,9 +2586,9 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → QBO Vendor Bills.",
-        "Billing date → Bill Date; invoice number → Bill No. (21-char limit).",
-        "Contractor → QBO Vendor; cost codes → QBO service items; qty + unit prices sync.",
+        "Procore Sub Invoices \u2192 QBO Vendor Bills.",
+        "Billing date \u2192 Bill Date; invoice number \u2192 Bill No. (21-char limit).",
+        "Contractor \u2192 QBO Vendor; cost codes \u2192 QBO service items; qty + unit prices sync.",
         "Retainage coded to a designated retainage service item.",
         "Negative-value invoices do NOT sync."
       ]
@@ -2598,8 +2598,8 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Owner Invoices → QBO Customer Invoices.",
-        "Project info → QBO customer; subtotal → summary line.",
+        "Procore Owner Invoices \u2192 QBO Customer Invoices.",
+        "Project info \u2192 QBO customer; subtotal \u2192 summary line.",
         "Retainage gets its own QBO retainage service item line."
       ]
     },
@@ -2608,7 +2608,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Name syncs bidirectionally; Workday Vendor Code → Supplier ID.",
+        "Name syncs bidirectionally; Workday Vendor Code \u2192 Supplier ID.",
         "Address and Business Phone import from Workday as Supplier data."
       ]
     },
@@ -2636,7 +2636,7 @@
       "direction": "both",
       "notes": [
         "Project Name, Number, Start Date sync bidirectionally.",
-        "Project Finish Date → End Date in Workday."
+        "Project Finish Date \u2192 End Date in Workday."
       ]
     },
     {
@@ -2644,9 +2644,9 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → Workday Supplier Contracts.",
-        "Commitment # → Contract Reference; Contract Company → Supplier ID.",
-        "Cost codes link to Project Tasks; titles → Contract Names.",
+        "Procore Subcontracts \u2192 Workday Supplier Contracts.",
+        "Commitment # \u2192 Contract Reference; Contract Company \u2192 Supplier ID.",
+        "Cost codes link to Project Tasks; titles \u2192 Contract Names.",
         "Must have a Contract Date to export."
       ]
     },
@@ -2664,8 +2664,8 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Workday Supplier Invoices.",
-        "Contractor Company → Supplier ID; Billing Date → Accounting Date.",
+        "Procore Sub Invoices \u2192 Workday Supplier Invoices.",
+        "Contractor Company \u2192 Supplier ID; Billing Date \u2192 Accounting Date.",
         "QTY + Unit Price from SOV sync as Quantity and Unit Cost.",
         "Retainage codes to a designated Item record."
       ]
@@ -2684,7 +2684,7 @@
       "target": "prime-contracts",
       "direction": "both",
       "notes": [
-        "Workday customer contract shell → Procore Prime Contract (import); Procore SOV line items export back to Workday as a summarized line."
+        "Workday customer contract shell \u2192 Procore Prime Contract (import); Procore SOV line items export back to Workday as a summarized line."
       ]
     },
     {
@@ -2701,7 +2701,7 @@
       "target": "cost-codes",
       "direction": "to-erp",
       "notes": [
-        "Procore cost codes → Xero items (export only). Cost-type items created in Xero; no cost-code import."
+        "Procore cost codes \u2192 Xero items (export only). Cost-type items created in Xero; no cost-code import."
       ]
     },
     {
@@ -2718,9 +2718,9 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore commitments → Xero Purchase Orders.",
+        "Procore commitments \u2192 Xero Purchase Orders.",
         "Commitment number, date, vendor map to PO details.",
-        "SOV (cost codes, descriptions, quantities, unit costs) → line items.",
+        "SOV (cost codes, descriptions, quantities, unit costs) \u2192 line items.",
         "Both Subs and POs from Procore flow through Xero's PO entity."
       ]
     },
@@ -2738,7 +2738,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Xero Bills.",
+        "Procore Sub Invoices \u2192 Xero Bills.",
         "Contractor company, dates, PO/invoice numbers export.",
         "SOV items map to line item details (quantities and pricing)."
       ]
@@ -2759,8 +2759,8 @@
       "configurable": true,
       "notes": [
         "Auto-link by Name, Address, Code/Number, Email, Phone, Tax ID.",
-        "Procore → Foundation requires FSI Importer + ODBC + Agave Connector setup.",
-        "Customers are a separate entity in Foundation — Agave can suffix synced Customers with '(Customer)' in Procore."
+        "Procore \u2192 Foundation requires FSI Importer + ODBC + Agave Connector setup.",
+        "Customers are a separate entity in Foundation \u2014 Agave can suffix synced Customers with '(Customer)' in Procore."
       ]
     },
     {
@@ -2780,8 +2780,8 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Foundation Cost Codes → Procore (one-way per Agave's MD: 'sync Foundation Cost Codes to Procore').",
-        "Cost Codes can be created indirectly in Foundation via DataGenie when Budget Line Items export, but no direct Procore → Foundation Cost Code sync."
+        "Foundation Cost Codes \u2192 Procore (one-way per Agave's MD: 'sync Foundation Cost Codes to Procore').",
+        "Cost Codes can be created indirectly in Foundation via DataGenie when Budget Line Items export, but no direct Procore \u2192 Foundation Cost Code sync."
       ]
     },
     {
@@ -2790,7 +2790,7 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Foundation Phases → Procore Sub Jobs (one-way per Agave's MD: 'sync Foundation Phases to Procore').",
+        "Foundation Phases \u2192 Procore Sub Jobs (one-way per Agave's MD: 'sync Foundation Phases to Procore').",
         "Optional feature requires Account Manager enablement."
       ]
     },
@@ -2799,8 +2799,8 @@
       "target": "jobs",
       "direction": "both",
       "notes": [
-        "Auto-link by Name, Address, Code/Number; Foundation Project Classes → Procore Project Types (exact match).",
-        "Stored procedure 'sp_insert_update_jobs' required for Procore → Foundation sync.",
+        "Auto-link by Name, Address, Code/Number; Foundation Project Classes \u2192 Procore Project Types (exact match).",
+        "Stored procedure 'sp_insert_update_jobs' required for Procore \u2192 Foundation sync.",
         "Custom 'Customer' field can be added to Projects in Procore."
       ]
     },
@@ -2809,7 +2809,7 @@
       "target": "budgets",
       "direction": "both",
       "notes": [
-        "Job Budgets sync bidirectionally; Budget Line Items default to Procore → Foundation (via DataGenie).",
+        "Job Budgets sync bidirectionally; Budget Line Items default to Procore \u2192 Foundation (via DataGenie).",
         "$0 Budget Line Items auto-created in Foundation for all Cost Type combinations.",
         "Budget locks in Procore prevent updates to original amounts."
       ]
@@ -2820,7 +2820,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Commitments (Subcontracts) → Foundation Purchase Orders (export per Agave MD)."
+        "Procore Commitments (Subcontracts) \u2192 Foundation Purchase Orders (export per Agave MD)."
       ]
     },
     {
@@ -2829,7 +2829,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Purchase Orders → Foundation (export per Agave MD)."
+        "Procore Purchase Orders \u2192 Foundation (export per Agave MD)."
       ]
     },
     {
@@ -2837,7 +2837,7 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Foundation Job History Detail → Procore Direct Costs (one-way per Agave's MD).",
+        "Foundation Job History Detail \u2192 Procore Direct Costs (one-way per Agave's MD).",
         "Known Limitation: 'Direct Costs syncing from Procore to Foundation is not supported.'",
         "Types: Subcontractor Invoice (PO/SC-based), Payroll, or Expense."
       ]
@@ -2847,7 +2847,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Foundation AP Invoices (Unposted status).",
+        "Procore Sub Invoices \u2192 Foundation AP Invoices (Unposted status).",
         "View via 'Modify Unposted Invoices' in Foundation.",
         "FSI Importer + Agave Connector required, kept open/minimized."
       ]
@@ -2858,7 +2858,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Owner Invoices ↔ Foundation AR Invoices (Unposted status).",
+        "Procore Owner Invoices \u2194 Foundation AR Invoices (Unposted status).",
         "Default A/R + Retainage Ledger Accounts must be configured by Agave Account Manager.",
         "Billing Period and Due Date required in Procore for sync.",
         "Retention release NOT yet supported."
@@ -2871,8 +2871,8 @@
       "configurable": true,
       "notes": [
         "Commitment + Prime Contract Change Orders both sync bidirectionally.",
-        "Subcontract/PO Change Orders ↔ Foundation Job Contract Change Orders.",
-        "PCCOs require DataGenie workflow for the Procore → Foundation direction."
+        "Subcontract/PO Change Orders \u2194 Foundation Job Contract Change Orders.",
+        "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction."
       ]
     },
     {
@@ -2880,9 +2880,9 @@
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
-        "Foundation AIA Billing Schedules → Procore Prime Contracts (one-way per Agave's MD).",
+        "Foundation AIA Billing Schedules \u2192 Procore Prime Contracts (one-way per Agave's MD).",
         "Known Limitation: 'Prime Contracts syncing from Procore to Foundation is not supported.'",
-        "Non-AIA Billing variant: Original Contract value on the Job record → Procore Prime Contract."
+        "Non-AIA Billing variant: Original Contract value on the Job record \u2192 Procore Prime Contract."
       ]
     },
     {
@@ -2891,7 +2891,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Timecard Entries → Foundation Timecards (one-way per Agave's MD body, which documents only 'Exporting Timecard Entries to Foundation').",
+        "Procore Timecard Entries \u2192 Foundation Timecards (one-way per Agave's MD body, which documents only 'Exporting Timecard Entries to Foundation').",
         "Employee and Equipment timecards both supported (Equipment requires beta enablement).",
         "Time Types must match Foundation Earn Code descriptions."
       ]
@@ -2904,7 +2904,7 @@
       "notes": [
         "MD: 'Agave Sync allows for you to sync ComputerEase Vendors to or from Procore Companies.'",
         "Auto-link by Name, Address, Code/Number, Email, Phone, Tax ID.",
-        "Customers and Vendors share the same Procore Company entity — recommend suffix for differentiation."
+        "Customers and Vendors share the same Procore Company entity \u2014 recommend suffix for differentiation."
       ]
     },
     {
@@ -2955,7 +2955,7 @@
       "configurable": true,
       "notes": [
         "MD: 'sync ComputerEase Categories to or from Procore Budget Line Items.'",
-        "WBS Code (Sub Job + Cost Code + Cost Type) must be unique per project — duplicates error."
+        "WBS Code (Sub Job + Cost Code + Cost Type) must be unique per project \u2014 duplicates error."
       ]
     },
     {
@@ -2963,7 +2963,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Subcontracts → ComputerEase Purchase Orders (no dedicated Subcontracts MD; covered via PO entity since ComputerEase doesn't distinguish)."
+        "Procore Subcontracts \u2192 ComputerEase Purchase Orders (no dedicated Subcontracts MD; covered via PO entity since ComputerEase doesn't distinguish)."
       ]
     },
     {
@@ -3010,7 +3010,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Companies/Vendors sync both ways (Procore→Acumatica with Abbreviated Name as Vendor ID; Acumatica→Procore link/deactivate)."
+        "Companies/Vendors sync both ways (Procore\u2192Acumatica with Abbreviated Name as Vendor ID; Acumatica\u2192Procore link/deactivate)."
       ]
     },
     {
@@ -3019,7 +3019,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Employees: Procore → Acumatica (per Agave MD).",
+        "Employees: Procore \u2192 Acumatica (per Agave MD).",
         "Labor Items map to Procore Classifications; Inventory ID must match Class Code.",
         "Personal info protected; email only syncs on creation."
       ]
@@ -3048,7 +3048,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Projects: Procore → Acumatica (per Agave MD — mapping shown Procore → Acumatica only).",
+        "Projects: Procore \u2192 Acumatica (per Agave MD \u2014 mapping shown Procore \u2192 Acumatica only).",
         "Optional default Project Templates; supports full project mapping including metadata."
       ]
     },
@@ -3057,7 +3057,7 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Budget Line Items: Procore → Acumatica (per Agave MD: 'syncs Procore budget items to Acumatica Cost Budget Lines').",
+        "Budget Line Items: Procore \u2192 Acumatica (per Agave MD: 'syncs Procore budget items to Acumatica Cost Budget Lines').",
         "Budgets must be unlocked in Procore to accept updates.",
         "WBS Code (Sub Job + Cost Code + Cost Type) must be unique per project."
       ]
@@ -3068,7 +3068,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Subcontracts: Procore → Acumatica (per Agave MD).",
+        "Subcontracts: Procore \u2192 Acumatica (per Agave MD).",
         "GL Account required in Acumatica (Vendor defaults or Agave-configured default).",
         "Vendor Class setup recommended for differentiated GL accounts."
       ]
@@ -3079,7 +3079,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Purchase Orders: Procore → Acumatica (per Agave MD).",
+        "Purchase Orders: Procore \u2192 Acumatica (per Agave MD).",
         "GL Account required; Payment Terms must match valid ERP values.",
         "Custom Procore field with dropdown recommended for Payment Terms."
       ]
@@ -3089,8 +3089,8 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Job Costs: Acumatica → Procore Direct Costs (per Agave MD: 'Project Transaction line items sync as Procore Direct Costs').",
-        "Known Limitation: Direct Costs Procore → Acumatica NOT supported.",
+        "Job Costs: Acumatica \u2192 Procore Direct Costs (per Agave MD: 'Project Transaction line items sync as Procore Direct Costs').",
+        "Known Limitation: Direct Costs Procore \u2192 Acumatica NOT supported.",
         "Supports attachments from Acumatica Bills.",
         "Type 'Subcontractor Invoice' used for commitment invoices to avoid double-counting."
       ]
@@ -3101,7 +3101,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Subcontractor Invoices → Acumatica AP Invoices (export, default 'On Hold'). Corrected: Agave MD documents Procore→Acumatica."
+        "Procore Subcontractor Invoices \u2192 Acumatica AP Invoices (export, default 'On Hold'). Corrected: Agave MD documents Procore\u2192Acumatica."
       ]
     },
     {
@@ -3110,7 +3110,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "AR Invoices bidirectional (per Agave MD: 'Procore → Acumatica and Acumatica → Procore').",
+        "AR Invoices bidirectional (per Agave MD: 'Procore \u2192 Acumatica and Acumatica \u2192 Procore').",
         "Supports Materials Stored and Retainage.",
         "Default revenue GL Account applied (contact Agave rep to configure)."
       ]
@@ -3120,7 +3120,7 @@
       "target": "change-orders",
       "direction": "to-erp",
       "notes": [
-        "Prime Change Orders + Budget Transfers: Procore → Acumatica (per Agave MD).",
+        "Prime Change Orders + Budget Transfers: Procore \u2192 Acumatica (per Agave MD).",
         "Maps to Acumatica Revenue/Cost Budgets with default status 'Closed'.",
         "Markup mapped via Financial Markups budget code."
       ]
@@ -3130,7 +3130,7 @@
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
-        "Prime Contracts: Procore → Acumatica (per Agave MD: 'syncs Procore Prime Contracts with both Revenue and Cost Budget lines to Acumatica').",
+        "Prime Contracts: Procore \u2192 Acumatica (per Agave MD: 'syncs Procore Prime Contracts with both Revenue and Cost Budget lines to Acumatica').",
         "Supports horizontal + vertical markup aggregation.",
         "Multiple Prime Contracts per job supported if each tied to unique Task."
       ]
@@ -3141,8 +3141,8 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Timecard Entries: Procore → Acumatica (per Agave MD).",
-        "Labor Item ↔ Classification mapping enables default work type.",
+        "Timecard Entries: Procore \u2192 Acumatica (per Agave MD).",
+        "Labor Item \u2194 Classification mapping enables default work type.",
         "Supports Regular, OT, Double Time, PTO, Sick, Holiday by default."
       ]
     },
@@ -3152,9 +3152,9 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "MD Filters: 'sync only a subset of Vendors to either QBD or Procore' — confirms bidirectional.",
+        "MD Filters: 'sync only a subset of Vendors to either QBD or Procore' \u2014 confirms bidirectional.",
         "Auto-link by Name, Address, Code/Number, Email, Phone, Tax ID.",
-        "Customers + Vendors share same Company entity — suffix recommended for differentiation."
+        "Customers + Vendors share same Company entity \u2014 suffix recommended for differentiation."
       ]
     },
     {
@@ -3163,7 +3163,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Employees: Procore → QBD (MD shows Visual Mapping only; direction inferred from broader QBD export pattern).",
+        "Employees: Procore \u2192 QBD (MD shows Visual Mapping only; direction inferred from broader QBD export pattern).",
         "No explicit direction text in MD."
       ]
     },
@@ -3182,7 +3182,7 @@
       "direction": "both",
       "notes": [
         "MD has both 'Syncing from Procore to QuickBooks Desktop' section and Step 2 'Sync a Customer from QuickBooks Desktop to Procore'.",
-        "Requires custom 'Customer' field (exact name) — must be Required in Procore fieldset."
+        "Requires custom 'Customer' field (exact name) \u2014 must be Required in Procore fieldset."
       ]
     },
     {
@@ -3191,7 +3191,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Budget Line Items ↔ QBD Estimates (MD has Visual Mapping but no explicit direction text)."
+        "Budget Line Items \u2194 QBD Estimates (MD has Visual Mapping but no explicit direction text)."
       ]
     },
     {
@@ -3200,7 +3200,7 @@
       "direction": "to-erp",
       "notes": [
         "MD: 'export Procore Subcontracts to QuickBooks Desktop Purchase Orders.'",
-        "QBD has no separate Subcontract concept — both Subs and POs flow through QBD POs."
+        "QBD has no separate Subcontract concept \u2014 both Subs and POs flow through QBD POs."
       ]
     },
     {
@@ -3226,8 +3226,8 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Live Agave catalog (useagave.com): default direction is Procore → QBD — Procore Subcontractor Invoices export to QuickBooks Desktop Bills (against POs, with retention).",
-        "Reverse (import QBD Bills → Procore) is supported as a custom direction but is not the default.",
+        "Live Agave catalog (useagave.com): default direction is Procore \u2192 QBD \u2014 Procore Subcontractor Invoices export to QuickBooks Desktop Bills (against POs, with retention).",
+        "Reverse (import QBD Bills \u2192 Procore) is supported as a custom direction but is not the default.",
         "Corrected from 'both': the Agave corpus AP-Invoices MD read as bidirectional, but the canonical default per useagave.com is to-erp."
       ],
       "configurable": true
@@ -3249,9 +3249,9 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Live Agave catalog (useagave.com): 'Contract Payments → QuickBooks Desktop Bill Payments.'",
-        "AP / commitment payments flow QBD → Procore (1-way) — matches the native QBD connector and the other Agave ERPs (Acumatica, Sage 100, Viewpoint).",
-        "NOT in the Agave corpus MD (no payments doc exists) — sourced from the live useagave.com QBD catalog."
+        "Live Agave catalog (useagave.com): 'Contract Payments \u2192 QuickBooks Desktop Bill Payments.'",
+        "AP / commitment payments flow QBD \u2192 Procore (1-way) \u2014 matches the native QBD connector and the other Agave ERPs (Acumatica, Sage 100, Viewpoint).",
+        "NOT in the Agave corpus MD (no payments doc exists) \u2014 sourced from the live useagave.com QBD catalog."
       ]
     },
     {
@@ -3260,9 +3260,9 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Live Agave catalog (useagave.com): 'Prime Contract Payments → QuickBooks Desktop Payments' (AR; supported, 1-way, manual + automatic).",
-        "QBD customer Payments → Procore Prime Contract Payments — matches the Viewpoint Spectrum/Vista Agave convention.",
-        "NOT in the Agave corpus MD (no payments doc exists) — sourced from the live useagave.com QBD catalog."
+        "Live Agave catalog (useagave.com): 'Prime Contract Payments \u2192 QuickBooks Desktop Payments' (AR; supported, 1-way, manual + automatic).",
+        "QBD customer Payments \u2192 Procore Prime Contract Payments \u2014 matches the Viewpoint Spectrum/Vista Agave convention.",
+        "NOT in the Agave corpus MD (no payments doc exists) \u2014 sourced from the live useagave.com QBD catalog."
       ]
     },
     {
@@ -3308,9 +3308,9 @@
       "target": "project-wbs",
       "direction": "from-erp",
       "notes": [
-        "Sub Jobs (Phases): Sage 100 → Procore (per Agave MD: 'import a Project's Sub Jobs (Phases) from Sage 100 C to Procore').",
+        "Sub Jobs (Phases): Sage 100 \u2192 Procore (per Agave MD: 'import a Project's Sub Jobs (Phases) from Sage 100 C to Procore').",
         "Optional feature requires AM enablement.",
-        "Known Limitation: Sub Jobs Procore → Sage 100 NOT supported."
+        "Known Limitation: Sub Jobs Procore \u2192 Sage 100 NOT supported."
       ]
     },
     {
@@ -3318,7 +3318,7 @@
       "target": "jobs",
       "direction": "from-erp",
       "notes": [
-        "Projects (Jobs): Sage 100 → Procore (per Agave MD visual mapping).",
+        "Projects (Jobs): Sage 100 \u2192 Procore (per Agave MD visual mapping).",
         "Departments must be linked on Agave Departments page to sync with projects.",
         "Project Templates can be applied as defaults in Procore."
       ]
@@ -3330,7 +3330,7 @@
       "notes": [
         "Budget Line Items bidirectional (per Agave MD: 'original budget amount from Sage 100 to Procore' AND 'from Procore to Sage 100').",
         "1 line item per cost code max in Sage 100.",
-        "Budget locking prevents updates to original amounts — must unlock in Procore first."
+        "Budget locking prevents updates to original amounts \u2014 must unlock in Procore first."
       ]
     },
     {
@@ -3339,7 +3339,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Subcontracts → Sage 100C (export per Agave MD; ledger/executed-date written into Sage)."
+        "Procore Subcontracts \u2192 Sage 100C (export per Agave MD; ledger/executed-date written into Sage)."
       ]
     },
     {
@@ -3348,7 +3348,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Purchase Orders → Sage 100C 6-6-1 (export per Agave MD)."
+        "Procore Purchase Orders \u2192 Sage 100C 6-6-1 (export per Agave MD)."
       ]
     },
     {
@@ -3356,8 +3356,8 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Job Costs (Direct Costs): Sage 100 → Procore (per Agave MD: 'Syncing Job Costs from Sage 100 Contractor to Procore').",
-        "Known Limitation: Direct Costs Procore → Sage 100 NOT supported.",
+        "Job Costs (Direct Costs): Sage 100 \u2192 Procore (per Agave MD: 'Syncing Job Costs from Sage 100 Contractor to Procore').",
+        "Known Limitation: Direct Costs Procore \u2192 Sage 100 NOT supported.",
         "3 types: Subcontractor Invoice (from AP referencing PO/Sub), Payroll, Expense."
       ]
     },
@@ -3366,7 +3366,7 @@
       "target": "sub-invoices",
       "direction": "from-erp",
       "notes": [
-        "AP Invoices: Sage 100 → Procore (per Agave MD FAQ: 'syncing AP Invoices from Sage 100 Contractor to Procore').",
+        "AP Invoices: Sage 100 \u2192 Procore (per Agave MD FAQ: 'syncing AP Invoices from Sage 100 Contractor to Procore').",
         "Subtotal + retention amounts calculated using cumulative work/materials completed."
       ]
     },
@@ -3376,7 +3376,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Owner Invoices → Sage 3-2 Receivable Invoices; Sage job-cost billing periods → Procore AR Invoices (bidirectional per Agave MD)."
+        "Procore Owner Invoices \u2192 Sage 3-2 Receivable Invoices; Sage job-cost billing periods \u2192 Procore AR Invoices (bidirectional per Agave MD)."
       ]
     },
     {
@@ -3384,7 +3384,7 @@
       "target": "change-orders",
       "direction": "to-erp",
       "notes": [
-        "CCOs + PCCOs both Procore → Sage 100 (per Agave MD: 'syncs Procore Subcontract Change Orders to Sage 100' AND 'Procore Potential Change Orders (PCOs) to Sage 100').",
+        "CCOs + PCCOs both Procore \u2192 Sage 100 (per Agave MD: 'syncs Procore Subcontract Change Orders to Sage 100' AND 'Procore Potential Change Orders (PCOs) to Sage 100').",
         "Subcontractor COs export with offsetting budget lines to prevent duplicate budget mods."
       ]
     },
@@ -3394,8 +3394,8 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Prime Contracts: Sage 100 → Procore (per Agave MD — syncs proposal amount from Sage 100 to Procore).",
-        "Procore Prime Contracts ← Sage 100 Proposals.",
+        "Prime Contracts: Sage 100 \u2192 Procore (per Agave MD \u2014 syncs proposal amount from Sage 100 to Procore).",
+        "Procore Prime Contracts \u2190 Sage 100 Proposals.",
         "One line item per cost code in Sage 100 proposals."
       ]
     },
@@ -3405,7 +3405,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Timecards → Sage 100C (export; 'Approved' filter). MD documents Procore→Sage only."
+        "Procore Timecards \u2192 Sage 100C (export; 'Approved' filter). MD documents Procore\u2192Sage only."
       ]
     },
     {
@@ -3464,7 +3464,7 @@
       "notes": [
         "MD: 'sync Sage Intacct Subcontracts with Procore Subcontracts and vice versa.'",
         "Contract Date required in Procore.",
-        "Document number required in Sage Intacct config — contact Agave implementation team."
+        "Document number required in Sage Intacct config \u2014 contact Agave implementation team."
       ]
     },
     {
@@ -3541,7 +3541,7 @@
       "target": "employees",
       "direction": "from-erp",
       "notes": [
-        "Spectrum employees → Procore (import only). Agave MD Known Limitation: 'Employees syncing from Procore to Spectrum is not supported.'"
+        "Spectrum employees \u2192 Procore (import only). Agave MD Known Limitation: 'Employees syncing from Procore to Spectrum is not supported.'"
       ]
     },
     {
@@ -3549,7 +3549,7 @@
       "target": "cost-codes",
       "direction": "from-erp",
       "notes": [
-        "Spectrum cost codes → Procore (import; codes deleted from Procore side). MD shows ERP→Procore."
+        "Spectrum cost codes \u2192 Procore (import; codes deleted from Procore side). MD shows ERP\u2192Procore."
       ]
     },
     {
@@ -3558,7 +3558,7 @@
       "direction": "from-erp",
       "notes": [
         "MD: 'Agave Sync supports syncing Sub Jobs from Spectrum into your Procore Work Breakdown Structure.'",
-        "Spectrum Master Job setup required — child jobs become Sub Jobs."
+        "Spectrum Master Job setup required \u2014 child jobs become Sub Jobs."
       ]
     },
     {
@@ -3574,7 +3574,7 @@
       "target": "budgets",
       "direction": "both",
       "notes": [
-        "Budget line items sync Spectrum↔Procore (separate import & export tutorials per Agave MD)."
+        "Budget line items sync Spectrum\u2194Procore (separate import & export tutorials per Agave MD)."
       ]
     },
     {
@@ -3583,8 +3583,8 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Subcontracts ↔ Spectrum Subcontracts.",
-        "Spectrum commitment numbers limited to 10 chars — Agave can auto-truncate longer Procore numbers.",
+        "Procore Subcontracts \u2194 Spectrum Subcontracts.",
+        "Spectrum commitment numbers limited to 10 chars \u2014 Agave can auto-truncate longer Procore numbers.",
         "GL Account required (Cost Type, Vendor, or Agave-configured default).",
         "Special characters in Vendor Codes cause sync failures."
       ]
@@ -3595,7 +3595,7 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Purchase Orders ↔ Spectrum Purchase Orders.",
+        "Procore Purchase Orders \u2194 Spectrum Purchase Orders.",
         "Same 10-character limit as Subcontracts.",
         "Locked tables error if another Spectrum user has the record open."
       ]
@@ -3617,7 +3617,7 @@
       "notes": [
         "MD: 'Agave Sync exports AP Invoices to Spectrum in an Unposted status.'",
         "Batch Numbers auto-assigned based on invoice date (Saturday of sync week, YYYYMMDD format).",
-        "Retention release NOT supported — manual in Spectrum."
+        "Retention release NOT supported \u2014 manual in Spectrum."
       ]
     },
     {
@@ -3636,7 +3636,7 @@
       "target": "change-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Commitment & Prime Contract Change Orders → Spectrum (export only per Agave MD)."
+        "Procore Commitment & Prime Contract Change Orders \u2192 Spectrum (export only per Agave MD)."
       ]
     },
     {
@@ -3645,9 +3645,9 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Spectrum Contracts ↔ Procore Prime Contracts.",
+        "Spectrum Contracts \u2194 Procore Prime Contracts.",
         "Unit Price contracts reference 'Unit Billing Items' tab in Spectrum.",
-        "Exports limited to Job Number, Customer, Line Items — header fields cannot update."
+        "Exports limited to Job Number, Customer, Line Items \u2014 header fields cannot update."
       ]
     },
     {
@@ -3656,7 +3656,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Timecard Entries → Spectrum (export). MD documents Procore→Spectrum only."
+        "Procore Timecard Entries \u2192 Spectrum (export). MD documents Procore\u2192Spectrum only."
       ]
     },
     {
@@ -3665,7 +3665,7 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Vista AP Vendors + AR Customers → Procore Companies (per Agave MD: 'import Vista AP Vendors to Procore Companies').",
+        "Vista AP Vendors + AR Customers \u2192 Procore Companies (per Agave MD: 'import Vista AP Vendors to Procore Companies').",
         "Auto-link by Name, Address, Code/Number, Email, Phone, Tax ID.",
         "PM Firms filter available to limit which vendors sync."
       ]
@@ -3675,7 +3675,7 @@
       "target": "employees",
       "direction": "from-erp",
       "notes": [
-        "Vista PR Employees → Procore Contacts/Users (per Agave MD).",
+        "Vista PR Employees \u2192 Procore Contacts/Users (per Agave MD).",
         "Sync as Users (default) or Contacts; 'Employee of...' checkbox required for linking."
       ]
     },
@@ -3685,7 +3685,7 @@
       "direction": "from-erp",
       "configurable": true,
       "notes": [
-        "Vista JC Job Phase Codes + Cost Types → Procore (per Agave MD: 'import Vista JC Job Phase Codes to Procore Cost Codes').",
+        "Vista JC Job Phase Codes + Cost Types \u2192 Procore (per Agave MD: 'import Vista JC Job Phase Codes to Procore Cost Codes').",
         "Partial matching supported (first N characters per Vista JC Company Parameters)."
       ]
     },
@@ -3694,7 +3694,7 @@
       "target": "project-wbs",
       "direction": "from-erp",
       "notes": [
-        "Sub Jobs: Vista → Procore (per Agave MD: 'sync Sub Jobs from Vista to your Procore Work Breakdown Structure').",
+        "Sub Jobs: Vista \u2192 Procore (per Agave MD: 'sync Sub Jobs from Vista to your Procore Work Breakdown Structure').",
         "Vista job numbering mask must follow predictable format (e.g. XXXXX-XX).",
         "Multiple Sub Jobs per record NOT supported in AP/AR transactions."
       ]
@@ -3704,7 +3704,7 @@
       "target": "jobs",
       "direction": "both",
       "notes": [
-        "Vista JC Jobs ↔ Procore Projects (per Agave MD body documents both Procore→Vista and Vista→Procore).",
+        "Vista JC Jobs \u2194 Procore Projects (per Agave MD body documents both Procore\u2192Vista and Vista\u2192Procore).",
         "Custom 'Customer' field can be added to Projects in Procore fieldset.",
         "Filtering recommended by status, department, or user-defined fields."
       ]
@@ -3717,7 +3717,7 @@
       "notes": [
         "Budget Line Items bidirectional (per Agave MD: 'Import Vista Original Estimates to Procore Budget Line Items, or Export Procore Budget Line Items to Vista Original Estimates').",
         "Configurable to sync Hours instead of Units for specific cost types.",
-        "Budget Transfers → Vista PM Approved Internal Change Orders (custom prefix, default 'BA-')."
+        "Budget Transfers \u2192 Vista PM Approved Internal Change Orders (custom prefix, default 'BA-')."
       ]
     },
     {
@@ -3726,10 +3726,10 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Subcontracts → Vista PM or SL Subcontracts.",
+        "Procore Subcontracts \u2192 Vista PM or SL Subcontracts.",
         "Approved status syncs as interfaced state to allow immediate invoicing.",
         "Type determined by Unit of Measure (LS = Amount, else Unit).",
-        "Change order line items filtered out — apply separately."
+        "Change order line items filtered out \u2014 apply separately."
       ]
     },
     {
@@ -3738,7 +3738,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Purchase Orders → Vista PM or PO Purchase Orders.",
+        "Procore Purchase Orders \u2192 Vista PM or PO Purchase Orders.",
         "Approved status syncs as interfaced state.",
         "Payment terms must match ERP valid terms; custom field with dropdown recommended."
       ]
@@ -3748,8 +3748,8 @@
       "target": "direct-costs",
       "direction": "from-erp",
       "notes": [
-        "Vista JC Detail → Procore Direct Costs (per Agave MD: 'import Vista JC Detail to Procore Direct Costs').",
-        "Known Limitation: Direct Costs Procore → Vista NOT supported.",
+        "Vista JC Detail \u2192 Procore Direct Costs (per Agave MD: 'import Vista JC Detail to Procore Direct Costs').",
+        "Known Limitation: Direct Costs Procore \u2192 Vista NOT supported.",
         "Categorized by source (Invoice, Payroll, Expense).",
         "Attachment sync available with DM database permissions configured."
       ]
@@ -3759,7 +3759,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Vista AP Invoices (posted state).",
+        "Procore Sub Invoices \u2192 Vista AP Invoices (posted state).",
         "Prereqs: Vendor, Project, Budget Code, Subcontract or PO must be synced.",
         "Batch month determined by latest open AP month after GL close month.",
         "Billing periods required; subtotal + retention calculated by specific formulas."
@@ -3771,7 +3771,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Owner Invoices → Vista AR Invoices (posted state).",
+        "Procore Owner Invoices \u2192 Vista AR Invoices (posted state).",
         "Prereqs: Prime Contract, Project, Customer required (Change Orders optional).",
         "Batch month determined by latest open AR month after GL close month.",
         "Subtotal + retention calculated using cumulative period-to-period formulas."
@@ -3782,8 +3782,8 @@
       "target": "change-orders",
       "direction": "to-erp",
       "notes": [
-        "Subcontract COs → Vista PM Subcontract Change Orders.",
-        "PCCOs → Vista JC Change Orders (posted state for immediate AR Invoice application).",
+        "Subcontract COs \u2192 Vista PM Subcontract Change Orders.",
+        "PCCOs \u2192 Vista JC Change Orders (posted state for immediate AR Invoice application).",
         "Syncs Potential Change Orders (PCOs), not formal Change Orders, for line item detail."
       ]
     },
@@ -3804,7 +3804,7 @@
       "direction": "to-erp",
       "configurable": true,
       "notes": [
-        "Procore Timecards → Vista PR Timecard Entries.",
+        "Procore Timecards \u2192 Vista PR Timecard Entries.",
         "Time Types must match PR Earnings Codes.",
         "Batch ID creation automatic; batch month based on PR End Date (default Saturday)."
       ]
@@ -3822,7 +3822,7 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Cost Codes ↔ Acumatica Account Codes."
+        "Procore Cost Codes \u2194 Acumatica Account Codes."
       ]
     },
     {
@@ -3895,7 +3895,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ QBO Customers/Vendors. Smoothlink links the two at setup; Live Sync keeps them bidirectional."
+        "Procore Companies \u2194 QBO Customers/Vendors. Smoothlink links the two at setup; Live Sync keeps them bidirectional."
       ]
     },
     {
@@ -3903,7 +3903,7 @@
       "target": "employees",
       "direction": "both",
       "notes": [
-        "Procore Employees / Workers ↔ QBO Employees. Smoothlink Employees section stores earning rates used by the Direct Cost Payroll build.",
+        "Procore Employees / Workers \u2194 QBO Employees. Smoothlink Employees section stores earning rates used by the Direct Cost Payroll build.",
         "Supports the QuickBooks Online Time Activity module."
       ]
     },
@@ -3912,10 +3912,10 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Standard Cost Codes ↔ QBO Chart of Accounts (Category). Project Cost Codes optional. Chart-of-Accounts mapping is optional when all relevant Procore Cost Codes are mapped to a Product/Service equivalent.",
-        "Standard Cost Codes ↔ QBO Products/Services (alternative mapping target).",
-        "Cost Codes / Cost Types optionally ↔ QBO Classes.",
-        "Tax Codes optionally ↔ QBO Tax Rates (handled at the SmoothX config layer — Tax Codes is not a Procore-side module here)."
+        "Standard Cost Codes \u2194 QBO Chart of Accounts (Category). Project Cost Codes optional. Chart-of-Accounts mapping is optional when all relevant Procore Cost Codes are mapped to a Product/Service equivalent.",
+        "Standard Cost Codes \u2194 QBO Products/Services (alternative mapping target).",
+        "Cost Codes / Cost Types optionally \u2194 QBO Classes.",
+        "Tax Codes optionally \u2194 QBO Tax Rates (handled at the SmoothX config layer \u2014 Tax Codes is not a Procore-side module here)."
       ]
     },
     {
@@ -3923,7 +3923,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → QBO Sub-Customers (Projects). A sub-customer can be converted to a QBO Online Project after the original syncing."
+        "Procore Projects \u2192 QBO Sub-Customers (Projects). A sub-customer can be converted to a QBO Online Project after the original syncing."
       ]
     },
     {
@@ -3931,7 +3931,7 @@
       "target": "project-wbs",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Jobs → QBO Sub-Customers (Optional).",
+        "Procore Sub Jobs \u2192 QBO Sub-Customers (Optional).",
         "A sub job can map either to a new individual sub-customer/project, or to the main sub-customer/project."
       ]
     },
@@ -3940,7 +3940,7 @@
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime Contracts → QBO Quotes / Estimates (Optional).",
+        "Procore Prime Contracts \u2192 QBO Quotes / Estimates (Optional).",
         "Includes Retention and Change Orders."
       ]
     },
@@ -3949,7 +3949,7 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime Contract Invoices → QBO Sales Invoices.",
+        "Procore Prime Contract Invoices \u2192 QBO Sales Invoices.",
         "Includes Retention and Change Orders.",
         "Requires the Procore Invoicing module. Payments flow back separately via the Payments module."
       ]
@@ -3959,8 +3959,8 @@
       "target": "subcontracts",
       "direction": "both",
       "notes": [
-        "Procore Subcontracts (Commitments) ↔ QBO Purchase Orders (Optional).",
-        "Bidirectional commitment sync — disabling this also disables the QBO-PO-created Bill sync path."
+        "Procore Subcontracts (Commitments) \u2194 QBO Purchase Orders (Optional).",
+        "Bidirectional commitment sync \u2014 disabling this also disables the QBO-PO-created Bill sync path."
       ]
     },
     {
@@ -3968,8 +3968,8 @@
       "target": "purchase-orders",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order Commitments ↔ QBO Purchase Orders (Optional).",
-        "Same mapping as Subcontracts — both are Procore Commitments and share the QBO PO target."
+        "Procore Purchase Order Commitments \u2194 QBO Purchase Orders (Optional).",
+        "Same mapping as Subcontracts \u2014 both are Procore Commitments and share the QBO PO target."
       ]
     },
     {
@@ -3977,7 +3977,7 @@
       "target": "sub-invoices",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order / Subcontract Invoices ↔ QBO Bills (Related to a Purchase Order).",
+        "Procore Purchase Order / Subcontract Invoices \u2194 QBO Bills (Related to a Purchase Order).",
         "Includes Retention and Change Orders.",
         "A Bill created from a QuickBooks Online Purchase Order only syncs if the optional Commitments syncing is enabled."
       ]
@@ -3987,8 +3987,8 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Costs (Invoice, Expense & Payroll) ↔ QBO Bills / Purchases (NOT related to a Purchase Order).",
-        "QBO Purchases (Expense / Check / Credit Card), Vendor Credits, and Journal Entries → Procore Direct Cost Expenses (one-way QBO → Procore)."
+        "Procore Direct Costs (Invoice, Expense & Payroll) \u2194 QBO Bills / Purchases (NOT related to a Purchase Order).",
+        "QBO Purchases (Expense / Check / Credit Card), Vendor Credits, and Journal Entries \u2192 Procore Direct Cost Expenses (one-way QBO \u2192 Procore)."
       ]
     },
     {
@@ -3996,9 +3996,9 @@
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
-        "Procore Timesheets / Timecards → QBO Time Activity (Procore → QBO).",
+        "Procore Timesheets / Timecards \u2192 QBO Time Activity (Procore \u2192 QBO).",
         "Procore Timesheets also build Procore Direct Cost Payroll internally, using the Smoothlink Employees-section earning rates.",
-        "Scheduled Sync (hourly, optional): QBO Time Activity → Procore Direct Cost Payroll — this flow is surfaced on the Direct Costs link."
+        "Scheduled Sync (hourly, optional): QBO Time Activity \u2192 Procore Direct Cost Payroll \u2014 this flow is surfaced on the Direct Costs link."
       ]
     },
     {
@@ -4006,7 +4006,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ MYOB Customers / Suppliers.",
+        "Procore Companies \u2194 MYOB Customers / Suppliers.",
         "Live Sync keeps new & updated contacts in sync both ways."
       ]
     },
@@ -4015,7 +4015,7 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Standard Cost Codes (+ Project Cost Codes) ↔ MYOB Account Codes (Smoothlink Onboarding mapping)."
+        "Procore Standard Cost Codes (+ Project Cost Codes) \u2194 MYOB Account Codes (Smoothlink Onboarding mapping)."
       ]
     },
     {
@@ -4023,8 +4023,8 @@
       "target": "employees",
       "direction": "both",
       "notes": [
-        "Procore Employees / Workers ↔ MYOB Employees.",
-        "Procore Earning Types ↔ MYOB Payroll Categories (same row group)."
+        "Procore Employees / Workers \u2194 MYOB Employees.",
+        "Procore Earning Types \u2194 MYOB Payroll Categories (same row group)."
       ]
     },
     {
@@ -4032,7 +4032,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → MYOB Jobs (new & updated)."
+        "Procore Projects \u2192 MYOB Jobs (new & updated)."
       ]
     },
     {
@@ -4040,7 +4040,7 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Head Contract Progress Claims → MYOB Sales Service Invoices.",
+        "Procore Head Contract Progress Claims \u2192 MYOB Sales Service Invoices.",
         "Requires Procore Invoicing module. Payments come back via the Payments link."
       ]
     },
@@ -4049,7 +4049,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Commitments Progress Claims → MYOB Bills Service Bills.",
+        "Procore Commitments Progress Claims \u2192 MYOB Bills Service Bills.",
         "Payments come back via the Payments link."
       ]
     },
@@ -4058,8 +4058,8 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Cost (Invoice & Expense) ↔ MYOB Bills (excluding Payment Application).",
-        "Live Sync (bottom band) also imports MYOB Spend Money → Procore Direct Cost, and MYOB Wages → Procore Direct Cost Payroll."
+        "Procore Direct Cost (Invoice & Expense) \u2194 MYOB Bills (excluding Payment Application).",
+        "Live Sync (bottom band) also imports MYOB Spend Money \u2192 Procore Direct Cost, and MYOB Wages \u2192 Procore Direct Cost Payroll."
       ]
     },
     {
@@ -4067,7 +4067,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ MYOB Acumatica Customers / Suppliers."
+        "Procore Companies \u2194 MYOB Acumatica Customers / Suppliers."
       ]
     },
     {
@@ -4075,11 +4075,11 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Standard Cost Codes ↔ MYOB Acumatica Account Codes (primary mapping).",
-        "Procore Standard Cost Codes ↔ MYOB Acumatica Cost Codes (optional³, mutually exclusive with the Project/Sub Jobs ↔ Project Tasks mapping).",
-        "Procore Standard Cost Codes ↔ MYOB Acumatica Inventory (optional).",
-        "Procore Cost Types ↔ MYOB Acumatica Account Groups.",
-        "Procore Tax Codes optionally ↔ MYOB Acumatica Tax Categories (handled at the SmoothX config layer)."
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Account Codes (primary mapping).",
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Cost Codes (optional\u00b3, mutually exclusive with the Project/Sub Jobs \u2194 Project Tasks mapping).",
+        "Procore Standard Cost Codes \u2194 MYOB Acumatica Inventory (optional).",
+        "Procore Cost Types \u2194 MYOB Acumatica Account Groups.",
+        "Procore Tax Codes optionally \u2194 MYOB Acumatica Tax Categories (handled at the SmoothX config layer)."
       ]
     },
     {
@@ -4087,8 +4087,8 @@
       "target": "employees",
       "direction": "to-erp",
       "notes": [
-        "Procore Employees / Workers → SmoothX Smoothlink Employees section.",
-        "Procore Earning Rates → SmoothX (used by Direct Cost Payroll build via footnote 6)."
+        "Procore Employees / Workers \u2192 SmoothX Smoothlink Employees section.",
+        "Procore Earning Rates \u2192 SmoothX (used by Direct Cost Payroll build via footnote 6)."
       ]
     },
     {
@@ -4096,7 +4096,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → MYOB Acumatica Projects."
+        "Procore Projects \u2192 MYOB Acumatica Projects."
       ]
     },
     {
@@ -4104,8 +4104,8 @@
       "target": "project-wbs",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Jobs → MYOB Acumatica Project Tasks (Optional¹).",
-        "If using Project Tasks to hold sub jobs info, the separate Sub Jobs ↔ Project Tasks mapping cannot also be used."
+        "Procore Sub Jobs \u2192 MYOB Acumatica Project Tasks (Optional\u00b9).",
+        "If using Project Tasks to hold sub jobs info, the separate Sub Jobs \u2194 Project Tasks mapping cannot also be used."
       ]
     },
     {
@@ -4113,8 +4113,8 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget → MYOB Acumatica Cost Budget (Optional).",
-        "Procore Budget Changes → MYOB Acumatica Cost Budget Change Orders (Optional)."
+        "Procore Budget \u2192 MYOB Acumatica Cost Budget (Optional).",
+        "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders (Optional)."
       ]
     },
     {
@@ -4122,7 +4122,7 @@
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Head Contracts → MYOB Acumatica Revenue Budget (Optional, Including Variations)."
+        "Procore Head Contracts \u2192 MYOB Acumatica Revenue Budget (Optional, Including Variations)."
       ]
     },
     {
@@ -4130,8 +4130,8 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Head Contract Invoices → MYOB Acumatica Receivables Invoices.",
-        "Including Retention & Variations. Requires Procore Invoicing module (⁴)."
+        "Procore Head Contract Invoices \u2192 MYOB Acumatica Receivables Invoices.",
+        "Including Retention & Variations. Requires Procore Invoicing module (\u2074)."
       ]
     },
     {
@@ -4139,7 +4139,7 @@
       "target": "subcontracts",
       "direction": "both",
       "notes": [
-        "Procore Commitments ↔ MYOB Acumatica Purchase Orders (Optional)."
+        "Procore Commitments \u2194 MYOB Acumatica Purchase Orders (Optional)."
       ]
     },
     {
@@ -4147,7 +4147,7 @@
       "target": "purchase-orders",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order Commitments ↔ MYOB Acumatica Purchase Orders (Optional). Same map as Subcontracts."
+        "Procore Purchase Order Commitments \u2194 MYOB Acumatica Purchase Orders (Optional). Same map as Subcontracts."
       ]
     },
     {
@@ -4155,9 +4155,9 @@
       "target": "sub-invoices",
       "direction": "both",
       "notes": [
-        "Procore Commitments Invoices ↔ MYOB Acumatica Payables Bills / Debit Adjustments (related to a Purchase Order).",
-        "Including Retention & Variations. Requires Procore Invoicing module (⁴).",
-        "A MYOB-PO-created Bill only syncs back if the optional Commitments syncing is enabled (⁵)."
+        "Procore Commitments Invoices \u2194 MYOB Acumatica Payables Bills / Debit Adjustments (related to a Purchase Order).",
+        "Including Retention & Variations. Requires Procore Invoicing module (\u2074).",
+        "A MYOB-PO-created Bill only syncs back if the optional Commitments syncing is enabled (\u2075)."
       ]
     },
     {
@@ -4165,8 +4165,8 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Costs (Invoice) ↔ MYOB Acumatica Payables Bills (NOT related to a PO).",
-        "Procore Direct Costs (Expense & Payroll) ↔ MYOB Acumatica Project Transactions (Debit)."
+        "Procore Direct Costs (Invoice) \u2194 MYOB Acumatica Payables Bills (NOT related to a PO).",
+        "Procore Direct Costs (Expense & Payroll) \u2194 MYOB Acumatica Project Transactions (Debit)."
       ]
     },
     {
@@ -4174,8 +4174,8 @@
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
-        "Procore Timesheets / Timecards → Procore Direct Cost Payroll (internal Procore flow using SmoothX Smoothlink Employees earning rates, footnote ⁶).",
-        "Not an external sync to MYOB Acumatica — this row exists so the timecards module shows the SmoothX-managed Direct Cost Payroll build."
+        "Procore Timesheets / Timecards \u2192 Procore Direct Cost Payroll (internal Procore flow using SmoothX Smoothlink Employees earning rates, footnote \u2076).",
+        "Not an external sync to MYOB Acumatica \u2014 this row exists so the timecards module shows the SmoothX-managed Direct Cost Payroll build."
       ]
     },
     {
@@ -4183,7 +4183,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ Zoho Customers / Vendors."
+        "Procore Companies \u2194 Zoho Customers / Vendors."
       ]
     },
     {
@@ -4191,7 +4191,7 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Standard Cost Codes ↔ Zoho Chart Of Accounts (Smoothlink Onboarding mapping)."
+        "Procore Standard Cost Codes \u2194 Zoho Chart Of Accounts (Smoothlink Onboarding mapping)."
       ]
     },
     {
@@ -4199,7 +4199,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → Zoho Projects (new & updated)."
+        "Procore Projects \u2192 Zoho Projects (new & updated)."
       ]
     },
     {
@@ -4207,7 +4207,7 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime Contract Payment Application → Zoho Sales Service Invoices.",
+        "Procore Prime Contract Payment Application \u2192 Zoho Sales Service Invoices.",
         "Payments come back via the Payments link."
       ]
     },
@@ -4216,7 +4216,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Commitments Payment Application → Zoho Bills Invoiced.",
+        "Procore Commitments Payment Application \u2192 Zoho Bills Invoiced.",
         "Payments come back via the Payments link."
       ]
     },
@@ -4225,7 +4225,7 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Cost (Expense) ↔ Zoho Bills (excluding Payment Application).",
+        "Procore Direct Cost (Expense) \u2194 Zoho Bills (excluding Payment Application).",
         "Procore Direct Cost Payroll is built from Procore Site Diary or Scheduled (Procore-internal flow)."
       ]
     },
@@ -4234,7 +4234,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ QuickBooks Desktop Customers / Vendors."
+        "Procore Companies \u2194 QuickBooks Desktop Customers / Vendors."
       ]
     },
     {
@@ -4242,9 +4242,9 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Standard Cost Codes ↔ QBD Chart Of Accounts (² optional if all Cost Codes are mapped to an Items equivalent).",
-        "Procore Standard Cost Codes ↔ QBD Items (alternative mapping target).",
-        "Procore Cost Codes / Types optionally ↔ QBD Classes."
+        "Procore Standard Cost Codes \u2194 QBD Chart Of Accounts (\u00b2 optional if all Cost Codes are mapped to an Items equivalent).",
+        "Procore Standard Cost Codes \u2194 QBD Items (alternative mapping target).",
+        "Procore Cost Codes / Types optionally \u2194 QBD Classes."
       ]
     },
     {
@@ -4252,7 +4252,7 @@
       "target": "employees",
       "direction": "both",
       "notes": [
-        "Procore Employees / Workers ↔ QBD Employees.",
+        "Procore Employees / Workers \u2194 QBD Employees.",
         "Earning Rates feed the SmoothX Smoothlink Employees section for Direct Cost Payroll."
       ]
     },
@@ -4261,7 +4261,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → QBD Jobs (Customers)."
+        "Procore Projects \u2192 QBD Jobs (Customers)."
       ]
     },
     {
@@ -4269,8 +4269,8 @@
       "target": "project-wbs",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Jobs → QBD Jobs (Customers, Optional).",
-        "A Sub Job can map either to a new individual Job or to the main Job (footnote ¹)."
+        "Procore Sub Jobs \u2192 QBD Jobs (Customers, Optional).",
+        "A Sub Job can map either to a new individual Job or to the main Job (footnote \u00b9)."
       ]
     },
     {
@@ -4278,7 +4278,7 @@
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime Contracts → QBD Estimates (Optional). Including Change Orders."
+        "Procore Prime Contracts \u2192 QBD Estimates (Optional). Including Change Orders."
       ]
     },
     {
@@ -4286,8 +4286,8 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime Contract Invoices → QBD Sales Invoices.",
-        "Including Retention & Change Orders. Requires Procore Invoicing module (³)."
+        "Procore Prime Contract Invoices \u2192 QBD Sales Invoices.",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3)."
       ]
     },
     {
@@ -4295,7 +4295,7 @@
       "target": "subcontracts",
       "direction": "both",
       "notes": [
-        "Procore Commitments ↔ QBD Purchase Orders (Optional)."
+        "Procore Commitments \u2194 QBD Purchase Orders (Optional)."
       ]
     },
     {
@@ -4303,7 +4303,7 @@
       "target": "purchase-orders",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order Commitments ↔ QBD Purchase Orders (Optional). Same map as Subcontracts."
+        "Procore Purchase Order Commitments \u2194 QBD Purchase Orders (Optional). Same map as Subcontracts."
       ]
     },
     {
@@ -4311,9 +4311,9 @@
       "target": "sub-invoices",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order / Subcontract Invoices ↔ QBD Bills (Related to a Purchase Order).",
-        "Including Retention & Change Orders. Requires Procore Invoicing module (³).",
-        "A QBD-PO-created Bill only syncs back when created from a Purchase Order that is synced with Procore (footnote ⁴)."
+        "Procore Purchase Order / Subcontract Invoices \u2194 QBD Bills (Related to a Purchase Order).",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
+        "A QBD-PO-created Bill only syncs back when created from a Purchase Order that is synced with Procore (footnote \u2074)."
       ]
     },
     {
@@ -4321,8 +4321,8 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Costs ↔ QBD Bills / Transactions (NOT related to a Purchase Order).",
-        "Scheduled Sync (hourly, optional): QBD Time Activity → Procore Direct Cost Payroll."
+        "Procore Direct Costs \u2194 QBD Bills / Transactions (NOT related to a Purchase Order).",
+        "Scheduled Sync (hourly, optional): QBD Time Activity \u2192 Procore Direct Cost Payroll."
       ]
     },
     {
@@ -4330,8 +4330,8 @@
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
-        "Procore Timesheets / Timecards → QBD Time Activity.",
-        "Procore Timesheets also build Procore Direct Cost Payroll internally using the Smoothlink Employees earning rates (footnote ⁵)."
+        "Procore Timesheets / Timecards \u2192 QBD Time Activity.",
+        "Procore Timesheets also build Procore Direct Cost Payroll internally using the Smoothlink Employees earning rates (footnote \u2075)."
       ]
     },
     {
@@ -4339,7 +4339,7 @@
       "target": "vendors",
       "direction": "both",
       "notes": [
-        "Procore Companies ↔ Xero Contacts."
+        "Procore Companies \u2194 Xero Contacts."
       ]
     },
     {
@@ -4347,10 +4347,10 @@
       "target": "cost-codes",
       "direction": "both",
       "notes": [
-        "Procore Standard Cost Codes ↔ Xero Chart Of Accounts (² optional if all Cost Codes are mapped to a Cost Code Tracking Category or Product/Service equivalent).",
-        "Procore Standard Cost Codes ↔ Xero Tracking Category (Cost Code, Optional).",
-        "Procore Standard Cost Codes ↔ Xero Products / Services (Item Code, Optional).",
-        "Procore Cost Types optionally ↔ Xero Tracking Category (Cost Type)."
+        "Procore Standard Cost Codes \u2194 Xero Chart Of Accounts (\u00b2 optional if all Cost Codes are mapped to a Cost Code Tracking Category or Product/Service equivalent).",
+        "Procore Standard Cost Codes \u2194 Xero Tracking Category (Cost Code, Optional).",
+        "Procore Standard Cost Codes \u2194 Xero Products / Services (Item Code, Optional).",
+        "Procore Cost Types optionally \u2194 Xero Tracking Category (Cost Type)."
       ]
     },
     {
@@ -4358,7 +4358,7 @@
       "target": "employees",
       "direction": "both",
       "notes": [
-        "Procore Employees / Workers ↔ Xero Employees.",
+        "Procore Employees / Workers \u2194 Xero Employees.",
         "Earning Rates feed the SmoothX Smoothlink Employees section."
       ]
     },
@@ -4367,7 +4367,7 @@
       "target": "jobs",
       "direction": "to-erp",
       "notes": [
-        "Procore Projects → Xero Tracking Category (Projects)."
+        "Procore Projects \u2192 Xero Tracking Category (Projects)."
       ]
     },
     {
@@ -4375,8 +4375,8 @@
       "target": "project-wbs",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Jobs → Xero Tracking Category (Projects, Optional).",
-        "A Sub Job can map either to a new individual Tracking Category option or to the Tracking Category of the main project (footnote ¹)."
+        "Procore Sub Jobs \u2192 Xero Tracking Category (Projects, Optional).",
+        "A Sub Job can map either to a new individual Tracking Category option or to the Tracking Category of the main project (footnote \u00b9)."
       ]
     },
     {
@@ -4384,8 +4384,8 @@
       "target": "owner-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Prime / Main / Head Contract Invoices → Xero Sales Invoices.",
-        "Including Retention & Change Orders. Requires Procore Invoicing module (³).",
+        "Procore Prime / Main / Head Contract Invoices \u2192 Xero Sales Invoices.",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
         "Payments come back via the Payments link."
       ]
     },
@@ -4394,7 +4394,7 @@
       "target": "subcontracts",
       "direction": "both",
       "notes": [
-        "Procore Commitments ↔ Xero Purchase Orders (Optional)."
+        "Procore Commitments \u2194 Xero Purchase Orders (Optional)."
       ]
     },
     {
@@ -4402,7 +4402,7 @@
       "target": "purchase-orders",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order Commitments ↔ Xero Purchase Orders (Optional). Same map as Subcontracts."
+        "Procore Purchase Order Commitments \u2194 Xero Purchase Orders (Optional). Same map as Subcontracts."
       ]
     },
     {
@@ -4410,9 +4410,9 @@
       "target": "sub-invoices",
       "direction": "both",
       "notes": [
-        "Procore Purchase Order / Subcontract Invoices ↔ Xero Bills (Related to a Purchase Order, including reconciled in Dext).",
-        "Including Retention & Change Orders. Requires Procore Invoicing module (³).",
-        "A Xero-PO-created Bill only syncs back if the optional Commitments syncing is enabled (footnote ⁴)."
+        "Procore Purchase Order / Subcontract Invoices \u2194 Xero Bills (Related to a Purchase Order, including reconciled in Dext).",
+        "Including Retention & Change Orders. Requires Procore Invoicing module (\u00b3).",
+        "A Xero-PO-created Bill only syncs back if the optional Commitments syncing is enabled (footnote \u2074)."
       ]
     },
     {
@@ -4420,9 +4420,9 @@
       "target": "direct-costs",
       "direction": "both",
       "notes": [
-        "Procore Direct Costs ↔ Xero Bills (NOT related to a Purchase Order).",
-        "Scheduled Sync (hourly): Xero Spend Money, Receive Money, Credit Note, and Manual Journal → Procore Direct Cost.",
-        "Scheduled Sync (optional): Xero Timesheets → Procore Direct Cost Payroll."
+        "Procore Direct Costs \u2194 Xero Bills (NOT related to a Purchase Order).",
+        "Scheduled Sync (hourly): Xero Spend Money, Receive Money, Credit Note, and Manual Journal \u2192 Procore Direct Cost.",
+        "Scheduled Sync (optional): Xero Timesheets \u2192 Procore Direct Cost Payroll."
       ]
     },
     {
@@ -4430,9 +4430,9 @@
       "target": "timecards",
       "direction": "to-erp",
       "notes": [
-        "Procore Timesheets / Timecards → Xero Timesheets.",
-        "Procore Timesheets also build Procore Direct Cost Payroll internally using Smoothlink Employees earning rates (footnote ⁵).",
-        "Scheduled Sync (optional): Xero Timesheets → Procore Direct Cost Payroll."
+        "Procore Timesheets / Timecards \u2192 Xero Timesheets.",
+        "Procore Timesheets also build Procore Direct Cost Payroll internally using Smoothlink Employees earning rates (footnote \u2075).",
+        "Scheduled Sync (optional): Xero Timesheets \u2192 Procore Direct Cost Payroll."
       ]
     },
     {
@@ -4441,7 +4441,7 @@
       "direction": "from-erp",
       "notes": [
         "ProScan+ OCR-scanned invoices import into Procore Direct Costs (Receipts / Bills).",
-        "Add-on flow, not bidirectional — ProScan+ is the source of the invoice data."
+        "Add-on flow, not bidirectional \u2014 ProScan+ is the source of the invoice data."
       ]
     },
     {
@@ -4473,7 +4473,7 @@
       "target": "direct-costs",
       "direction": "to-erp",
       "notes": [
-        "Procore Direct Costs (including payroll) → Cost+ for margin automation and cost-plus billing."
+        "Procore Direct Costs (including payroll) \u2192 Cost+ for margin automation and cost-plus billing."
       ]
     },
     {
@@ -4481,7 +4481,7 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Commitment Progress Claims → Cost+ (input to the cost-plus billing build)."
+        "Procore Commitment Progress Claims \u2192 Cost+ (input to the cost-plus billing build)."
       ]
     },
     {
@@ -4490,7 +4490,7 @@
       "direction": "both",
       "notes": [
         "Cost+ reads Procore Head Contract Progress Claims and writes generated cost-plus owner billings back to Procore.",
-        "Cost+ is not limited to a specific ERP — works alongside any SmoothX ERP integration."
+        "Cost+ is not limited to a specific ERP \u2014 works alongside any SmoothX ERP integration."
       ]
     },
     {
@@ -4498,7 +4498,7 @@
       "target": "cost-codes",
       "direction": "to-erp",
       "notes": [
-        "Procore Cost Codes → Cost+ (margin automation operates at the cost-code level)."
+        "Procore Cost Codes \u2192 Cost+ (margin automation operates at the cost-code level)."
       ]
     },
     {
@@ -4506,7 +4506,7 @@
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
-        "Procore Head/Prime Contracts → Cost+ (contract terms drive the cost-plus calculation)."
+        "Procore Head/Prime Contracts \u2192 Cost+ (contract terms drive the cost-plus calculation)."
       ]
     },
     {
@@ -4530,7 +4530,7 @@
       "target": "budgets",
       "direction": "to-erp",
       "notes": [
-        "Procore Budgets → Advanced Payments (context for amortization schedule)."
+        "Procore Budgets \u2192 Advanced Payments (context for amortization schedule)."
       ]
     },
     {
@@ -4538,7 +4538,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Sage 300 CRE.",
+        "Procore Budget Changes \u2192 Sage 300 CRE.",
         "Net-zero budget transfers post as approved budget modifications against the Job Cost record."
       ]
     },
@@ -4547,7 +4547,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Vista as net-zero JC Original Estimate adjustments.",
+        "Procore Budget Changes \u2192 Vista as net-zero JC Original Estimate adjustments.",
         "Budget must be unlocked in Vista to accept the change; standard Vista budget rules apply."
       ]
     },
@@ -4556,8 +4556,8 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Spectrum Budget Transfers.",
-        "Net-zero transfers between Phases / Cost Codes — original budget total preserved."
+        "Procore Budget Changes \u2192 Spectrum Budget Transfers.",
+        "Net-zero transfers between Phases / Cost Codes \u2014 original budget total preserved."
       ]
     },
     {
@@ -4565,7 +4565,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Sage 100 Contractor budget modification entries.",
+        "Procore Budget Changes \u2192 Sage 100 Contractor budget modification entries.",
         "Net-zero between cost codes / categories on the same job."
       ]
     },
@@ -4574,7 +4574,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Sage Intacct Construction budget modifications."
+        "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications."
       ]
     },
     {
@@ -4582,7 +4582,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Foundation budget transfer entries on the Job Cost record."
+        "Procore Budget Changes \u2192 Foundation budget transfer entries on the Job Cost record."
       ]
     },
     {
@@ -4590,7 +4590,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → CMiC budget revision records."
+        "Procore Budget Changes \u2192 CMiC budget revision records."
       ]
     },
     {
@@ -4598,7 +4598,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Acumatica Cost Budget Change Orders (via the Edge connector).",
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via the Edge connector).",
         "Net-zero transfers post against the Cost Budget for the project."
       ]
     },
@@ -4607,7 +4607,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Acumatica Cost Budget Change Orders (via the Vision connector)."
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via the Vision connector)."
       ]
     },
     {
@@ -4615,7 +4615,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Deltek ComputerEase budget modification entries."
+        "Procore Budget Changes \u2192 Deltek ComputerEase budget modification entries."
       ]
     },
     {
@@ -4623,7 +4623,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Spectrum Budget Transfers (via Agave)."
+        "Procore Budget Changes \u2192 Spectrum Budget Transfers (via Agave)."
       ]
     },
     {
@@ -4631,7 +4631,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Vista budget adjustments (via Agave)."
+        "Procore Budget Changes \u2192 Vista budget adjustments (via Agave)."
       ]
     },
     {
@@ -4639,7 +4639,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Sage 100 Contractor budget modifications (via Agave)."
+        "Procore Budget Changes \u2192 Sage 100 Contractor budget modifications (via Agave)."
       ]
     },
     {
@@ -4647,7 +4647,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Sage Intacct Construction budget modifications (via Agave)."
+        "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications (via Agave)."
       ]
     },
     {
@@ -4655,7 +4655,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Acumatica Cost Budget Change Orders (via Agave)."
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via Agave)."
       ]
     },
     {
@@ -4663,7 +4663,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → Acumatica Cost Budget Change Orders.",
+        "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders.",
         "SmoothX Feature Map: Budget Changes export as Cost Budget Change Orders (Optional)."
       ]
     },
@@ -4672,7 +4672,7 @@
       "target": "budget-changes",
       "direction": "to-erp",
       "notes": [
-        "Procore Budget Changes → MYOB Acumatica Cost Budget Change Orders.",
+        "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders.",
         "SmoothX Feature Map (Slide 5 / Budgeting): Budget Changes flow as Cost Budget Change Orders (Optional)."
       ]
     },
@@ -4681,8 +4681,8 @@
       "target": "prime-contracts",
       "direction": "both",
       "notes": [
-        "Procore Prime Contracts ↔ Deltek ComputerEase contract billing.",
-        "Per Agave's current Procore↔ComputerEase sync catalog (added after the local MD snapshot; confirm direction in Agave)."
+        "Procore Prime Contracts \u2194 Deltek ComputerEase contract billing.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog (added after the local MD snapshot; confirm direction in Agave)."
       ]
     },
     {
@@ -4691,8 +4691,8 @@
       "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Owner Invoices ↔ Deltek ComputerEase AR Invoices.",
-        "Per Agave's current Procore↔ComputerEase sync catalog."
+        "Procore Owner Invoices \u2194 Deltek ComputerEase AR Invoices.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog."
       ]
     },
     {
@@ -4700,8 +4700,8 @@
       "target": "sub-invoices",
       "direction": "to-erp",
       "notes": [
-        "Procore Sub Invoices → Deltek ComputerEase AP Invoices.",
-        "Per Agave's current Procore↔ComputerEase sync catalog."
+        "Procore Sub Invoices \u2192 Deltek ComputerEase AP Invoices.",
+        "Per Agave's current Procore\u2194ComputerEase sync catalog."
       ]
     },
     {
@@ -4709,7 +4709,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Vista payments → Procore Payments Issued tab for subcontracts & POs (import only). AP/commitment payments only — no AR/owner-payment sync."
+        "Vista payments \u2192 Procore Payments Issued tab for subcontracts & POs (import only). AP/commitment payments only \u2014 no AR/owner-payment sync."
       ]
     },
     {
@@ -4717,7 +4717,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Yardi Voyager paid subcontractor invoices → Procore Commitment Payments Issued.",
+        "Yardi Voyager paid subcontractor invoices \u2192 Procore Commitment Payments Issued.",
         "Amount paid, payment type, method, and date import for reconciliation (read-only)."
       ]
     },
@@ -4726,7 +4726,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Paid NetSuite subcontractor invoices → Procore Commitments Payment tab (import only)."
+        "Paid NetSuite subcontractor invoices \u2192 Procore Commitments Payment tab (import only)."
       ]
     },
     {
@@ -4734,7 +4734,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Subcontractor payment records import from Acumatica Edge (US Editions). The Edge integration has no Procore Pay export path — import only."
+        "Subcontractor payment records import from Acumatica Edge (US Editions). The Edge integration has no Procore Pay export path \u2014 import only."
       ]
     },
     {
@@ -4751,7 +4751,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "MRI Platform X paid & posted invoices → Procore Payments Issued on the relevant subcontract (Commitments).",
+        "MRI Platform X paid & posted invoices \u2192 Procore Payments Issued on the relevant subcontract (Commitments).",
         "Payments run 03:00 EST; read-only import."
       ]
     },
@@ -4760,8 +4760,8 @@
       "target": "commitment-payments",
       "direction": "both",
       "notes": [
-        "CMiC AP / Subcontract Invoice Payments → Procore Payments Issued (Commitments).",
-        "Export Procore → CMiC only for US customers licensed for Procore Pay (check #, amount, date)."
+        "CMiC AP / Subcontract Invoice Payments \u2192 Procore Payments Issued (Commitments).",
+        "Export Procore \u2192 CMiC only for US customers licensed for Procore Pay (check #, amount, date)."
       ]
     },
     {
@@ -4769,7 +4769,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Synced subcontractor-invoice payments → Procore Commitment → Payments tab (import only)."
+        "Synced subcontractor-invoice payments \u2192 Procore Commitment \u2192 Payments tab (import only)."
       ]
     },
     {
@@ -4786,8 +4786,8 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Foundation AP Payments → Procore Commitment Payments (one-way per Agave's MD).",
-        "Known Limitation: Prime/Contract Payments syncing Procore → Foundation is not supported.",
+        "Foundation AP Payments \u2192 Procore Commitment Payments (one-way per Agave's MD).",
+        "Known Limitation: Prime/Contract Payments syncing Procore \u2192 Foundation is not supported.",
         "Methods: Credit Card, EFT/ACH (Electronic), Handwritten/Printed Check."
       ]
     },
@@ -4796,8 +4796,8 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "AP Payments: Acumatica → Procore Commitment Payments (Agave Generic Inquiry).",
-        "Known Limitation: Prime/Contract Payments Procore → Acumatica NOT supported.",
+        "AP Payments: Acumatica \u2192 Procore Commitment Payments (Agave Generic Inquiry).",
+        "Known Limitation: Prime/Contract Payments Procore \u2192 Acumatica NOT supported.",
         "Splits payments across multiple projects/commitments as needed."
       ]
     },
@@ -4806,8 +4806,8 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Sage 100C Vendor Payments → Procore Commitment Payments (per Agave MD).",
-        "Methods: ACH/Voucher → Electronic, Check, Credit Card."
+        "Sage 100C Vendor Payments \u2192 Procore Commitment Payments (per Agave MD).",
+        "Methods: ACH/Voucher \u2192 Electronic, Check, Credit Card."
       ]
     },
     {
@@ -4815,7 +4815,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Spectrum AP Payments (Credit Card & Check) → Procore Commitment Payments (per Agave MD)."
+        "Spectrum AP Payments (Credit Card & Check) \u2192 Procore Commitment Payments (per Agave MD)."
       ]
     },
     {
@@ -4823,7 +4823,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "Spectrum AR Payments (Cash Receipts) → Procore Prime Contract Payments (per Agave MD).",
+        "Spectrum AR Payments (Cash Receipts) \u2192 Procore Prime Contract Payments (per Agave MD).",
         "Splits across invoices/contracts into separate Procore records."
       ]
     },
@@ -4832,8 +4832,8 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Vista AP Payments → Procore Subcontractor / Commitment Payments (per Agave MD).",
-        "Methods: Check, Credit Service/EFT/ePayments → Electronic."
+        "Vista AP Payments \u2192 Procore Subcontractor / Commitment Payments (per Agave MD).",
+        "Methods: Check, Credit Service/EFT/ePayments \u2192 Electronic."
       ]
     },
     {
@@ -4841,7 +4841,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "Vista AR Cash Receipts → Procore Prime Contract Payments (per Agave MD)."
+        "Vista AR Cash Receipts \u2192 Procore Prime Contract Payments (per Agave MD)."
       ]
     },
     {
@@ -4849,8 +4849,8 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Deltek ComputerEase contract payments → Procore Commitment Payments.",
-        "Per the Agave catalog (absent from the local MD snapshot); modeled on Foundation/Vista AP behavior — confirm in Agave."
+        "Deltek ComputerEase contract payments \u2192 Procore Commitment Payments.",
+        "Per the Agave catalog (absent from the local MD snapshot); modeled on Foundation/Vista AP behavior \u2014 confirm in Agave."
       ]
     },
     {
@@ -4858,7 +4858,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Acumatica Commitment payments → Procore (updates paid date)."
+        "Acumatica Commitment payments \u2192 Procore (updates paid date)."
       ]
     },
     {
@@ -4866,7 +4866,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "Acumatica Head Contract payments → Procore (updates paid date)."
+        "Acumatica Head Contract payments \u2192 Procore (updates paid date)."
       ]
     },
     {
@@ -4874,7 +4874,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "QBO Bill Payments (related to a PO) → Procore Commitment Invoice Payments Issued.",
+        "QBO Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued.",
         "Taxes removed from the Procore payment on sync (disableable)."
       ]
     },
@@ -4883,7 +4883,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "QBO Sales Invoice Payments → Procore Prime Contract Invoice Payments Received."
+        "QBO Sales Invoice Payments \u2192 Procore Prime Contract Invoice Payments Received."
       ]
     },
     {
@@ -4891,7 +4891,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "MYOB Bill Payments → Procore Commitment Payments Issued."
+        "MYOB Bill Payments \u2192 Procore Commitment Payments Issued."
       ]
     },
     {
@@ -4899,7 +4899,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "MYOB Sales Invoice Payments → Procore Head Contract Payments Received."
+        "MYOB Sales Invoice Payments \u2192 Procore Head Contract Payments Received."
       ]
     },
     {
@@ -4907,7 +4907,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "MYOB Acumatica Payables Bill Payments (related to a PO) → Procore Commitment Payments Issued."
+        "MYOB Acumatica Payables Bill Payments (related to a PO) \u2192 Procore Commitment Payments Issued."
       ]
     },
     {
@@ -4915,7 +4915,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "MYOB Acumatica Receivables Invoice Payments → Procore Head Contract Payments Received.",
+        "MYOB Acumatica Receivables Invoice Payments \u2192 Procore Head Contract Payments Received.",
         "Requires the Procore Invoicing module."
       ]
     },
@@ -4924,7 +4924,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Zoho Bill Payments → Procore Commitment Payments Issued."
+        "Zoho Bill Payments \u2192 Procore Commitment Payments Issued."
       ]
     },
     {
@@ -4932,7 +4932,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "Zoho Sales Invoice Payments → Procore Prime Contract Payments Received."
+        "Zoho Sales Invoice Payments \u2192 Procore Prime Contract Payments Received."
       ]
     },
     {
@@ -4940,7 +4940,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "QBD Bill Payments (related to a PO) → Procore Commitment Invoice Payments Issued.",
+        "QBD Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued.",
         "Requires the Procore Invoicing module."
       ]
     },
@@ -4949,7 +4949,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "QBD Sales Invoice Payments → Procore Prime Contract Payments Received."
+        "QBD Sales Invoice Payments \u2192 Procore Prime Contract Payments Received."
       ]
     },
     {
@@ -4957,7 +4957,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "Xero Bill Payments (related to a PO) → Procore Commitment Invoice Payments Issued."
+        "Xero Bill Payments (related to a PO) \u2192 Procore Commitment Invoice Payments Issued."
       ]
     },
     {
@@ -4965,7 +4965,7 @@
       "target": "prime-contract-payments",
       "direction": "from-erp",
       "notes": [
-        "Xero Sales Invoice Payments → Procore Prime/Main/Head Contract Invoice Payments Received."
+        "Xero Sales Invoice Payments \u2192 Procore Prime/Main/Head Contract Invoice Payments Received."
       ]
     },
     {
@@ -4997,7 +4997,7 @@
       "target": "purchase-orders",
       "direction": "to-erp",
       "notes": [
-        "Procore Purchase-Order commitments → CMiC. Corpus: 'Commitment Item (Purchase Orders) → Commitment Item.'"
+        "Procore Purchase-Order commitments \u2192 CMiC. Corpus: 'Commitment Item (Purchase Orders) \u2192 Commitment Item.'"
       ]
     },
     {
@@ -5005,7 +5005,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore subcontract commitments → QuickBooks Desktop Purchase Orders. Corpus: 'Commitments (subcontracts and purchase orders) can be exported.'"
+        "Procore subcontract commitments \u2192 QuickBooks Desktop Purchase Orders. Corpus: 'Commitments (subcontracts and purchase orders) can be exported.'"
       ]
     },
     {
@@ -5013,7 +5013,7 @@
       "target": "commitment-payments",
       "direction": "from-erp",
       "notes": [
-        "US QuickBooks Desktop: synced subcontractor-invoice payments → Procore Commitment → Payments tab (import)."
+        "US QuickBooks Desktop: synced subcontractor-invoice payments \u2192 Procore Commitment \u2192 Payments tab (import)."
       ]
     },
     {
@@ -5021,7 +5021,7 @@
       "target": "subcontracts",
       "direction": "to-erp",
       "notes": [
-        "Procore subcontract commitments → Xero (export). Corpus: 'send a commitment (e.g. purchase order or subcontract) to the ERP Integrations tool.'"
+        "Procore subcontract commitments \u2192 Xero (export). Corpus: 'send a commitment (e.g. purchase order or subcontract) to the ERP Integrations tool.'"
       ]
     }
   ]
