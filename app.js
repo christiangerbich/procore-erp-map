@@ -3335,7 +3335,8 @@
         aiWrap.appendChild(aieb);
         [
           { key: "currentState", label: "Current State Summary" },
-          { key: "desiredState", label: "Desired State Summary" }
+          { key: "desiredState", label: "Desired State Summary" },
+          { key: "gapAnalysis", label: "Gap Analysis & Custom Configuration Needs" }
         ].forEach((p) => {
           const ptext = configData.aiPrompts[p.key];
           if (!ptext) return;
