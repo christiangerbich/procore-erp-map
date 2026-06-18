@@ -236,28 +236,22 @@
       "description": "4-hour consultation sessions paired with heads-down configuration. SPC walks the customer through tool overview → settings → permissions → templates/workflows → role-reversal sandbox, then configures the customer's Sandbox project and Standard Project Template. Every setting change is logged in the Configuration Workbook in real time.",
       "tasks": [
         {
+          "section": "Consultation Prep"
+        },
+        {
           "text": "Block configuration time on calendar (billable, client name, deliverable)"
         },
         {
           "text": "Stand up the Sandbox project for the customer to validate against"
         },
         {
-          "text": "Per-tool consultation: Tool Overview (engine + custom fields)"
+          "section": "In-Scope Tool Build"
         },
         {
-          "text": "Per-tool consultation: Project-level Settings + decisions"
+          "perTool": true
         },
         {
-          "text": "Per-tool consultation: Permissions confirmation + granular adjustments"
-        },
-        {
-          "text": "Per-tool consultation: Templates + Workflows build (within package limits)"
-        },
-        {
-          "text": "Per-tool consultation: Role-reversal — customer drives, SPC observes"
-        },
-        {
-          "text": "Per-tool consultation: Configure — clarify any remaining gaps before ending the call (capture in the Workbook)"
+          "section": "Heads-Down Configuration"
         },
         {
           "text": "Heads-down: Company Admin (general settings, trades, fieldsets)"
@@ -272,13 +266,10 @@
           "text": "Heads-down: Workflows tool (max per package limit)"
         },
         {
-          "text": "Heads-down: Standard Project Template — tool by tool"
-        },
-        {
-          "text": "Heads-down: Custom fields / fieldsets per tool"
-        },
-        {
           "text": "Configuration Workbook: complete EVERY setting change in real time"
+        },
+        {
+          "section": "Wrap-Up & Follow-Up"
         },
         {
           "text": "Send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID"
@@ -315,6 +306,9 @@
       "description": "Configuration Training plus the customer-led validation pass. Walk the company-admin / permissions / directory / templates / standard project template top-down, then hand off the Configuration Workbook + Validation Script and run a Product Q&A meeting to address any gaps before closeout.",
       "tasks": [
         {
+          "section": "Configuration Training"
+        },
+        {
           "text": "Run Configuration Training: Company Admin tool overview + configured changes"
         },
         {
@@ -330,7 +324,13 @@
           "text": "Configuration Training: Workflows tool review"
         },
         {
-          "text": "Configuration Training: Standard Project Template — tool by tool review"
+          "section": "In-Scope Tool Validation"
+        },
+        {
+          "perTool": true
+        },
+        {
+          "section": "Validation & Sign-Off"
         },
         {
           "text": "Send Outreach validation kickoff email with attached Configuration Workbook + Validation Script"
