@@ -2800,10 +2800,34 @@
     };
   }
 
+  // Phases 2-4 (discovery / build / validate) extend the shared methodology
+  // tasks with one row per in-scope tool of the active package + tier, so each
+  // SPC tracks the tools actually in their implementation (a Cost Management
+  // Enterprise build lists its financial tools; a Project Execution build lists
+  // Drawings / Submittals / RFIs / …). Index-keying stays valid because a
+  // client's package + tier is fixed: same list → same indices. The shared
+  // methodology rows keep indices 0..N-1; per-tool rows extend beyond, so
+  // existing saved progress is preserved and the new rows start unchecked.
+  const PER_TOOL_PHASES = {
+    discovery: (n) => n + " — walk the OOTB process flow (Diagrams tab); document gaps + custom-field needs",
+    build:     (n) => n + " — consult + configure: settings, permissions, templates (Sandbox → Standard Project Template)",
+    validate:  (n) => n + " — configuration training walkthrough + customer validation",
+  };
+  function perToolTasks(phase) {
+    const fn = phase && PER_TOOL_PHASES[phase.key];
+    if (!fn) return [];
+    const tier = activeConfigTier();
+    const tools = (tier && tier.toolList) || [];
+    return tools.map((t) => ({ text: fn(t.name), url: t.supportUrl, tool: t.key }));
+  }
+  function effectiveTasks(phase) {
+    return (phase.tasks || []).concat(perToolTasks(phase));
+  }
+
   function phaseProgress(phaseKey) {
     const phase = (configData.phases || []).find((p) => p.key === phaseKey);
     if (!phase) return { done: 0, total: 0 };
-    const total = (phase.tasks || []).length;
+    const total = effectiveTasks(phase).length;
     // Checkmarks are keyed by task index, so a client checked against an
     // older (longer) task list must not push progress past 100% after the
     // data file shrinks — count only indices that still exist.
@@ -3445,7 +3469,7 @@
 
     // Select-all control + phase task tally. The checkbox mirrors the list
     // state: checked = all done, indeterminate = partly done.
-    if ((phase.tasks || []).length) {
+    if (effectiveTasks(phase).length) {
       const pp = phaseProgress(phase.key);
       const pct = pp.total ? Math.round((pp.done / pp.total) * 100) : 0;
       const sa = document.createElement("div");
@@ -3457,7 +3481,7 @@
       saCb.indeterminate = pp.done > 0 && pp.done < pp.total;
       saCb.addEventListener("change", () => {
         const all = {};
-        if (saCb.checked) (phase.tasks || []).forEach((_, i) => { all[i] = true; });
+        if (saCb.checked) effectiveTasks(phase).forEach((_, i) => { all[i] = true; });
         configState.tasks[phase.key] = all;
         saveConfigState();
         renderConfigView();
@@ -3474,13 +3498,22 @@
       wrap.appendChild(sa);
     }
 
-    // Task checklist
+    // Task checklist — shared methodology rows, then per-tool rows for the
+    // active package + tier (separated by a divider).
     const ul = document.createElement("ul");
     ul.className = "config-task-list";
-    (phase.tasks || []).forEach((task, idx) => {
+    const effTasks = effectiveTasks(phase);
+    const staticCount = (phase.tasks || []).length;
+    effTasks.forEach((task, idx) => {
+      if (idx === staticCount && idx > 0) {
+        const dv = document.createElement("li");
+        dv.className = "config-task-divider";
+        dv.textContent = "In-scope tools — " + (cfgTier ? cfgTier.name : (cfgPkg ? cfgPkg.name : ""));
+        ul.appendChild(dv);
+      }
       const checked = !!(configState.tasks[phase.key] && configState.tasks[phase.key][idx]);
       const li = document.createElement("li");
-      li.className = "config-task" + (checked ? " is-done" : "");
+      li.className = "config-task" + (checked ? " is-done" : "") + (task.tool ? " config-task-tool" : "");
       const cb = document.createElement("input");
       cb.type = "checkbox";
       cb.checked = checked;
@@ -3494,8 +3527,17 @@
       const span = document.createElement("span");
       span.className = "config-task-text";
       span.textContent = task.text;
+      if (task.url) {
+        const a = document.createElement("a");
+        a.href = task.url; a.target = "_blank"; a.rel = "noopener";
+        a.className = "config-task-link";
+        a.textContent = " ↗";
+        a.title = "Open support doc";
+        a.addEventListener("click", (e) => e.stopPropagation());
+        span.appendChild(a);
+      }
       li.appendChild(span);
-      li.addEventListener("click", (e) => { if (e.target !== cb) cb.click(); });
+      li.addEventListener("click", (e) => { if (e.target !== cb && e.target.tagName !== "A") cb.click(); });
       ul.appendChild(li);
     });
     wrap.appendChild(ul);

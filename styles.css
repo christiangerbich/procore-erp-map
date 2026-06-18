@@ -1992,6 +1992,25 @@ main {
   color: var(--color-text-muted);
   text-decoration: line-through;
 }
+/* Divider between shared methodology tasks and the package/tier's per-tool rows. */
+.config-task-divider {
+  list-style: none;
+  margin: 14px 0 4px;
+  padding: 6px 12px 4px;
+  border-top: 1px solid var(--color-border);
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.config-task-tool .config-task-text { font-size: 13px; }
+.config-task-link {
+  color: var(--color-orange);
+  text-decoration: none;
+  font-weight: 700;
+}
+.config-task-link:hover { text-decoration: underline; }
 
 .config-workbook {
   margin-top: 28px;
