@@ -1842,6 +1842,7 @@ main {
   background: var(--color-surface);
   min-width: 180px;
 }
+.config-field-pkgtier select { min-width: 240px; }
 .config-reset-btn {
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;

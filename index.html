@@ -125,13 +125,9 @@
             <input id="config-client-spc" type="text" placeholder="Assign SPC" autocomplete="off" list="config-spc-list" />
             <datalist id="config-spc-list"></datalist>
           </label>
-          <label class="config-field">
-            <span class="config-field-label">Package</span>
-            <select id="config-package-pick"></select>
-          </label>
-          <label class="config-field">
-            <span class="config-field-label">Tier</span>
-            <select id="config-tier-pick"></select>
+          <label class="config-field config-field-pkgtier">
+            <span class="config-field-label">Package &amp; Tier</span>
+            <select id="config-pkgtier-pick" aria-label="Package and tier"></select>
           </label>
           <button id="config-reset" class="config-reset-btn" type="button">Reset progress</button>
         </div>

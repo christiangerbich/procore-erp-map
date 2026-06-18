@@ -2653,10 +2653,9 @@
     const clientNewBtn = document.getElementById("config-client-new");
     const clientDelBtn = document.getElementById("config-client-delete");
     const clientNameEl = document.getElementById("config-client-name");
-    const pkgEl = document.getElementById("config-package-pick");
-    const tierEl = document.getElementById("config-tier-pick");
+    const pkgTierEl = document.getElementById("config-pkgtier-pick");
     const resetBtn = document.getElementById("config-reset");
-    if (!titleEl || !pkgEl || !tierEl || !clientNameEl || !clientPickEl || !resetBtn) return;
+    if (!titleEl || !pkgTierEl || !clientNameEl || !clientPickEl || !resetBtn) return;
 
     const pkg = activeConfigPackage();
     const tier = activeConfigTier();
@@ -2769,29 +2768,33 @@
       clientSpcEl.onchange = () => renderConfigBar();
     }
 
-    pkgEl.innerHTML = "";
+    // Combined Package + Tier selector — one option per tier (each tier name
+    // already reads as the full "<package> <tier>" label), grouped under its
+    // package. Value encodes both keys as "packageKey::tierKey".
+    pkgTierEl.innerHTML = "";
     (configData.packages || []).forEach((p) => {
-      const opt = document.createElement("option");
-      opt.value = p.key; opt.textContent = p.name;
-      if (p.key === configState.packageKey) opt.selected = true;
-      pkgEl.appendChild(opt);
+      const tiers = p.tiers || [];
+      let parent = pkgTierEl;
+      if (tiers.length > 1) {
+        parent = document.createElement("optgroup");
+        parent.label = p.name;
+        pkgTierEl.appendChild(parent);
+      }
+      tiers.forEach((t) => {
+        const opt = document.createElement("option");
+        opt.value = p.key + "::" + t.key;
+        opt.textContent = t.name;
+        if (p.key === configState.packageKey && t.key === configState.tierKey) opt.selected = true;
+        parent.appendChild(opt);
+      });
     });
-    pkgEl.onchange = () => {
-      configState.packageKey = pkgEl.value;
-      const pkg2 = activeConfigPackage();
-      configState.tierKey = (pkg2 && pkg2.tiers && pkg2.tiers[0] && pkg2.tiers[0].key) || configState.tierKey;
+    pkgTierEl.onchange = () => {
+      const parts = pkgTierEl.value.split("::");
+      configState.packageKey = parts[0];
+      configState.tierKey = parts[1];
       saveConfigState();
       renderConfigView();
     };
-
-    tierEl.innerHTML = "";
-    (pkg && pkg.tiers ? pkg.tiers : []).forEach((t) => {
-      const opt = document.createElement("option");
-      opt.value = t.key; opt.textContent = t.name;
-      if (t.key === configState.tierKey) opt.selected = true;
-      tierEl.appendChild(opt);
-    });
-    tierEl.onchange = () => { configState.tierKey = tierEl.value; saveConfigState(); renderConfigView(); };
 
     resetBtn.onclick = () => {
       const label = configState.name || "(unnamed)";
