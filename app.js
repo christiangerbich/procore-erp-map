@@ -2818,7 +2818,7 @@
     if (!fn) return [];
     const tier = activeConfigTier();
     const tools = (tier && tier.toolList) || [];
-    return tools.map((t) => ({ text: fn(t.name), url: t.supportUrl, tool: t.key }));
+    return tools.map((t) => ({ text: fn(t.name), url: t.supportUrl, tool: t.key, id: "tool:" + t.key }));
   }
   // Ordered render list for a phase: section-header markers ({ section:"…" }),
   // task rows, and the per-tool rows spliced in at the { perTool:true } anchor
@@ -2838,23 +2838,74 @@
     }
     return out;
   }
-  // Task-only list (drops section headers) — the index space for progress, so
-  // adding/removing section headers never shifts saved checkmarks.
+  // Task-only list (drops section headers).
   function effectiveTasks(phase) {
     return phaseEntries(phase).filter((e) => !e.section);
   }
+  // Stable progress key for a task: the baked `id` from the data, "tool:<key>"
+  // for per-tool rows, else a text fallback. Keying checkmarks by this (not by
+  // list position) means adding / removing / reordering tasks never disturbs
+  // saved progress.
+  function taskKey(task) {
+    return task.id || (task.tool ? "tool:" + task.tool : "text:" + (task.text || ""));
+  }
+  // The ordered stable keys for one client's effective task list in a phase
+  // (uses that client's package/tier for the per-tool rows) — used to migrate
+  // legacy index-keyed progress to id-keyed.
+  function effectiveTaskKeysFor(client, phase) {
+    const base = phase.tasks || [];
+    let toolKeys = [];
+    if (PER_TOOL_PHASES[phase.key]) {
+      const pkg = (configData.packages || []).find((p) => p.key === client.packageKey);
+      const tier = pkg && (pkg.tiers || []).find((t) => t.key === client.tierKey);
+      toolKeys = ((tier && tier.toolList) || []).map((t) => "tool:" + t.key);
+    }
+    const keys = [];
+    const hasAnchor = base.some((e) => e && e.perTool);
+    base.forEach((e) => {
+      if (e.section) return;
+      if (e.perTool) toolKeys.forEach((k) => keys.push(k));
+      else keys.push(taskKey(e));
+    });
+    if (!hasAnchor && toolKeys.length) toolKeys.forEach((k) => keys.push(k));
+    return keys;
+  }
+  // One-time migration: convert legacy index-keyed task progress to id-keyed so
+  // existing checkmarks survive the switch (maps old position → the task now at
+  // that position → its stable key). Idempotent — skips already-migrated clients.
+  function migrateTaskProgressToIds() {
+    let changed = false;
+    Object.keys(configMulti.clients).forEach((cid) => {
+      const client = configMulti.clients[cid];
+      if (client._taskIdsMigrated) return;
+      (configData.phases || []).forEach((phase) => {
+        const prog = client.tasks && client.tasks[phase.key];
+        if (!prog || !Object.keys(prog).some((k) => /^\d+$/.test(k))) return;
+        const keys = effectiveTaskKeysFor(client, phase);
+        const next = {};
+        Object.keys(prog).forEach((k) => {
+          if (!prog[k]) return;
+          if (/^\d+$/.test(k)) { const nk = keys[Number(k)]; if (nk) next[nk] = true; }
+          else next[k] = true;
+        });
+        client.tasks[phase.key] = next;
+      });
+      client._taskIdsMigrated = true;
+      changed = true;
+    });
+    if (changed) saveConfigState();
+  }
+  migrateTaskProgressToIds();
 
   function phaseProgress(phaseKey) {
     const phase = (configData.phases || []).find((p) => p.key === phaseKey);
     if (!phase) return { done: 0, total: 0 };
-    const total = effectiveTasks(phase).length;
-    // Checkmarks are keyed by task index, so a client checked against an
-    // older (longer) task list must not push progress past 100% after the
-    // data file shrinks — count only indices that still exist.
+    const tasks = effectiveTasks(phase);
+    // Count only keys that still exist, so retiring a task can't push past 100%.
     const stored = (configState.tasks && configState.tasks[phaseKey]) || {};
     let done = 0;
-    for (let i = 0; i < total; i++) if (stored[i]) done++;
-    return { done, total };
+    tasks.forEach((t) => { if (stored[taskKey(t)]) done++; });
+    return { done, total: tasks.length };
   }
   // Deliverable completion for the active package (keys are stable strings,
   // so count only deliverables that still exist in the data).
@@ -3501,7 +3552,7 @@
       saCb.indeterminate = pp.done > 0 && pp.done < pp.total;
       saCb.addEventListener("change", () => {
         const all = {};
-        if (saCb.checked) effectiveTasks(phase).forEach((_, i) => { all[i] = true; });
+        if (saCb.checked) effectiveTasks(phase).forEach((t) => { all[taskKey(t)] = true; });
         configState.tasks[phase.key] = all;
         saveConfigState();
         renderConfigView();
@@ -3525,25 +3576,23 @@
     ul.className = "config-task-list";
     const stored = (configState.tasks && configState.tasks[phase.key]) || {};
 
-    // Walk the render list, assigning each task its progress index and grouping
+    // Walk the render list, keying each task by its stable id and grouping
     // tasks under the preceding section header.
     const taskSections = [];
     let curSec = { name: null, items: [] };
-    let tIdx = 0;
     phaseEntries(phase).forEach((e) => {
       if (e.section) {
         if (curSec.name || curSec.items.length) taskSections.push(curSec);
         curSec = { name: e.section, items: [] };
       } else {
-        curSec.items.push({ idx: tIdx, task: e });
-        tIdx++;
+        curSec.items.push({ key: taskKey(e), task: e });
       }
     });
     if (curSec.name || curSec.items.length) taskSections.push(curSec);
 
     taskSections.forEach((sec) => {
       if (sec.name) {
-        const done = sec.items.filter((it) => stored[it.idx]).length;
+        const done = sec.items.filter((it) => stored[it.key]).length;
         const head = document.createElement("li");
         head.className = "config-task-section";
         const hCb = document.createElement("input");
@@ -3553,7 +3602,7 @@
         hCb.title = "Select all in this section";
         hCb.addEventListener("change", () => {
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
-          sec.items.forEach((it) => { configState.tasks[phase.key][it.idx] = hCb.checked; });
+          sec.items.forEach((it) => { configState.tasks[phase.key][it.key] = hCb.checked; });
           saveConfigState();
           renderConfigView();
         });
@@ -3570,8 +3619,8 @@
         ul.appendChild(head);
       }
       sec.items.forEach((it) => {
-        const idx = it.idx, task = it.task;
-        const checked = !!stored[idx];
+        const key = it.key, task = it.task;
+        const checked = !!stored[key];
         const li = document.createElement("li");
         li.className = "config-task" + (checked ? " is-done" : "") + (task.tool ? " config-task-tool" : "");
         const cb = document.createElement("input");
@@ -3579,7 +3628,7 @@
         cb.checked = checked;
         cb.addEventListener("change", () => {
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
-          configState.tasks[phase.key][idx] = cb.checked;
+          configState.tasks[phase.key][key] = cb.checked;
           saveConfigState();
           renderConfigView();
         });

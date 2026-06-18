@@ -9,37 +9,48 @@
       "description": "System setup, internal pit stop, and project resourcing kick off the moment the project is assigned. Critical: SPCs must be resourced same day so the 4-hour consultation blocks can be scheduled at the kickoff call.",
       "tasks": [
         {
-          "text": "Review project assignment in Certinia (budget, duration, package SKU)"
+          "text": "Review project assignment in Certinia (budget, duration, package SKU)",
+          "id": "init-review-project-assignment-in-certinia"
         },
         {
-          "text": "Create project folder structure in the shared drive"
+          "text": "Create project folder structure in the shared drive",
+          "id": "init-create-project-folder-structure-in"
         },
         {
-          "text": "Create the project Slack channel and pin Implementation Plan + RAID log"
+          "text": "Create the project Slack channel and pin Implementation Plan + RAID log",
+          "id": "init-create-the-project-slack-channel"
         },
         {
-          "text": "Set up Smartsheet workspace — Plan, Validation Script, RAID log only (3 sheets)"
+          "text": "Set up Smartsheet workspace — Plan, Validation Script, RAID log only (3 sheets)",
+          "id": "init-set-up-smartsheet-workspace-plan"
         },
         {
-          "text": "Update Outreach email templates for this package's touchpoints"
+          "text": "Update Outreach email templates for this package's touchpoints",
+          "id": "init-update-outreach-email-templates-for"
         },
         {
-          "text": "Update Gong Brief targeted to package touchpoints"
+          "text": "Update Gong Brief targeted to package touchpoints",
+          "id": "init-update-gong-brief-targeted-to"
         },
         {
-          "text": "Run internal pit stop with AE / CSE / AM (commercial upmarket)"
+          "text": "Run internal pit stop with AE / CSE / AM (commercial upmarket)",
+          "id": "init-run-internal-pit-stop-with"
         },
         {
-          "text": "Resource the project — submit SPC request same day / next morning"
+          "text": "Resource the project — submit SPC request same day / next morning",
+          "id": "init-resource-the-project-submit-spc"
         },
         {
-          "text": "Forecast the project in Certinia using the PNPT forecasting curve"
+          "text": "Forecast the project in Certinia using the PNPT forecasting curve",
+          "id": "init-forecast-the-project-in-certinia"
         },
         {
-          "text": "Send the kickoff-scheduling email using the GPS-PM Schedule Kickoff Call Outreach Template"
+          "text": "Send the kickoff-scheduling email using the GPS-PM Schedule Kickoff Call Outreach Template",
+          "id": "init-send-the-kickoff-scheduling-email"
         },
         {
-          "text": "Customer self-paced: complete Procore Tool Certifications before discovery (front-loaded to accelerate configuration sessions)"
+          "text": "Customer self-paced: complete Procore Tool Certifications before discovery (front-loaded to accelerate configuration sessions)",
+          "id": "init-customer-self-paced-complete-procore"
         }
       ],
       "duration": "Pre-kickoff — same day as assignment",
@@ -76,61 +87,80 @@
       "description": "Rebranded from the Alignment Call. Highly prescriptive — introduce the package journey, set scope and deliverable expectations, and schedule every meeting on the call (discovery, consultations, configuration training, validation Q&A, closeout) before the customer leaves.",
       "tasks": [
         {
-          "text": "Send kickoff invite via Outreach template (attach the package Slick + agenda)"
+          "text": "Send kickoff invite via Outreach template (attach the package Slick + agenda)",
+          "id": "kick-send-kickoff-invite-via-outreach"
         },
         {
-          "text": "Run the kickoff deck: Introductions (PM/PC, AM, CSE)"
+          "text": "Run the kickoff deck: Introductions (PM/PC, AM, CSE)",
+          "id": "kick-run-the-kickoff-deck-introductions"
         },
         {
-          "text": "Walk through Support resource (turnaround, channels, scope vs PM/SPC)"
+          "text": "Walk through Support resource (turnaround, channels, scope vs PM/SPC)",
+          "id": "kick-walk-through-support-resource-turnarou"
         },
         {
-          "text": "Review certifications and call out which to prioritise pre-discovery"
+          "text": "Review certifications and call out which to prioritise pre-discovery",
+          "id": "kick-review-certifications-and-call-out"
         },
         {
-          "text": "Walk through 3-tier Procore Committee (Exec Sponsor, Implementation Lead, Key Experts) + responsibilities"
+          "text": "Walk through 3-tier Procore Committee (Exec Sponsor, Implementation Lead, Key Experts) + responsibilities",
+          "id": "kick-walk-through-3-tier-procore"
         },
         {
-          "text": "Confirm the Procore Committee names + Key Experts per tool"
+          "text": "Confirm the Procore Committee names + Key Experts per tool",
+          "id": "kick-confirm-the-procore-committee-names"
         },
         {
-          "text": "Run 'What We Heard' slide — Goals, Key Dates, Tools, Projects (debrief sales, do not re-interview)"
+          "text": "Run 'What We Heard' slide — Goals, Key Dates, Tools, Projects (debrief sales, do not re-interview)",
+          "id": "kick-run-what-we-heard-slide"
         },
         {
-          "text": "Explain Basic Platform → Connected Platform framing (default settings + Procore consulting & configuration overlay)"
+          "text": "Explain Basic Platform → Connected Platform framing (default settings + Procore consulting & configuration overlay)",
+          "id": "kick-explain-basic-platform-connected-platf"
         },
         {
-          "text": "Walk the 5-phase methodology (Kickoff, Discovery, Build, Validate, Go-Live)"
+          "text": "Walk the 5-phase methodology (Kickoff, Discovery, Build, Validate, Go-Live)",
+          "id": "kick-walk-the-5-phase-methodology"
         },
         {
-          "text": "Deep dive Scope & Deliverables for the package"
+          "text": "Deep dive Scope & Deliverables for the package",
+          "id": "kick-deep-dive-scope-deliverables-for"
         },
         {
-          "text": "Walk timeline slide — call out deliverable touchpoints"
+          "text": "Walk timeline slide — call out deliverable touchpoints",
+          "id": "kick-walk-timeline-slide-call-out"
         },
         {
-          "text": "Confirm in-scope (Advise & Configure) vs self-guided tools — note strict package guardrails"
+          "text": "Confirm in-scope (Advise & Configure) vs self-guided tools — note strict package guardrails",
+          "id": "kick-confirm-in-scope-advise-configure"
         },
         {
-          "text": "Call out Definition of Done (scope + configs + validation = complete)"
+          "text": "Call out Definition of Done (scope + configs + validation = complete)",
+          "id": "kick-call-out-definition-of-done"
         },
         {
-          "text": "Introduce Project Plan + RAID log in Smartsheet"
+          "text": "Introduce Project Plan + RAID log in Smartsheet",
+          "id": "kick-introduce-project-plan-raid-log"
         },
         {
-          "text": "Schedule ALL meetings: discovery, consultations, configuration training, validation Q&A, closeout"
+          "text": "Schedule ALL meetings: discovery, consultations, configuration training, validation Q&A, closeout",
+          "id": "kick-schedule-all-meetings-discovery-consul"
         },
         {
-          "text": "Confirm pre-discovery action items (WBS / cost code list)"
+          "text": "Confirm pre-discovery action items (WBS / cost code list)",
+          "id": "kick-confirm-pre-discovery-action-items"
         },
         {
-          "text": "Send follow-up email (Outreach template) + update RAID with any kickoff risks"
+          "text": "Send follow-up email (Outreach template) + update RAID with any kickoff risks",
+          "id": "kick-send-follow-up-email-outreach"
         },
         {
-          "text": "Schedule PM/PC ↔ SPC delivery pit stop"
+          "text": "Schedule PM/PC ↔ SPC delivery pit stop",
+          "id": "kick-schedule-pm-pc-spc-delivery"
         },
         {
-          "text": "Run the Delivery Pit Stop — 15-30 min internal sync with the SPC (+ AE as needed): hand off tools in scope, projects, timeline, goals, committee; review scheduled meetings + budget; flag risks before discovery"
+          "text": "Run the Delivery Pit Stop — 15-30 min internal sync with the SPC (+ AE as needed): hand off tools in scope, projects, timeline, goals, committee; review scheduled meetings + budget; flag risks before discovery",
+          "id": "kick-run-the-delivery-pit-stop"
         }
       ],
       "duration": "1.5 hours",
@@ -170,25 +200,32 @@
           "section": "Introductions & Alignment"
         },
         {
-          "text": "Run delivery pit stop with PM/PC before workshop — review 'What We Heard', budget, key risks, ProCore Committee, sales-side context"
+          "text": "Run delivery pit stop with PM/PC before workshop — review 'What We Heard', budget, key risks, ProCore Committee, sales-side context",
+          "id": "disc-run-delivery-pit-stop-with"
         },
         {
-          "text": "Discovery Workshop — Welcome: introduce Procore Delivery Team (SPCs) + capture attendees"
+          "text": "Discovery Workshop — Welcome: introduce Procore Delivery Team (SPCs) + capture attendees",
+          "id": "disc-discovery-workshop-welcome-introduce-p"
         },
         {
-          "text": "Discovery Workshop — Alignment: identification of key stakeholders & decision makers"
+          "text": "Discovery Workshop — Alignment: identification of key stakeholders & decision makers",
+          "id": "disc-discovery-workshop-alignment-identific"
         },
         {
-          "text": "Discovery Workshop — Walk the Advise & Configure motion (Discovery → Configuration Sessions → Behind-the-scenes Configuration Work → Configuration Training → Q&A/Closeout)"
+          "text": "Discovery Workshop — Walk the Advise & Configure motion (Discovery → Configuration Sessions → Behind-the-scenes Configuration Work → Configuration Training → Q&A/Closeout)",
+          "id": "disc-discovery-workshop-walk-the-advise"
         },
         {
-          "text": "Discovery Workshop — Company Setup & Workflows section: offices, business units, trades, departments, permission groups"
+          "text": "Discovery Workshop — Company Setup & Workflows section: offices, business units, trades, departments, permission groups",
+          "id": "disc-discovery-workshop-company-setup-workf"
         },
         {
-          "text": "Discovery Workshop — WBS / cost code structure (Standard vs custom segments, ERP-driven vs Procore-driven)"
+          "text": "Discovery Workshop — WBS / cost code structure (Standard vs custom segments, ERP-driven vs Procore-driven)",
+          "id": "disc-discovery-workshop-wbs-cost-code"
         },
         {
-          "text": "Discovery Workshop — Permissions architecture: role → template mapping, granular permission needs"
+          "text": "Discovery Workshop — Permissions architecture: role → template mapping, granular permission needs",
+          "id": "disc-discovery-workshop-permissions-archite"
         },
         {
           "section": "In-Scope Tool Process Flows"
@@ -200,16 +237,20 @@
           "section": "Finalization & Follow-Up"
         },
         {
-          "text": "Discovery Workshop — Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)"
+          "text": "Discovery Workshop — Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)",
+          "id": "disc-discovery-workshop-wrap-with-current"
         },
         {
-          "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) and send to customer"
+          "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) and send to customer",
+          "id": "disc-build-discovery-workshop-summary-deliv"
         },
         {
-          "text": "Confirm committee Procore Certification is completed before consultations; revisit tool specifics at the configuration calls"
+          "text": "Confirm committee Procore Certification is completed before consultations; revisit tool specifics at the configuration calls",
+          "id": "disc-confirm-committee-procore-certificatio"
         },
         {
-          "text": "Flag any gap risks to the RAID log — anything not covered by MVP scope"
+          "text": "Flag any gap risks to the RAID log — anything not covered by MVP scope",
+          "id": "disc-flag-any-gap-risks-to"
         }
       ],
       "duration": "2 hours (Core Tools Setup) + Discovery Workshop",
@@ -239,10 +280,12 @@
           "section": "Consultation Prep"
         },
         {
-          "text": "Block configuration time on calendar (billable, client name, deliverable)"
+          "text": "Block configuration time on calendar (billable, client name, deliverable)",
+          "id": "build-block-configuration-time-on-calendar"
         },
         {
-          "text": "Stand up the Sandbox project for the customer to validate against"
+          "text": "Stand up the Sandbox project for the customer to validate against",
+          "id": "build-stand-up-the-sandbox-project"
         },
         {
           "section": "In-Scope Tool Build"
@@ -254,25 +297,31 @@
           "section": "Heads-Down Configuration"
         },
         {
-          "text": "Heads-down: Company Admin (general settings, trades, fieldsets)"
+          "text": "Heads-down: Company Admin (general settings, trades, fieldsets)",
+          "id": "build-heads-down-company-admin-general"
         },
         {
-          "text": "Heads-down: Permissions templates (Company + Project)"
+          "text": "Heads-down: Permissions templates (Company + Project)",
+          "id": "build-heads-down-permissions-templates-compa"
         },
         {
-          "text": "Heads-down: Company-level templates (Inspections, Action Plans, Correspondence)"
+          "text": "Heads-down: Company-level templates (Inspections, Action Plans, Correspondence)",
+          "id": "build-heads-down-company-level-templates"
         },
         {
-          "text": "Heads-down: Workflows tool (max per package limit)"
+          "text": "Heads-down: Workflows tool (max per package limit)",
+          "id": "build-heads-down-workflows-tool-max"
         },
         {
-          "text": "Configuration Workbook: complete EVERY setting change in real time"
+          "text": "Configuration Workbook: complete EVERY setting change in real time",
+          "id": "build-configuration-workbook-complete-every"
         },
         {
           "section": "Wrap-Up & Follow-Up"
         },
         {
-          "text": "Send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID"
+          "text": "Send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID",
+          "id": "build-send-client-check-in-at"
         }
       ],
       "duration": "4 hours per tool-group consultation + ~2 hours heads-down configuration per group",
@@ -309,19 +358,24 @@
           "section": "Configuration Training"
         },
         {
-          "text": "Run Configuration Training: Company Admin tool overview + configured changes"
+          "text": "Run Configuration Training: Company Admin tool overview + configured changes",
+          "id": "val-run-configuration-training-company-adm"
         },
         {
-          "text": "Configuration Training: Permissions Templates overview + 4 permission levels (None, Read Only, Standard, Admin) + granular"
+          "text": "Configuration Training: Permissions Templates overview + 4 permission levels (None, Read Only, Standard, Admin) + granular",
+          "id": "val-configuration-training-permissions-tem"
         },
         {
-          "text": "Configuration Training: Directory overview — customer owns the import (SPC does not import the directory; only WBS is in scope)"
+          "text": "Configuration Training: Directory overview — customer owns the import (SPC does not import the directory; only WBS is in scope)",
+          "id": "val-configuration-training-directory-overv"
         },
         {
-          "text": "Configuration Training: Company-level templates review"
+          "text": "Configuration Training: Company-level templates review",
+          "id": "val-configuration-training-company-level-t"
         },
         {
-          "text": "Configuration Training: Workflows tool review"
+          "text": "Configuration Training: Workflows tool review",
+          "id": "val-configuration-training-workflows-tool"
         },
         {
           "section": "In-Scope Tool Validation"
@@ -333,19 +387,24 @@
           "section": "Validation & Sign-Off"
         },
         {
-          "text": "Send Outreach validation kickoff email with attached Configuration Workbook + Validation Script"
+          "text": "Send Outreach validation kickoff email with attached Configuration Workbook + Validation Script",
+          "id": "val-send-outreach-validation-kickoff-email"
         },
         {
-          "text": "Set the validation window expectation (1-2 weeks)"
+          "text": "Set the validation window expectation (1-2 weeks)",
+          "id": "val-set-the-validation-window-expectation"
         },
         {
-          "text": "Run Product Q&A meeting(s) — address validation findings"
+          "text": "Run Product Q&A meeting(s) — address validation findings",
+          "id": "val-run-product-q-a-meeting"
         },
         {
-          "text": "Update Configuration Workbook with any post-validation tweaks"
+          "text": "Update Configuration Workbook with any post-validation tweaks",
+          "id": "val-update-configuration-workbook-with-any"
         },
         {
-          "text": "Confirm validation complete with customer in writing"
+          "text": "Confirm validation complete with customer in writing",
+          "id": "val-confirm-validation-complete-with-custo"
         }
       ],
       "duration": "Configuration Training: 1–2 hours (Enterprise may need 2× 2-hour blocks) + asynchronous customer testing + Product Q&A",
@@ -378,46 +437,60 @@
       "description": "Maps to the GPS deck \"Go-Live\" phase: customer goes live on projects, closeout deliverable produced, transition to CSE / Team. Definition of Done must be met before this phase opens.",
       "tasks": [
         {
-          "text": "Build the Project Closeout Document — pull Implementation Summary from Gong"
+          "text": "Build the Project Closeout Document — pull Implementation Summary from Gong",
+          "id": "close-build-the-project-closeout-document"
         },
         {
-          "text": "Closeout Document: Key Alignment Results + Lessons Learned"
+          "text": "Closeout Document: Key Alignment Results + Lessons Learned",
+          "id": "close-closeout-document-key-alignment-result"
         },
         {
-          "text": "Closeout Document: Definition of Done checklist (all green)"
+          "text": "Closeout Document: Definition of Done checklist (all green)",
+          "id": "close-closeout-document-definition-of-done"
         },
         {
-          "text": "Closeout Document: Essential links (Plan, RAID, Workbook, Discovery deck, Validation script)"
+          "text": "Closeout Document: Essential links (Plan, RAID, Workbook, Discovery deck, Validation script)",
+          "id": "close-closeout-document-essential-links-plan"
         },
         {
-          "text": "Closeout Document: Remaining Tasks + Remaining Risks (from Plan + RAID)"
+          "text": "Closeout Document: Remaining Tasks + Remaining Risks (from Plan + RAID)",
+          "id": "close-closeout-document-remaining-tasks-rema"
         },
         {
-          "text": "Closeout Document: Consultant Recommendations & Long-Term Success (Smart Practices)"
+          "text": "Closeout Document: Consultant Recommendations & Long-Term Success (Smart Practices)",
+          "id": "close-closeout-document-consultant-recommend"
         },
         {
-          "text": "Run knowledge transfer with CSE / AM / Renewals Manager — meeting or Slack summary"
+          "text": "Run knowledge transfer with CSE / AM / Renewals Manager — meeting or Slack summary",
+          "id": "close-run-knowledge-transfer-with-cse"
         },
         {
-          "text": "Schedule + run the Closeout Call with customer + CSE"
+          "text": "Schedule + run the Closeout Call with customer + CSE",
+          "id": "close-schedule-run-the-closeout-call"
         },
         {
-          "text": "Walk customer through the Closeout Deliverable and confirm Definition of Done"
+          "text": "Walk customer through the Closeout Deliverable and confirm Definition of Done",
+          "id": "close-walk-customer-through-the-closeout"
         },
         {
-          "text": "Value-prop CSAT survey (bonus for following up to complete)"
+          "text": "Value-prop CSAT survey (bonus for following up to complete)",
+          "id": "close-value-prop-csat-survey-bonus"
         },
         {
-          "text": "Close project in Certinia (timecards approved, budget reconciled)"
+          "text": "Close project in Certinia (timecards approved, budget reconciled)",
+          "id": "close-close-project-in-certinia-timecards"
         },
         {
-          "text": "Update Salesforce Implementation Stage (Complete → Closed) + archive Smartsheet workspace"
+          "text": "Update Salesforce Implementation Stage (Complete → Closed) + archive Smartsheet workspace",
+          "id": "close-update-salesforce-implementation-stage"
         },
         {
-          "text": "Inactivate all demo users from the client's account in IPA"
+          "text": "Inactivate all demo users from the client's account in IPA",
+          "id": "close-inactivate-all-demo-users-from"
         },
         {
-          "text": "Final Slack summary in account channel + share folder link"
+          "text": "Final Slack summary in account channel + share folder link",
+          "id": "close-final-slack-summary-in-account"
         }
       ],
       "duration": "Closeout call + handoff",
