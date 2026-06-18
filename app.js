@@ -2820,15 +2820,28 @@
     const tools = (tier && tier.toolList) || [];
     return tools.map((t) => ({ text: fn(t.name), url: t.supportUrl, tool: t.key }));
   }
-  function effectiveTasks(phase) {
+  // Ordered render list for a phase: section-header markers ({ section:"…" }),
+  // task rows, and the per-tool rows spliced in at the { perTool:true } anchor
+  // (or appended under an auto "In-scope tools" section when there's no anchor).
+  function phaseEntries(phase) {
     const base = phase.tasks || [];
     const tools = perToolTasks(phase);
-    // A { perTool: true } anchor in the task list marks where the per-tool rows
-    // belong (e.g. mid-Discovery, after Permissions). Splice them in there and
-    // drop the anchor; if there's no anchor, append the rows at the end.
-    const anchorIdx = base.findIndex((t) => t && t.perTool);
-    if (anchorIdx < 0) return tools.length ? base.concat(tools) : base.slice();
-    return base.slice(0, anchorIdx).concat(tools, base.slice(anchorIdx + 1));
+    const hasAnchor = base.some((e) => e && e.perTool);
+    const out = [];
+    base.forEach((e) => {
+      if (e && e.perTool) tools.forEach((t) => out.push(t));
+      else out.push(e);
+    });
+    if (!hasAnchor && tools.length) {
+      out.push({ section: "In-scope tools" });
+      tools.forEach((t) => out.push(t));
+    }
+    return out;
+  }
+  // Task-only list (drops section headers) — the index space for progress, so
+  // adding/removing section headers never shifts saved checkmarks.
+  function effectiveTasks(phase) {
+    return phaseEntries(phase).filter((e) => !e.section);
   }
 
   function phaseProgress(phaseKey) {
@@ -3505,49 +3518,88 @@
       wrap.appendChild(sa);
     }
 
-    // Task checklist — shared methodology rows, then per-tool rows for the
-    // active package + tier (separated by a divider).
+    // Task checklist grouped into sections. Section headers come from
+    // { section:"…" } markers in the data; the per-tool block is its own
+    // section. Each named section gets its own select-all + tally.
     const ul = document.createElement("ul");
     ul.className = "config-task-list";
-    const effTasks = effectiveTasks(phase);
-    effTasks.forEach((task, idx) => {
-      // Divider before the per-tool block, wherever it sits (mid-list via a
-      // perTool anchor, or appended at the end).
-      const prevIsTool = idx > 0 && !!effTasks[idx - 1].tool;
-      if (task.tool && !prevIsTool) {
-        const dv = document.createElement("li");
-        dv.className = "config-task-divider";
-        dv.textContent = "In-scope tools — " + (cfgTier ? cfgTier.name : (cfgPkg ? cfgPkg.name : ""));
-        ul.appendChild(dv);
+    const stored = (configState.tasks && configState.tasks[phase.key]) || {};
+
+    // Walk the render list, assigning each task its progress index and grouping
+    // tasks under the preceding section header.
+    const taskSections = [];
+    let curSec = { name: null, items: [] };
+    let tIdx = 0;
+    phaseEntries(phase).forEach((e) => {
+      if (e.section) {
+        if (curSec.name || curSec.items.length) taskSections.push(curSec);
+        curSec = { name: e.section, items: [] };
+      } else {
+        curSec.items.push({ idx: tIdx, task: e });
+        tIdx++;
       }
-      const checked = !!(configState.tasks[phase.key] && configState.tasks[phase.key][idx]);
-      const li = document.createElement("li");
-      li.className = "config-task" + (checked ? " is-done" : "") + (task.tool ? " config-task-tool" : "");
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.checked = checked;
-      cb.addEventListener("change", () => {
-        configState.tasks[phase.key] = configState.tasks[phase.key] || {};
-        configState.tasks[phase.key][idx] = cb.checked;
-        saveConfigState();
-        renderConfigView();
+    });
+    if (curSec.name || curSec.items.length) taskSections.push(curSec);
+
+    taskSections.forEach((sec) => {
+      if (sec.name) {
+        const done = sec.items.filter((it) => stored[it.idx]).length;
+        const head = document.createElement("li");
+        head.className = "config-task-section";
+        const hCb = document.createElement("input");
+        hCb.type = "checkbox";
+        hCb.checked = sec.items.length > 0 && done === sec.items.length;
+        hCb.indeterminate = done > 0 && done < sec.items.length;
+        hCb.title = "Select all in this section";
+        hCb.addEventListener("change", () => {
+          configState.tasks[phase.key] = configState.tasks[phase.key] || {};
+          sec.items.forEach((it) => { configState.tasks[phase.key][it.idx] = hCb.checked; });
+          saveConfigState();
+          renderConfigView();
+        });
+        head.appendChild(hCb);
+        const nm = document.createElement("span");
+        nm.className = "config-task-section-name";
+        nm.textContent = sec.name;
+        head.appendChild(nm);
+        const tl = document.createElement("span");
+        tl.className = "config-task-section-tally";
+        tl.textContent = done + " / " + sec.items.length;
+        head.appendChild(tl);
+        head.addEventListener("click", (e) => { if (e.target !== hCb) hCb.click(); });
+        ul.appendChild(head);
+      }
+      sec.items.forEach((it) => {
+        const idx = it.idx, task = it.task;
+        const checked = !!stored[idx];
+        const li = document.createElement("li");
+        li.className = "config-task" + (checked ? " is-done" : "") + (task.tool ? " config-task-tool" : "");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = checked;
+        cb.addEventListener("change", () => {
+          configState.tasks[phase.key] = configState.tasks[phase.key] || {};
+          configState.tasks[phase.key][idx] = cb.checked;
+          saveConfigState();
+          renderConfigView();
+        });
+        li.appendChild(cb);
+        const span = document.createElement("span");
+        span.className = "config-task-text";
+        span.textContent = task.text;
+        if (task.url) {
+          const a = document.createElement("a");
+          a.href = task.url; a.target = "_blank"; a.rel = "noopener";
+          a.className = "config-task-link";
+          a.textContent = " ↗";
+          a.title = "Open support doc";
+          a.addEventListener("click", (e) => e.stopPropagation());
+          span.appendChild(a);
+        }
+        li.appendChild(span);
+        li.addEventListener("click", (e) => { if (e.target !== cb && e.target.tagName !== "A") cb.click(); });
+        ul.appendChild(li);
       });
-      li.appendChild(cb);
-      const span = document.createElement("span");
-      span.className = "config-task-text";
-      span.textContent = task.text;
-      if (task.url) {
-        const a = document.createElement("a");
-        a.href = task.url; a.target = "_blank"; a.rel = "noopener";
-        a.className = "config-task-link";
-        a.textContent = " ↗";
-        a.title = "Open support doc";
-        a.addEventListener("click", (e) => e.stopPropagation());
-        span.appendChild(a);
-      }
-      li.appendChild(span);
-      li.addEventListener("click", (e) => { if (e.target !== cb && e.target.tagName !== "A") cb.click(); });
-      ul.appendChild(li);
     });
     wrap.appendChild(ul);
 

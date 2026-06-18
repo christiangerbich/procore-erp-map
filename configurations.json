@@ -167,6 +167,9 @@
       "description": "SPC-led workshop that maps current state to desired state and surfaces foundational architecture. Replaces the old Account Configuration call — the SPC is now responsible for the company-level architecture decisions previously surfaced by PM/PC.",
       "tasks": [
         {
+          "section": "Introductions & Alignment"
+        },
+        {
           "text": "Run delivery pit stop with PM/PC before workshop — review 'What We Heard', budget, key risks, ProCore Committee, sales-side context"
         },
         {
@@ -188,7 +191,13 @@
           "text": "Discovery Workshop — Permissions architecture: role → template mapping, granular permission needs"
         },
         {
+          "section": "In-Scope Tool Process Flows"
+        },
+        {
           "perTool": true
+        },
+        {
+          "section": "Finalization & Follow-Up"
         },
         {
           "text": "Discovery Workshop — Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)"
