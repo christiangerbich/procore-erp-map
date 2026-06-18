@@ -188,10 +188,7 @@
           "text": "Discovery Workshop — Permissions architecture: role → template mapping, granular permission needs"
         },
         {
-          "text": "Discovery Workshop — For each in-scope tool, capture current process and where the OOTB flow won't fit"
-        },
-        {
-          "text": "Discovery Workshop — Introduce the custom fields & fieldsets concept; flag which tools will need them at configuration time"
+          "perTool": true
         },
         {
           "text": "Discovery Workshop — Wrap with Current State + Desired State framing (run AI prompts against the Gong recording afterwards)"

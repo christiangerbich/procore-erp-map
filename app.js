@@ -2821,7 +2821,14 @@
     return tools.map((t) => ({ text: fn(t.name), url: t.supportUrl, tool: t.key }));
   }
   function effectiveTasks(phase) {
-    return (phase.tasks || []).concat(perToolTasks(phase));
+    const base = phase.tasks || [];
+    const tools = perToolTasks(phase);
+    // A { perTool: true } anchor in the task list marks where the per-tool rows
+    // belong (e.g. mid-Discovery, after Permissions). Splice them in there and
+    // drop the anchor; if there's no anchor, append the rows at the end.
+    const anchorIdx = base.findIndex((t) => t && t.perTool);
+    if (anchorIdx < 0) return tools.length ? base.concat(tools) : base.slice();
+    return base.slice(0, anchorIdx).concat(tools, base.slice(anchorIdx + 1));
   }
 
   function phaseProgress(phaseKey) {
@@ -3503,9 +3510,11 @@
     const ul = document.createElement("ul");
     ul.className = "config-task-list";
     const effTasks = effectiveTasks(phase);
-    const staticCount = (phase.tasks || []).length;
     effTasks.forEach((task, idx) => {
-      if (idx === staticCount && idx > 0) {
+      // Divider before the per-tool block, wherever it sits (mid-list via a
+      // perTool anchor, or appended at the end).
+      const prevIsTool = idx > 0 && !!effTasks[idx - 1].tool;
+      if (task.tool && !prevIsTool) {
         const dv = document.createElement("li");
         dv.className = "config-task-divider";
         dv.textContent = "In-scope tools — " + (cfgTier ? cfgTier.name : (cfgPkg ? cfgPkg.name : ""));
