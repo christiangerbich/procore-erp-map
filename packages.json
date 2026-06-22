@@ -183,7 +183,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
           "capabilities": [
-            "ai",
             "analytics"
           ],
           "icon": "receipt"
@@ -215,6 +214,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
           "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
           "capabilities": [
+            "ai",
             "analytics"
           ],
           "icon": "receipt-stack",
@@ -696,6 +696,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/coordination-issues-project",
           "description": "Resolve clashes and constructability issues raised against the BIM coordination model.",
           "capabilities": [
+            "ai",
             "analytics",
             "mobile"
           ],
@@ -744,6 +745,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project",
           "description": "Configurable correspondence types — meeting minutes, transmittals, NCRs, and field issues.",
           "capabilities": [
+            "ai",
             "analytics",
             "mobile"
           ],
@@ -776,6 +778,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project",
           "description": "Project closeout punch items; track to completion through ball-in-court workflow.",
           "capabilities": [
+            "ai",
             "analytics",
             "mobile"
           ],
@@ -857,7 +860,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/direct-costs-project",
           "description": "Non-commitment costs (labor, expenses, AP) that post as actuals against the Budget.",
           "capabilities": [
-            "ai",
             "analytics"
           ],
           "icon": "receipt"
@@ -889,6 +891,7 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/invoicing-project",
           "description": "Manage both upstream (owner) and downstream (subcontractor) progress billings against contracts.",
           "capabilities": [
+            "ai",
             "analytics"
           ],
           "icon": "receipt-stack",
@@ -1407,7 +1410,8 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/resource-planning-company",
           "description": "Workforce Planning - schedule crews and equipment across projects from a company-level view.",
           "capabilities": [
-            "analytics"
+            "analytics",
+            "mobile"
           ],
           "icon": "people-cycle"
         },
@@ -1465,7 +1469,6 @@
           "supportUrl": "https://v2.support.procore.com/product-manuals/tm-tickets-project",
           "description": "Time & Material tickets (Daywork Sheets) - capture labor, equipment, and material at the field level.",
           "capabilities": [
-            "ai",
             "analytics",
             "mobile"
           ],
@@ -1557,7 +1560,7 @@
         {
           "source": "resource-planning",
           "target": "timesheets",
-          "direction": "both",
+          "direction": "to",
           "description": "Resource Planning assignments and Timesheets reconcile planned vs actual time.",
           "verbForward": "reconciles with",
           "verbReverse": "reconciles with"
