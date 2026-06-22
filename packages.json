@@ -232,7 +232,9 @@
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
           "description": "Custom + canned project reports across all financial tools.",
-          "capabilities": [],
+          "capabilities": [
+            "ai"
+          ],
           "icon": "bar-chart"
         },
         {
@@ -289,7 +291,7 @@
         {
           "source": "prime-contracts",
           "target": "budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Prime Contract value seeds Budget revenue.",
           "verbForward": "establishes revenue in",
           "verbReverse": "receives revenue from"
@@ -297,7 +299,7 @@
         {
           "source": "commitments",
           "target": "budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Commitment values populate the Committed Cost column of the Budget.",
           "verbForward": "populates committed cost in",
           "verbReverse": "receives committed cost from"
@@ -305,7 +307,7 @@
         {
           "source": "direct-costs",
           "target": "budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Direct Costs post against budget line items as Actual Cost.",
           "verbForward": "posts actuals to",
           "verbReverse": "receives data from"
@@ -909,7 +911,9 @@
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
           "description": "Custom + canned project reports across field and financial tools.",
-          "capabilities": [],
+          "capabilities": [
+            "ai"
+          ],
           "icon": "bar-chart"
         },
         {
@@ -936,8 +940,8 @@
           "verbReverse": "references"
         },
         {
-          "source": "drawings",
-          "target": "submittals",
+          "source": "submittals",
+          "target": "drawings",
           "direction": "to",
           "description": "Submittals reference drawing sheets and specifications.",
           "verbForward": "is referenced by",
@@ -950,14 +954,6 @@
           "description": "BIM coordination model and Drawings stay in sync across revisions.",
           "verbForward": "syncs with",
           "verbReverse": "syncs with"
-        },
-        {
-          "source": "rfis",
-          "target": "submittals",
-          "direction": "to",
-          "description": "RFI clarifications may trigger a new or revised Submittal.",
-          "verbForward": "may trigger",
-          "verbReverse": "may be triggered by"
         },
         {
           "source": "bim",
@@ -984,8 +980,8 @@
           "verbReverse": "is created by"
         },
         {
-          "source": "drawings",
-          "target": "action-plans",
+          "source": "action-plans",
+          "target": "drawings",
           "direction": "to",
           "description": "Action Plans reference drawing sheets for context.",
           "verbForward": "is referenced by",
@@ -1018,7 +1014,7 @@
         {
           "source": "pe-prime-contracts",
           "target": "pe-budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Prime Contract value seeds Budget revenue.",
           "verbForward": "establishes revenue in",
           "verbReverse": "receives revenue from"
@@ -1026,7 +1022,7 @@
         {
           "source": "pe-commitments",
           "target": "pe-budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Commitment values populate the Committed Cost column of the Budget.",
           "verbForward": "populates committed cost in",
           "verbReverse": "receives committed cost from"
@@ -1034,7 +1030,7 @@
         {
           "source": "pe-direct-costs",
           "target": "pe-budget",
-          "direction": "to",
+          "direction": "both",
           "description": "Direct Costs post against budget line items as Actual Cost.",
           "verbForward": "posts actuals to",
           "verbReverse": "receives data from"
@@ -1094,14 +1090,6 @@
           "description": "Analytics dashboards surface PLM financial-tool data.",
           "verbForward": "feeds dashboards in",
           "verbReverse": "surfaces data from"
-        },
-        {
-          "source": "pe-reports",
-          "target": "pe-analytics-setup",
-          "direction": "both",
-          "description": "Reports and Analytics dashboards share the same data foundation.",
-          "verbForward": "shares data with",
-          "verbReverse": "shares data with"
         },
         {
           "source": "drawings",
@@ -1499,7 +1487,9 @@
           "constraint": "Up to 3 reports",
           "supportUrl": "https://v2.support.procore.com/product-manuals/reports-project",
           "description": "Custom + canned reports across resource and time data.",
-          "capabilities": [],
+          "capabilities": [
+            "ai"
+          ],
           "icon": "bar-chart"
         },
         {
