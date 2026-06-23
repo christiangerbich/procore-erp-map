@@ -1040,7 +1040,7 @@
       "via": "agave",
       "supportUrl": "https://useagave.com/sync/procore-deltek-computerease",
       "agaveResourceUrl": "https://useagave.com/sync/procore-deltek-computerease",
-      "overview": "Deltek ComputerEase (formerly just ComputerEase) construction accounting ERP. Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, purchase orders, job costs, and timecards \u2014 no AP/AR invoice or payment sync.",
+      "overview": "Deltek ComputerEase (formerly just ComputerEase) construction accounting ERP. Available for Procore only via Agave Sync. Scope is narrower than Foundation: master data, budgets, purchase orders, job costs, timecards, and AP/AR invoice export (Procore \u2192 ComputerEase) \u2014 no payment or prime-contract sync.",
       "resources": [
         {
           "label": "Agave Sync Catalog",
@@ -1048,8 +1048,8 @@
         }
       ],
       "thingsToKnow": [
-        "No AP Invoice (Subcontractor Invoice) sync \u2014 invoices stay in Procore only.",
-        "No AR Invoice (Owner Invoice) or AP Payment sync.",
+        "AP Invoices (Subcontractor Invoices) export Procore \u2192 ComputerEase; AP Payments do NOT sync.",
+        "AR Invoices (Owner Invoices) export Procore \u2192 ComputerEase; payments do NOT sync.",
         "No Prime Contract sync \u2014 only Prime Contract Change Orders (mapped to Job RFCs).",
         "Cost Codes in ComputerEase are called 'Category Codes'; Sub Jobs are called 'Phases'.",
         "Cost Types are link-only at company level \u2014 must be created in both systems manually before linking.",
@@ -2752,14 +2752,14 @@
     {
       "source": "foundation",
       "target": "owner-invoices",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "Procore Owner Invoices \u2194 Foundation AR Invoices (Unposted status).",
         "Default A/R + Retainage Ledger Accounts must be configured by Agave Account Manager.",
         "Billing Period and Due Date required in Procore for sync.",
         "Retention release NOT yet supported.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). AR Invoices page has both 'Procore to Foundation' and 'Foundation to Procore (non-AIA Billing)' sections."
       ]
     },
     {
@@ -2850,9 +2850,10 @@
     {
       "source": "computerease",
       "target": "subcontracts",
-      "direction": "to-erp",
+      "direction": "from-erp",
       "notes": [
-        "Procore Subcontracts \u2192 ComputerEase Purchase Orders (no dedicated Subcontracts MD; covered via PO entity since ComputerEase doesn't distinguish)."
+        "Procore Subcontracts \u2192 ComputerEase Purchase Orders (no dedicated Subcontracts MD; covered via PO entity since ComputerEase doesn't distinguish).",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'sync ComputerEase Subcontracts to Procore Commitments' = ERP -> Procore."
       ],
       "configurable": true
     },
@@ -2897,22 +2898,24 @@
     {
       "source": "acumatica-agave",
       "target": "employees",
-      "direction": "to-erp",
+      "direction": "from-erp",
       "configurable": true,
       "notes": [
         "Employees: Procore \u2192 Acumatica (per Agave MD).",
         "Labor Items map to Procore Classifications; Inventory ID must match Class Code.",
-        "Personal info protected; email only syncs on creation."
+        "Personal info protected; email only syncs on creation.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). Employees record syncs 'from the accounting system to Procore'; no Procore -> Acumatica employee export documented."
       ]
     },
     {
       "source": "acumatica-agave",
       "target": "cost-codes",
-      "direction": "both",
+      "direction": "from-erp",
       "notes": [
         "Sub Jobs / Cost Codes sync bidirectionally (per Agave MD: Acumatica Cost Code list synced to project + each Sub Job in Procore).",
         "Supports up to 3-tier cost code tiering when configured.",
-        "Cost code page is combined with Sub Jobs / Project Tasks doc."
+        "Cost code page is combined with Sub Jobs / Project Tasks doc.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'both'). 'The full Acumatica Cost Code list is synced to the project in Procore' (the 'either direction' note is about Budget Line Items, not cost codes)."
       ],
       "configurable": true
     },
@@ -2983,22 +2986,22 @@
     {
       "source": "acumatica-agave",
       "target": "sub-invoices",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
-        "Procore Subcontractor Invoices \u2192 Acumatica AP Invoices (export, default 'On Hold'). Corrected: Agave MD documents Procore\u2192Acumatica."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). AP Invoices page documents both export to Acumatica ('On Hold') and import to Procore."
       ]
     },
     {
       "source": "acumatica-agave",
       "target": "owner-invoices",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "AR Invoices bidirectional (per Agave MD: 'Procore \u2192 Acumatica and Acumatica \u2192 Procore').",
         "Supports Materials Stored and Retainage.",
         "Default revenue GL Account applied (contact Agave rep to configure).",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). AR Invoices Visual Mapping lists both 'Procore -> Acumatica' and 'Acumatica -> Procore'."
       ]
     },
     {
@@ -3056,10 +3059,11 @@
     {
       "source": "quickbooks-desktop-agave",
       "target": "jobs",
-      "direction": "both",
+      "direction": "to-erp",
       "notes": [
         "MD has both 'Syncing from Procore to QuickBooks Desktop' section and Step 2 'Sync a Customer from QuickBooks Desktop to Procore'.",
-        "Requires custom 'Customer' field (exact name) \u2014 must be Required in Procore fieldset."
+        "Requires custom 'Customer' field (exact name) \u2014 must be Required in Procore fieldset.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'both'). Projects page documents only 'Syncing from Procore to QuickBooks Desktop'; the QBD -> Procore step syncs a Customer, not the Job."
       ],
       "configurable": true
     },
@@ -3103,11 +3107,10 @@
     {
       "source": "quickbooks-desktop-agave",
       "target": "sub-invoices",
-      "direction": "to-erp",
+      "direction": "from-erp",
       "notes": [
-        "Live Agave catalog (useagave.com): default direction is Procore \u2192 QBD \u2014 Procore Subcontractor Invoices export to QuickBooks Desktop Bills (against POs, with retention).",
         "Reverse (import QBD Bills \u2192 Procore) is supported as a custom direction but is not the default.",
-        "Corrected from 'both': the Agave corpus AP-Invoices MD read as bidirectional, but the canonical default per useagave.com is to-erp."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). AP Invoices page: filter type=Bill (QBD side), 'import AP Invoices to Procore' = ERP -> Procore."
       ],
       "configurable": true
     },
@@ -3176,6 +3179,15 @@
     },
     {
       "source": "sage-100-agave",
+      "target": "cost-codes",
+      "direction": "from-erp",
+      "configurable": true,
+      "notes": [
+        "Cost Codes: Agave imports a project's Cost Codes from Sage 100 Contractor to Procore (per Agave docs). Added 2026-06 re-crawl verification."
+      ]
+    },
+    {
+      "source": "sage-100-agave",
       "target": "project-wbs",
       "direction": "from-erp",
       "notes": [
@@ -3238,11 +3250,11 @@
     {
       "source": "sage-100-agave",
       "target": "sub-invoices",
-      "direction": "to-erp",
+      "direction": "from-erp",
       "notes": [
         "AP Invoices: Sage 100 \u2192 Procore (per Agave MD FAQ: 'syncing AP Invoices from Sage 100 Contractor to Procore').",
         "Subtotal + retention amounts calculated using cumulative work/materials completed.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'we support syncing AP Invoices from Sage 100 Contractor to Procore' = ERP -> Procore."
       ],
       "configurable": true
     },
@@ -3329,24 +3341,24 @@
     {
       "source": "sage-intacct-agave",
       "target": "subcontracts",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "MD: 'sync Sage Intacct Subcontracts with Procore Subcontracts and vice versa.'",
         "Contract Date required in Procore.",
         "Document number required in Sage Intacct config \u2014 contact Agave implementation team.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'sync Sage Intacct Subcontracts with Procore Subcontracts and vice versa' = bidirectional."
       ]
     },
     {
       "source": "sage-intacct-agave",
       "target": "purchase-orders",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "MD: 'sync Sage Intacct Purchase Orders with Procore Purchase Orders and vice versa.'",
         "Payment Terms field must match valid terms in Sage Intacct.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'sync Sage Intacct Purchase Orders with Procore Purchase Orders and vice versa' = bidirectional."
       ]
     },
     {
@@ -3362,33 +3374,22 @@
     {
       "source": "sage-intacct-agave",
       "target": "sub-invoices",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "MD: 'import Procore Contract Invoices to Sage Intacct Purchasing Transactions and vice-versa.'",
         "Requires open billing periods in Procore.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'import Procore Contract Invoices to Sage Intacct ... and vice-versa' = bidirectional."
       ]
     },
     {
       "source": "sage-intacct-agave",
       "target": "owner-invoices",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "MD: 'import Procore Owner Invoices to Sage Intacct AR Invoices and vice-versa.'",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
-      ]
-    },
-    {
-      "source": "sage-intacct-agave",
-      "target": "commitment-payments",
-      "direction": "from-erp",
-      "configurable": true,
-      "notes": [
-        "Live Agave catalog (useagave.com): 'Contract Payments \u2192 Sage Intacct AP Payments.'",
-        "Was missing entirely. Direction set to from-erp to match the commitment-payments convention used by the other Agave ERPs; the catalog renders AP Payments as a Procore\u2192ERP arrow, so flip to to-erp if you prefer catalog-literal.",
-        "NOT in the Agave corpus MD \u2014 sourced from the live useagave.com catalog."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). 'import Procore Owner Invoices to Sage Intacct AR Invoices and vice-versa' = bidirectional."
       ]
     },
     {
@@ -3473,13 +3474,13 @@
     {
       "source": "viewpoint-spectrum-agave",
       "target": "purchase-orders",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "Procore Purchase Orders \u2194 Spectrum Purchase Orders.",
         "Same 10-character limit as Subcontracts.",
         "Locked tables error if another Spectrum user has the record open.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). PO page 'syncing Purchase Orders from or to Spectrum' + dedicated 'Purchase Orders (Spectrum -> Procore)' page = bidirectional."
       ]
     },
     {
@@ -3601,24 +3602,26 @@
     {
       "source": "viewpoint-vista-agave",
       "target": "subcontracts",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "Procore Subcontracts \u2192 Vista PM or SL Subcontracts.",
         "Approved status syncs as interfaced state to allow immediate invoicing.",
         "Type determined by Unit of Measure (LS = Amount, else Unit).",
-        "Change order line items filtered out \u2014 apply separately."
+        "Change order line items filtered out \u2014 apply separately.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). Subcontracts page: 'If you choose to import Subcontracts from Vista to Procore' = bidirectional."
       ]
     },
     {
       "source": "viewpoint-vista-agave",
       "target": "purchase-orders",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
         "Procore Purchase Orders \u2192 Vista PM or PO Purchase Orders.",
         "Approved status syncs as interfaced state.",
-        "Payment terms must match ERP valid terms; custom field with dropdown recommended."
+        "Payment terms must match ERP valid terms; custom field with dropdown recommended.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). Purchase Orders page: 'If you choose to import Purchase Orders from Vista to Procore' = bidirectional."
       ]
     },
     {
@@ -4473,15 +4476,6 @@
       ]
     },
     {
-      "source": "computerease",
-      "target": "budget-changes",
-      "direction": "to-erp",
-      "notes": [
-        "Procore Budget Changes \u2192 Deltek ComputerEase budget modification entries."
-      ],
-      "configurable": true
-    },
-    {
       "source": "viewpoint-spectrum-agave",
       "target": "budget-changes",
       "direction": "to-erp",
@@ -4505,15 +4499,6 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Sage 100 Contractor budget modifications (via Agave)."
-      ],
-      "configurable": true
-    },
-    {
-      "source": "sage-intacct-agave",
-      "target": "budget-changes",
-      "direction": "to-erp",
-      "notes": [
-        "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications (via Agave)."
       ],
       "configurable": true
     },
@@ -4542,15 +4527,6 @@
       "notes": [
         "Procore Budget Changes \u2192 MYOB Acumatica Cost Budget Change Orders.",
         "SmoothX Feature Map (Slide 5 / Budgeting): Budget Changes flow as Cost Budget Change Orders (Optional)."
-      ]
-    },
-    {
-      "source": "computerease",
-      "target": "prime-contracts",
-      "direction": "both",
-      "notes": [
-        "Procore Prime Contracts \u2194 Deltek ComputerEase contract billing.",
-        "Per Agave's current Procore\u2194ComputerEase sync catalog (added after the local MD snapshot; confirm direction in Agave)."
       ]
     },
     {
@@ -4712,15 +4688,6 @@
       "direction": "from-erp",
       "notes": [
         "Vista AR Cash Receipts \u2192 Procore Prime Contract Payments (per Agave MD)."
-      ]
-    },
-    {
-      "source": "computerease",
-      "target": "commitment-payments",
-      "direction": "from-erp",
-      "notes": [
-        "Deltek ComputerEase contract payments \u2192 Procore Commitment Payments.",
-        "Per the Agave catalog (absent from the local MD snapshot); modeled on Foundation/Vista AP behavior \u2014 confirm in Agave."
       ]
     },
     {
@@ -5097,19 +5064,11 @@
     {
       "source": "foundation",
       "target": "prime-contract-change-orders",
-      "direction": "to-erp",
+      "direction": "both",
       "configurable": true,
       "notes": [
-        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
-      ]
-    },
-    {
-      "source": "computerease",
-      "target": "commitment-change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "MD: 'sync Procore Potential Change Orders to ComputerEase Job RFCs.' One-way per MD."
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync.",
+        "Direction corrected per 2026-06 Agave sync-docs re-crawl (was 'to-erp'). PCCO page has both 'Procore to Foundation' and 'Foundation to Procore' sections (creates a 1-tier PCCO + a Budget Change in Procore)."
       ]
     },
     {
@@ -5119,17 +5078,6 @@
       "configurable": true,
       "notes": [
         "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
-      ]
-    },
-    {
-      "source": "acumatica-agave",
-      "target": "commitment-change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "Prime Change Orders + Budget Transfers: Procore \u2192 Acumatica (per Agave MD).",
-        "Maps to Acumatica Revenue/Cost Budgets with default status 'Closed'.",
-        "Markup mapped via Financial Markups budget code."
       ]
     },
     {
@@ -5148,15 +5096,6 @@
       "configurable": true,
       "notes": [
         "MD: 'export Procore Commitment Change Orders as additional line items to QuickBooks Desktop Purchase Orders and Subcontracts.'"
-      ]
-    },
-    {
-      "source": "quickbooks-desktop-agave",
-      "target": "prime-contract-change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
       ]
     },
     {
