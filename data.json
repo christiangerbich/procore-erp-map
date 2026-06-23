@@ -86,8 +86,14 @@
       "tier": "project"
     },
     {
-      "id": "change-orders",
-      "label": "Change Orders (CCO/PCCO)",
+      "id": "commitment-change-orders",
+      "label": "Commitment Change Orders",
+      "type": "module",
+      "tier": "project"
+    },
+    {
+      "id": "prime-contract-change-orders",
+      "label": "Prime Contract Change Orders",
       "type": "module",
       "tier": "project"
     },
@@ -169,8 +175,9 @@
         "subcontracts": "Commitments",
         "purchase-orders": "Commitments",
         "direct-costs": "Job Costs",
-        "change-orders": "Commitment Change Orders",
-        "prime-contracts": "Prime Contract"
+        "prime-contracts": "Prime Contract",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -227,9 +234,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Direct Cost Item Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Procore Pay Payments",
-        "prime-contracts": "Prime Contract"
+        "prime-contracts": "Prime Contract",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -287,7 +295,7 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Costs",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders"
+        "commitment-change-orders": "Commitment Change Orders"
       }
     },
     {
@@ -345,9 +353,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Cost Transaction Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Procore Pay Payments",
-        "prime-contracts": "Prime Contract"
+        "prime-contracts": "Prime Contract",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -405,8 +414,8 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Direct Costs",
         "sub-invoices": "Subcontractor Invoice",
-        "change-orders": "Commitment Change Orders (CCOs)",
-        "payments": "Paid Invoices"
+        "payments": "Paid Invoices",
+        "commitment-change-orders": "Commitment Change Orders (CCOs)"
       }
     },
     {
@@ -520,9 +529,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Costs",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Commitment Payments Issued",
-        "prime-contracts": "Prime Contracts"
+        "prime-contracts": "Prime Contracts",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -580,9 +590,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Costs",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Commitment Payments Issued",
-        "prime-contracts": "Prime Contracts"
+        "prime-contracts": "Prime Contracts",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -639,7 +650,7 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Direct Cost Item Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders"
+        "commitment-change-orders": "Commitment Change Orders"
       }
     },
     {
@@ -696,9 +707,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Cost Transaction Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Commitment Payments Issued",
-        "prime-contracts": "Prime Contract"
+        "prime-contracts": "Prime Contract",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -756,7 +768,7 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Cost Transaction Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders"
+        "commitment-change-orders": "Commitment Change Orders"
       }
     },
     {
@@ -814,9 +826,10 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Job Cost Transaction Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
         "payments": "Procore Pay Payments",
-        "prime-contracts": "Prime Contracts"
+        "prime-contracts": "Prime Contracts",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -931,8 +944,9 @@
         "purchase-orders": "Commitments",
         "direct-costs": "Direct Costs Transactions",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
-        "prime-contracts": "Prime Contracts"
+        "prime-contracts": "Prime Contracts",
+        "commitment-change-orders": "Commitment Change Orders",
+        "prime-contract-change-orders": "Prime Contract Change Orders"
       }
     },
     {
@@ -988,8 +1002,8 @@
         "purchase-orders": "Commitments (Optional)",
         "direct-costs": "Job Cost Transaction Details",
         "sub-invoices": "Subcontractor Invoices",
-        "change-orders": "Commitment Change Orders",
-        "payments": "Commitment Payments Issued"
+        "payments": "Commitment Payments Issued",
+        "commitment-change-orders": "Commitment Change Orders"
       }
     },
     {
@@ -1476,10 +1490,6 @@
     },
     {
       "source": "procore",
-      "target": "change-orders"
-    },
-    {
-      "source": "procore",
       "target": "prime-contracts"
     },
     {
@@ -1537,16 +1547,6 @@
       "direction": "from-erp",
       "notes": [
         "Spectrum Job Cost data imports to Procore Direct Costs."
-      ]
-    },
-    {
-      "source": "viewpoint-spectrum",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Commitment Change Orders create Change Request records (Status Code 'C').",
-        "Description, cost codes, quantity, and amount map to Change Request fields.",
-        "Change Request # entered by approver at export."
       ]
     },
     {
@@ -1635,14 +1635,6 @@
     },
     {
       "source": "viewpoint-vista",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Procore CCOs & PCCOs \u2192 Vista (export only); change orders are not imported from Vista."
-      ]
-    },
-    {
-      "source": "viewpoint-vista",
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
@@ -1717,15 +1709,6 @@
         "Billing date / payment due date create vendor bills; invoice # \u2192 reference number.",
         "Detail tab items (cost code, qty, unit price, period value) sync to bill line items.",
         "Retainage codes to a designated item."
-      ]
-    },
-    {
-      "source": "quickbooks-desktop",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "New line items append to original Purchase Orders below existing items.",
-        "Same field mappings as commitments (cost code, description, quantity, unit cost)."
       ]
     },
     {
@@ -1821,15 +1804,6 @@
     },
     {
       "source": "sage-300-cre",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCOs export as approved committed cost transactions updating Job Cost totals.",
-        "PCCOs create Approved Estimate Changes and Approved Schedule Value transactions."
-      ]
-    },
-    {
-      "source": "sage-300-cre",
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
@@ -1915,14 +1889,6 @@
       "direction": "to-erp",
       "notes": [
         "Procore subcontractor invoices \u2192 Yardi AP (export only). Corpus: 'supports the export of subcontractor invoices only.'"
-      ]
-    },
-    {
-      "source": "yardi-voyager",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCO title, status, due date, amount, retainage %, cost code export to Yardi as revision records."
       ]
     },
     {
@@ -2065,15 +2031,6 @@
     },
     {
       "source": "acumatica-edge",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Commitment and budget modifications export with system-generated approval dates.",
-        "Line-item details (cost codes, quantities, amounts) transfer."
-      ]
-    },
-    {
-      "source": "acumatica-edge",
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
@@ -2171,15 +2128,6 @@
     },
     {
       "source": "acumatica-vision",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Budget modifications create Cost Budget COs ('On Hold' status); PCCOs create Revenue COs.",
-        "Include date, reference number, description, revised amounts."
-      ]
-    },
-    {
-      "source": "acumatica-vision",
       "target": "prime-contracts",
       "direction": "from-erp",
       "notes": [
@@ -2245,15 +2193,6 @@
       "notes": [
         "Procore Sub Invoices \u2192 MRI Platform X AP module (auto-posted).",
         "Contract Company, Invoice Number, Current Payment Due, Billing Date, Billing Period export."
-      ]
-    },
-    {
-      "source": "mri-platform-x",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCO Number, Description, Contract Code, Cost Code, Cost Type, Date Created, External ID export.",
-        "Updates the current contract amount in MRI."
       ]
     },
     {
@@ -2337,15 +2276,6 @@
         "Procore Sub Invoices \u2192 Sage Intacct AP Invoices.",
         "ERP ID (invoice number) maps; approver can modify before export.",
         "Project, cost code, cost type, retainage amount distribute costs to job accounts."
-      ]
-    },
-    {
-      "source": "sage-intacct",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCOs export with item details (quantity, unit cost, extended price).",
-        "PCCOs link to project contracts with cost code/type and markup amounts."
       ]
     },
     {
@@ -2440,15 +2370,6 @@
       ]
     },
     {
-      "source": "sage-100",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Subcontract and PO change orders export from Procore.",
-        "Updates budget amounts and creates new line items in Sage."
-      ]
-    },
-    {
       "source": "cmic",
       "target": "vendors",
       "direction": "both",
@@ -2520,15 +2441,6 @@
         "Procore Sub Invoices \u2192 CMiC AP invoices.",
         "Vendor, dates, amounts, retainage + distribution detail (job, cost code, category) export.",
         "Payment status, check #, funding date sync bidirectionally."
-      ]
-    },
-    {
-      "source": "cmic",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "PCCOs export as PCIs with description, amount, cost code, line detail.",
-        "Can export as individual PCIs or Owner Change Orders depending on config."
       ]
     },
     {
@@ -2672,15 +2584,6 @@
     },
     {
       "source": "workday",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCOs export as Supplier Contract Amendments; PCCOs create Change Requests.",
-        "Cost Code, Amount, Status flow between systems with Project Name and Description."
-      ]
-    },
-    {
-      "source": "workday",
       "target": "prime-contracts",
       "direction": "both",
       "notes": [
@@ -2744,15 +2647,6 @@
       ]
     },
     {
-      "source": "xero",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "New line items append to existing POs rather than creating separate records.",
-        "Cost code, descriptions, quantities, unit costs add to the original commitment PO."
-      ]
-    },
-    {
       "source": "foundation",
       "target": "vendors",
       "direction": "both",
@@ -2802,7 +2696,8 @@
         "Auto-link by Name, Address, Code/Number; Foundation Project Classes \u2192 Procore Project Types (exact match).",
         "Stored procedure 'sp_insert_update_jobs' required for Procore \u2192 Foundation sync.",
         "Custom 'Customer' field can be added to Projects in Procore."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "foundation",
@@ -2812,7 +2707,8 @@
         "Job Budgets sync bidirectionally; Budget Line Items default to Procore \u2192 Foundation (via DataGenie).",
         "$0 Budget Line Items auto-created in Foundation for all Cost Type combinations.",
         "Budget locks in Procore prevent updates to original amounts."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "foundation",
@@ -2850,7 +2746,8 @@
         "Procore Sub Invoices \u2192 Foundation AP Invoices (Unposted status).",
         "View via 'Modify Unposted Invoices' in Foundation.",
         "FSI Importer + Agave Connector required, kept open/minimized."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "foundation",
@@ -2862,18 +2759,6 @@
         "Default A/R + Retainage Ledger Accounts must be configured by Agave Account Manager.",
         "Billing Period and Due Date required in Procore for sync.",
         "Retention release NOT yet supported.",
-        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
-      ]
-    },
-    {
-      "source": "foundation",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "Commitment + Prime Contract Change Orders both sync bidirectionally.",
-        "Subcontract/PO Change Orders \u2194 Foundation Job Contract Change Orders.",
-        "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction.",
         "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
       ]
     },
@@ -2938,7 +2823,8 @@
       "notes": [
         "MD: 'sync ComputerEase Phases to or from Procore Sub Jobs.'",
         "Sub Jobs feature must be enabled in Procore WBS for sync to work."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "computerease",
@@ -2948,7 +2834,8 @@
         "MD: 'sync ComputerEase Jobs to or from Procore Projects.'",
         "Auto-link by Name, Address, Code/Number.",
         "Customer field must be added as Procore custom field."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "computerease",
@@ -2966,7 +2853,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Subcontracts \u2192 ComputerEase Purchase Orders (no dedicated Subcontracts MD; covered via PO entity since ComputerEase doesn't distinguish)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "computerease",
@@ -2986,15 +2874,6 @@
         "MD: 'import ComputerEase Job Cost Detail (jcdetail) to Procore Direct Costs.'",
         "Only POSTED costs sync (unposted skipped).",
         "Payroll descriptions replaced with generic format to prevent salary exposure."
-      ]
-    },
-    {
-      "source": "computerease",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "MD: 'sync Procore Potential Change Orders to ComputerEase Job RFCs.' One-way per MD."
       ]
     },
     {
@@ -3034,7 +2913,8 @@
         "Sub Jobs / Cost Codes sync bidirectionally (per Agave MD: Acumatica Cost Code list synced to project + each Sub Job in Procore).",
         "Supports up to 3-tier cost code tiering when configured.",
         "Cost code page is combined with Sub Jobs / Project Tasks doc."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "acumatica-agave",
@@ -3043,7 +2923,8 @@
       "notes": [
         "Sub Jobs / Project Tasks bidirectional (per Agave MD).",
         "Default Project-Level Task (e.g. '0000') can be designated to avoid Sub Job creation."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "acumatica-agave",
@@ -3052,7 +2933,8 @@
       "notes": [
         "Projects: Procore \u2192 Acumatica (per Agave MD \u2014 mapping shown Procore \u2192 Acumatica only).",
         "Optional default Project Templates; supports full project mapping including metadata."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "acumatica-agave",
@@ -3062,7 +2944,8 @@
         "Budget Line Items: Procore \u2192 Acumatica (per Agave MD: 'syncs Procore budget items to Acumatica Cost Budget Lines').",
         "Budgets must be unlocked in Procore to accept updates.",
         "WBS Code (Sub Job + Cost Code + Cost Type) must be unique per project."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "acumatica-agave",
@@ -3120,16 +3003,6 @@
     },
     {
       "source": "acumatica-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Prime Change Orders + Budget Transfers: Procore \u2192 Acumatica (per Agave MD).",
-        "Maps to Acumatica Revenue/Cost Budgets with default status 'Closed'.",
-        "Markup mapped via Financial Markups budget code."
-      ]
-    },
-    {
-      "source": "acumatica-agave",
       "target": "prime-contracts",
       "direction": "to-erp",
       "notes": [
@@ -3177,7 +3050,8 @@
       "notes": [
         "MD: 'import a Project's Cost Codes (Service Items) from QuickBooks Desktop to Procore.'",
         "QBD Service Items used by default; other item types supported with custom config."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "quickbooks-desktop-agave",
@@ -3186,7 +3060,8 @@
       "notes": [
         "MD has both 'Syncing from Procore to QuickBooks Desktop' section and Step 2 'Sync a Customer from QuickBooks Desktop to Procore'.",
         "Requires custom 'Customer' field (exact name) \u2014 must be Required in Procore fieldset."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "quickbooks-desktop-agave",
@@ -3204,7 +3079,8 @@
       "notes": [
         "MD: 'export Procore Subcontracts to QuickBooks Desktop Purchase Orders.'",
         "QBD has no separate Subcontract concept \u2014 both Subs and POs flow through QBD POs."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "quickbooks-desktop-agave",
@@ -3270,14 +3146,6 @@
     },
     {
       "source": "quickbooks-desktop-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "MD: 'export Procore Commitment Change Orders as additional line items to QuickBooks Desktop Purchase Orders and Subcontracts.'"
-      ]
-    },
-    {
-      "source": "quickbooks-desktop-agave",
       "target": "timecards",
       "direction": "to-erp",
       "configurable": true,
@@ -3314,7 +3182,8 @@
         "Sub Jobs (Phases): Sage 100 \u2192 Procore (per Agave MD: 'import a Project's Sub Jobs (Phases) from Sage 100 C to Procore').",
         "Optional feature requires AM enablement.",
         "Known Limitation: Sub Jobs Procore \u2192 Sage 100 NOT supported."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-100-agave",
@@ -3324,7 +3193,8 @@
         "Projects (Jobs): Sage 100 \u2192 Procore (per Agave MD visual mapping).",
         "Departments must be linked on Agave Departments page to sync with projects.",
         "Project Templates can be applied as defaults in Procore."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-100-agave",
@@ -3334,7 +3204,8 @@
         "Budget Line Items bidirectional (per Agave MD: 'original budget amount from Sage 100 to Procore' AND 'from Procore to Sage 100').",
         "1 line item per cost code max in Sage 100.",
         "Budget locking prevents updates to original amounts \u2014 must unlock in Procore first."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-100-agave",
@@ -3372,7 +3243,8 @@
         "AP Invoices: Sage 100 \u2192 Procore (per Agave MD FAQ: 'syncing AP Invoices from Sage 100 Contractor to Procore').",
         "Subtotal + retention amounts calculated using cumulative work/materials completed.",
         "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-100-agave",
@@ -3382,15 +3254,6 @@
       "notes": [
         "Procore Owner Invoices \u2192 Sage 3-2 Receivable Invoices; Sage job-cost billing periods \u2192 Procore AR Invoices (bidirectional per Agave MD).",
         "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
-      ]
-    },
-    {
-      "source": "sage-100-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "CCOs + PCCOs both Procore \u2192 Sage 100 (per Agave MD: 'syncs Procore Subcontract Change Orders to Sage 100' AND 'Procore Potential Change Orders (PCOs) to Sage 100').",
-        "Subcontractor COs export with offsetting budget lines to prevent duplicate budget mods."
       ]
     },
     {
@@ -3439,7 +3302,8 @@
       "direction": "from-erp",
       "notes": [
         "MD: 'link Sage Intacct Child Jobs to Procore Sub Jobs.'"
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-intacct-agave",
@@ -3449,7 +3313,8 @@
         "MD: 'import Sage Intacct Jobs to Procore Projects and vice-versa.'",
         "Auto-link by Name, Address, Code/Number.",
         "Custom fields can be synced via Account Manager configuration."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-intacct-agave",
@@ -3528,16 +3393,6 @@
     },
     {
       "source": "sage-intacct-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "configurable": true,
-      "notes": [
-        "MD (Subcontractor): 'export Procore Commitment Change Orders to Sage Intacct Purchasing Transactions.'",
-        "MD (Prime): 'export Procore Prime Contract Change Orders as Sage Intacct Change Requests.'"
-      ]
-    },
-    {
-      "source": "sage-intacct-agave",
       "target": "prime-contracts",
       "direction": "both",
       "configurable": true,
@@ -3562,7 +3417,8 @@
       "direction": "from-erp",
       "notes": [
         "Spectrum employees \u2192 Procore (import only). Agave MD Known Limitation: 'Employees syncing from Procore to Spectrum is not supported.'"
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3570,7 +3426,8 @@
       "direction": "from-erp",
       "notes": [
         "Spectrum cost codes \u2192 Procore (import; codes deleted from Procore side). MD shows ERP\u2192Procore."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3579,7 +3436,8 @@
       "notes": [
         "MD: 'Agave Sync supports syncing Sub Jobs from Spectrum into your Procore Work Breakdown Structure.'",
         "Spectrum Master Job setup required \u2014 child jobs become Sub Jobs."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3587,7 +3445,8 @@
       "direction": "both",
       "notes": [
         "Projects sync both ways (Agave MD: 'from or to Spectrum')."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3595,7 +3454,8 @@
       "direction": "both",
       "notes": [
         "Budget line items sync Spectrum\u2194Procore (separate import & export tutorials per Agave MD)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3640,7 +3500,8 @@
         "MD: 'Agave Sync exports AP Invoices to Spectrum in an Unposted status.'",
         "Batch Numbers auto-assigned based on invoice date (Saturday of sync week, YYYYMMDD format).",
         "Retention release NOT supported \u2014 manual in Spectrum."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -3651,14 +3512,6 @@
         "MD: 'Agave Sync exports AR Invoices to Spectrum in an Unposted status.'",
         "Invoice Type determined by amount (positive=Regular, negative=Credit Memo).",
         "Requires 4-8 Info-Link tables depending on invoice type (Customer, Work Order)."
-      ]
-    },
-    {
-      "source": "viewpoint-spectrum-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Procore Commitment & Prime Contract Change Orders \u2192 Spectrum (export only per Agave MD)."
       ]
     },
     {
@@ -3699,7 +3552,8 @@
       "notes": [
         "Vista PR Employees \u2192 Procore Contacts/Users (per Agave MD).",
         "Sync as Users (default) or Contacts; 'Employee of...' checkbox required for linking."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista-agave",
@@ -3719,7 +3573,8 @@
         "Sub Jobs: Vista \u2192 Procore (per Agave MD: 'sync Sub Jobs from Vista to your Procore Work Breakdown Structure').",
         "Vista job numbering mask must follow predictable format (e.g. XXXXX-XX).",
         "Multiple Sub Jobs per record NOT supported in AP/AR transactions."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista-agave",
@@ -3729,7 +3584,8 @@
         "Vista JC Jobs \u2194 Procore Projects (per Agave MD body documents both Procore\u2192Vista and Vista\u2192Procore).",
         "Custom 'Customer' field can be added to Projects in Procore fieldset.",
         "Filtering recommended by status, department, or user-defined fields."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista-agave",
@@ -3785,7 +3641,8 @@
         "Prereqs: Vendor, Project, Budget Code, Subcontract or PO must be synced.",
         "Batch month determined by latest open AP month after GL close month.",
         "Billing periods required; subtotal + retention calculated by specific formulas."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista-agave",
@@ -3797,16 +3654,6 @@
         "Prereqs: Prime Contract, Project, Customer required (Change Orders optional).",
         "Batch month determined by latest open AR month after GL close month.",
         "Subtotal + retention calculated using cumulative period-to-period formulas."
-      ]
-    },
-    {
-      "source": "viewpoint-vista-agave",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Subcontract COs \u2192 Vista PM Subcontract Change Orders.",
-        "PCCOs \u2192 Vista JC Change Orders (posted state for immediate AR Invoice application).",
-        "Syncs Potential Change Orders (PCOs), not formal Change Orders, for line item detail."
       ]
     },
     {
@@ -3886,14 +3733,6 @@
       "direction": "both",
       "notes": [
         "Head Contract progress claims sync bidirectionally."
-      ]
-    },
-    {
-      "source": "smoothx-acumatica",
-      "target": "change-orders",
-      "direction": "to-erp",
-      "notes": [
-        "Budget Changes export as Acumatica Change Orders."
       ]
     },
     {
@@ -4605,7 +4444,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Foundation budget transfer entries on the Job Cost record."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "cmic",
@@ -4638,7 +4478,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Deltek ComputerEase budget modification entries."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-spectrum-agave",
@@ -4646,7 +4487,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Spectrum Budget Transfers (via Agave)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista-agave",
@@ -4654,7 +4496,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Vista budget adjustments (via Agave)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-100-agave",
@@ -4662,7 +4505,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Sage 100 Contractor budget modifications (via Agave)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "sage-intacct-agave",
@@ -4670,7 +4514,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Sage Intacct Construction budget modifications (via Agave)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "acumatica-agave",
@@ -4678,7 +4523,8 @@
       "direction": "to-erp",
       "notes": [
         "Procore Budget Changes \u2192 Acumatica Cost Budget Change Orders (via Agave)."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "smoothx-acumatica",
@@ -4725,7 +4571,8 @@
       "notes": [
         "Procore Sub Invoices \u2192 Deltek ComputerEase AP Invoices.",
         "Per Agave's current Procore\u2194ComputerEase sync catalog."
-      ]
+      ],
+      "configurable": true
     },
     {
       "source": "viewpoint-vista",
@@ -5045,6 +4892,363 @@
       "direction": "to-erp",
       "notes": [
         "Procore subcontract commitments \u2192 Xero (export). Corpus: 'send a commitment (e.g. purchase order or subcontract) to the ERP Integrations tool.'"
+      ]
+    },
+    {
+      "source": "procore",
+      "target": "commitment-change-orders"
+    },
+    {
+      "source": "procore",
+      "target": "prime-contract-change-orders"
+    },
+    {
+      "source": "viewpoint-spectrum",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Commitment Change Orders create Change Request records (Status Code 'C').",
+        "Description, cost codes, quantity, and amount map to Change Request fields.",
+        "Change Request # entered by approver at export."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "viewpoint-vista",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Procore CCOs & PCCOs \u2192 Vista (export only); change orders are not imported from Vista."
+      ]
+    },
+    {
+      "source": "viewpoint-vista",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "quickbooks-desktop",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "New line items append to original Purchase Orders below existing items.",
+        "Same field mappings as commitments (cost code, description, quantity, unit cost)."
+      ]
+    },
+    {
+      "source": "sage-300-cre",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "CCOs export as approved committed cost transactions updating Job Cost totals.",
+        "PCCOs create Approved Estimate Changes and Approved Schedule Value transactions."
+      ]
+    },
+    {
+      "source": "sage-300-cre",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "yardi-voyager",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "CCO title, status, due date, amount, retainage %, cost code export to Yardi as revision records."
+      ]
+    },
+    {
+      "source": "acumatica-edge",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Commitment and budget modifications export with system-generated approval dates.",
+        "Line-item details (cost codes, quantities, amounts) transfer."
+      ]
+    },
+    {
+      "source": "acumatica-edge",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "acumatica-vision",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Budget modifications create Cost Budget COs ('On Hold' status); PCCOs create Revenue COs.",
+        "Include date, reference number, description, revised amounts."
+      ]
+    },
+    {
+      "source": "acumatica-vision",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "mri-platform-x",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "CCO Number, Description, Contract Code, Cost Code, Cost Type, Date Created, External ID export.",
+        "Updates the current contract amount in MRI."
+      ]
+    },
+    {
+      "source": "sage-intacct",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "CCOs export with item details (quantity, unit cost, extended price).",
+        "PCCOs link to project contracts with cost code/type and markup amounts."
+      ]
+    },
+    {
+      "source": "sage-intacct",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "sage-100",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Subcontract and PO change orders export from Procore.",
+        "Updates budget amounts and creates new line items in Sage."
+      ]
+    },
+    {
+      "source": "cmic",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "PCCOs export as PCIs with description, amount, cost code, line detail.",
+        "Can export as individual PCIs or Owner Change Orders depending on config."
+      ]
+    },
+    {
+      "source": "cmic",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "workday",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "CCOs export as Supplier Contract Amendments; PCCOs create Change Requests.",
+        "Cost Code, Amount, Status flow between systems with Project Name and Description."
+      ]
+    },
+    {
+      "source": "workday",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "xero",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "New line items append to existing POs rather than creating separate records.",
+        "Cost code, descriptions, quantities, unit costs add to the original commitment PO."
+      ]
+    },
+    {
+      "source": "foundation",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Commitment + Prime Contract Change Orders both sync bidirectionally.",
+        "Subcontract/PO Change Orders \u2194 Foundation Job Contract Change Orders.",
+        "PCCOs require DataGenie workflow for the Procore \u2192 Foundation direction.",
+        "Direction set to Procore \u2192 ERP (to-erp) per the live useagave.com catalog default (green arrow). Prior value was a corpus-MD artifact."
+      ]
+    },
+    {
+      "source": "foundation",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "MD: 'sync Procore Potential Change Orders to ComputerEase Job RFCs.' One-way per MD."
+      ]
+    },
+    {
+      "source": "computerease",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "acumatica-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Change Orders + Budget Transfers: Procore \u2192 Acumatica (per Agave MD).",
+        "Maps to Acumatica Revenue/Cost Budgets with default status 'Closed'.",
+        "Markup mapped via Financial Markups budget code."
+      ]
+    },
+    {
+      "source": "acumatica-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "quickbooks-desktop-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "MD: 'export Procore Commitment Change Orders as additional line items to QuickBooks Desktop Purchase Orders and Subcontracts.'"
+      ]
+    },
+    {
+      "source": "quickbooks-desktop-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "sage-100-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "CCOs + PCCOs both Procore \u2192 Sage 100 (per Agave MD: 'syncs Procore Subcontract Change Orders to Sage 100' AND 'Procore Potential Change Orders (PCOs) to Sage 100').",
+        "Subcontractor COs export with offsetting budget lines to prevent duplicate budget mods."
+      ]
+    },
+    {
+      "source": "sage-100-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "sage-intacct-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "MD (Subcontractor): 'export Procore Commitment Change Orders to Sage Intacct Purchasing Transactions.'",
+        "MD (Prime): 'export Procore Prime Contract Change Orders as Sage Intacct Change Requests.'"
+      ]
+    },
+    {
+      "source": "sage-intacct-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Procore Commitment & Prime Contract Change Orders \u2192 Spectrum (export only per Agave MD)."
+      ]
+    },
+    {
+      "source": "viewpoint-spectrum-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "viewpoint-vista-agave",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Subcontract COs \u2192 Vista PM Subcontract Change Orders.",
+        "PCCOs \u2192 Vista JC Change Orders (posted state for immediate AR Invoice application).",
+        "Syncs Potential Change Orders (PCOs), not formal Change Orders, for line item detail."
+      ]
+    },
+    {
+      "source": "viewpoint-vista-agave",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "configurable": true,
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
+      ]
+    },
+    {
+      "source": "smoothx-acumatica",
+      "target": "commitment-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Budget Changes export as Acumatica Change Orders."
+      ]
+    },
+    {
+      "source": "smoothx-acumatica",
+      "target": "prime-contract-change-orders",
+      "direction": "to-erp",
+      "notes": [
+        "Prime Contract Change Orders (PCCO) sync \u2014 split from the combined Change Orders node; direction follows the prime-contract sync."
       ]
     }
   ]
