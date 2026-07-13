@@ -2150,6 +2150,7 @@
   }
 
   function clearSearch() {
+    clearTimeout(searchDebounce); // a pending render would resurrect stale results
     searchEl.value = "";
     searchClearEl.hidden = true;
     hideResults();
@@ -2182,10 +2183,16 @@
   }
   searchEl.addEventListener("focus", loadExtraDocs, { once: true });
 
+  // Debounced: the search scans every corpus doc (824 doc chunks once the
+  // deep index is in) with several indexOf passes per term — per keystroke
+  // that's wasted work and can jank fast typists. 140ms trails typing
+  // imperceptibly while collapsing bursts into one scan.
+  let searchDebounce = 0;
   searchEl.addEventListener("input", () => {
     loadExtraDocs(); // no-op after the first call; covers paths where focus never fired
     searchClearEl.hidden = !searchEl.value;
-    renderResults(searchEl.value);
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => renderResults(searchEl.value), 140);
   });
   searchEl.addEventListener("keydown", (e) => {
     if (e.key === "Escape") { clearSearch(); searchEl.blur(); }
