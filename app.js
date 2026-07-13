@@ -63,33 +63,29 @@
     inbound: "←"
   };
 
-  const data = await fetch("data.json").then((r) => {
-    if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
-    return r.json();
-  });
-
-  // Procore ERP support-doc chunks for the in-page finder (built by
-  // tools/build-docs-index.py). Optional — the finder still works on the
-  // data.json corpus alone if this file is missing.
-  const extraDocs = await fetch("docs-index.json")
-    .then((r) => (r.ok ? r.json() : []))
-    .catch(() => []);
-
-  // SOP Builder catalog (tools, standard actions, role/permission options).
-  const sopTemplates = await fetch("sop-templates.json")
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null);
-
-  // PNPT Professional Services packages catalog (Cost Management, etc).
-  const packagesData = await fetch("packages.json")
-    .then((r) => (r.ok ? r.json() : { packages: [] }))
-    .catch(() => ({ packages: [] }));
-
-  // PNPT Configuration & Tracking catalog — phases, deliverables, and the
-  // per-package Configuration Workbook structure.
-  const configData = await fetch("configurations.json")
-    .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
-    .catch(() => ({ phases: [], packages: [] }));
+  // Startup payloads fetch in PARALLEL — one round-trip instead of four.
+  // docs-index.json (the ~500KB support-doc search index, the largest payload
+  // in the app) is not fetched here at all: it lazy-loads on first use of the
+  // search box (see loadExtraDocs below), keeping it off the critical path.
+  const [data, sopTemplates, packagesData, configData] = await Promise.all([
+    fetch("data.json").then((r) => {
+      if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
+      return r.json();
+    }),
+    // SOP Builder catalog (tools, standard actions, role/permission options).
+    fetch("sop-templates.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null),
+    // PNPT Professional Services packages catalog (Cost Management, etc).
+    fetch("packages.json")
+      .then((r) => (r.ok ? r.json() : { packages: [] }))
+      .catch(() => ({ packages: [] })),
+    // PNPT Configuration & Tracking catalog — phases, deliverables, and the
+    // per-package Configuration Workbook structure.
+    fetch("configurations.json")
+      .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
+      .catch(() => ({ phases: [], packages: [] })),
+  ]);
 
   // Stroke-icon catalog used for tool nodes + capability badges in the
   // Package Builder graph. Each entry is the inner content of an SVG with
@@ -1996,13 +1992,6 @@
         title: erp.label + " · " + mod.label, snippet: mod.label + " — " + dir, text: base });
     }
   });
-  // Full Procore ERP support-doc chunks (deeper than the data.json notes).
-  (extraDocs || []).forEach((d) => {
-    const title = d.title + (d.heading ? " · " + d.heading : "");
-    searchDocs.push({ erpId: null, moduleId: null, kind: "Procore Doc", isDoc: true,
-      title: title, snippet: d.text, body: d.text, text: title + " " + d.text });
-  });
-
   searchDocs.forEach((d) => (d._t = d.text.toLowerCase()));
 
   const STOP = new Set(["the","a","an","and","or","to","of","in","on","for","is","are","with",
@@ -2141,6 +2130,33 @@
     searchClearEl.hidden = true;
     hideResults();
   }
+
+  // Lazy-load the deep support-doc search index (built by
+  // tools/build-docs-index.py; ~824 chunks, ~90KB gzipped — the largest
+  // payload in the app) the first time the search box is used. It only
+  // powers "Procore Doc" results, so it stays off the startup critical path.
+  // Optional — the finder still works on the data.json corpus alone if the
+  // file is missing.
+  let extraDocsRequested = false;
+  function loadExtraDocs() {
+    if (extraDocsRequested) return;
+    extraDocsRequested = true;
+    fetch("docs-index.json")
+      .then((r) => (r.ok ? r.json() : []))
+      .catch(() => [])
+      .then((chunks) => {
+        (chunks || []).forEach((d) => {
+          const title = d.title + (d.heading ? " · " + d.heading : "");
+          const doc = { erpId: null, moduleId: null, kind: "Procore Doc", isDoc: true,
+            title: title, snippet: d.text, body: d.text, text: title + " " + d.text };
+          doc._t = doc.text.toLowerCase();
+          searchDocs.push(doc);
+        });
+        // If a query is already typed, refresh so doc results appear.
+        if (searchEl.value.trim()) renderResults(searchEl.value);
+      });
+  }
+  searchEl.addEventListener("focus", loadExtraDocs, { once: true });
 
   searchEl.addEventListener("input", () => {
     searchClearEl.hidden = !searchEl.value;
