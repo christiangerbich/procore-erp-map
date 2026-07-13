@@ -154,6 +154,96 @@
     return s;
   }
 
+  // ---------------------------------------------------------------------
+  // Shared SVG helpers — element factory + wheel-zoom/drag-pan. One
+  // implementation serves both the ERP map and the Package Builder graph
+  // (this replaced D3, which was only used for select + zoom).
+  // ---------------------------------------------------------------------
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs, text) {
+    const el = document.createElementNS(SVG_NS, tag);
+    if (attrs) for (const k in attrs) el.setAttribute(k, attrs[k]);
+    if (text != null) el.textContent = text;
+    return el;
+  }
+
+  // Wheel-zoom (anchored at the cursor) + drag-pan for a plain SVG whose
+  // content lives in a single <g> layer. Mutates opts.state ({tx, ty, scale})
+  // IN PLACE and applies it as the layer transform, so callers can persist
+  // the same state object across re-renders. Drags that start on an element
+  // matching opts.skipPan (a node) don't pan — they stay clicks.
+  // consumeClick() returns true exactly once after a pan drag, so click
+  // handlers can ignore the mouseup-click that ends the drag.
+  function attachZoomPan(svg, layer, opts) {
+    const state = opts.state;
+    let suppressClick = false;
+    function apply() {
+      layer.setAttribute(
+        "transform",
+        "translate(" + state.tx + " " + state.ty + ") scale(" + state.scale + ")"
+      );
+    }
+    // Client coords → svg user-space coords (pre-layer-transform).
+    // getScreenCTM accounts for the live viewBox + preserveAspectRatio, so
+    // this stays correct when applySource() swaps the viewBox.
+    function svgPoint(clientX, clientY) {
+      const m = svg.getScreenCTM();
+      if (!m) return { x: clientX, y: clientY };
+      return new DOMPoint(clientX, clientY).matrixTransform(m.inverse());
+    }
+    // Zoom anchored on a given svg-coordinate point so that point stays put.
+    function zoomAt(x, y, factor) {
+      const next = Math.max(opts.min, Math.min(opts.max, state.scale * factor));
+      const eff = next / state.scale;
+      state.tx = x - (x - state.tx) * eff;
+      state.ty = y - (y - state.ty) * eff;
+      state.scale = next;
+      apply();
+    }
+    svg.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const p = svgPoint(e.clientX, e.clientY);
+      zoomAt(p.x, p.y, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+    }, { passive: false });
+    svg.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      if (opts.skipPan && e.target.closest && e.target.closest(opts.skipPan)) return;
+      const start = svgPoint(e.clientX, e.clientY);
+      const startTx = state.tx, startTy = state.ty;
+      let moved = false;
+      function onMove(ev) {
+        const p = svgPoint(ev.clientX, ev.clientY);
+        const dx = p.x - start.x, dy = p.y - start.y;
+        if (!moved && Math.hypot(dx, dy) < 3) return; // tiny jitter = still a click
+        moved = true;
+        state.tx = startTx + dx;
+        state.ty = startTy + dy;
+        apply();
+        svg.style.cursor = "grabbing";
+      }
+      function onUp() {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+        svg.style.cursor = "";
+        if (moved) suppressClick = true; // don't treat pan-end as a click
+      }
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    });
+    function consumeClick() {
+      const s = suppressClick;
+      suppressClick = false;
+      return s;
+    }
+    apply();
+    return {
+      apply: apply,
+      zoomAt: zoomAt,
+      reset: function () { state.tx = 0; state.ty = 0; state.scale = 1; apply(); },
+      consumeClick: consumeClick
+    };
+  }
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -297,82 +387,58 @@
   // SVG scaffolding
   // ---------------------------------------------------------------------
 
-  const svg = d3
-    .select("#graph")
-    .append("svg")
-    .attr("viewBox", [0, 0, width, height])
-    .attr("preserveAspectRatio", "xMidYMin meet");
+  const svg = svgEl("svg", {
+    viewBox: "0 0 " + width + " " + height,
+    preserveAspectRatio: "xMidYMin meet"
+  });
+  container.appendChild(svg);
 
   // No arrow markers — direction is conveyed by line color + dash pattern.
 
   // Pan & zoom — useful when the column has been resized smaller than its
   // natural height, so the user can scroll/zoom inside the SVG.
-  const zoomLayer = svg.append("g");
-  const zoom = d3
-    .zoom()
-    .scaleExtent([0.5, 2.5])
-    .on("zoom", (event) => zoomLayer.attr("transform", event.transform));
-  svg.call(zoom);
+  const zoomLayer = svgEl("g");
+  svg.appendChild(zoomLayer);
+  const erpZoom = attachZoomPan(svg, zoomLayer, {
+    state: { tx: 0, ty: 0, scale: 1 },
+    min: 0.5,
+    max: 2.5,
+    skipPan: ".node"
+  });
 
-  // Column headers (three columns now)
-  zoomLayer
-    .append("text")
-    .attr("class", "column-header column-header-procore")
-    .attr("x", leftX)
-    .attr("y", 28)
-    .attr("text-anchor", "middle")
-    .text("Procore Native");
-
-  zoomLayer
-    .append("text")
-    .attr("class", "column-header")
-    .attr("x", middleX)
-    .attr("y", 28)
-    .attr("text-anchor", "middle")
-    .text("Procore Modules");
-
-  zoomLayer
-    .append("text")
-    .attr("class", "column-header column-header-agave")
-    .attr("x", rightX)
-    .attr("y", 28)
-    .attr("text-anchor", "middle")
-    .text("Agave Sync");
-
-  zoomLayer
-    .append("text")
-    .attr("class", "column-header column-header-smoothx")
-    .attr("x", rightX)
-    .attr("y", 28)
-    .attr("text-anchor", "middle")
-    .attr("display", "none")
-    .text("SmoothX");
+  // Column headers (three columns now). Source-header refs are kept so
+  // applySource() can toggle which one shows at the active left column.
+  function headerText(cls, x, text, hidden) {
+    const t = svgEl("text", {
+      class: cls ? "column-header " + cls : "column-header",
+      x: x, y: 28, "text-anchor": "middle"
+    }, text);
+    if (hidden) t.setAttribute("display", "none");
+    zoomLayer.appendChild(t);
+    return t;
+  }
+  const headerProcoreEl = headerText("column-header-procore", leftX, "Procore Native", false);
+  headerText("", middleX, "Procore Modules", false);
+  const headerAgaveEl = headerText("column-header-agave", rightX, "Agave Sync", false);
+  const headerSmoothxEl = headerText("column-header-smoothx", rightX, "SmoothX", true);
 
   // Tier section labels on the modules side (Company / Project).
-  zoomLayer
-    .append("text")
-    .attr("class", "tier-label")
-    .attr("x", middleX)
-    .attr("y", companyLabelY + TIER_LABEL_HEIGHT / 2 + 4)
-    .attr("text-anchor", "middle")
-    .text("Company Level");
+  zoomLayer.appendChild(svgEl("text", {
+    class: "tier-label", x: middleX,
+    y: companyLabelY + TIER_LABEL_HEIGHT / 2 + 4, "text-anchor": "middle"
+  }, "Company Level"));
 
-  zoomLayer
-    .append("text")
-    .attr("class", "tier-label")
-    .attr("x", middleX)
-    .attr("y", projectLabelY + TIER_LABEL_HEIGHT / 2 + 4)
-    .attr("text-anchor", "middle")
-    .text("Project Level");
+  zoomLayer.appendChild(svgEl("text", {
+    class: "tier-label", x: middleX,
+    y: projectLabelY + TIER_LABEL_HEIGHT / 2 + 4, "text-anchor": "middle"
+  }, "Project Level"));
 
   // Subtle divider between tier sections, centered on the modules column.
-  zoomLayer
-    .append("line")
-    .attr("class", "tier-divider")
-    .attr("x1", middleX - 100)
-    .attr("y1", tierDividerY)
-    .attr("x2", middleX + 100)
-    .attr("y2", tierDividerY);
+  zoomLayer.appendChild(svgEl("line", {
+    class: "tier-divider",
+    x1: middleX - 100, y1: tierDividerY,
+    x2: middleX + 100, y2: tierDividerY
+  }));
 
   // ---------------------------------------------------------------------
   // Links
@@ -397,66 +463,39 @@
     };
   }
 
-  const linkGroup = zoomLayer.append("g").attr("class", "links");
-  const link = linkGroup
-    .selectAll("line")
-    .data(visibleLinks)
-    .join("line")
-    .attr("class", (d) => "link link-data link-" + d.direction)
-    .attr("stroke", (d) => LINK_COLORS[d.direction])
-    .attr("stroke-width", 1.6)
-    .each(function (d) {
-      const e = endpoint(d);
-      d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
+  const linkGroup = svgEl("g", { class: "links" });
+  zoomLayer.appendChild(linkGroup);
+  visibleLinks.forEach((d) => {
+    const e = endpoint(d);
+    d._el = svgEl("line", {
+      class: "link link-data link-" + d.direction,
+      stroke: LINK_COLORS[d.direction],
+      "stroke-width": 1.6,
+      x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2
     });
+    linkGroup.appendChild(d._el);
+  });
+
+  // Bulk class toggle across every link element (replaces d3's
+  // selection.classed(name, predicate)).
+  function setLinkClass(cls, pred) {
+    visibleLinks.forEach((l) => l._el.classList.toggle(cls, !!pred(l)));
+  }
 
   // Re-apply a single link's directional styling (stroke color + the
   // dash-pattern class) after its direction has been toggled. Only the
   // direction tokens are touched, so highlighted/dimmed state set by the
   // current selection is preserved.
   function restyleLinkDirection(d) {
-    link
-      .filter((l) => l === d)
-      .attr("stroke", LINK_COLORS[d.direction])
-      .classed("link-to-erp", d.direction === "to-erp")
-      .classed("link-from-erp", d.direction === "from-erp")
-      .classed("link-both", d.direction === "both");
+    d._el.setAttribute("stroke", LINK_COLORS[d.direction]);
+    d._el.classList.toggle("link-to-erp", d.direction === "to-erp");
+    d._el.classList.toggle("link-from-erp", d.direction === "from-erp");
+    d._el.classList.toggle("link-both", d.direction === "both");
   }
 
   // ---------------------------------------------------------------------
   // Nodes
   // ---------------------------------------------------------------------
-
-  const nodeGroup = zoomLayer.append("g").attr("class", "nodes");
-  const node = nodeGroup
-    .selectAll("g")
-    .data(visibleNodes)
-    .join("g")
-    .attr("class", (d) => "node node-" + d.type)
-    .attr("transform", (d) => `translate(${d.x},${d.y})`)
-    .on("click", (event, d) => {
-      event.stopPropagation();
-      selectNode(d.id);
-    });
-
-  node
-    .append("polygon")
-    .attr("class", (d) => {
-      const cls = ["node-hex"];
-      if (d.via) cls.push("via-" + d.via);
-      return cls.join(" ");
-    })
-    .attr("points", (d) => hexPoints(NODE_RADIUS[d.type]))
-    .attr("fill", (d) => (d.type === "erp" ? erpFillFor(d) : NODE_COLOR[d.type]));
-
-  // Inset orange hex on company-level modules — mirrors the Procore
-  // logomark (black hex with orange center) per the Identity guide.
-  node
-    .filter((d) => d.type === "module" && d.tier === "company")
-    .append("polygon")
-    .attr("class", "node-hex-inner")
-    .attr("points", hexPoints(NODE_RADIUS.module * 0.42))
-    .attr("fill", "#FF5200");
 
   // (Dual-source "both" ERPs are no longer rendered as a single node
   // with a metal ring — they now exist as two separate nodes, one in
@@ -485,22 +524,56 @@
     return "end";
   }
 
-  node
-    .filter((d) => !!d.tool)
-    .append("text")
-    .attr("class", "node-tool-label")
-    .attr("x", (d) => (d.type === "module" ? 0 : labelX(d)))
-    .attr("y", (d) => (d.type === "module" ? -(NODE_RADIUS.module + 8) : -8))
-    .attr("text-anchor", (d) => (d.type === "module" ? "middle" : labelAnchor(d)))
-    .text((d) => d.tool);
+  const nodeGroup = svgEl("g", { class: "nodes" });
+  zoomLayer.appendChild(nodeGroup);
+  visibleNodes.forEach((d) => {
+    const g = svgEl("g", {
+      class: "node node-" + d.type,
+      transform: "translate(" + d.x + "," + d.y + ")"
+    });
+    g.addEventListener("click", (event) => {
+      event.stopPropagation();
+      selectNode(d.id);
+    });
 
-  node
-    .append("text")
-    .attr("class", "node-label")
-    .attr("x", labelX)
-    .attr("y", labelY)
-    .attr("text-anchor", labelAnchor)
-    .text((d) => d.label);
+    g.appendChild(svgEl("polygon", {
+      class: d.via ? "node-hex via-" + d.via : "node-hex",
+      points: hexPoints(NODE_RADIUS[d.type]),
+      fill: d.type === "erp" ? erpFillFor(d) : NODE_COLOR[d.type]
+    }));
+
+    // Inset orange hex on company-level modules — mirrors the Procore
+    // logomark (black hex with orange center) per the Identity guide.
+    if (d.type === "module" && d.tier === "company") {
+      g.appendChild(svgEl("polygon", {
+        class: "node-hex-inner",
+        points: hexPoints(NODE_RADIUS.module * 0.42),
+        fill: "#FF5200"
+      }));
+    }
+
+    if (d.tool) {
+      g.appendChild(svgEl("text", {
+        class: "node-tool-label",
+        x: d.type === "module" ? 0 : labelX(d),
+        y: d.type === "module" ? -(NODE_RADIUS.module + 8) : -8,
+        "text-anchor": d.type === "module" ? "middle" : labelAnchor(d)
+      }, d.tool));
+    }
+
+    g.appendChild(svgEl("text", {
+      class: "node-label",
+      x: labelX(d), y: labelY(d), "text-anchor": labelAnchor(d)
+    }, d.label));
+
+    d._el = g;
+    nodeGroup.appendChild(g);
+  });
+
+  // Bulk class toggle across every node element.
+  function setNodeClass(cls, pred) {
+    visibleNodes.forEach((n) => n._el.classList.toggle(cls, !!pred(n)));
+  }
 
   // ---------------------------------------------------------------------
   // Side panel
@@ -847,11 +920,10 @@
     );
     neighborIds.add(n.id);
 
-    node.classed("selected", (d) => d.id === n.id);
-    node.classed("dimmed", (d) => !neighborIds.has(d.id));
-    link
-      .classed("highlighted", (d) => d.source.id === n.id || d.target.id === n.id)
-      .classed("dimmed", (d) => d.source.id !== n.id && d.target.id !== n.id);
+    setNodeClass("selected", (d) => d.id === n.id);
+    setNodeClass("dimmed", (d) => !neighborIds.has(d.id));
+    setLinkClass("highlighted", (d) => d.source.id === n.id || d.target.id === n.id);
+    setLinkClass("dimmed", (d) => d.source.id !== n.id && d.target.id !== n.id);
   }
 
   function deselect() {
@@ -863,12 +935,15 @@
     resourcesSectionEl.hidden = true;
     ttkSectionEl.hidden = true;
     titleEl.textContent = "Select a node";
-    node.classed("selected", false).classed("dimmed", false);
-    link.classed("highlighted", false).classed("dimmed", false);
+    setNodeClass("selected", () => false);
+    setNodeClass("dimmed", () => false);
+    setLinkClass("highlighted", () => false);
+    setLinkClass("dimmed", () => false);
   }
 
-  svg.on("click", function (event) {
-    if (event.target === this || event.target.tagName === "svg") deselect();
+  svg.addEventListener("click", (event) => {
+    if (erpZoom.consumeClick()) return; // mouseup at the end of a pan drag
+    if (event.target === svg) deselect();
   });
 
   // ---------------------------------------------------------------------
@@ -886,8 +961,8 @@
     activeErpIds = new Set(activeErps.map((n) => n.id));
 
     // Hide the inactive source's nodes + links.
-    node.classed("src-hidden", (d) => d.type === "erp" && !activeErpIds.has(d.id));
-    link.classed("src-hidden", (d) => {
+    setNodeClass("src-hidden", (d) => d.type === "erp" && !activeErpIds.has(d.id));
+    setLinkClass("src-hidden", (d) => {
       const erp = d.source.type === "erp" ? d.source : d.target;
       return erp && !activeErpIds.has(erp.id);
     });
@@ -904,26 +979,31 @@
     });
 
     // Refresh transforms + link endpoints for the new positions.
-    node.attr("transform", (d) => "translate(" + d.x + "," + d.y + ")");
-    link.each(function (d) {
+    visibleNodes.forEach((d) => {
+      d._el.setAttribute("transform", "translate(" + d.x + "," + d.y + ")");
+    });
+    visibleLinks.forEach((d) => {
       const e = endpoint(d);
-      d3.select(this).attr("x1", e.x1).attr("y1", e.y1).attr("x2", e.x2).attr("y2", e.y2);
+      d._el.setAttribute("x1", e.x1);
+      d._el.setAttribute("y1", e.y1);
+      d._el.setAttribute("x2", e.x2);
+      d._el.setAttribute("y2", e.y2);
     });
 
     // All three source headers sit at leftX; only the active one is visible.
-    d3.select(".column-header-procore")
-      .attr("display", activeSource === "procore" ? null : "none")
-      .attr("x", leftX);
-    d3.select(".column-header-agave")
-      .attr("display", activeSource === "agave" ? null : "none")
-      .attr("x", leftX);
-    d3.select(".column-header-smoothx")
-      .attr("display", activeSource === "smoothx" ? null : "none")
-      .attr("x", leftX);
+    [
+      [headerProcoreEl, "procore"],
+      [headerAgaveEl,   "agave"],
+      [headerSmoothxEl, "smoothx"]
+    ].forEach(([el, key]) => {
+      if (activeSource === key) el.removeAttribute("display");
+      else el.setAttribute("display", "none");
+      el.setAttribute("x", leftX);
+    });
 
     // Full layout viewBox — no crop needed since ERPs are always on the left.
-    svg.attr("viewBox", [0, 0, layoutWidth, layoutHeight].join(" "));
-    svg.call(zoom.transform, d3.zoomIdentity);
+    svg.setAttribute("viewBox", "0 0 " + layoutWidth + " " + layoutHeight);
+    erpZoom.reset();
     deselect();
   }
 
@@ -1004,8 +1084,9 @@
   const activeTierKeys = new Set();
   // Zoom/pan state for the package graph. Persists across renders within
   // the same package; setActivePackage / vertical change resets it.
-  let pkgZoom = { tx: 0, ty: 0, scale: 1 };
-  function resetPkgZoom() { pkgZoom = { tx: 0, ty: 0, scale: 1 }; }
+  // MUTATED in place (never reassigned) — attachZoomPan holds a reference.
+  const pkgZoom = { tx: 0, ty: 0, scale: 1 };
+  function resetPkgZoom() { pkgZoom.tx = 0; pkgZoom.ty = 0; pkgZoom.scale = 1; }
 
   function verticalsList() {
     return packagesData.verticals || [];
@@ -1294,16 +1375,16 @@
 
     // Zoom/pan group — every line + node is appended here instead of directly
     // to the svg, so wheel/drag/button events can transform the whole graph
-    // together. pkgZoom (module-scope) persists across renders within a package.
+    // together. pkgZoom (module-scope) persists across renders within a
+    // package; the shared attachZoomPan helper applies it on attach.
     const zoomG = document.createElementNS(svgNS, "g");
     zoomG.setAttribute("class", "pkg-zoom-group");
-    function applyPkgZoom() {
-      zoomG.setAttribute(
-        "transform",
-        "translate(" + pkgZoom.tx + " " + pkgZoom.ty + ") scale(" + pkgZoom.scale + ")"
-      );
-    }
-    applyPkgZoom();
+    const pkgZoomCtl = attachZoomPan(svg, zoomG, {
+      state: pkgZoom,
+      min: 0.4,
+      max: 4,
+      skipPan: ".pkg-node"
+    });
     svg.appendChild(zoomG);
 
     // Endpoints sit at the hex edges (matches the ERP map's endpoint helper).
@@ -1522,67 +1603,11 @@
     });
 
     // Click on empty SVG background -> deselect (but only on a real click,
-    // not the mouseup at the end of a pan drag).
-    let suppressNextSvgClick = false;
+    // not the mouseup at the end of a pan drag). Wheel-zoom + drag-pan come
+    // from the shared attachZoomPan helper above.
     svg.addEventListener("click", () => {
-      if (suppressNextSvgClick) { suppressNextSvgClick = false; return; }
+      if (pkgZoomCtl.consumeClick()) return;
       selectPackageTool(null);
-    });
-
-    // ---- Zoom & pan ----------------------------------------------------
-    const Z_MIN = 0.4, Z_MAX = 4;
-    function clampScale(s) { return Math.max(Z_MIN, Math.min(Z_MAX, s)); }
-    function svgPointFromClient(clientX, clientY) {
-      const rect = svg.getBoundingClientRect();
-      return {
-        x: vbX + (clientX - rect.left) * (vbW / rect.width),
-        y: vbY + (clientY - rect.top)  * (vbH / rect.height),
-      };
-    }
-    // Zoom anchored on a given svg-coordinate point so the point stays put.
-    function zoomAt(svgX, svgY, factor) {
-      const next = clampScale(pkgZoom.scale * factor);
-      const eff = next / pkgZoom.scale;
-      pkgZoom.tx = svgX - (svgX - pkgZoom.tx) * eff;
-      pkgZoom.ty = svgY - (svgY - pkgZoom.ty) * eff;
-      pkgZoom.scale = next;
-      applyPkgZoom();
-    }
-
-    // Wheel = zoom at cursor.
-    svg.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      const p = svgPointFromClient(e.clientX, e.clientY);
-      zoomAt(p.x, p.y, e.deltaY < 0 ? 1.15 : 1 / 1.15);
-    }, { passive: false });
-
-    // Drag on empty background = pan. Drag on a node = node click (no pan).
-    svg.addEventListener("mousedown", (e) => {
-      if (e.button !== 0) return;
-      if (e.target.closest(".pkg-node")) return;
-      const startX = e.clientX, startY = e.clientY;
-      const startTx = pkgZoom.tx, startTy = pkgZoom.ty;
-      const rect = svg.getBoundingClientRect();
-      const sx = vbW / rect.width, sy = vbH / rect.height;
-      let moved = false;
-      function onMove(ev) {
-        const dx = (ev.clientX - startX) * sx;
-        const dy = (ev.clientY - startY) * sy;
-        if (!moved && Math.hypot(dx, dy) < 3) return; // tiny jitter = still a click
-        moved = true;
-        pkgZoom.tx = startTx + dx;
-        pkgZoom.ty = startTy + dy;
-        applyPkgZoom();
-        svg.style.cursor = "grabbing";
-      }
-      function onUp() {
-        document.removeEventListener("mousemove", onMove);
-        document.removeEventListener("mouseup", onUp);
-        svg.style.cursor = "";
-        if (moved) suppressNextSvgClick = true; // don't deselect after a pan
-      }
-      document.addEventListener("mousemove", onMove);
-      document.addEventListener("mouseup", onUp);
     });
 
     packagesGraphEl.appendChild(svg);
@@ -1601,14 +1626,13 @@
       return b;
     }
     controls.appendChild(mkBtn("+", "Zoom in", () => {
-      zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1.2);
+      pkgZoomCtl.zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1.2);
     }));
     controls.appendChild(mkBtn("−", "Zoom out", () => {
-      zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1 / 1.2);
+      pkgZoomCtl.zoomAt(vbX + vbW / 2, vbY + vbH / 2, 1 / 1.2);
     }));
     controls.appendChild(mkBtn("⟳", "Reset zoom", () => {
-      resetPkgZoom();
-      applyPkgZoom();
+      pkgZoomCtl.reset();
     }));
     packagesGraphEl.appendChild(controls);
   }
@@ -2159,6 +2183,7 @@
   searchEl.addEventListener("focus", loadExtraDocs, { once: true });
 
   searchEl.addEventListener("input", () => {
+    loadExtraDocs(); // no-op after the first call; covers paths where focus never fired
     searchClearEl.hidden = !searchEl.value;
     renderResults(searchEl.value);
   });
