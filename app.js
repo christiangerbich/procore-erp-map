@@ -3590,7 +3590,9 @@
     }
 
     // Select-all control + phase task tally. The checkbox mirrors the list
-    // state: checked = all done, indeterminate = partly done.
+    // state: checked = all done, indeterminate = partly done. Refs are kept
+    // so syncTaskUI() can refresh them in place after any toggle.
+    let phaseSaCb = null, phaseSaTally = null;
     if (effectiveTasks(phase).length) {
       const pp = phaseProgress(phase.key);
       const pct = pp.total ? Math.round((pp.done / pp.total) * 100) : 0;
@@ -3606,7 +3608,7 @@
         if (saCb.checked) effectiveTasks(phase).forEach((t) => { all[taskKey(t)] = true; });
         configState.tasks[phase.key] = all;
         saveConfigState();
-        renderConfigView();
+        syncTaskUI();
       });
       sa.appendChild(saCb);
       const saLbl = document.createElement("label");
@@ -3618,6 +3620,8 @@
       tally.textContent = pp.done + " / " + pp.total + " tasks · " + pct + "%";
       sa.appendChild(tally);
       wrap.appendChild(sa);
+      phaseSaCb = saCb;
+      phaseSaTally = tally;
     }
 
     // Task checklist grouped into sections. Section headers come from
@@ -3641,7 +3645,10 @@
     });
     if (curSec.name || curSec.items.length) taskSections.push(curSec);
 
+    const sectionCtrls = []; // per-section element refs for syncTaskUI()
     taskSections.forEach((sec) => {
+      const ctrl = { headCb: null, tallyEl: null, items: [] };
+      sectionCtrls.push(ctrl);
       if (sec.name) {
         const done = sec.items.filter((it) => stored[it.key]).length;
         const head = document.createElement("li");
@@ -3655,7 +3662,7 @@
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
           sec.items.forEach((it) => { configState.tasks[phase.key][it.key] = hCb.checked; });
           saveConfigState();
-          renderConfigView();
+          syncTaskUI();
         });
         head.appendChild(hCb);
         const nm = document.createElement("span");
@@ -3668,6 +3675,8 @@
         head.appendChild(tl);
         head.addEventListener("click", (e) => { if (e.target !== hCb) hCb.click(); });
         ul.appendChild(head);
+        ctrl.headCb = hCb;
+        ctrl.tallyEl = tl;
       }
       sec.items.forEach((it) => {
         const key = it.key, task = it.task;
@@ -3681,7 +3690,7 @@
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
           configState.tasks[phase.key][key] = cb.checked;
           saveConfigState();
-          renderConfigView();
+          syncTaskUI();
         });
         li.appendChild(cb);
         const span = document.createElement("span");
@@ -3699,9 +3708,44 @@
         li.appendChild(span);
         li.addEventListener("click", (e) => { if (e.target !== cb && e.target.tagName !== "A") cb.click(); });
         ul.appendChild(li);
+        ctrl.items.push({ key: key, li: li, cb: cb });
       });
     });
     wrap.appendChild(ul);
+
+    // Targeted refresh after a task toggle: update checkboxes, row states,
+    // and every tally IN PLACE instead of rebuilding the phase DOM. A full
+    // renderConfigView() here used to collapse any open <details> (workbook
+    // sections, validation sections, AI prompts) and drop keyboard focus +
+    // scroll position on every click.
+    function syncTaskUI() {
+      const prog = (configState.tasks && configState.tasks[phase.key]) || {};
+      let doneAll = 0, totalAll = 0;
+      sectionCtrls.forEach((sc) => {
+        let done = 0;
+        sc.items.forEach((it) => {
+          const on = !!prog[it.key];
+          it.cb.checked = on;
+          it.li.classList.toggle("is-done", on);
+          if (on) done++;
+        });
+        doneAll += done;
+        totalAll += sc.items.length;
+        if (sc.headCb) {
+          sc.headCb.checked = sc.items.length > 0 && done === sc.items.length;
+          sc.headCb.indeterminate = done > 0 && done < sc.items.length;
+        }
+        if (sc.tallyEl) sc.tallyEl.textContent = done + " / " + sc.items.length;
+      });
+      if (phaseSaCb) {
+        phaseSaCb.checked = totalAll > 0 && doneAll === totalAll;
+        phaseSaCb.indeterminate = doneAll > 0 && doneAll < totalAll;
+        const pctNow = totalAll ? Math.round((doneAll / totalAll) * 100) : 0;
+        phaseSaTally.textContent = doneAll + " / " + totalAll + " tasks · " + pctNow + "%";
+      }
+      renderConfigPhases();  // phase rail tallies + bars (safe rebuild — no inputs live there)
+      updateOverallStats();  // sidebar progress bar, summary line, deliverables tally
+    }
 
     // Validation Script — UAT checklist (Validate phase only). Sections shown
     // are the universal foundation plus the ones mapped to the active package
@@ -3927,21 +3971,31 @@
     cont.appendChild(wrap);
   }
 
-  function renderConfigSidebar() {
+  // Refresh the sidebar's aggregate numbers IN PLACE (progress bar, summary
+  // line, deliverables tally) without rebuilding the deliverable cards —
+  // rebuilding would destroy the checkbox the user just clicked and drop
+  // keyboard focus. Called by task toggles (syncTaskUI) and deliverable
+  // toggles; renderConfigSidebar delegates here after building the cards.
+  function updateOverallStats() {
     const fill = document.getElementById("config-progress-fill");
     const txt = document.getElementById("config-progress-text");
-    const dlEl = document.getElementById("config-deliverables");
-    if (!fill || !txt || !dlEl) return;
+    if (!fill || !txt) return;
     const op = overallProgress();
     fill.style.width = op.pct + "%";
     txt.textContent = op.pct + "% complete — tasks " + op.taskPct + "% (" +
       op.tasksDone + "/" + op.tasksTotal + ") · deliverables " + op.delPct +
       "% (" + op.delDone + "/" + op.delTotal + ")";
+    const eb = document.querySelector("#config-deliverables .config-deliverables-eyebrow");
+    if (eb) eb.textContent = "Deliverables · " + op.delDone + " / " + op.delTotal + " · " + op.delPct + "%";
+  }
+
+  function renderConfigSidebar() {
+    const dlEl = document.getElementById("config-deliverables");
+    if (!dlEl) return;
 
     dlEl.innerHTML = "";
     const eb = document.createElement("p");
     eb.className = "config-deliverables-eyebrow";
-    eb.textContent = "Deliverables · " + op.delDone + " / " + op.delTotal + " · " + op.delPct + "%";
     dlEl.appendChild(eb);
 
     const pkg = activeConfigPackage();
@@ -3956,8 +4010,9 @@
       cb.addEventListener("change", () => {
         configState.deliverables[d.key] = cb.checked;
         saveConfigState();
-        // Deliverables feed the overall bar now — refresh the sidebar tallies.
-        renderConfigSidebar();
+        // Deliverables feed the overall bar — refresh tallies in place so
+        // the clicked checkbox isn't rebuilt out from under the user.
+        updateOverallStats();
       });
       row.appendChild(cb);
       const nm = document.createElement("span");
