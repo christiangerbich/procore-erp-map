@@ -67,22 +67,27 @@
   // docs-index.json (the ~500KB support-doc search index, the largest payload
   // in the app) is not fetched here at all: it lazy-loads on first use of the
   // search box (see loadExtraDocs below), keeping it off the critical path.
+  //
+  // cache "no-cache" = always revalidate with the server (ETag → 304 when
+  // unchanged). GitHub Pages otherwise caches for 10 minutes, so right after
+  // a deploy users could get a stale — or version-mixed — data file.
+  const JSON_FETCH = { cache: "no-cache" };
   const [data, sopTemplates, packagesData, configData] = await Promise.all([
-    fetch("data.json").then((r) => {
+    fetch("data.json", JSON_FETCH).then((r) => {
       if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
       return r.json();
     }),
     // SOP Builder catalog (tools, standard actions, role/permission options).
-    fetch("sop-templates.json")
+    fetch("sop-templates.json", JSON_FETCH)
       .then((r) => (r.ok ? r.json() : null))
       .catch(() => null),
     // PNPT Professional Services packages catalog (Cost Management, etc).
-    fetch("packages.json")
+    fetch("packages.json", JSON_FETCH)
       .then((r) => (r.ok ? r.json() : { packages: [] }))
       .catch(() => ({ packages: [] })),
     // PNPT Configuration & Tracking catalog — phases, deliverables, and the
     // per-package Configuration Workbook structure.
-    fetch("configurations.json")
+    fetch("configurations.json", JSON_FETCH)
       .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
       .catch(() => ({ phases: [], packages: [] })),
   ]);
@@ -2166,7 +2171,7 @@
   function loadExtraDocs() {
     if (extraDocsRequested) return;
     extraDocsRequested = true;
-    fetch("docs-index.json")
+    fetch("docs-index.json", JSON_FETCH)
       .then((r) => (r.ok ? r.json() : []))
       .catch(() => [])
       .then((chunks) => {
