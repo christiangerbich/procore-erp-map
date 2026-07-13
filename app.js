@@ -2592,7 +2592,10 @@
     return wrapper;
   }
   let configSaveWarned = false;
-  function saveConfigState() {
+  let configSaveTimer = 0;
+  let configSavePending = false;
+  function persistConfigState() {
+    configSavePending = false;
     try {
       localStorage.setItem(CONFIG_LS_KEY_V2, JSON.stringify(configMulti));
     } catch (e) {
@@ -2604,6 +2607,23 @@
       }
     }
   }
+  // Debounced: the client-name input and workbook notes textareas call this
+  // on every keystroke, and each save JSON.stringifies the ENTIRE
+  // multi-client store. 300ms collapses a typing burst into one write; the
+  // pagehide/hidden listeners flush a pending save so nothing is lost when
+  // the tab closes inside that window. All renders read the in-memory
+  // configMulti, never localStorage, so deferring the write is safe.
+  function saveConfigState() {
+    configSavePending = true;
+    clearTimeout(configSaveTimer);
+    configSaveTimer = setTimeout(persistConfigState, 300);
+  }
+  window.addEventListener("pagehide", () => {
+    if (configSavePending) persistConfigState();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden" && configSavePending) persistConfigState();
+  });
   function clientList() {
     return Object.keys(configMulti.clients)
       .map((id) => configMulti.clients[id])
