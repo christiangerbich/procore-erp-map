@@ -629,11 +629,23 @@
   visibleNodes.forEach((d) => {
     const g = svgEl("g", {
       class: "node node-" + d.type,
-      transform: "translate(" + d.x + "," + d.y + ")"
+      transform: "translate(" + d.x + "," + d.y + ")",
+      // Keyboard access: nodes act as buttons (Tab to reach, Enter/Space to
+      // select). Hidden-source nodes are display:none, so they drop out of
+      // the tab order automatically.
+      tabindex: "0",
+      role: "button",
+      "aria-label": (d.type === "erp" ? "ERP connector: " : "Procore tool: ") + d.label
     });
     g.addEventListener("click", (event) => {
       event.stopPropagation();
       selectNode(d.id);
+    });
+    g.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectNode(d.id);
+      }
     });
 
     g.appendChild(svgEl("polygon", {
@@ -1699,6 +1711,16 @@
         ev.stopPropagation();
         selectPackageTool(tool.id);
       });
+      // Keyboard access: package tools are focusable buttons too.
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", "Package tool: " + toolNameFor(tool));
+      g.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          selectPackageTool(tool.id);
+        }
+      });
       zoomG.appendChild(g);
     });
 
@@ -2404,6 +2426,7 @@
 
     const sopErpPick = document.getElementById("sop-erp-pick");
     let sopPickerInit = false;
+    let sopPrevFocus = null; // element to return focus to when the modal closes
 
     function renderSopFor(erp) {
       sopErpNode = erp;
@@ -2456,12 +2479,18 @@
       }
 
       renderSopFor(target);
+      sopPrevFocus = document.activeElement;
       sopModal.hidden = false;
       document.body.style.overflow = "hidden";
+      // Move focus into the dialog so keyboard users land where the action is.
+      const firstField = document.getElementById("sop-client");
+      if (firstField) firstField.focus();
     }
     function closeSopModal() {
       sopModal.hidden = true;
       document.body.style.overflow = "";
+      if (sopPrevFocus && document.contains(sopPrevFocus)) sopPrevFocus.focus();
+      sopPrevFocus = null;
     }
 
     function buildSopHtml(ctx) {
@@ -3873,6 +3902,7 @@
         hCb.checked = sec.items.length > 0 && done === sec.items.length;
         hCb.indeterminate = done > 0 && done < sec.items.length;
         hCb.title = "Select all in this section";
+        hCb.setAttribute("aria-label", "Select all in " + sec.name);
         hCb.addEventListener("change", () => {
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
           sec.items.forEach((it) => { configState.tasks[phase.key][it.key] = hCb.checked; });
@@ -3901,6 +3931,7 @@
         const cb = document.createElement("input");
         cb.type = "checkbox";
         cb.checked = checked;
+        cb.setAttribute("aria-label", task.text);
         cb.addEventListener("change", () => {
           configState.tasks[phase.key] = configState.tasks[phase.key] || {};
           configState.tasks[phase.key][key] = cb.checked;
@@ -4012,6 +4043,7 @@
             const cb = document.createElement("input");
             cb.type = "checkbox";
             cb.checked = !!store[k];
+            cb.setAttribute("aria-label", node.name);
             cb.addEventListener("change", () => {
               store[k] = cb.checked;
               saveConfigState();
@@ -4131,6 +4163,7 @@
           const cb = document.createElement("input");
           cb.type = "checkbox";
           cb.checked = !!st.updated;
+          cb.setAttribute("aria-label", "Updated — " + setting.name);
           cb.addEventListener("change", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
             const cur = configState.workbook[section.key][idx] || {};
@@ -4222,6 +4255,7 @@
       const cb = document.createElement("input");
       cb.type = "checkbox";
       cb.checked = !!configState.deliverables[d.key];
+      cb.setAttribute("aria-label", "Deliverable: " + d.name);
       cb.addEventListener("change", () => {
         configState.deliverables[d.key] = cb.checked;
         saveConfigState();

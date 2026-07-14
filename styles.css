@@ -3100,6 +3100,17 @@ body.is-locked { overflow: hidden; }
 }
 
 /* ---------------------------------------------------------------------
+ * Keyboard access — graph nodes are focusable buttons (tabindex=0).
+ * ------------------------------------------------------------------- */
+.node:focus-visible,
+.pkg-node:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 4px;
+}
+.node:focus:not(:focus-visible),
+.pkg-node:focus:not(:focus-visible) { outline: none; }
+
+/* ---------------------------------------------------------------------
  * In-app dialog — styled replacement for native alert / confirm / prompt.
  * Built lazily by appDialog in app.js.
  * ------------------------------------------------------------------- */
