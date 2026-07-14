@@ -3093,6 +3093,76 @@
   }
   migrateTaskProgressToIds();
 
+  // ---------------------------------------------------------------------
+  // Export / Import — JSON backup of the entire multi-client store. All SPC
+  // progress lives only in this browser's localStorage, so these two buttons
+  // are the insurance policy: machine swaps, profile resets, and client
+  // handoffs between SPCs.
+  // ---------------------------------------------------------------------
+  const configExportBtn = document.getElementById("config-export");
+  if (configExportBtn) {
+    configExportBtn.addEventListener("click", () => {
+      persistConfigState(); // flush any debounced edits before snapshotting
+      const stamp = new Date().toISOString().slice(0, 10);
+      const blob = new Blob([JSON.stringify(configMulti, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "pnpt-config-tracker-backup-" + stamp + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    });
+  }
+  const configImportBtn = document.getElementById("config-import");
+  const configImportFile = document.getElementById("config-import-file");
+  if (configImportBtn && configImportFile) {
+    configImportBtn.addEventListener("click", () => {
+      configImportFile.value = "";
+      configImportFile.click();
+    });
+    configImportFile.addEventListener("change", async () => {
+      const file = configImportFile.files && configImportFile.files[0];
+      if (!file) return;
+      let parsed = null;
+      try {
+        parsed = JSON.parse(await file.text());
+      } catch (e) { /* handled below */ }
+      const clients = parsed && parsed.clients;
+      const ids = clients
+        ? Object.keys(clients).filter((id) => clients[id] && typeof clients[id] === "object")
+        : [];
+      if (!ids.length) {
+        appDialog.alert(
+          '"' + file.name + '" doesn\'t look like a Config Tracker backup — expected a JSON file created by Export.',
+          "Import failed"
+        );
+        return;
+      }
+      // Merge by client id: imported clients win on collision, everything
+      // else is kept — restoring a backup never silently discards newer
+      // clients created since that backup was taken.
+      const overlap = ids.filter((id) => configMulti.clients[id]).length;
+      const ok = await appDialog.confirm(
+        "Import " + ids.length + " client" + (ids.length === 1 ? "" : "s") + ' from "' + file.name + '"?' +
+        (overlap
+          ? "\n" + overlap + " existing client" + (overlap === 1 ? "" : "s") + " with the same id will be overwritten."
+          : ""),
+        { title: "Import backup", okLabel: "Import" }
+      );
+      if (!ok) return;
+      ids.forEach((id) => { configMulti.clients[id] = clients[id]; });
+      if (!configMulti.clients[configMulti.activeClientId]) {
+        configMulti.activeClientId = Object.keys(configMulti.clients)[0];
+      }
+      configState = configMulti.clients[configMulti.activeClientId];
+      migrateTaskProgressToIds(); // old backups may still be index-keyed
+      saveConfigState();
+      renderConfigView();
+      appDialog.alert("Imported " + ids.length + " client" + (ids.length === 1 ? "" : "s") + ".", "Import complete");
+    });
+  }
+
   function phaseProgress(phaseKey) {
     const phase = (configData.phases || []).find((p) => p.key === phaseKey);
     if (!phase) return { done: 0, total: 0 };

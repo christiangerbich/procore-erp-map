@@ -130,6 +130,9 @@
             <select id="config-pkgtier-pick" aria-label="Package and tier"></select>
           </label>
           <button id="config-reset" class="config-reset-btn" type="button">Reset progress</button>
+          <button id="config-export" class="config-reset-btn" type="button" title="Download a JSON backup of every client's progress">Export</button>
+          <button id="config-import" class="config-reset-btn" type="button" title="Restore or merge clients from an exported JSON backup">Import</button>
+          <input id="config-import-file" type="file" accept=".json,application/json" hidden />
         </div>
       </div>
       <div class="config-phases" id="config-phases" role="tablist" aria-label="Phase"></div>
