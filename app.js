@@ -205,7 +205,30 @@
       state.scale = next;
       apply();
     }
+    // Transient "how to zoom" toast, shown when a plain scroll passes over
+    // the graph. Created lazily inside the svg's parent (which must be
+    // position:relative) so it floats over the graph, not the page.
+    let hintEl = null, hintTimer = 0;
+    function showZoomHint() {
+      if (!hintEl) {
+        hintEl = document.createElement("div");
+        hintEl.className = "zoom-hint";
+        const mod = navigator.platform && navigator.platform.indexOf("Mac") !== -1 ? "⌘" : "Ctrl";
+        hintEl.textContent = mod + " + scroll to zoom";
+        (svg.parentElement || document.body).appendChild(hintEl);
+      }
+      hintEl.classList.add("is-visible");
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => hintEl.classList.remove("is-visible"), 1400);
+    }
     svg.addEventListener("wheel", (e) => {
+      // Plain scroll keeps scrolling the page — zooming needs Ctrl/⌘ held
+      // (trackpad pinch also lands here: browsers report it as a wheel
+      // event with ctrlKey set, so pinch-to-zoom keeps working).
+      if (!e.ctrlKey && !e.metaKey) {
+        showZoomHint();
+        return;
+      }
       e.preventDefault();
       const p = svgPoint(e.clientX, e.clientY);
       zoomAt(p.x, p.y, e.deltaY < 0 ? 1.15 : 1 / 1.15);

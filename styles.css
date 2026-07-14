@@ -3100,6 +3100,31 @@ body.is-locked { overflow: hidden; }
 }
 
 /* ---------------------------------------------------------------------
+ * Zoom hint — shown when a plain scroll passes over a graph (zooming
+ * requires Ctrl/⌘ + scroll so the page keeps scrolling normally).
+ * ------------------------------------------------------------------- */
+#graph { position: relative; }
+.zoom-hint {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 7px 14px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 20;
+}
+.zoom-hint.is-visible { opacity: 1; }
+
+/* ---------------------------------------------------------------------
  * Keyboard access — graph nodes are focusable buttons (tabindex=0).
  * ------------------------------------------------------------------- */
 .node:focus-visible,
