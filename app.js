@@ -72,25 +72,52 @@
   // unchanged). GitHub Pages otherwise caches for 10 minutes, so right after
   // a deploy users could get a stale — or version-mixed — data file.
   const JSON_FETCH = { cache: "no-cache" };
-  const [data, sopTemplates, packagesData, configData] = await Promise.all([
-    fetch("data.json", JSON_FETCH).then((r) => {
-      if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
-      return r.json();
-    }),
-    // SOP Builder catalog (tools, standard actions, role/permission options).
-    fetch("sop-templates.json", JSON_FETCH)
-      .then((r) => (r.ok ? r.json() : null))
-      .catch(() => null),
-    // PNPT Professional Services packages catalog (Cost Management, etc).
-    fetch("packages.json", JSON_FETCH)
-      .then((r) => (r.ok ? r.json() : { packages: [] }))
-      .catch(() => ({ packages: [] })),
-    // PNPT Configuration & Tracking catalog — phases, deliverables, and the
-    // per-package Configuration Workbook structure.
-    fetch("configurations.json", JSON_FETCH)
-      .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
-      .catch(() => ({ phases: [], packages: [] })),
-  ]);
+  let data, sopTemplates, packagesData, configData;
+  try {
+    const loaded = await Promise.all([
+      fetch("data.json", JSON_FETCH).then((r) => {
+        if (!r.ok) throw new Error("Failed to load data.json: " + r.status);
+        return r.json();
+      }),
+      // SOP Builder catalog (tools, standard actions, role/permission options).
+      fetch("sop-templates.json", JSON_FETCH)
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
+      // PNPT Professional Services packages catalog (Cost Management, etc).
+      fetch("packages.json", JSON_FETCH)
+        .then((r) => (r.ok ? r.json() : { packages: [] }))
+        .catch(() => ({ packages: [] })),
+      // PNPT Configuration & Tracking catalog — phases, deliverables, and the
+      // per-package Configuration Workbook structure.
+      fetch("configurations.json", JSON_FETCH)
+        .then((r) => (r.ok ? r.json() : { phases: [], packages: [] }))
+        .catch(() => ({ phases: [], packages: [] })),
+    ]);
+    data = loaded[0];
+    sopTemplates = loaded[1];
+    packagesData = loaded[2];
+    configData = loaded[3];
+  } catch (err) {
+    // Without data.json there is no app — say so visibly instead of dying
+    // to a blank page with only a console error.
+    const box = document.createElement("div");
+    box.className = "app-load-error";
+    const h = document.createElement("h2");
+    h.textContent = "Couldn't load the app's data";
+    box.appendChild(h);
+    const p = document.createElement("p");
+    p.textContent = "The connector dataset failed to load — usually a network/VPN hiccup or a deploy in progress. " +
+      (err && err.message ? "(" + err.message + ")" : "");
+    box.appendChild(p);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = "Reload";
+    btn.addEventListener("click", () => location.reload());
+    box.appendChild(btn);
+    const mainEl = document.querySelector("main");
+    (mainEl || document.body).prepend(box);
+    throw err;
+  }
 
   // Stroke-icon catalog used for tool nodes + capability badges in the
   // Package Builder graph. Each entry is the inner content of an SVG with
@@ -4335,6 +4362,23 @@
     });
     updateOverallStats(); // fill the progress bar, summary line + eyebrow
   }
+
+  // ---------------------------------------------------------------------
+  // Printing the Config Tracker (the workbook printout doubles as the
+  // closeout artifact): closed <details> don't print their content, so
+  // open every collapsed section for the print run and restore after.
+  // ---------------------------------------------------------------------
+  let printOpenedDetails = [];
+  window.addEventListener("beforeprint", () => {
+    printOpenedDetails = Array.prototype.slice.call(
+      document.querySelectorAll("#config-view details:not([open])")
+    );
+    printOpenedDetails.forEach((d) => { d.open = true; });
+  });
+  window.addEventListener("afterprint", () => {
+    printOpenedDetails.forEach((d) => { d.open = false; });
+    printOpenedDetails = [];
+  });
 
   // ---------------------------------------------------------------------
   // Deep-link restore. Baseline the mode first (stamps body[data-mode]),

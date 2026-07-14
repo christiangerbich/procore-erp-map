@@ -3213,3 +3213,79 @@ body.is-locked { overflow: hidden; }
   border-color: #b3261e;
 }
 .app-dialog-btn-primary.app-dialog-btn-danger:hover { background: #8f1d17; border-color: #8f1d17; }
+
+/* ---------------------------------------------------------------------
+ * Data-load failure — visible error card instead of a blank page.
+ * ------------------------------------------------------------------- */
+.app-load-error {
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 24px 28px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-orange);
+  border-radius: 10px;
+  text-align: center;
+}
+.app-load-error h2 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: var(--color-black);
+}
+.app-load-error p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-black);
+  margin: 0 0 16px;
+}
+.app-load-error button {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 22px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-black);
+  background: var(--color-black);
+  color: #fff;
+  cursor: pointer;
+}
+.app-load-error button:hover { background: var(--color-orange); border-color: var(--color-orange); }
+
+/* ---------------------------------------------------------------------
+ * Print — a Config Tracker printout doubles as the closeout artifact.
+ * app.js opens collapsed <details> during beforeprint; body[data-mode]
+ * scopes the config-specific rules so printing the ERP map still works.
+ * ------------------------------------------------------------------- */
+@media print {
+  body { background: #fff !important; }
+  .mode-tabs,
+  .source-toggle,
+  .legend,
+  .app-footer,
+  .sop-open-top,
+  .assistant-bar,
+  .pkg-zoom-controls,
+  .zoom-hint,
+  .config-bar-controls { display: none !important; }
+
+  body[data-mode="config"] #graph,
+  body[data-mode="config"] #details,
+  body[data-mode="config"] .config-phases,
+  body[data-mode="config"] .config-side { display: none !important; }
+  body[data-mode="config"] .config-view,
+  body[data-mode="config"] .config-main,
+  body[data-mode="config"] .config-content {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .config-wb-section,
+  .config-frame,
+  .config-validation-section,
+  .config-task { break-inside: avoid; }
+  .config-wb-table input[type="text"],
+  .config-wb-table textarea { border: none; }
+}
