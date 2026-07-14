@@ -3098,3 +3098,82 @@ body.is-locked { overflow: hidden; }
   font-size: 10.5px;
   color: var(--color-text-muted);
 }
+
+/* ---------------------------------------------------------------------
+ * In-app dialog — styled replacement for native alert / confirm / prompt.
+ * Built lazily by appDialog in app.js.
+ * ------------------------------------------------------------------- */
+.app-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+}
+.app-dialog-card {
+  width: min(430px, 92vw);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+.app-dialog-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  color: var(--color-black);
+}
+.app-dialog-msg {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-black);
+  margin: 0 0 14px;
+  white-space: pre-line;
+}
+.app-dialog-input {
+  width: 100%;
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 6px;
+  margin: 0 0 14px;
+  box-sizing: border-box;
+}
+.app-dialog-input:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 1px; }
+.app-dialog-input[hidden] { display: none; }
+.app-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-dialog-btn {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-black);
+  cursor: pointer;
+}
+.app-dialog-btn:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 2px; }
+.app-dialog-btn-secondary:hover { background: var(--color-stone); }
+.app-dialog-btn-primary {
+  background: var(--color-black);
+  border-color: var(--color-black);
+  color: #fff;
+}
+.app-dialog-btn-primary:hover { background: var(--color-orange); border-color: var(--color-orange); }
+.app-dialog-btn-primary.app-dialog-btn-danger {
+  background: #b3261e;
+  border-color: #b3261e;
+}
+.app-dialog-btn-primary.app-dialog-btn-danger:hover { background: #8f1d17; border-color: #8f1d17; }

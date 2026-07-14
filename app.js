@@ -249,6 +249,101 @@
     };
   }
 
+  // ---------------------------------------------------------------------
+  // In-app dialogs — replaces native alert/confirm/prompt, which can't be
+  // styled and look nothing like the product. One overlay is built lazily
+  // and reused. Each helper returns a Promise:
+  //   appDialog.alert(msg, title?)                          → undefined
+  //   appDialog.confirm(msg, {title, okLabel, danger}?)     → boolean
+  //   appDialog.prompt(msg, {title, placeholder, value, okLabel}?) → string|null
+  // Escape / overlay click cancel; Enter confirms. Focus moves into the
+  // dialog on open and returns to the previously-focused element on close.
+  // ---------------------------------------------------------------------
+  const appDialog = (() => {
+    let overlay, titleEl, msgEl, inputEl, okBtn, cancelBtn;
+    let active = null; // { resolve, kind, restoreFocus } while a dialog is open
+    function ensureDom() {
+      if (overlay) return;
+      overlay = document.createElement("div");
+      overlay.className = "app-dialog";
+      overlay.hidden = true;
+      const card = document.createElement("div");
+      card.className = "app-dialog-card";
+      card.setAttribute("role", "dialog");
+      card.setAttribute("aria-modal", "true");
+      titleEl = document.createElement("h2");
+      titleEl.className = "app-dialog-title";
+      card.appendChild(titleEl);
+      msgEl = document.createElement("p");
+      msgEl.className = "app-dialog-msg";
+      card.appendChild(msgEl);
+      inputEl = document.createElement("input");
+      inputEl.type = "text";
+      inputEl.className = "app-dialog-input";
+      card.appendChild(inputEl);
+      const row = document.createElement("div");
+      row.className = "app-dialog-actions";
+      cancelBtn = document.createElement("button");
+      cancelBtn.type = "button";
+      cancelBtn.className = "app-dialog-btn app-dialog-btn-secondary";
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.addEventListener("click", () => close("cancel"));
+      row.appendChild(cancelBtn);
+      okBtn = document.createElement("button");
+      okBtn.type = "button";
+      okBtn.className = "app-dialog-btn app-dialog-btn-primary";
+      okBtn.addEventListener("click", () => close("ok"));
+      row.appendChild(okBtn);
+      card.appendChild(row);
+      overlay.appendChild(card);
+      overlay.addEventListener("click", (e) => { if (e.target === overlay) close("cancel"); });
+      inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); close("ok"); }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!active || overlay.hidden) return;
+        if (e.key === "Escape") { e.preventDefault(); close("cancel"); }
+        else if (e.key === "Enter" && document.activeElement !== inputEl) { e.preventDefault(); close("ok"); }
+      });
+      document.body.appendChild(overlay);
+    }
+    function close(action) {
+      if (!active) return;
+      const done = active;
+      active = null;
+      overlay.hidden = true;
+      if (done.restoreFocus && document.contains(done.restoreFocus)) done.restoreFocus.focus();
+      if (done.kind === "alert") done.resolve(undefined);
+      else if (done.kind === "confirm") done.resolve(action === "ok");
+      else done.resolve(action === "ok" ? inputEl.value : null);
+    }
+    function open(kind, message, opts) {
+      opts = opts || {};
+      ensureDom();
+      if (active) close("cancel"); // never stack dialogs
+      titleEl.textContent = opts.title ||
+        (kind === "confirm" ? "Confirm" : kind === "prompt" ? "Input needed" : "Heads up");
+      msgEl.textContent = message || "";
+      inputEl.hidden = kind !== "prompt";
+      inputEl.value = opts.value || "";
+      inputEl.placeholder = opts.placeholder || "";
+      cancelBtn.hidden = kind === "alert";
+      okBtn.textContent = opts.okLabel || (kind === "alert" ? "OK" : kind === "confirm" ? "Confirm" : "Save");
+      okBtn.classList.toggle("app-dialog-btn-danger", !!opts.danger);
+      overlay.hidden = false;
+      return new Promise((resolve) => {
+        active = { resolve: resolve, kind: kind, restoreFocus: document.activeElement };
+        (kind === "prompt" ? inputEl : okBtn).focus();
+        if (kind === "prompt" && inputEl.value) inputEl.select();
+      });
+    }
+    return {
+      alert: (msg, title) => open("alert", msg, { title: title }),
+      confirm: (msg, opts) => open("confirm", msg, opts),
+      prompt: (msg, opts) => open("prompt", msg, opts)
+    };
+  })();
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -2603,7 +2698,10 @@
       // persisted. Say so once instead of silently dropping every edit.
       if (!configSaveWarned) {
         configSaveWarned = true;
-        alert("Heads up: this browser is blocking local storage, so Config Tracker changes are NOT being saved. Check private-browsing mode or storage settings.");
+        appDialog.alert(
+          "This browser is blocking local storage, so Config Tracker changes are NOT being saved. Check private-browsing mode or storage settings.",
+          "Changes aren't saving"
+        );
       }
     }
   }
@@ -2651,8 +2749,12 @@
     configActivePhase = (configData.phases && configData.phases[0] && configData.phases[0].key) || "initiation";
     renderConfigView();
   }
-  function createNewClient() {
-    const raw = prompt("Client name?");
+  async function createNewClient() {
+    const raw = await appDialog.prompt("Name the new client engagement.", {
+      title: "New client",
+      placeholder: "e.g. Acme Construction",
+      okLabel: "Create"
+    });
     if (raw === null) return;
     const c = defaultClient((raw || "").trim());
     if (configMulti.activeSpc) c.spc = configMulti.activeSpc; // inherit the active roster
@@ -2662,12 +2764,17 @@
     saveConfigState();
     renderConfigView();
   }
-  function deleteCurrentClient() {
+  async function deleteCurrentClient() {
     const ids = Object.keys(configMulti.clients);
     const current = configMulti.clients[configMulti.activeClientId];
     const label = (current && current.name) || "(unnamed)";
     if (ids.length <= 1) {
-      if (!confirm("This is your only client. Reset and start fresh?")) return;
+      const ok = await appDialog.confirm("This is your only client. Reset and start fresh?", {
+        title: "Reset client",
+        okLabel: "Reset",
+        danger: true
+      });
+      if (!ok) return;
       const c = defaultClient("");
       configMulti = { schema: "v2", activeClientId: c.id, clients: {} };
       configMulti.clients[c.id] = c;
@@ -2676,7 +2783,12 @@
       renderConfigView();
       return;
     }
-    if (!confirm('Delete client "' + label + '"? This cannot be undone.')) return;
+    const ok = await appDialog.confirm('Delete client "' + label + '"? This cannot be undone.', {
+      title: "Delete client",
+      okLabel: "Delete",
+      danger: true
+    });
+    if (!ok) return;
     delete configMulti.clients[configMulti.activeClientId];
     configMulti.activeClientId = Object.keys(configMulti.clients)[0];
     configState = configMulti.clients[configMulti.activeClientId];
@@ -2759,10 +2871,14 @@
       spcList().forEach((name) =>
         spcPickEl.appendChild(mkOpt(name, name, name === configMulti.activeSpc)));
       spcPickEl.appendChild(mkOpt("__add__", "＋ Add SPC…", false));
-      spcPickEl.onchange = () => {
+      spcPickEl.onchange = async () => {
         const v = spcPickEl.value;
         if (v === "__add__") {
-          const name = (prompt("Your name (SPC)?") || "").trim();
+          const name = ((await appDialog.prompt("Your name, as it should appear in the SPC roster.", {
+            title: "Add SPC",
+            placeholder: "First Last",
+            okLabel: "Add"
+          })) || "").trim();
           if (!name) { renderConfigBar(); return; }
           configMulti.activeSpc = name;
         } else {
@@ -2869,9 +2985,13 @@
       renderConfigView();
     };
 
-    resetBtn.onclick = () => {
+    resetBtn.onclick = async () => {
       const label = configState.name || "(unnamed)";
-      if (!confirm('Reset all progress for "' + label + '"? Tasks, workbook entries, and deliverable checks will be cleared. Name / package / tier preserved.')) return;
+      const ok = await appDialog.confirm(
+        'Reset all progress for "' + label + '"? Tasks, workbook entries, and deliverable checks will be cleared. Name / package / tier preserved.',
+        { title: "Reset progress", okLabel: "Reset progress", danger: true }
+      );
+      if (!ok) return;
       resetActiveClientProgress();
     };
   }
