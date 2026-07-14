@@ -367,6 +367,23 @@
     };
   })();
 
+  // ---------------------------------------------------------------------
+  // Hash routing — shareable deep links:
+  //   #erp                 ERP map          #erp/<nodeId>      + selected node
+  //   #packages            Package Builder  #packages/<pkgKey> + package
+  //   #config              Config Tracker
+  // updateHash() stays a no-op until the initial route restore completes
+  // (hashReady), so load-time renders can't clobber an incoming link; it's
+  // also suppressed while a route is being applied (applyingHash) so
+  // restoring a link doesn't immediately rewrite it.
+  // ---------------------------------------------------------------------
+  let hashReady = false;
+  let applyingHash = false;
+  function updateHash(h) {
+    if (!hashReady || applyingHash) return;
+    if (location.hash !== "#" + h) history.replaceState(null, "", "#" + h);
+  }
+
   // Filter to just the nodes we render in this view. Drop the "core"
   // Procore node, and drop the Procore-to-module structural links.
   //
@@ -1059,6 +1076,7 @@
     setNodeClass("dimmed", (d) => !neighborIds.has(d.id));
     setLinkClass("highlighted", (d) => d.source.id === n.id || d.target.id === n.id);
     setLinkClass("dimmed", (d) => d.source.id !== n.id && d.target.id !== n.id);
+    updateHash("erp/" + n.id);
   }
 
   function deselect() {
@@ -1074,6 +1092,7 @@
     setNodeClass("dimmed", () => false);
     setLinkClass("highlighted", () => false);
     setLinkClass("dimmed", () => false);
+    updateHash("erp");
   }
 
   svg.addEventListener("click", (event) => {
@@ -1291,6 +1310,7 @@
     const validTiers = tiersAvailableForActiveVertical();
     if (validTiers.length) activeTierKeys.add(validTiers[0].key);
     renderPackagesView();
+    updateHash("packages/" + pkg.key);
   }
 
   function setMode(mode) {
@@ -1335,6 +1355,15 @@
       if (headerSubtitleEl) headerSubtitleEl.textContent =
         "ERP connectors on the left, Procore modules on the right. Click any node to see its support documentation and the data objects it syncs.";
     }
+
+    // Stamp the mode on <body> (print styles + any mode-scoped CSS key off
+    // it) and reflect it in the shareable hash.
+    document.body.dataset.mode = isPackages ? "packages" : isConfig ? "config" : "erp";
+    updateHash(
+      isPackages ? "packages" + (activePackage ? "/" + activePackage.key : "")
+      : isConfig ? "config"
+      : "erp"
+    );
   }
 
   if (modeErpBtn) modeErpBtn.addEventListener("click", () => setMode("erp"));
@@ -4304,5 +4333,49 @@
       }
       dlEl.appendChild(card);
     });
+    updateOverallStats(); // fill the progress bar, summary line + eyebrow
   }
+
+  // ---------------------------------------------------------------------
+  // Deep-link restore. Baseline the mode first (stamps body[data-mode]),
+  // then apply any incoming #route, then start writing the hash on
+  // navigation. Re-applies on hashchange so Back/Forward work too.
+  // ---------------------------------------------------------------------
+  function applyHashRoute(h) {
+    const parts = (h || "").split("/");
+    const route = parts[0];
+    const arg = parts[1] ? decodeURIComponent(parts[1]) : null;
+    applyingHash = true;
+    try {
+      if (route === "packages") {
+        setMode("packages");
+        if (arg) setActivePackage(arg);
+      } else if (route === "config") {
+        setMode("config");
+      } else if (route === "erp") {
+        setMode("erp");
+        if (arg) {
+          const n = nodesById.get(arg);
+          if (n) {
+            if (n.type === "erp" && (n.via || "procore") !== activeSource) {
+              setSource(n.via || "procore");
+            }
+            selectNode(n.id);
+          }
+        }
+      }
+    } finally {
+      applyingHash = false;
+    }
+  }
+  const initialRoute = (location.hash || "").replace(/^#/, "");
+  applyingHash = true;
+  setMode("erp"); // baseline
+  applyingHash = false;
+  hashReady = true;
+  if (initialRoute && initialRoute !== "erp") applyHashRoute(initialRoute);
+  else updateHash("erp");
+  window.addEventListener("hashchange", () =>
+    applyHashRoute((location.hash || "").replace(/^#/, ""))
+  );
 })();
