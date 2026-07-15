@@ -2,6 +2,7 @@
 // phases, workbook, validation, deliverables, export/import, and the
 // print hooks. Scoped to the tracker view.
 import { appDialog } from "./shared.js";
+import { exportWorkbookXlsx } from "./workbook-export.js";
 
 export function initConfigTracker(ctx) {
   const { configData } = ctx;
@@ -1537,9 +1538,41 @@ export function initConfigTracker(ctx) {
       const wbWrap = document.createElement("div");
       wbWrap.className = "config-workbook";
 
+      const wbHead = document.createElement("div");
+      wbHead.className = "config-workbook-head";
       const wbHeader = document.createElement("h3");
       wbHeader.textContent = "Configuration Workbook";
-      wbWrap.appendChild(wbHeader);
+      wbHead.appendChild(wbHeader);
+      // Export the workbook — with this client's Updated / Changed to / Notes
+      // entries — as an .xlsx formatted like the official "PNPT Configuration
+      // Workbook _ NAMER" sheet (PROCORE title block, orange header, black
+      // tool banners, checkbox Updated column). Import into Google Sheets via
+      // File → Import or by uploading to Drive.
+      const wbExport = document.createElement("button");
+      wbExport.type = "button";
+      wbExport.className = "config-reset-btn config-wb-export";
+      wbExport.textContent = "Export for Google Sheets (.xlsx)";
+      wbExport.title = "Download this workbook with your entries as an .xlsx matching the NAMER workbook formatting — then File → Import in Google Sheets";
+      wbExport.addEventListener("click", () => {
+        const tier = activeConfigTier();
+        const sections = workbookSectionsForTier().map((s) => ({
+          key: s.key,
+          name: s.name,
+          settings: s.settings || [],
+          keys: workbookSettingKeys(s)
+        }));
+        const fileName = exportWorkbookXlsx({
+          clientName: configState.name || "Client",
+          tierName: (tier && tier.name) || "Workbook",
+          sections: sections,
+          store: configState.workbook || {}
+        });
+        wbExport.textContent = "Exported ✓";
+        wbExport.title = fileName;
+        setTimeout(() => { wbExport.textContent = "Export for Google Sheets (.xlsx)"; }, 2500);
+      });
+      wbHead.appendChild(wbExport);
+      wbWrap.appendChild(wbHead);
 
       const intro = document.createElement("p");
       intro.className = "config-workbook-intro";

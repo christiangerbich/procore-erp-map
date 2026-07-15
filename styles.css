@@ -3215,6 +3215,19 @@ body.is-locked { overflow: hidden; }
 .app-dialog-btn-primary.app-dialog-btn-danger:hover { background: #8f1d17; border-color: #8f1d17; }
 
 /* ---------------------------------------------------------------------
+ * Configuration Workbook header row (title + Google Sheets export button)
+ * ------------------------------------------------------------------- */
+.config-workbook-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.config-workbook-head h3 { margin-bottom: 0; }
+.config-wb-export { white-space: nowrap; }
+
+/* ---------------------------------------------------------------------
  * Data-load failure — visible error card instead of a blank page.
  * ------------------------------------------------------------------- */
 .app-load-error {
@@ -3267,7 +3280,8 @@ body.is-locked { overflow: hidden; }
   .assistant-bar,
   .pkg-zoom-controls,
   .zoom-hint,
-  .config-bar-controls { display: none !important; }
+  .config-bar-controls,
+  .config-wb-export { display: none !important; }
 
   body[data-mode="config"] #graph,
   body[data-mode="config"] #details,
