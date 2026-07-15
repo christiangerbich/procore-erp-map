@@ -5,9 +5,10 @@ edit what*, see the table in the [README](README.md#architecture--what-edits-wha
 this doc explains *how it runs*.
 
 **One-sentence model:** a single static HTML page loads one stylesheet, one
-gate script, and one app script; the app script fetches several JSON files and
-renders one of three "modes" into the page. There is no server, no build, and
-no framework — everything below runs in the browser.
+gate script, and one ES-module entry point; the entry point fetches several
+JSON files, hands each of three view modules its data, and routes between them
+via the URL hash. There is no server, no build, and no framework — everything
+below runs in the browser.
 
 ---
 
@@ -16,19 +17,25 @@ no framework — everything below runs in the browser.
 ```mermaid
 flowchart TB
     subgraph CDN["External (CDN, optional)"]
-        D3["D3.js v7<br/>(ERP Map layout)"]
         FONTS["Google Fonts<br/>Inter Tight · DM Mono"]
         VERTEX["Vertex AI Search widget<br/>(only if configId set)"]
     end
 
     subgraph BROWSER["Browser — everything runs here"]
         HTML["index.html<br/>page shell · 3 view sections · login + SOP modal markup"]
-        CSS["styles.css<br/>all styling, all modes"]
+        CSS["styles.css<br/>all styling, all modes (incl. print)"]
         AUTH["auth.js<br/>password gate (SHA-256, deterrent-only)"]
-        APP["app.js<br/>controller + all rendering"]
+
+        subgraph MODULES["ES modules (no build step)"]
+            MAIN["main.js<br/>data fetch · mode toggle · hash routing"]
+            SHARED["shared.js<br/>hex geometry · svgEl · zoom/pan · dialogs"]
+            ERP["erp-map.js<br/>map + side panel + search + SOP builder"]
+            PKG["package-builder.js<br/>tool graph + tier details"]
+            CFG["config-tracker.js<br/>clients · phases · workbook · export/import"]
+        end
 
         subgraph VIEWS["Three view sections (show/hide)"]
-            V1["#graph<br/>ERP Connector Map (D3)"]
+            V1["#graph<br/>ERP Connector Map"]
             V2["#packages-view<br/>Package Builder"]
             V3["#config-view<br/>Config Tracker"]
         end
@@ -39,35 +46,47 @@ flowchart TB
         end
     end
 
-    subgraph DATA["Static JSON (served as files, fetched on load)"]
+    subgraph DATA["Static JSON (served as files)"]
         D1["data.json — ERP map nodes+links"]
         D2["packages.json — packages/tiers"]
         D3J["configurations.json — tracker schema"]
         D4["sop-templates.json — SOP actions"]
-        D5["docs-index.json — search corpus (generated)"]
+        D5["docs-index.json — search corpus (lazy)"]
     end
 
     HTML --> CSS
     HTML --> AUTH
-    HTML --> APP
+    HTML --> MAIN
     FONTS -.-> HTML
-    D3 -.-> APP
 
+    MAIN --> SHARED
+    MAIN --> ERP
+    MAIN --> PKG
+    MAIN --> CFG
     AUTH <--> LSA
-    APP --> VIEWS
+    ERP --- V1
+    PKG --- V2
+    CFG --- V3
     V1 --- D1
     V1 --- D4
-    V1 --- D5
+    V1 -.-> D5
     V2 --- D2
     V3 --- D3J
     V3 <--> LSC
-    APP -.->|"full-docs button only"| VERTEX
+    ERP -.->|"full-docs button only"| VERTEX
 ```
 
 **Reading it:** `index.html` is the shell. `auth.js` gates the whole page
-before `app.js` renders anything. `app.js` is the single controller — it
-fetches the JSON, owns all three view sections, and writes user state to
-`localStorage`. Dotted edges are optional (the site works without them).
+before anything renders. `main.js` is the entry module — it fetches the JSON
+payloads, calls each view module's `init(ctx)` with its data, and owns the
+mode toggle plus hash routing. Each view module returns a tiny public API
+(`initErpMap` → `{selectNode, deselect, setSource, revealNode}`,
+`initPackageBuilder` → `{renderPackagesView, setActivePackage, …}`,
+`initConfigTracker` → `{renderConfigView}`); everything else stays private to
+its module. `shared.js` holds the cross-view utilities: hex geometry, the SVG
+element factory, one wheel-zoom/drag-pan implementation used by both graphs
+(vanilla — D3 was dropped), and the in-app dialog system. Dotted edges are
+optional (the site works without them).
 
 ---
 
@@ -81,12 +100,12 @@ sequenceDiagram
     participant HTML as index.html
     participant Auth as auth.js
     participant LS as localStorage
-    participant App as app.js
+    participant Main as main.js (module)
     participant JSON as *.json files
 
     U->>HTML: open URL
     HTML->>HTML: <body class="is-locked"> (content hidden by CSS)
-    HTML->>Auth: load auth.js?v=2
+    HTML->>Auth: load auth.js?v=4
     Auth->>LS: read pnpt-unlock:v1
     alt ?lock / ?logout in URL
         Auth->>LS: clear unlock, strip param from URL
@@ -100,45 +119,42 @@ sequenceDiagram
         Auth->>LS: store unlock (30d or 4h)
         Auth->>HTML: remove .is-locked
     end
-    HTML->>App: load app.js
-    App->>JSON: fetch data.json (required)
-    App->>JSON: fetch docs-index, sop-templates, packages, configurations (fail-soft)
-    App->>HTML: render default mode (ERP Map)
+    HTML->>Main: load main.js (type=module, deferred)
+    Main->>JSON: fetch data / sop-templates / packages / configurations (PARALLEL)
+    Main->>Main: initErpMap · initPackageBuilder · initConfigTracker
+    Main->>HTML: baseline ERP mode, then restore #hash deep link
+    Note over Main,JSON: docs-index.json lazy-loads on first search use
 ```
 
 Key points:
 - The page is **hidden by default** (`<body class="is-locked">` + CSS). The gate
   *reveals* it; it does not load content on demand. That's why it's a deterrent
   — the markup and scripts are already downloaded.
-- `auth.js` is cache-busted (`?v=2`) so password/logic changes take effect
-  without users having to hard-refresh.
-- Only `data.json` is required. The other four fetches **fail soft** — if a file
-  is missing, the feature that uses it just stays empty and the page still works.
-
-**Load order:**
-`data.json` → `docs-index.json` → `sop-templates.json` → `packages.json` → `configurations.json`
+- `auth.js` is cache-busted (`?v=4`); the JSON payloads fetch with
+  `cache: "no-cache"` so they revalidate (ETag → 304) instead of riding GitHub
+  Pages' 10-minute cache after a deploy.
+- The four startup payloads load **in parallel**. Only `data.json` is required —
+  if it fails, a visible error card with a Reload button renders (no blank
+  page). The others fail soft: the feature that uses them just stays empty.
+- `docs-index.json` (the ~90KB-gzipped deep search corpus) is **not** fetched at
+  startup; it lazy-loads the first time the search box is used.
 
 ---
 
-## 3. Mode switching (runtime, no router)
+## 3. Mode switching + deep links
 
-Three header tabs toggle which `<section>` is visible. There is no URL routing —
-it's pure show/hide driven by `app.js`.
+Three header tabs toggle which `<section>` is visible, and the URL hash tracks
+where you are — links are shareable:
 
-```mermaid
-flowchart LR
-    TABS["Header tabs"] --> M1["ERP Connector Map"]
-    TABS --> M2["PNPT Package Builder"]
-    TABS --> M3["PNPT Config Tracker"]
+| Hash | Restores |
+|---|---|
+| `#erp` | ERP Connector Map |
+| `#erp/<nodeId>` | map + selected node (auto-switches connector source) |
+| `#packages` / `#packages/<pkgKey>` | Package Builder (+ package) |
+| `#config` | Config Tracker |
 
-    M1 --> R1["renderMap / D3 hex layout<br/>+ search finder + SOP Builder"]
-    M2 --> R2["renderPackages*"]
-    M3 --> R3["renderConfigView → renderConfigBar →<br/>renderConfigPhases → renderConfigPhaseContent →<br/>renderFrame → renderConfigSidebar"]
-
-    R1 --- F1[("data.json<br/>sop-templates.json<br/>docs-index.json")]
-    R2 --- F2[("packages.json")]
-    R3 --- F3[("configurations.json")]
-```
+`main.js` owns `setMode()` (which also stamps `body[data-mode]` for the print
+styles) and `applyHashRoute()`; Back/Forward re-route via `hashchange`.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -147,35 +163,47 @@ flowchart LR
             │                     │                      │
             ▼                     ▼                      ▼
    #graph + #details      #packages-view          #config-view
-   (D3 bipartite map)     (capability graph)      (phase tracker)
+   (erp-map.js)           (package-builder.js)    (config-tracker.js)
             │                     │                      │
         data.json            packages.json        configurations.json
      sop-templates.json
-       docs-index.json
+       docs-index.json (lazy)
 ```
 
-Each mode's render functions live in `app.js`, grouped by name prefix
-(`renderPackages*`, `renderConfig*`). The ERP Map is the only mode that uses D3;
-the other two are plain DOM/SVG.
+Each mode's render functions live in its module, grouped by name prefix
+(`renderPackages*`, `renderConfig*`). Both graphs are plain DOM/SVG using the
+shared zoom/pan helper (Ctrl/⌘ + scroll to zoom; plain scroll scrolls the page).
 
 ---
 
-## 4. Two features worth knowing
+## 4. Features worth knowing
 
 ### SOP Builder ("Generate Word document")
-No library and no backend. `app.js` builds an **HTML string** styled for Word,
-wraps it in a `Blob({ type: "application/msword" })`, and triggers a download as
-a `.doc`. Word opens it natively. Actions come from `sop-templates.json` keyed by
-ERP tool; the user assigns owners in the modal before generating.
+No library and no backend. `erp-map.js` builds an **HTML string** styled for
+Word, wraps it in a `Blob({ type: "application/msword" })`, and triggers a
+download as a `.doc`. Word opens it natively. Actions come from
+`sop-templates.json` keyed by ERP tool; the user assigns owners in the modal
+before generating.
 
 ### Search finder + Vertex (two layers)
 - **Layer 1 (always on):** the "Search connectors, data objects, errors…" box
-  searches `docs-index.json` (a generated corpus) plus the inline `data.json`
-  notes. Pure client-side string matching.
-- **Layer 2 (optional):** if `data.json` carries a Vertex `configId`, `app.js`
-  injects a Google `<gen-search-widget>` for conversational search over the full
-  Procore corpus. If no config id, the button stays hidden and there is zero
-  Google Cloud dependency.
+  searches the inline `data.json` notes immediately, and merges in
+  `docs-index.json` (a generated corpus) after its lazy load. Pure client-side
+  string matching, debounced.
+- **Layer 2 (optional):** if `data.json` carries a Vertex `configId`,
+  `erp-map.js` injects a Google `<gen-search-widget>` for conversational search
+  over the full Procore corpus. If no config id, the button stays hidden and
+  there is zero Google Cloud dependency.
+
+### Config Tracker safety rails (config-tracker.js)
+- **Export / Import** buttons back up and merge the entire multi-client store
+  as a dated JSON file — the only defense against localStorage loss, and the
+  handoff path between SPCs.
+- All progress is keyed by **stable ids** (task ids from the data; slug keys
+  derived from workbook/validation row names), never by list position, with
+  one-time migrations for older stores and imported backups.
+- Printing the tracker produces a closeout-ready document: print CSS hides the
+  chrome and a `beforeprint` hook opens collapsed sections (restored after).
 
 ---
 
@@ -192,8 +220,9 @@ flowchart LR
     DI -->|git commit| REPO["repo / GitHub Pages"]
 ```
 
-You only need `tools/` when refreshing the search corpus. For normal content
-edits (ERPs, packages, tracker content) you never touch them — the committed
+You only need `tools/` when refreshing the search corpus (the `sync-*` crawlers
+refresh the local doc mirrors that feed it). For normal content edits (ERPs,
+packages, tracker content) you never touch them — the committed
 `docs-index.json` is all the site needs.
 
 ---
@@ -205,12 +234,16 @@ There is **no database**. All user state is browser-local:
 | Key | Set by | Holds | Lifetime |
 |---|---|---|---|
 | `pnpt-unlock:v1` | `auth.js` | proof the user entered the password | 30 days (remember-me) or 4 hours |
-| `pnpt-config-tracker:v2` | `app.js` | every client's tracker progress: `{ schema, activeClientId, clients: {…} }` | until browser data is cleared |
+| `pnpt-config-tracker:v2` | `config-tracker.js` | every client's tracker progress: `{ schema, activeClientId, clients: {…} }` | until browser data is cleared |
 
 Implications:
-- Progress is **per-device, per-browser**. It does not sync between machines and
-  is not backed up. Clearing site data wipes it.
-- `pnpt-config-tracker:v2` supersedes a `:v1` key; `app.js` migrates v1→v2 on load.
+- Progress is **per-device, per-browser**. It does not sync between machines.
+  The Config Tracker's **Export** button is the backup path; **Import** merges
+  a backup by client id.
+- `pnpt-config-tracker:v2` supersedes a `:v1` key; `config-tracker.js` migrates
+  v1→v2 (and index-keyed progress → stable ids) on load.
+- Writes are debounced (300ms) and flushed on tab hide, so fast typing doesn't
+  hammer localStorage and the tail keystroke still survives a close.
 - Nothing here is sent anywhere — there is no server to send it to.
 
 ---

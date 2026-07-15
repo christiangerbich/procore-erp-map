@@ -20,9 +20,9 @@ Live at **https://christiangerbich.github.io/procore-erp-map/**
 > links the PNPT GPS Slack channel + the NAMER delivery Drive folders. When
 > editing, keep content NAMER-scoped.
 
-Built with vanilla HTML + [D3.js v7](https://d3js.org/) (loaded from CDN; used
-by the ERP Map only — the other two modes use plain DOM/SVG). No build step,
-no backend. Designed to be hosted on GitHub Pages and embedded in Confluence
+Built with vanilla HTML/CSS/JS as plain ES modules — zero dependencies, no
+build step, no backend (both graphs are hand-rolled SVG sharing one zoom/pan
+helper). Designed to be hosted on GitHub Pages and embedded in Confluence
 via an Iframe macro.
 
 ---
@@ -47,10 +47,11 @@ Then open http://localhost:8000. Edit any file, save, hard-refresh
 
 ## Architecture — what edits what
 
-There is no framework and no router. `index.html` defines three `<section>`
-view containers; `app.js` shows/hides them based on the header tabs and renders
-each from its JSON file. **To change something, edit the file in the right-hand
-column — you almost never need to touch more than one.**
+There is no framework and no build step. `index.html` defines three `<section>`
+view containers; plain ES modules (served as-is) render each from its JSON file,
+with `main.js` switching modes and keeping the URL hash shareable
+(`#erp/<node>`, `#packages/<pkg>`, `#config`). **To change something, edit the
+file in the right-hand column — you almost never need to touch more than one.**
 
 > For *how the pieces run together* (boot sequence, mode switching, data flow,
 > the offline build pipeline, state/persistence) see **[ARCHITECTURE.md](ARCHITECTURE.md)**
@@ -59,14 +60,16 @@ column — you almost never need to touch more than one.**
 | I want to change… | Edit | Notes |
 |---|---|---|
 | Add/remove an ERP, a link, a label, sync direction | `data.json` | `nodes[]` + `links[]`. See [Data files](#data-files). |
-| ERP Map render logic (D3 layout, hexes, columns) | `app.js` → top of file through `renderPackagesView` | D3 force/manual layout, 3-column Procore/Agave/SmoothX. |
+| ERP Map render logic (layout, hexes, columns, side panel, search, SOP) | `erp-map.js` | Vanilla SVG, 3-column Procore/Agave/SmoothX. |
 | Add/edit a PNPT package, tier, or included tools | `packages.json` | |
-| Package Builder render logic | `app.js` → `renderPackages*` (`renderPackagesGraph`, `renderPackagesToolDetail`, `renderPackagesDetails`) | |
+| Package Builder render logic | `package-builder.js` → `renderPackages*` (`renderPackagesGraph`, `renderPackagesToolDetail`, `renderPackagesDetails`) | |
 | Add/edit Config Tracker content, phases, frames | `configurations.json` | The dense one. See [Config Tracker schema](#config-tracker-schema). |
-| Config Tracker render logic | `app.js` → `renderConfigView`, `renderConfigBar`, `renderConfigPhases`, `renderConfigPhaseContent`, `renderFrame`, `renderConfigSidebar` | `renderFrame` handles many frame shapes (`buckets[]`, `points[]`, `pillars[]`, `forecastSamples[]`, …). |
+| Config Tracker render logic | `config-tracker.js` → `renderConfigView`, `renderConfigBar`, `renderConfigPhases`, `renderConfigPhaseContent`, `renderFrame`, `renderConfigSidebar` | `renderFrame` handles many frame shapes (`buckets[]`, `points[]`, `pillars[]`, `forecastSamples[]`, …). |
+| Mode toggle, hash deep links, data loading | `main.js` | Entry module; owns `setMode()` + routing. |
+| Cross-view utilities (hex geometry, zoom/pan, dialogs) | `shared.js` | Used by both graphs + the tracker dialogs. |
 | SOP Builder action templates (per ERP tool) | `sop-templates.json` | The "Generate Word document" modal. |
 | Search-finder corpus (the "Search connectors…" box) | `docs-index.json` | **Generated** — see [tools/](#toolsbuild-scripts). Don't hand-edit. |
-| Any styling | `styles.css` | One file, all modes. Brand palette near the top as CSS vars. |
+| Any styling | `styles.css` | One file, all modes (incl. print). Brand palette near the top as CSS vars. |
 | Password / login gate | `auth.js` | See [Access & password](#access--password). |
 | Page shell, the 3 view sections, login + SOP modal markup | `index.html` | |
 
@@ -75,28 +78,39 @@ column — you almost never need to touch more than one.**
 ```
 .
 ├── index.html            # page shell: 3 view sections, login gate, SOP modal
-├── styles.css            # ALL styling, every mode
-├── app.js                # ALL behavior: ERP map (D3) + Package Builder + Config Tracker + SOP + search
-├── auth.js               # password gate (deterrent-only)
+├── styles.css            # ALL styling, every mode (incl. print)
+├── auth.js               # password gate (deterrent-only, classic script)
+│
+├── main.js               # entry module: data fetch, mode toggle, hash routing
+├── shared.js             # hex geometry, svgEl, zoom/pan, in-app dialogs
+├── erp-map.js            # ERP map + side panel + search + SOP builder
+├── package-builder.js    # Package Builder graph + details
+├── config-tracker.js     # Config Tracker (clients, phases, workbook, export/import)
 │
 ├── data.json             # ERP Connector Map: nodes + links
 ├── packages.json         # PNPT Package Builder
 ├── configurations.json   # PNPT Config Tracker schema
 ├── sop-templates.json    # SOP Builder per-tool action templates
 ├── docs-index.json       # search-finder corpus (GENERATED by tools/build-docs-index.py)
+├── favicon.svg           # Procore-orange hex
 │
 ├── tools/                # local-only Python build scripts (NOT run by the site)
 │   ├── build-docs-index.py
 │   ├── build-vertex-upload.py
+│   ├── sync-support-site.py   # refresh local Procore support-doc mirror
+│   ├── sync-agave-docs.py     # refresh local Agave sync-docs mirror
 │   └── extract_docx.py
 └── README.md
 ```
 
-`app.js` loads the JSON in this order on page load — only `data.json` is
-required; the rest fail soft (the feature that uses them just stays empty):
+`main.js` loads the four startup JSONs **in parallel** — only `data.json` is
+required (a failure shows a visible error card); the rest fail soft (the
+feature that uses them just stays empty). `docs-index.json` lazy-loads on
+first use of the search box:
 
 ```
-data.json (required) → docs-index.json → sop-templates.json → packages.json → configurations.json
+data.json (required) ∥ sop-templates.json ∥ packages.json ∥ configurations.json
+docs-index.json — deferred until the search box is used
 ```
 
 ---
@@ -156,7 +170,7 @@ packages[]            # e.g. Cost Management, Project Execution
             └─ sections[]   # workbook sections; each may reference a "frame"
 ```
 
-**Frames** are the structured callouts `renderFrame` (in `app.js`) draws. A
+**Frames** are the structured callouts `renderFrame` (in `config-tracker.js`) draws. A
 frame is one of several shapes — `buckets[]`, `points[]`, `pillars[]`,
 `subSections[]`, `examples[]`, `items[]`, `forecastSamples[]`, `families[]` —
 plus per-package overrides like `kickoffTimeline` and `consultationAgenda`.
@@ -284,6 +298,7 @@ To add a maintainer:
 - [ ] Get the access password (Slack DM from the current owner).
 - [ ] Confirm GitHub collaborator access; make a trivial commit and confirm
       Pages redeploys.
-- [ ] Skim `app.js`'s `render*` functions for the mode you'll touch first.
+- [ ] Skim the `render*` functions in the module for the mode you'll touch first
+      (`erp-map.js`, `package-builder.js`, or `config-tracker.js`).
 - [ ] Note the security caveat in [Access & password](#access--password) — don't
       assume the gate is secure.
