@@ -1108,7 +1108,7 @@
 
   function deselect() {
     detailsEl.classList.add("details-empty");
-    detailsEl.classList.remove("details-agave", "details-procore-native");
+    detailsEl.classList.remove("details-agave", "details-procore-native", "details-smoothx");
     emptyTextEl.hidden = false;
     contentEl.hidden = true;
     overviewEl.hidden = true;
@@ -2599,8 +2599,10 @@
         h += "<h2>Roles &amp; Responsibilities</h2>";
         h += "<table class='rr'><tr><th>Action — responsible for…</th><th>Name</th><th>Project Role</th><th>Permission</th></tr>";
         s.rows.forEach((r) => {
-          h += "<tr><td>" + esc(r.action) + "</td><td>" + esc(r.name || "&nbsp;") +
-            "</td><td>" + esc(r.role || "&nbsp;") + "</td><td>" + esc(r.perm || "&nbsp;") + "</td></tr>";
+          // Empty cells fall back to a raw &nbsp; — it must NOT go through
+          // esc(), or the "&" escapes and Word prints the literal text "&nbsp;".
+          h += "<tr><td>" + esc(r.action) + "</td><td>" + (r.name ? esc(r.name) : "&nbsp;") +
+            "</td><td>" + (r.role ? esc(r.role) : "&nbsp;") + "</td><td>" + (r.perm ? esc(r.perm) : "&nbsp;") + "</td></tr>";
         });
         h += "</table>";
 
