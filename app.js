@@ -3155,6 +3155,41 @@
   function taskKey(task) {
     return task.id || (task.tool ? "tool:" + task.tool : "text:" + (task.text || ""));
   }
+  // Stable derived keys for workbook settings + validation leaves — the same
+  // hardening the phase tasks got: progress is keyed by WHAT was checked,
+  // not by list position, so inserting / reordering rows in
+  // configurations.json can't silently shift everyone's saved state. Keys
+  // derive from names (sluggified, deduped in order), so no data-file
+  // changes are needed; renaming a row is the only edit that drops its
+  // saved state.
+  function slugKey(s) {
+    const k = String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+    return k || "item";
+  }
+  function dedupeKeys(rawKeys) {
+    const seen = {};
+    return rawKeys.map((k) => {
+      if (seen[k]) { seen[k] += 1; return k + "-" + seen[k]; }
+      seen[k] = 1;
+      return k;
+    });
+  }
+  // Ordered stable keys for a workbook section's settings.
+  function workbookSettingKeys(section) {
+    return dedupeKeys((section.settings || []).map((s) => slugKey(s.name)));
+  }
+  // Ordered stable keys for a validation section's leaves — path-based so
+  // same-named leaves under different groups stay distinct.
+  function validationLeafKeys(nodes) {
+    const raw = [];
+    (function walk(ns, path) {
+      (ns || []).forEach((x) => {
+        if (x.items) walk(x.items, path.concat(x.name));
+        else raw.push(slugKey(path.concat(x.name).join(" ")));
+      });
+    })(nodes, []);
+    return dedupeKeys(raw);
+  }
   // The ordered stable keys for one client's effective task list in a phase
   // (uses that client's package/tier for the per-tool rows) — used to migrate
   // legacy index-keyed progress to id-keyed.
@@ -3202,6 +3237,57 @@
     if (changed) saveConfigState();
   }
   migrateTaskProgressToIds();
+
+  // One-time migration: workbook + validation progress used to be keyed by
+  // row index. Maps each numeric key to the derived stable key now at that
+  // position (per the client's own package for workbook sections).
+  // Idempotent per client (_wbValIdsMigrated); also run after Import so
+  // backups taken before this change convert on the way in.
+  function migrateWbValProgressToIds() {
+    const sectionsByKey = {};
+    (configData.packages || []).forEach((p) => {
+      ((p.workbook && p.workbook.sections) || []).forEach((s) => {
+        if (!sectionsByKey[s.key]) sectionsByKey[s.key] = s;
+      });
+    });
+    const vcSections = (configData.validationChecklist && configData.validationChecklist.sections) || {};
+    let changed = false;
+    Object.keys(configMulti.clients).forEach((cid) => {
+      const client = configMulti.clients[cid];
+      if (client._wbValIdsMigrated) return;
+      Object.keys(client.workbook || {}).forEach((secKey) => {
+        const section = sectionsByKey[secKey];
+        const prog = client.workbook[secKey];
+        if (!section || !prog || !Object.keys(prog).some((k) => /^\d+$/.test(k))) return;
+        const keys = workbookSettingKeys(section);
+        const next = {};
+        Object.keys(prog).forEach((k) => {
+          const v = prog[k];
+          if (!v) return;
+          if (/^\d+$/.test(k)) { const nk = keys[Number(k)]; if (nk) next[nk] = v; }
+          else next[k] = v;
+        });
+        client.workbook[secKey] = next;
+      });
+      Object.keys(client.validation || {}).forEach((secName) => {
+        const nodes = vcSections[secName];
+        const prog = client.validation[secName];
+        if (!nodes || !prog || !Object.keys(prog).some((k) => /^\d+$/.test(k))) return;
+        const keys = validationLeafKeys(nodes);
+        const next = {};
+        Object.keys(prog).forEach((k) => {
+          if (!prog[k]) return;
+          if (/^\d+$/.test(k)) { const nk = keys[Number(k)]; if (nk) next[nk] = true; }
+          else next[k] = true;
+        });
+        client.validation[secName] = next;
+      });
+      client._wbValIdsMigrated = true;
+      changed = true;
+    });
+    if (changed) saveConfigState();
+  }
+  migrateWbValProgressToIds();
 
   // ---------------------------------------------------------------------
   // Export / Import — JSON backup of the entire multi-client store. All SPC
@@ -3267,6 +3353,7 @@
       }
       configState = configMulti.clients[configMulti.activeClientId];
       migrateTaskProgressToIds(); // old backups may still be index-keyed
+      migrateWbValProgressToIds();
       saveConfigState();
       renderConfigView();
       appDialog.alert("Imported " + ids.length + " client" + (ids.length === 1 ? "" : "s") + ".", "Import complete");
@@ -4100,9 +4187,10 @@
         avail.forEach((secName) => {
           const nodes = vc.sections[secName];
           const store = (configState.validation[secName] = configState.validation[secName] || {});
-          let total = 0;
-          (function countLeaves(ns) { ns.forEach((x) => x.items ? countLeaves(x.items) : total++); })(nodes);
-          const doneCount = () => { let n = 0; for (let k = 0; k < total; k++) if (store[k]) n++; return n; };
+          // Stable path-derived leaf keys — see validationLeafKeys above.
+          const vKeys = validationLeafKeys(nodes);
+          const total = vKeys.length;
+          const doneCount = () => vKeys.filter((k) => store[k]).length;
 
           const det = document.createElement("details");
           det.className = "config-validation-section";
@@ -4116,9 +4204,9 @@
 
           const body = document.createElement("div");
           body.className = "config-validation-body";
-          let idx = 0;
+          let leafIx = 0;
           function renderTask(node) {
-            const k = idx++;
+            const k = vKeys[leafIx++];
             const row = document.createElement("div");
             row.className = "config-validation-task" + (store[k] ? " is-done" : "");
             const cb = document.createElement("input");
@@ -4178,6 +4266,12 @@
       wbWrap.appendChild(intro);
 
       workbookSectionsForTier().forEach((section) => {
+        // Stable per-setting keys (derived from names) — see slugKey above.
+        const wbKeys = workbookSettingKeys(section);
+        const wbStore = () => configState.workbook[section.key] || {};
+        const wbUpdatedCount = () =>
+          wbKeys.filter((k) => wbStore()[k] && wbStore()[k].updated).length;
+
         const det = document.createElement("details");
         det.className = "config-wb-section";
 
@@ -4187,11 +4281,7 @@
         sum.appendChild(sumLeft);
         const sumProg = document.createElement("span");
         sumProg.className = "config-wb-section-progress";
-        const sd = (section.settings || []).filter((_, i) =>
-          configState.workbook[section.key] && configState.workbook[section.key][i] &&
-          configState.workbook[section.key][i].updated
-        ).length;
-        sumProg.textContent = sd + " of " + (section.settings || []).length + " updated";
+        sumProg.textContent = wbUpdatedCount() + " of " + wbKeys.length + " updated";
         sum.appendChild(sumProg);
         det.appendChild(sum);
 
@@ -4207,7 +4297,8 @@
 
         const tbody = document.createElement("tbody");
         (section.settings || []).forEach((setting, idx) => {
-          const st = (configState.workbook[section.key] && configState.workbook[section.key][idx]) || {};
+          const skey = wbKeys[idx];
+          const st = wbStore()[skey] || {};
           const tr = document.createElement("tr");
           tr.className = "config-wb-row" + (st.updated ? " is-updated" : "");
 
@@ -4247,15 +4338,12 @@
           cb.setAttribute("aria-label", "Updated — " + setting.name);
           cb.addEventListener("change", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
-            const cur = configState.workbook[section.key][idx] || {};
+            const cur = configState.workbook[section.key][skey] || {};
             cur.updated = cb.checked;
-            configState.workbook[section.key][idx] = cur;
+            configState.workbook[section.key][skey] = cur;
             saveConfigState();
             tr.classList.toggle("is-updated", cb.checked);
-            sumProg.textContent = (section.settings || []).filter((_, i) =>
-              configState.workbook[section.key] && configState.workbook[section.key][i] &&
-              configState.workbook[section.key][i].updated
-            ).length + " of " + (section.settings || []).length + " updated";
+            sumProg.textContent = wbUpdatedCount() + " of " + wbKeys.length + " updated";
           });
           td3.appendChild(cb);
           tr.appendChild(td3);
@@ -4268,9 +4356,9 @@
           changed.value = st.changed || "";
           changed.addEventListener("input", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
-            const cur = configState.workbook[section.key][idx] || {};
+            const cur = configState.workbook[section.key][skey] || {};
             cur.changed = changed.value;
-            configState.workbook[section.key][idx] = cur;
+            configState.workbook[section.key][skey] = cur;
             saveConfigState();
           });
           td4.appendChild(changed);
@@ -4280,9 +4368,9 @@
           noteTa.value = st.notes || "";
           noteTa.addEventListener("input", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
-            const cur = configState.workbook[section.key][idx] || {};
+            const cur = configState.workbook[section.key][skey] || {};
             cur.notes = noteTa.value;
-            configState.workbook[section.key][idx] = cur;
+            configState.workbook[section.key][skey] = cur;
             saveConfigState();
           });
           td4.appendChild(noteTa);
