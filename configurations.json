@@ -6958,6 +6958,6 @@
   },
   "export": {
     "_comment": "Set googleClientId to a Google OAuth 2.0 Client ID (Web application, this site's origin authorized) to enable the direct 'Export to Google Sheets' button on the Config Tracker workbook. Leave empty to keep the .xlsx download + File-Import flow.",
-    "googleClientId": ""
+    "googleClientId": "919289340972-vf22hte51j8q7l73vfbo28v1a16tgvqa.apps.googleusercontent.com"
   }
 }
