@@ -130,20 +130,26 @@ script and commit the new template.
 Two export paths, both producing the **full 13-tab official workbook** with
 the client's Updated / Changed to / Notes filled into their tier's tab:
 
-- **Download .xlsx** (always available) — open Google Sheets → File → Import
-  → Upload (or upload to Drive and "Open with Google Sheets"). Formatting
-  comes through 1:1, and the Updated column imports as **native checkboxes**
-  (each C cell carries a TRUE/FALSE list validation, which Sheets renders as
-  a checkbox).
+- **Download .xlsx** (always available) — open Google Sheets → File → Import →
+  Upload (or upload to Drive and "Open with Google Sheets"). Formatting comes
+  through **1:1** (verified by a byte-level cell diff against the source: 0
+  differences across all 13 tabs). The **Updated** column imports as plain
+  `TRUE`/`FALSE`; to make them checkboxes, select column C → **Insert → Tick
+  box** (one action — the ticks are preserved as checked/unchecked). This is
+  unavoidable: Google Sheets checkboxes are a native feature that **cannot be
+  encoded in .xlsx** — Google Sheets' *own* checkbox→.xlsx export writes a
+  plain boolean with no validation, so no imported .xlsx can reconstruct them.
 - **Export to Google Sheets** (optional, one-time setup) — creates the filled
-  workbook directly in the SPC's Drive as a native Sheet and opens it. To
-  enable: create a Google OAuth 2.0 **Client ID** (Google Cloud console →
-  APIs & Services → Credentials → Create credentials → OAuth client ID →
-  *Web application*), add this site's origin (the GitHub Pages URL) under
-  **Authorized JavaScript origins**, enable the **Google Drive API** on the
-  project, then paste the Client ID into `configurations.json` →
-  `export.googleClientId`. Scope is `drive.file` — the app can only touch
-  files it creates.
+  workbook directly in the SPC's Drive as a native Sheet, **sets real native
+  checkboxes on the tier tab's Updated column via the Sheets API**, and opens
+  it (zero manual steps). To enable: create a Google OAuth 2.0 **Client ID**
+  (Google Cloud console → APIs & Services → Credentials → Create credentials →
+  OAuth client ID → *Web application*), add this site's origin (the GitHub
+  Pages URL) under **Authorized JavaScript origins**, enable the **Google
+  Drive API** *and* **Google Sheets API** on the project, then paste the
+  Client ID into `configurations.json` → `export.googleClientId`. Scopes:
+  `drive.file` (create the file) + `spreadsheets` (set the checkboxes) — the
+  app can only touch files it creates.
 
 ---
 
