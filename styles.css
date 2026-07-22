@@ -3226,6 +3226,16 @@ body.is-locked { overflow: hidden; }
 }
 .config-workbook-head h3 { margin-bottom: 0; }
 .config-wb-export { white-space: nowrap; }
+.config-workbook-hint {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  background: var(--color-stone);
+  border-left: 3px solid var(--color-orange);
+  padding: 8px 12px;
+  margin: 0 0 14px;
+  border-radius: 0 6px 6px 0;
+}
 
 /* Gray sub-group label rows inside the workbook table — mirrors the
  * official workbook's #E5E5E5 group bands. */

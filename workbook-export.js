@@ -8,16 +8,22 @@
 // (gridlines only), per-tab column widths, 15.75pt rows, frozen rows 1-3,
 // and the PROCORE logo image anchored on every tab.
 //
-// Column C carries TRUE/FALSE booleans PLUS a "TRUE,FALSE" list data
-// validation on every data row — Google Sheets converts exactly that
-// combination into native checkboxes on import.
+// Column C ("Updated") is a plain TRUE/FALSE boolean — byte-for-byte what
+// Google Sheets itself writes when it exports a checkbox to .xlsx (checkboxes
+// are a Sheets-native feature that does NOT survive the .xlsx format). So:
+//   - Download .xlsx path: column C imports as TRUE/FALSE; one click in Sheets
+//     (select column C → Insert → Tick box) turns them into checked/unchecked
+//     boxes, state preserved.
+//   - Export to Google Sheets path: after the Drive upload/conversion, a
+//     Sheets-API batchUpdate sets REAL native checkboxes on column C of the
+//     tier tab — zero manual steps.
 //
 // Everything is dependency-free: a STORED (uncompressed) ZIP writer plus
 // minimal SpreadsheetML. buildWorkbookXlsxBytes() is pure (runs under Node
 // for tests); exportWorkbookXlsx() wraps it in a Blob download; and
-// exportWorkbookToGoogleSheets() uploads with Drive-side conversion so the
-// result opens directly as a native Google Sheet (requires a Google OAuth
-// Client ID configured by the team — see README).
+// exportWorkbookToGoogleSheets() uploads with Drive-side conversion + the
+// checkbox pass (requires a Google OAuth Client ID configured by the team —
+// see README).
 
 // ---------------------------------------------------------------------
 // ZIP (store-only) + CRC32 — supports text and binary parts.
@@ -164,21 +170,28 @@ function valueCell(ref, style, v) {
 }
 const textCell = valueCell;
 
-// Compress a sorted list of row numbers into "C6:C10 C12 C14:C20" sqref form.
-function sqrefFor(rowNums) {
-  const ranges = [];
+// Group ascending row numbers into contiguous [start,end] runs. Used to set
+// native checkboxes (BOOLEAN data validation) on column C via the Sheets API
+// on the direct-to-Sheets path — .xlsx cannot carry Google checkboxes (Google
+// Sheets' own xlsx export flattens a checkbox to a plain boolean with no
+// validation), so the download path leaves column C as TRUE/FALSE and the
+// Sheets path adds real checkboxes after upload.
+function contiguousRuns(rowNums) {
+  const runs = [];
   let start = null, prev = null;
   rowNums.forEach((r) => {
     if (start === null) { start = prev = r; return; }
     if (r === prev + 1) { prev = r; return; }
-    ranges.push(start === prev ? "C" + start : "C" + start + ":C" + prev);
+    runs.push([start, prev]);
     start = prev = r;
   });
-  if (start !== null) ranges.push(start === prev ? "C" + start : "C" + start + ":C" + prev);
-  return ranges.join(" ");
+  if (start !== null) runs.push([start, prev]);
+  return runs;
 }
 
 // Build one worksheet's XML from a template tab (+ optional value injection).
+// Returns { xml, dataRows } — dataRows are the 1-based rows whose column C is
+// a boolean checkbox cell (for the Sheets-API checkbox pass).
 function sheetXmlFor(tab, values) {
   const merges = [];
   const dataRowsC = [];
@@ -214,6 +227,11 @@ function sheetXmlFor(tab, values) {
         // literal text ("N/A") or stray numbers in the source stay verbatim
         cCell = valueCell("C" + r, 4, cRaw);
       } else {
+        // Plain boolean — byte-for-byte what Google Sheets writes for a
+        // checkbox on xlsx export. The Sheets path upgrades these to real
+        // checkboxes after upload; the download path leaves them as
+        // TRUE/FALSE (one click in Sheets — select column C, Insert →
+        // Tick box — turns them into checked/unchecked boxes).
         dataRowsC.push(r);
         cCell = boolCell("C" + r, 4, inj ? !!inj.c : !!cRaw);
       }
@@ -240,31 +258,30 @@ function sheetXmlFor(tab, values) {
     ? '<mergeCells count="' + merges.length + '">' +
       merges.map((m) => '<mergeCell ref="' + m + '"/>').join("") + "</mergeCells>"
     : "";
-  // TRUE/FALSE list validation over every checkbox cell — Google Sheets
-  // renders exactly this as native checkboxes on import.
-  const dvXml = dataRowsC.length
-    ? '<dataValidations count="1"><dataValidation type="list" allowBlank="1" sqref="' +
-      sqrefFor(dataRowsC) + '"><formula1>"TRUE,FALSE"</formula1></dataValidation></dataValidations>'
-    : "";
 
-  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+  const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
 <sheetViews><sheetView workbookViewId="0">${freeze}</sheetView></sheetViews>
 <sheetFormatPr defaultRowHeight="15.75"/>
 ${colXml ? "<cols>" + colXml + "</cols>" : ""}
 <sheetData>${rowsXml.join("")}</sheetData>
 ${mergeXml}
-${dvXml}
 <drawing r:id="rId1"/>
 </worksheet>`;
+  return { xml: xml, dataRows: dataRowsC };
 }
 
 // template: workbook-template.json content.
 // injection: { tabName, values: { rowNumber: {c,d,e} } } or null.
+// Returns { bytes, activeTabIndex, activeTabDataRows } — the last two describe
+// the injected tab's column-C checkbox rows so the Sheets path can set native
+// checkboxes there after upload.
 export function buildWorkbookXlsxBytes(template, injection) {
   const tabs = template.tabs;
   const logoBytes = b64ToBytes(template.logoPng);
   const files = [];
+  let activeTabIndex = -1;
+  let activeTabDataRows = [];
 
   const overrides = tabs.map((_, i) =>
     '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
@@ -314,7 +331,9 @@ ${overrides}
   tabs.forEach((tab, i) => {
     const n = i + 1;
     const values = injection && injection.tabName === tab.name ? injection.values : null;
-    files.push({ name: "xl/worksheets/sheet" + n + ".xml", text: sheetXmlFor(tab, values) });
+    const built = sheetXmlFor(tab, values);
+    if (values) { activeTabIndex = i; activeTabDataRows = built.dataRows; }
+    files.push({ name: "xl/worksheets/sheet" + n + ".xml", text: built.xml });
     files.push({
       name: "xl/worksheets/_rels/sheet" + n + ".xml.rels",
       text: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -333,7 +352,11 @@ ${overrides}
     });
   });
 
-  return zipStore(files);
+  return {
+    bytes: zipStore(files),
+    activeTabIndex: activeTabIndex,
+    activeTabDataRows: activeTabDataRows
+  };
 }
 
 function exportFileName(clientName, tierName) {
@@ -344,9 +367,9 @@ function exportFileName(clientName, tierName) {
 
 // Download path. opts: { template, tabName, values, clientName, tierName }
 export function exportWorkbookXlsx(opts) {
-  const bytes = buildWorkbookXlsxBytes(opts.template, { tabName: opts.tabName, values: opts.values || {} });
+  const built = buildWorkbookXlsxBytes(opts.template, { tabName: opts.tabName, values: opts.values || {} });
   const fileName = exportFileName(opts.clientName, opts.tierName);
-  const blob = new Blob([bytes], {
+  const blob = new Blob([built.bytes], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   });
   const a = document.createElement("a");
@@ -360,12 +383,14 @@ export function exportWorkbookXlsx(opts) {
 }
 
 // ---------------------------------------------------------------------
-// Direct-to-Google-Sheets path (optional). Uses Google Identity Services
-// (client-side OAuth, drive.file scope — the app can only touch files it
-// creates) + a Drive multipart upload with conversion, so the result opens
-// as a NATIVE Google Sheet: checkboxes in Updated, Inter font, formatting
-// intact. Requires a Google OAuth Client ID (configurations.json →
-// export.googleClientId); see README for the one-time setup.
+// Direct-to-Google-Sheets path (optional). Google Identity Services
+// (client-side OAuth) + a Drive multipart upload with conversion creates a
+// NATIVE Google Sheet with the formatting intact, then a Sheets-API
+// batchUpdate sets REAL checkboxes on column C of the client's tier tab (the
+// only way to get checkboxes — .xlsx cannot carry them). Scopes: drive.file
+// (create the file) + spreadsheets (set the checkboxes on it). Requires a
+// Google OAuth Client ID (configurations.json → export.googleClientId); see
+// README for the one-time setup.
 // ---------------------------------------------------------------------
 let gisLoaded = null;
 function loadGis() {
@@ -384,11 +409,13 @@ function loadGis() {
   });
   return gisLoaded;
 }
+const SHEETS_SCOPES =
+  "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets";
 function getAccessToken(clientId) {
   return loadGis().then(() => new Promise((resolve, reject) => {
     const tc = google.accounts.oauth2.initTokenClient({
       client_id: clientId,
-      scope: "https://www.googleapis.com/auth/drive.file",
+      scope: SHEETS_SCOPES,
       callback: (resp) => {
         if (resp && resp.access_token) resolve(resp.access_token);
         else reject(new Error(resp && resp.error ? resp.error : "No access token returned."));
@@ -399,10 +426,57 @@ function getAccessToken(clientId) {
   }));
 }
 
+// Set native checkboxes on column C for the given 1-based data rows of the
+// sheet at gridSheetId, via one Sheets-API batchUpdate (BOOLEAN validation
+// over each contiguous run of rows). Best-effort: the sheet already exists,
+// so a failure here just means the user tick-boxes column C themselves.
+async function applyCheckboxes(spreadsheetId, gridSheetId, dataRows, token) {
+  if (!dataRows || !dataRows.length) return;
+  const requests = contiguousRuns(dataRows).map(([start, end]) => ({
+    setDataValidation: {
+      range: {
+        sheetId: gridSheetId,
+        startRowIndex: start - 1, endRowIndex: end,   // 0-based, end-exclusive
+        startColumnIndex: 2, endColumnIndex: 3        // column C
+      },
+      rule: {
+        condition: { type: "BOOLEAN" },
+        strict: true, showCustomUi: true
+      }
+    }
+  }));
+  const resp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId + ":batchUpdate",
+    {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ requests: requests })
+    }
+  );
+  if (!resp.ok) {
+    const detail = await resp.text().catch(() => "");
+    throw new Error("checkbox pass failed (" + resp.status + "): " + detail.slice(0, 200));
+  }
+}
+
+// Look up the gridId of the sheet/tab at a given index (Drive conversion keeps
+// tab order, but sheetId is assigned by Sheets, not our index).
+async function sheetGridId(spreadsheetId, tabIndex, token) {
+  const resp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId +
+      "?fields=sheets.properties(sheetId,index)",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!resp.ok) return null;
+  const data = await resp.json();
+  const match = (data.sheets || []).find((s) => s.properties && s.properties.index === tabIndex);
+  return match ? match.properties.sheetId : null;
+}
+
 // opts: { clientId, template, tabName, values, clientName, tierName }
-// Resolves with { id, url } of the created Google Sheet (also opens it).
+// Resolves with { id, url, checkboxes } of the created Google Sheet (opens it).
 export async function exportWorkbookToGoogleSheets(opts) {
-  const bytes = buildWorkbookXlsxBytes(opts.template, { tabName: opts.tabName, values: opts.values || {} });
+  const built = buildWorkbookXlsxBytes(opts.template, { tabName: opts.tabName, values: opts.values || {} });
   const fileName = exportFileName(opts.clientName, opts.tierName).replace(/\.xlsx$/, "");
   const token = await getAccessToken(opts.clientId);
 
@@ -412,7 +486,7 @@ export async function exportWorkbookToGoogleSheets(opts) {
     "--" + boundary + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n",
     JSON.stringify(meta),
     "\r\n--" + boundary + "\r\nContent-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\r\n\r\n",
-    bytes,
+    built.bytes,
     "\r\n--" + boundary + "--"
   ]);
   const resp = await fetch(
@@ -431,7 +505,19 @@ export async function exportWorkbookToGoogleSheets(opts) {
     throw new Error("Drive upload failed (" + resp.status + "). " + detail.slice(0, 300));
   }
   const file = await resp.json();
+
+  // Turn the tier tab's column-C booleans into real checkboxes. Best-effort:
+  // the sheet is already created + usable if this step fails.
+  let checkboxes = false;
+  try {
+    const gridId = await sheetGridId(file.id, built.activeTabIndex, token);
+    if (gridId != null) {
+      await applyCheckboxes(file.id, gridId, built.activeTabDataRows, token);
+      checkboxes = true;
+    }
+  } catch (e) { /* leave checkboxes false; sheet still opens */ }
+
   const url = file.webViewLink || ("https://docs.google.com/spreadsheets/d/" + file.id + "/edit");
   window.open(url, "_blank", "noopener");
-  return { id: file.id, url: url };
+  return { id: file.id, url: url, checkboxes: checkboxes };
 }

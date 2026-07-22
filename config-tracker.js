@@ -1641,7 +1641,7 @@ export function initConfigTracker(ctx) {
       wbExport.type = "button";
       wbExport.className = "config-reset-btn config-wb-export";
       wbExport.textContent = "Download .xlsx";
-      wbExport.title = "Download the full official workbook with this client's entries filled into their tier's tab — import into Google Sheets via File → Import (Updated column becomes checkboxes)";
+      wbExport.title = "Download the full official workbook with this client's entries filled into their tier's tab. In Google Sheets: File → Import → Upload. Then, to get checkboxes, select column C and Insert → Tick box.";
       wbExport.addEventListener("click", async () => {
         const t = await loadWorkbookTemplate();
         if (!t) {
@@ -1689,7 +1689,7 @@ export function initConfigTracker(ctx) {
           wbExportGs.disabled = true;
           wbExportGs.textContent = "Exporting…";
           try {
-            await exportWorkbookToGoogleSheets({
+            const res = await exportWorkbookToGoogleSheets({
               clientId: gClientId,
               template: t,
               tabName: inj.tabName,
@@ -1697,7 +1697,7 @@ export function initConfigTracker(ctx) {
               clientName: configState.name || "Client",
               tierName: inj.tier.name
             });
-            wbExportGs.textContent = "Opened in Sheets ✓";
+            wbExportGs.textContent = res && res.checkboxes ? "Opened in Sheets ✓" : "Opened (no checkboxes)";
           } catch (err) {
             appDialog.alert("Google Sheets export failed: " + (err && err.message ? err.message : err), "Export failed");
             wbExportGs.textContent = "Export to Google Sheets";
@@ -1715,7 +1715,13 @@ export function initConfigTracker(ctx) {
       intro.className = "config-workbook-intro";
       intro.textContent =
         "The official PNPT Configuration Workbook, row for row, for this tier. Tick 'Updated' for any setting you deviated from the default on, capture the new value, and add notes for the closeout deliverable. Export fills your entries into the official workbook file.";
+      const cbHint = document.createElement("p");
+      cbHint.className = "config-workbook-hint";
+      cbHint.textContent = gClientId
+        ? "Download .xlsx → File → Import in Google Sheets (then select column C → Insert → Tick box for checkboxes). Or use Export to Google Sheets for a native sheet with checkboxes already set."
+        : "After Download .xlsx → File → Import in Google Sheets, select column C and Insert → Tick box to turn the Updated column into checkboxes (your ticks are preserved).";
       wbWrap.appendChild(intro);
+      wbWrap.appendChild(cbHint);
 
       // The workbook rows come from the official template — load it on the
       // first Build render and re-render when it arrives (the curated
