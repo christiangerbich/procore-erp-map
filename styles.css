@@ -3237,6 +3237,39 @@ body.is-locked { overflow: hidden; }
   border-radius: 0 6px 6px 0;
 }
 
+/* Linked client workbook row — URL input + Open + Post controls. */
+.config-wb-linkrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+.config-wb-linklabel {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.config-wb-linkrow input {
+  flex: 1;
+  min-width: 240px;
+  font: inherit;
+  font-size: 12px;
+  padding: 7px 10px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 6px;
+}
+.config-wb-linkrow input:focus-visible { outline: 2px solid var(--color-orange); outline-offset: 1px; }
+.config-wb-linkopen {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.config-wb-linkrow button:disabled { opacity: 0.45; cursor: not-allowed; }
+
 /* Gray sub-group label rows inside the workbook table — mirrors the
  * official workbook's #E5E5E5 group bands. */
 .config-wb-table tr.config-wb-group td {

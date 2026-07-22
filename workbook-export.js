@@ -473,6 +473,119 @@ async function sheetGridId(spreadsheetId, tabIndex, token) {
   return match ? match.properties.sheetId : null;
 }
 
+// Parse a Google Sheets URL (or a bare spreadsheet id) into the id.
+export function parseSpreadsheetId(url) {
+  const s = String(url || "").trim();
+  const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/);
+  if (m) return m[1];
+  if (/^[a-zA-Z0-9_-]{20,}$/.test(s)) return s;
+  return null;
+}
+
+// Post the tracker's captured values into the client's OWN linked workbook
+// copy (an existing Google Sheet) — additive writes only: checked rows go in
+// as TRUE (ticking the copy's native checkboxes), and non-empty Changed to /
+// Notes text is written; nothing is ever unchecked or cleared. Before
+// writing, column A of the tier tab is read and each target row's Discussion
+// Point must still match the official template — rows that don't match are
+// skipped, so an inserted/deleted row in the client's copy can't shift the
+// writes onto the wrong settings.
+// opts: { clientId, spreadsheetUrl, tabName, template, values }
+// Resolves with { spreadsheetTitle, tab, rowsPosted, rowsSkipped, cells, url }.
+export async function postToLinkedWorkbook(opts) {
+  const spreadsheetId = parseSpreadsheetId(opts.spreadsheetUrl);
+  if (!spreadsheetId) throw new Error("That doesn't look like a Google Sheets link.");
+  const tab = ((opts.template && opts.template.tabs) || []).find((t) => t.name === opts.tabName);
+  if (!tab) throw new Error('No official template tab named "' + opts.tabName + '".');
+
+  // Rows worth posting: checked, or carrying Changed to / Notes text.
+  const rows = [];
+  Object.keys(opts.values || {}).forEach((k) => {
+    const v = opts.values[k];
+    if (v && (v.c || (v.d != null && v.d !== "") || (v.e != null && v.e !== ""))) {
+      rows.push(Number(k));
+    }
+  });
+  rows.sort((a, b) => a - b);
+  if (!rows.length) {
+    throw new Error("Nothing to post yet — no checked rows or entries for this client.");
+  }
+
+  const token = await getAccessToken(opts.clientId);
+
+  // The linked workbook must have the tier's tab.
+  const metaResp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId +
+      "?fields=properties.title,sheets.properties(title,sheetId)",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!metaResp.ok) {
+    throw new Error(metaResp.status === 404
+      ? "Workbook not found — check the link."
+      : "Couldn't open the linked workbook (" + metaResp.status + "). Do you have edit access?");
+  }
+  const metaData = await metaResp.json();
+  const sheet = (metaData.sheets || []).find((s) => s.properties && s.properties.title === opts.tabName);
+  if (!sheet) {
+    const titles = (metaData.sheets || []).map((s) => s.properties.title).join(", ");
+    throw new Error('The linked workbook has no "' + opts.tabName + '" tab. Tabs found: ' + titles.slice(0, 220));
+  }
+
+  // Safety rail: read column A once and verify each target row still matches.
+  const q = "'" + opts.tabName.replace(/'/g, "''") + "'";
+  const maxRow = rows[rows.length - 1];
+  const colResp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId + "/values/" +
+      encodeURIComponent(q + "!A1:A" + maxRow),
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!colResp.ok) throw new Error("Couldn't read the linked workbook (" + colResp.status + ").");
+  const colData = await colResp.json();
+  const colA = (colData.values || []).map((r) => (r && r[0] != null ? String(r[0]) : ""));
+  const byRow = {};
+  (tab.rows || []).forEach((r) => { byRow[r.r] = r; });
+  const squash = (s) => String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+
+  const data = [];
+  let posted = 0;
+  let skipped = 0;
+  rows.forEach((rn) => {
+    const tRow = byRow[rn];
+    if (!tRow || squash(colA[rn - 1]) !== squash(tRow.a)) { skipped++; return; }
+    const v = opts.values[rn];
+    if (v.c) data.push({ range: q + "!C" + rn, values: [["TRUE"]] });
+    if (v.d != null && v.d !== "") data.push({ range: q + "!D" + rn, values: [[v.d]] });
+    if (v.e != null && v.e !== "") data.push({ range: q + "!E" + rn, values: [[v.e]] });
+    posted++;
+  });
+  if (!data.length) {
+    throw new Error("No rows matched the official workbook layout in the linked file — nothing was written" +
+      (skipped ? " (" + skipped + " rows skipped because their text didn't match)." : "."));
+  }
+
+  const writeResp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId + "/values:batchUpdate",
+    {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ valueInputOption: "USER_ENTERED", data: data })
+    }
+  );
+  if (!writeResp.ok) {
+    const detail = await writeResp.text().catch(() => "");
+    throw new Error("Write failed (" + writeResp.status + "). " + detail.slice(0, 200));
+  }
+  const res = await writeResp.json();
+  return {
+    spreadsheetTitle: (metaData.properties && metaData.properties.title) || "workbook",
+    tab: opts.tabName,
+    rowsPosted: posted,
+    rowsSkipped: skipped,
+    cells: res.totalUpdatedCells || data.length,
+    url: "https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/edit#gid=" + sheet.properties.sheetId
+  };
+}
+
 // opts: { clientId, template, tabName, values, clientName, tierName }
 // Resolves with { id, url, checkboxes } of the created Google Sheet (opens it).
 export async function exportWorkbookToGoogleSheets(opts) {

@@ -2,7 +2,12 @@
 // phases, workbook, validation, deliverables, export/import, and the
 // print hooks. Scoped to the tracker view.
 import { appDialog, JSON_FETCH } from "./shared.js";
-import { exportWorkbookXlsx, exportWorkbookToGoogleSheets } from "./workbook-export.js";
+import {
+  exportWorkbookXlsx,
+  exportWorkbookToGoogleSheets,
+  postToLinkedWorkbook,
+  parseSpreadsheetId
+} from "./workbook-export.js";
 
 export function initConfigTracker(ctx) {
   const { configData } = ctx;
@@ -32,6 +37,7 @@ export function initConfigTracker(ctx) {
       packageKey: firstPkg.key || "cost-management",
       tierKey: (firstPkg.tiers && firstPkg.tiers[0] && firstPkg.tiers[0].key) || "standard",
       spc: "",          // consultant who owns this client (SPC roster filter)
+      workbookUrl: "",  // the client's own PNPT Configuration Workbook (Google Sheets link)
       createdAt: Date.now(),
       tasks: {},        // tasks[phaseKey] = { [taskIdx]: true }
       workbook: {},     // workbook[sectionKey] = { [settingIdx]: { updated, changed, notes } }
@@ -1697,6 +1703,12 @@ export function initConfigTracker(ctx) {
               clientName: configState.name || "Client",
               tierName: inj.tier.name
             });
+            // Remember the created sheet as this client's linked workbook
+            // (unless one is already linked) so future updates can Post to it.
+            if (res && res.url && !configState.workbookUrl) {
+              configState.workbookUrl = res.url;
+              saveConfigState();
+            }
             wbExportGs.textContent = res && res.checkboxes ? "Opened in Sheets ✓" : "Opened (no checkboxes)";
           } catch (err) {
             appDialog.alert("Google Sheets export failed: " + (err && err.message ? err.message : err), "Export failed");
@@ -1710,6 +1722,115 @@ export function initConfigTracker(ctx) {
       }
       wbHead.appendChild(wbExport);
       wbWrap.appendChild(wbHead);
+
+      // Linked client workbook — the client's OWN copy of the official
+      // workbook in Google Sheets (e.g. "Bud Griffin PNPT Configuration
+      // Workbook"). Post writes this client's checked rows + Changed to /
+      // Notes into the matching rows of their tier's tab: additive only
+      // (never unchecks or clears), and rows whose Discussion Point no
+      // longer matches the official layout are skipped.
+      const linkRow = document.createElement("div");
+      linkRow.className = "config-wb-linkrow";
+      const linkLabel = document.createElement("span");
+      linkLabel.className = "config-wb-linklabel";
+      linkLabel.textContent = "Client workbook";
+      linkRow.appendChild(linkLabel);
+      const linkInput = document.createElement("input");
+      linkInput.type = "url";
+      linkInput.placeholder = "Paste the client's PNPT Configuration Workbook link (Google Sheets)…";
+      linkInput.setAttribute("aria-label", "Client workbook Google Sheets link");
+      linkInput.value = configState.workbookUrl || "";
+      linkRow.appendChild(linkInput);
+      const linkOpen = document.createElement("a");
+      linkOpen.className = "config-wb-linkopen";
+      linkOpen.target = "_blank";
+      linkOpen.rel = "noopener";
+      linkOpen.textContent = "Open ↗";
+      linkRow.appendChild(linkOpen);
+      const postBtn = document.createElement("button");
+      postBtn.type = "button";
+      postBtn.className = "config-reset-btn config-wb-export";
+      postBtn.textContent = "Post to workbook";
+      postBtn.title = "Write this client's checked rows + Changed to / Notes into the linked workbook's tier tab. Additive only — nothing gets unchecked or cleared, and rows that no longer match the official layout are skipped.";
+      linkRow.appendChild(postBtn);
+      function syncLinkButtons() {
+        const id = parseSpreadsheetId(configState.workbookUrl || "");
+        linkOpen.hidden = !id;
+        if (id) linkOpen.href = "https://docs.google.com/spreadsheets/d/" + id + "/edit";
+        postBtn.disabled = !id;
+      }
+      linkInput.addEventListener("input", () => {
+        configState.workbookUrl = linkInput.value.trim();
+        saveConfigState();
+        syncLinkButtons();
+      });
+      syncLinkButtons();
+      postBtn.addEventListener("click", async () => {
+        if (!gClientId) {
+          appDialog.alert(
+            "Posting into a linked workbook needs the one-time Google OAuth Client ID setup (configurations.json → export.googleClientId — see the README). Until then, use Download .xlsx and import it manually.",
+            "One-time setup needed"
+          );
+          return;
+        }
+        const t = await loadWorkbookTemplate();
+        if (!t) {
+          appDialog.alert("workbook-template.json couldn't be loaded.", "Post unavailable");
+          return;
+        }
+        const inj = collectInjection();
+        if (!inj.tabName) {
+          appDialog.alert("No official workbook tab is mapped for this tier.", "Post unavailable");
+          return;
+        }
+        let checked = 0, changedN = 0, notesN = 0;
+        Object.keys(inj.values).forEach((k) => {
+          const v = inj.values[k];
+          if (v.c) checked++;
+          if (v.d) changedN++;
+          if (v.e) notesN++;
+        });
+        if (!checked && !changedN && !notesN) {
+          appDialog.alert("Nothing to post yet — no checked rows or entries for this client.", "Nothing to post");
+          return;
+        }
+        const ok = await appDialog.confirm(
+          "Post " + checked + " checked row" + (checked === 1 ? "" : "s") +
+          (changedN ? ", " + changedN + " 'Changed to' value" + (changedN === 1 ? "" : "s") : "") +
+          (notesN ? ", " + notesN + " note" + (notesN === 1 ? "" : "s") : "") +
+          ' into the linked workbook’s "' + inj.tabName + '" tab?\n' +
+          "Additive only — nothing in the workbook gets unchecked or cleared.",
+          { title: "Post to client workbook", okLabel: "Post" }
+        );
+        if (!ok) return;
+        postBtn.disabled = true;
+        postBtn.textContent = "Posting…";
+        try {
+          const res = await postToLinkedWorkbook({
+            clientId: gClientId,
+            spreadsheetUrl: configState.workbookUrl,
+            tabName: inj.tabName,
+            template: t,
+            values: inj.values
+          });
+          appDialog.alert(
+            "Posted " + res.rowsPosted + " row" + (res.rowsPosted === 1 ? "" : "s") +
+            " (" + res.cells + " cells) into \"" + res.spreadsheetTitle + "\" → " + res.tab + "." +
+            (res.rowsSkipped
+              ? "\n" + res.rowsSkipped + " row" + (res.rowsSkipped === 1 ? "" : "s") +
+                " skipped — their text no longer matches the official workbook."
+              : ""),
+            "Posted ✓"
+          );
+          window.open(res.url, "_blank", "noopener");
+        } catch (err) {
+          appDialog.alert("Post failed: " + (err && err.message ? err.message : err), "Post failed");
+        } finally {
+          postBtn.textContent = "Post to workbook";
+          syncLinkButtons();
+        }
+      });
+      wbWrap.appendChild(linkRow);
 
       const intro = document.createElement("p");
       intro.className = "config-workbook-intro";

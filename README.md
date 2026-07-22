@@ -148,8 +148,29 @@ the client's Updated / Changed to / Notes filled into their tier's tab:
   Pages URL) under **Authorized JavaScript origins**, enable the **Google
   Drive API** *and* **Google Sheets API** on the project, then paste the
   Client ID into `configurations.json` → `export.googleClientId`. Scopes:
-  `drive.file` (create the file) + `spreadsheets` (set the checkboxes) — the
-  app can only touch files it creates.
+  `drive.file` (create the file) + `spreadsheets` (set checkboxes and post to
+  linked workbooks).
+
+### Linked client workbook (post updates in place)
+
+Each client can also carry a **linked workbook** — the client's own copy of
+the official workbook in Google Sheets (e.g. *"Bud Griffin PNPT Configuration
+Workbook"*). Paste its link into the **Client workbook** field above the
+workbook table; **Post to workbook** then writes the tracker's captured
+values into the matching rows of the tier's tab in that existing Sheet
+(requires the same OAuth Client ID as above).
+
+Safety semantics:
+- **Additive only** — checked rows are written as `TRUE` (ticking the copy's
+  native checkboxes) and non-empty *Changed to* / *Notes* text is written;
+  nothing is ever unchecked or cleared, so manual edits in the Sheet survive.
+- **Row-match rail** — before writing, column A of the tab is read and each
+  target row's Discussion Point must still match the official template; rows
+  that don't match are skipped and reported (an inserted/deleted row in the
+  client's copy can't shift writes onto the wrong settings).
+- A sheet created via **Export to Google Sheets** is auto-remembered as the
+  client's linked workbook, so later updates can just be posted to it. The
+  link travels with the client through Export/Import backups.
 
 ---
 
