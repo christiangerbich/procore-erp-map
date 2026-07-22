@@ -3227,6 +3227,16 @@ body.is-locked { overflow: hidden; }
 .config-workbook-head h3 { margin-bottom: 0; }
 .config-wb-export { white-space: nowrap; }
 
+/* Gray sub-group label rows inside the workbook table — mirrors the
+ * official workbook's #E5E5E5 group bands. */
+.config-wb-table tr.config-wb-group td {
+  background: #e5e5e5;
+  color: var(--color-black);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
 /* ---------------------------------------------------------------------
  * Data-load failure — visible error card instead of a blank page.
  * ------------------------------------------------------------------- */

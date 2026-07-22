@@ -1,8 +1,8 @@
 // PNPT Configuration & Tracking — multi-client state (localStorage),
 // phases, workbook, validation, deliverables, export/import, and the
 // print hooks. Scoped to the tracker view.
-import { appDialog } from "./shared.js";
-import { exportWorkbookXlsx } from "./workbook-export.js";
+import { appDialog, JSON_FETCH } from "./shared.js";
+import { exportWorkbookXlsx, exportWorkbookToGoogleSheets } from "./workbook-export.js";
 
 export function initConfigTracker(ctx) {
   const { configData } = ctx;
@@ -208,9 +208,84 @@ export function initConfigTracker(ctx) {
     if (!pkg || !pkg.tiers) return null;
     return pkg.tiers.find((t) => t.key === configState.tierKey) || pkg.tiers[0] || null;
   }
+  // ---------------------------------------------------------------------
+  // Official workbook template (workbook-template.json, generated 1:1 from
+  // "PNPT Configuration Workbook _ NAMER.xlsx" by
+  // tools/build-workbook-template.py). It is the source of truth for the
+  // Build-phase Configuration Workbook: the UI rows AND the .xlsx / Google
+  // Sheets export both derive from it, so what SPCs track matches the
+  // official workbook exactly, row for row. Loaded lazily on first
+  // Build-phase render; configurations.json's curated sections remain only
+  // as a fallback if the template can't load.
+  // ---------------------------------------------------------------------
+  let wbTemplate = null;
+  let wbTemplateFailed = false;
+  let wbTemplatePromise = null;
+  function loadWorkbookTemplate() {
+    if (!wbTemplatePromise) {
+      wbTemplatePromise = fetch("workbook-template.json", JSON_FETCH)
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null)
+        .then((t) => {
+          wbTemplate = t;
+          wbTemplateFailed = !t;
+          return t;
+        });
+    }
+    return wbTemplatePromise;
+  }
+  function templateTabForTier(tier) {
+    if (!wbTemplate || !tier) return null;
+    const tabName = (wbTemplate.tierTabs || {})[tier.key];
+    if (!tabName) return null;
+    return (wbTemplate.tabs || []).find((t) => t.name === tabName) || null;
+  }
+  // Tab rows → tracker sections: black banner rows open a section, gray
+  // sub-group rows label the rows beneath them, and data rows become
+  // settings — each keeping its exact sheet row for the export.
+  const wbSectionsCache = {};
+  function sectionsFromTemplateTab(tab) {
+    if (wbSectionsCache[tab.name]) return wbSectionsCache[tab.name];
+    const sections = [];
+    const seen = {};
+    let cur = null;
+    let group = "";
+    (tab.rows || []).forEach((row) => {
+      if (row.k === "banner") {
+        let key = slugKey(row.a);
+        if (seen[key]) { seen[key] += 1; key = key + "-" + seen[key]; } else { seen[key] = 1; }
+        cur = { key: key, name: row.a, settings: [] };
+        sections.push(cur);
+        group = "";
+      } else if (row.k === "sub") {
+        group = row.a;
+      } else if (row.k === "data" && row.a) {
+        if (!cur) {
+          cur = { key: "general", name: "General", settings: [] };
+          sections.push(cur);
+        }
+        cur.settings.push({
+          name: row.a,
+          default: row.b || "",
+          group: group,
+          guidanceD: row.d || "",
+          guidanceE: row.e || "",
+          row: row.r
+        });
+      }
+    });
+    wbSectionsCache[tab.name] = sections;
+    return sections;
+  }
   function workbookSectionsForTier() {
-    const pkg = activeConfigPackage();
     const tier = activeConfigTier();
+    if (wbTemplate && tier) {
+      const tab = templateTabForTier(tier);
+      if (tab) return sectionsFromTemplateTab(tab);
+    }
+    // Legacy fallback (template missing/unreachable): curated sections from
+    // configurations.json.
+    const pkg = activeConfigPackage();
     if (!pkg || !pkg.workbook) return [];
     const allSections = pkg.workbook.sections || [];
     const extras = (tier && tier.extraWorkbookSections) || [];
@@ -1543,44 +1618,120 @@ export function initConfigTracker(ctx) {
       const wbHeader = document.createElement("h3");
       wbHeader.textContent = "Configuration Workbook";
       wbHead.appendChild(wbHeader);
-      // Export the workbook — with this client's Updated / Changed to / Notes
-      // entries — as an .xlsx formatted like the official "PNPT Configuration
-      // Workbook _ NAMER" sheet (PROCORE title block, orange header, black
-      // tool banners, checkbox Updated column). Import into Google Sheets via
-      // File → Import or by uploading to Drive.
+      // Export — rebuilds the ENTIRE official workbook (all 13 tabs) from
+      // the template and fills this client's Updated / Changed to / Notes
+      // into the exact rows of their tier's tab. Column C carries the
+      // TRUE/FALSE + list-validation combo Google Sheets turns into native
+      // checkboxes on import.
+      function collectInjection() {
+        const tier = activeConfigTier();
+        const tabName = wbTemplate && tier ? (wbTemplate.tierTabs || {})[tier.key] : null;
+        const values = {};
+        workbookSectionsForTier().forEach((sec) => {
+          const keys = workbookSettingKeys(sec);
+          (sec.settings || []).forEach((s, i) => {
+            if (s.row == null) return;
+            const st = (configState.workbook[sec.key] || {})[keys[i]] || {};
+            values[s.row] = { c: !!st.updated, d: st.changed || null, e: st.notes || null };
+          });
+        });
+        return { tabName: tabName, values: values, tier: tier };
+      }
       const wbExport = document.createElement("button");
       wbExport.type = "button";
       wbExport.className = "config-reset-btn config-wb-export";
-      wbExport.textContent = "Export for Google Sheets (.xlsx)";
-      wbExport.title = "Download this workbook with your entries as an .xlsx matching the NAMER workbook formatting — then File → Import in Google Sheets";
-      wbExport.addEventListener("click", () => {
-        const tier = activeConfigTier();
-        const sections = workbookSectionsForTier().map((s) => ({
-          key: s.key,
-          name: s.name,
-          settings: s.settings || [],
-          keys: workbookSettingKeys(s)
-        }));
+      wbExport.textContent = "Download .xlsx";
+      wbExport.title = "Download the full official workbook with this client's entries filled into their tier's tab — import into Google Sheets via File → Import (Updated column becomes checkboxes)";
+      wbExport.addEventListener("click", async () => {
+        const t = await loadWorkbookTemplate();
+        if (!t) {
+          appDialog.alert("workbook-template.json couldn't be loaded, so the exact-format export isn't available right now.", "Export unavailable");
+          return;
+        }
+        const inj = collectInjection();
+        if (!inj.tabName) {
+          appDialog.alert("No official workbook tab is mapped for this tier.", "Export unavailable");
+          return;
+        }
         const fileName = exportWorkbookXlsx({
+          template: t,
+          tabName: inj.tabName,
+          values: inj.values,
           clientName: configState.name || "Client",
-          tierName: (tier && tier.name) || "Workbook",
-          sections: sections,
-          store: configState.workbook || {}
+          tierName: inj.tier.name
         });
         wbExport.textContent = "Exported ✓";
         wbExport.title = fileName;
-        setTimeout(() => { wbExport.textContent = "Export for Google Sheets (.xlsx)"; }, 2500);
+        setTimeout(() => { wbExport.textContent = "Download .xlsx"; }, 2500);
       });
+      // Direct-to-Google-Sheets — creates a NATIVE Google Sheet in the SPC's
+      // Drive (checkboxes included) and opens it. Activated by a Google
+      // OAuth Client ID in configurations.json → export.googleClientId;
+      // without one, the .xlsx download + File → Import flow is the path.
+      const gClientId = (configData.export && configData.export.googleClientId) || "";
+      if (gClientId) {
+        const wbExportGs = document.createElement("button");
+        wbExportGs.type = "button";
+        wbExportGs.className = "config-reset-btn config-wb-export";
+        wbExportGs.textContent = "Export to Google Sheets";
+        wbExportGs.title = "Creates the filled workbook as a native Google Sheet in your Drive and opens it";
+        wbExportGs.addEventListener("click", async () => {
+          const t = await loadWorkbookTemplate();
+          if (!t) {
+            appDialog.alert("workbook-template.json couldn't be loaded.", "Export unavailable");
+            return;
+          }
+          const inj = collectInjection();
+          if (!inj.tabName) {
+            appDialog.alert("No official workbook tab is mapped for this tier.", "Export unavailable");
+            return;
+          }
+          wbExportGs.disabled = true;
+          wbExportGs.textContent = "Exporting…";
+          try {
+            await exportWorkbookToGoogleSheets({
+              clientId: gClientId,
+              template: t,
+              tabName: inj.tabName,
+              values: inj.values,
+              clientName: configState.name || "Client",
+              tierName: inj.tier.name
+            });
+            wbExportGs.textContent = "Opened in Sheets ✓";
+          } catch (err) {
+            appDialog.alert("Google Sheets export failed: " + (err && err.message ? err.message : err), "Export failed");
+            wbExportGs.textContent = "Export to Google Sheets";
+          } finally {
+            wbExportGs.disabled = false;
+            setTimeout(() => { wbExportGs.textContent = "Export to Google Sheets"; }, 3000);
+          }
+        });
+        wbHead.appendChild(wbExportGs);
+      }
       wbHead.appendChild(wbExport);
       wbWrap.appendChild(wbHead);
 
       const intro = document.createElement("p");
       intro.className = "config-workbook-intro";
       intro.textContent =
-        "Per-section settings from the official PNPT Configuration Workbook. Tick 'Updated' for any setting you deviated from the default on, capture the new value, and add notes for the closeout deliverable. Only deviations need to be filled in — defaults stay implicit.";
+        "The official PNPT Configuration Workbook, row for row, for this tier. Tick 'Updated' for any setting you deviated from the default on, capture the new value, and add notes for the closeout deliverable. Export fills your entries into the official workbook file.";
       wbWrap.appendChild(intro);
 
-      workbookSectionsForTier().forEach((section) => {
+      // The workbook rows come from the official template — load it on the
+      // first Build render and re-render when it arrives (the curated
+      // legacy sections only show if the template genuinely can't load).
+      const wbPending = !wbTemplate && !wbTemplateFailed;
+      if (wbPending) {
+        loadWorkbookTemplate().then(() => {
+          if (configActivePhase === "build") renderConfigView();
+        });
+        const loading = document.createElement("p");
+        loading.className = "config-workbook-intro";
+        loading.textContent = "Loading the official workbook…";
+        wbWrap.appendChild(loading);
+      }
+
+      if (!wbPending) workbookSectionsForTier().forEach((section) => {
         // Stable per-setting keys (derived from names) — see slugKey above.
         const wbKeys = workbookSettingKeys(section);
         const wbStore = () => configState.workbook[section.key] || {};
@@ -1611,7 +1762,21 @@ export function initConfigTracker(ctx) {
         table.appendChild(thead);
 
         const tbody = document.createElement("tbody");
+        let lastGroup = null;
         (section.settings || []).forEach((setting, idx) => {
+          // Gray sub-group label rows, mirroring the official workbook.
+          if (setting.group !== undefined && setting.group !== lastGroup) {
+            lastGroup = setting.group;
+            if (setting.group) {
+              const gtr = document.createElement("tr");
+              gtr.className = "config-wb-group";
+              const gtd = document.createElement("td");
+              gtd.colSpan = 4;
+              gtd.textContent = setting.group;
+              gtr.appendChild(gtd);
+              tbody.appendChild(gtr);
+            }
+          }
           const skey = wbKeys[idx];
           const st = wbStore()[skey] || {};
           const tr = document.createElement("tr");
@@ -1667,7 +1832,7 @@ export function initConfigTracker(ctx) {
           const td4 = document.createElement("td");
           const changed = document.createElement("input");
           changed.type = "text";
-          changed.placeholder = "Changed to…";
+          changed.placeholder = setting.guidanceD || "Changed to…";
           changed.value = st.changed || "";
           changed.addEventListener("input", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
@@ -1678,7 +1843,7 @@ export function initConfigTracker(ctx) {
           });
           td4.appendChild(changed);
           const noteTa = document.createElement("textarea");
-          noteTa.placeholder = "Notes (rationale, screenshot ref, etc.)";
+          noteTa.placeholder = setting.guidanceE || "Notes (rationale, screenshot ref, etc.)";
           noteTa.style.marginTop = "6px";
           noteTa.value = st.notes || "";
           noteTa.addEventListener("input", () => {
