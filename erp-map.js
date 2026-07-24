@@ -1150,6 +1150,313 @@ export function initErpMap(ctx) {
       return row;
     }
 
+    // -------------------------------------------------------------------
+    // Corpus-based SOP (Agave connectors). sop-agave.json is generated from
+    // the local sync-docs corpus by tools/build-sop-agave.py; ERPs with an
+    // entry get the corpus-driven SOP — tool-grouped sections tagged
+    // Company/Project level, verbatim setup / configuration / FAQ content
+    // per synced object, and an embedded data-flow map image rendered from
+    // the LIVE link directions (including any configurable toggles flipped
+    // this session). Connectors without corpus data keep the template SOP.
+    // -------------------------------------------------------------------
+    let sopCorpus = null;
+    let sopCorpusPromise = null;
+    function loadSopCorpus() {
+      if (!sopCorpusPromise) {
+        sopCorpusPromise = fetch("sop-agave.json", JSON_FETCH)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null)
+          .then((c) => { sopCorpus = c; return c; });
+      }
+      return sopCorpusPromise;
+    }
+    function corpusFor(erp) {
+      return erp && sopCorpus ? sopCorpus[erp.id] || null : null;
+    }
+
+    // Procore-tool grouping for corpus SOPs (module id -> tool group);
+    // Company/Project level comes from data.json module tiers.
+    const SOP_TOOL_GROUPS = [
+      { key: "directory",   title: "Directory",                ids: ["vendors", "employees"] },
+      { key: "wbs",         title: "Work Breakdown Structure", ids: ["cost-codes"] },
+      { key: "projects",    title: "Portfolio / Projects",     ids: ["jobs", "project-wbs"] },
+      { key: "budget",      title: "Budget",                   ids: ["budgets", "budget-changes"] },
+      { key: "commitments", title: "Commitments",              ids: ["subcontracts", "purchase-orders", "commitment-change-orders", "commitment-payments"] },
+      { key: "primes",      title: "Prime Contracts",          ids: ["prime-contracts", "prime-contract-change-orders", "prime-contract-payments"] },
+      { key: "invoicing",   title: "Invoicing",                ids: ["sub-invoices", "owner-invoices"] },
+      { key: "directcosts", title: "Direct Costs",             ids: ["direct-costs"] },
+      { key: "timesheets",  title: "Timesheets",               ids: ["timecards"] },
+    ];
+    function levelLabel(level) {
+      return level === "company" ? "Company level"
+           : level === "project" ? "Project level"
+           : "Company + Project";
+    }
+    function corpusGroupsFor(erp, corpus) {
+      const erpLinks = linksByErp[erp.id] || {};
+      const groups = [];
+      SOP_TOOL_GROUPS.forEach((g) => {
+        const objects = [];
+        g.ids.forEach((mid) => {
+          const link = erpLinks[mid];
+          if (!link) return;
+          const mod = moduleOf(link);
+          objects.push({
+            moduleId: mid,
+            label: mod.label,
+            tier: mod.tier || "project",
+            link: link,
+            doc: (corpus.objects || {})[mid] || null
+          });
+        });
+        if (objects.length) {
+          const tiers = objects.map((o) => o.tier);
+          groups.push({
+            key: g.key,
+            title: g.title,
+            level: tiers.every((t) => t === "company") ? "company"
+                 : tiers.every((t) => t === "project") ? "project" : "mixed",
+            objects: objects
+          });
+        }
+      });
+      return groups;
+    }
+
+    function corpusSection(key, title, level) {
+      const sec = document.createElement("section");
+      sec.className = "sop-tool";
+      sec.dataset.groupKey = key;
+      const head = document.createElement("div");
+      head.className = "sop-tool-head";
+      const h = document.createElement("h3");
+      h.textContent = title;
+      const lvl = document.createElement("span");
+      lvl.className = "sop-level-chip sop-level-" + level;
+      lvl.textContent = levelLabel(level);
+      const inc = document.createElement("label");
+      inc.className = "sop-tool-include";
+      const incCb = document.createElement("input");
+      incCb.type = "checkbox"; incCb.checked = true; incCb.className = "sop-tool-toggle";
+      inc.appendChild(incCb);
+      inc.appendChild(document.createTextNode(" Include"));
+      head.appendChild(h); head.appendChild(lvl); head.appendChild(inc);
+      sec.appendChild(head);
+      return sec;
+    }
+    function corpusRowsTable(sec, erp) {
+      const table = document.createElement("div");
+      table.className = "sop-rows";
+      const hdr = document.createElement("div");
+      hdr.className = "sop-row sop-row-hdr";
+      hdr.innerHTML = "<span></span><span>Action</span><span>Name</span><span>Project role</span><span>Permission</span>";
+      table.appendChild(hdr);
+      sec.appendChild(table);
+      const add = document.createElement("button");
+      add.type = "button"; add.className = "sop-add-row"; add.textContent = "+ Add action";
+      add.addEventListener("click", () => table.appendChild(makeRow("", null, erp)));
+      sec.appendChild(add);
+      return table;
+    }
+
+    function renderSopCorpusMode(erp, corpus) {
+      const groups = corpusGroupsFor(erp, corpus);
+
+      // Connector setup (Authentication, Cost Types, UoM, …) — company level.
+      if (corpus.general && corpus.general.length) {
+        const sec = corpusSection("connector-setup", "Connector Setup (Agave)", "company");
+        const sync = document.createElement("p");
+        sync.className = "sop-tool-sync";
+        sync.textContent = "Company-level integration setup from the Agave sync-docs: " +
+          corpus.general.map((g) => g.title).join(", ") + ".";
+        sec.appendChild(sync);
+        const table = corpusRowsTable(sec, erp);
+        corpus.general.forEach((g) => {
+          table.appendChild(makeRow("Complete '" + g.title + "' setup and verify with the client", null, erp));
+        });
+        sopToolsEl.appendChild(sec);
+      }
+
+      groups.forEach((grp) => {
+        const sec = corpusSection(grp.key, grp.title, grp.level);
+        const sync = document.createElement("p");
+        sync.className = "sop-tool-sync";
+        sync.innerHTML = "Sync — " + grp.objects.map((o) =>
+          "<strong>" + escapeHtml(o.label) + "</strong>: " +
+          escapeHtml(directionPhrase(o.link.direction, erp.label))
+        ).join("; ") + ".";
+        sec.appendChild(sync);
+        const table = corpusRowsTable(sec, erp);
+        grp.objects.forEach((o) => {
+          table.appendChild(makeRow(
+            "Own the " + o.label + " sync — " + directionPhrase(o.link.direction, erp.label) +
+            "; monitor errors and resolve blocked records", null, erp));
+        });
+        sopToolsEl.appendChild(sec);
+      });
+
+      const n = groups.length + (corpus.general && corpus.general.length ? 1 : 0);
+      sopFootNote.textContent = n + " tool section" + (n !== 1 ? "s" : "") +
+        " from the Agave sync-docs corpus · flow map + configurations embed in the document";
+    }
+
+    // ---- Flow map (SVG → PNG) -----------------------------------------
+    // A one-connector bipartite map reflecting the LIVE directions —
+    // Company-level and Project-level lanes, map color/dash conventions,
+    // arrowheads showing which way data moves.
+    function buildFlowMapSvg(erp) {
+      const erpLinks = linksByErp[erp.id] || {};
+      const mods = moduleNodes.filter((m) => erpLinks[m.id]);
+      const company = mods.filter((m) => m.tier === "company");
+      const project = mods.filter((m) => m.tier !== "company");
+      const ROW = 30, HDR = 26, TOP = 64, W = 920;
+      const leftX = 170, rightX = 620;
+      const rowsH = (company.length ? HDR + company.length * ROW + 10 : 0) +
+                    (project.length ? HDR + project.length * ROW : 0);
+      const H = TOP + rowsH + 56;
+
+      const svg = svgEl("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: W, height: H, viewBox: "0 0 " + W + " " + H,
+        "font-family": "Arial, Helvetica, sans-serif"
+      });
+      svg.appendChild(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "#ffffff" }));
+      svg.appendChild(svgEl("text", {
+        x: W / 2, y: 28, "text-anchor": "middle", "font-size": 15,
+        "font-weight": "bold", fill: "#000"
+      }, "Procore ↔ " + erp.label + " — Data Flow (as configured)"));
+
+      const midY = TOP + rowsH / 2;
+      const hex = svgEl("polygon", { points: hexPoints(30), fill: "#566578" });
+      const g = svgEl("g", { transform: "translate(" + leftX + "," + midY + ")" });
+      g.appendChild(hex);
+      svg.appendChild(g);
+      svg.appendChild(svgEl("text", {
+        x: leftX, y: midY + 50, "text-anchor": "middle", "font-size": 13,
+        "font-weight": "bold", fill: "#000"
+      }, erp.label));
+      svg.appendChild(svgEl("text", {
+        x: leftX, y: midY + 66, "text-anchor": "middle", "font-size": 10, fill: "#566578"
+      }, "via Agave Sync"));
+
+      function arrow(x, y, dirLeft, color) {
+        const s = 6;
+        const pts = dirLeft
+          ? (x + s) + "," + (y - s / 1.4) + " " + x + "," + y + " " + (x + s) + "," + (y + s / 1.4)
+          : (x - s) + "," + (y - s / 1.4) + " " + x + "," + y + " " + (x - s) + "," + (y + s / 1.4);
+        svg.appendChild(svgEl("polyline", {
+          points: pts, fill: "none", stroke: color, "stroke-width": 2,
+          "stroke-linecap": "round", "stroke-linejoin": "round"
+        }));
+      }
+
+      let y = TOP;
+      function lane(title, list) {
+        if (!list.length) return;
+        svg.appendChild(svgEl("text", {
+          x: rightX, y: y + 12, "font-size": 10.5, "font-weight": "bold",
+          fill: "#566578", "letter-spacing": "1"
+        }, title.toUpperCase()));
+        y += HDR;
+        list.forEach((m) => {
+          const link = erpLinks[m.id];
+          const cy = y + ROW / 2 - 4;
+          const color = link.direction === "from-erp" ? "#000000" : "#FF5200";
+          const line = svgEl("line", {
+            x1: leftX + 34, y1: midY, x2: rightX - 26, y2: cy,
+            stroke: color, "stroke-width": 1.8
+          });
+          if (link.direction !== "both") line.setAttribute("stroke-dasharray", "6 4");
+          svg.appendChild(line);
+          // Arrowheads at the receiving end(s): to-erp -> into the ERP,
+          // from-erp -> into the module, both -> both ends.
+          const ang = Math.atan2(cy - midY, (rightX - 26) - (leftX + 34));
+          if (link.direction === "to-erp" || link.direction === "both") {
+            arrow(leftX + 34, midY + Math.sin(ang) * 0, true, color);
+          }
+          if (link.direction === "from-erp" || link.direction === "both") {
+            arrow(rightX - 26, cy, false, color);
+          }
+          const mhx = svgEl("g", { transform: "translate(" + (rightX - 12) + "," + cy + ")" });
+          mhx.appendChild(svgEl("polygon", {
+            points: hexPoints(9),
+            fill: m.tier === "company" ? "#000000" : "#000000"
+          }));
+          if (m.tier === "company") {
+            mhx.appendChild(svgEl("polygon", { points: hexPoints(4), fill: "#FF5200" }));
+          }
+          svg.appendChild(mhx);
+          svg.appendChild(svgEl("text", {
+            x: rightX + 4, y: cy + 4, "font-size": 12, fill: "#000"
+          }, m.label));
+          y += ROW;
+        });
+        y += 10;
+      }
+      lane("Company level", company);
+      lane("Project level", project);
+
+      // Legend
+      const ly = H - 18;
+      function legend(x, color, dash, label) {
+        const l = svgEl("line", { x1: x, y1: ly - 4, x2: x + 30, y2: ly - 4, stroke: color, "stroke-width": 2 });
+        if (dash) l.setAttribute("stroke-dasharray", "6 4");
+        svg.appendChild(l);
+        svg.appendChild(svgEl("text", { x: x + 36, y: ly, "font-size": 10, fill: "#333" }, label));
+      }
+      legend(60, "#FF5200", false, "Bidirectional");
+      legend(240, "#FF5200", true, "Procore → " + erp.label);
+      legend(470, "#000000", true, erp.label + " → Procore");
+      return { svg: svg, width: W, height: H };
+    }
+
+    function svgToPngBase64(built) {
+      return new Promise((resolve, reject) => {
+        const xml = new XMLSerializer().serializeToString(built.svg);
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const c = document.createElement("canvas");
+            c.width = built.width * 2;
+            c.height = built.height * 2;
+            const g2 = c.getContext("2d");
+            g2.fillStyle = "#ffffff";
+            g2.fillRect(0, 0, c.width, c.height);
+            g2.drawImage(img, 0, 0, c.width, c.height);
+            resolve(c.toDataURL("image/png").split(",")[1]);
+          } catch (e) { reject(e); }
+        };
+        img.onerror = () => reject(new Error("flow map raster failed"));
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+      });
+    }
+
+    // Word-friendly single-file web archive: HTML part + PNG part. Word
+    // opens it as a .doc and renders the embedded flow map.
+    function mhtmlDoc(html, pngBase64) {
+      const B = "----=_NextPart_PNPT_SOP";
+      return [
+        "MIME-Version: 1.0",
+        'Content-Type: multipart/related; boundary="' + B + '"; type="text/html"',
+        "",
+        "--" + B,
+        'Content-Type: text/html; charset="utf-8"',
+        "Content-Location: sop.html",
+        "",
+        html,
+        "",
+        "--" + B,
+        "Content-Type: image/png",
+        "Content-Transfer-Encoding: base64",
+        "Content-Location: flowmap.png",
+        "",
+        pngBase64.replace(/(.{76})/g, "$1\r\n"),
+        "",
+        "--" + B + "--",
+        ""
+      ].join("\r\n");
+    }
+
     function renderSopTool(tool, erp, erpLinks) {
       const sec = document.createElement("section");
       sec.className = "sop-tool";
@@ -1201,6 +1508,12 @@ export function initErpMap(ctx) {
       sopErpNode = erp;
       sopTitleEl.textContent = "SOP — Procore + " + erp.label;
       sopToolsEl.innerHTML = "";
+      // Corpus-driven SOP when this connector has sync-docs data.
+      const corpus = corpusFor(erp);
+      if (corpus) {
+        renderSopCorpusMode(erp, corpus);
+        return;
+      }
       const erpLinks = linksByErp[erp.id] || {};
       const applicable = sopTemplates.tools.filter((t) => t.modules.some((m) => erpLinks[m]));
       if (!applicable.length) {
@@ -1212,7 +1525,10 @@ export function initErpMap(ctx) {
         " · uncheck rows or tools to exclude them";
     }
 
-    function openSopModal(erp) {
+    async function openSopModal(erp) {
+      // Corpus data loads once, lazily — needed before the first render so
+      // Agave connectors get the corpus-based sections.
+      await loadSopCorpus();
       // Populate the ERP picker once (lets the builder run from the top button
       // without first selecting a node).
       if (!sopPickerInit && sopErpPick) {
@@ -1337,32 +1653,195 @@ export function initErpMap(ctx) {
         h += "<p class='note'>General Procore capabilities by level — confirm against your client's permission templates. Granular permissions may grant specific admin-level actions to lower levels.</p>";
       });
 
-      const css = "body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#1a1a1a;}" +
-        "h1.doc-title{font-size:22pt;margin:0 0 4pt;color:#000;}" +
-        ".doc-sub{color:#566578;font-size:9.5pt;margin:0 0 16pt;}" +
-        "h1{font-size:15pt;color:#FF5200;border-bottom:2px solid #FF5200;padding-bottom:2pt;margin:22pt 0 8pt;}" +
-        "h2{font-size:11.5pt;color:#000;margin:14pt 0 6pt;}" +
-        "table{border-collapse:collapse;width:100%;margin:6pt 0 10pt;}" +
-        "th,td{border:1px solid #999;padding:5pt 7pt;text-align:left;vertical-align:top;font-size:10pt;}" +
-        "th{background:#ECE0D6;}" +
-        "table.rr th:first-child{width:46%;}" +
-        "table.cfg th:first-child{width:34%;}table.cfg th:nth-child(2){width:18%;}" +
-        "table.fs th{width:25%;}table.perm th{width:33%;}" +
-        "p.note{font-size:9pt;color:#566578;margin:4pt 0 0;}" +
-        "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
-
-      return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
-        "xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
-        "<head><meta charset='utf-8'><title>" + esc(ctx.client) + " Procore " + esc(erp.label) + " SOP</title>" +
-        "<style>" + css + "</style></head><body>" + h + "</body></html>";
+      return sopDocShell(esc(ctx.client) + " Procore " + esc(erp.label) + " SOP", h);
     }
 
-    function generateSop() {
+    // Shared Word-doc shell + styles for both SOP builders.
+    const SOP_DOC_CSS = "body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#1a1a1a;}" +
+      "h1.doc-title{font-size:22pt;margin:0 0 4pt;color:#000;}" +
+      ".doc-sub{color:#566578;font-size:9.5pt;margin:0 0 16pt;}" +
+      "h1{font-size:15pt;color:#FF5200;border-bottom:2px solid #FF5200;padding-bottom:2pt;margin:22pt 0 8pt;}" +
+      "h2{font-size:11.5pt;color:#000;margin:14pt 0 6pt;}" +
+      "h3{font-size:10.5pt;color:#000;margin:10pt 0 4pt;}" +
+      "table{border-collapse:collapse;width:100%;margin:6pt 0 10pt;}" +
+      "th,td{border:1px solid #999;padding:5pt 7pt;text-align:left;vertical-align:top;font-size:10pt;}" +
+      "th{background:#ECE0D6;}" +
+      "table.rr th:first-child{width:46%;}" +
+      "table.cfg th:first-child{width:34%;}table.cfg th:nth-child(2){width:18%;}" +
+      "table.cfg2 th:first-child{width:30%;}" +
+      "table.fs th{width:25%;}table.perm th{width:33%;}" +
+      "p.note{font-size:9pt;color:#566578;margin:4pt 0 0;}" +
+      ".lvl{font-size:9pt;color:#FFFFFF;background:#566578;padding:1pt 6pt;font-weight:normal;}" +
+      ".lvl2{font-size:8.5pt;color:#566578;font-weight:normal;}" +
+      "img{border:1pt solid #DDDDDD;}" +
+      "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
+    function sopDocShell(title, bodyHtml) {
+      return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+        "xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
+        "<head><meta charset='utf-8'><title>" + title + "</title>" +
+        "<style>" + SOP_DOC_CSS + "</style></head><body>" + bodyHtml + "</body></html>";
+    }
+
+    // Link notes minus internal provenance/maintenance annotations — the SOP
+    // is a client-facing document.
+    function clientFacingNotes(link) {
+      return (Array.isArray(link.notes) ? link.notes : []).filter((n) =>
+        !/corrected per|re-crawl|per Agave MD|useagave\.com|catalog default|Added 2026|per the live/i.test(n));
+    }
+
+    function buildSopCorpusHtml(ctx) {
+      const esc = escapeHtml;
+      const erp = ctx.erp;
+      const corpus = ctx.corpus;
+      let h = "";
+      h += "<h1 class='doc-title'>" + esc(ctx.client) + " — Procore + " + esc(erp.label) + "</h1>";
+      h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; ERP integration via Agave Sync" +
+        (ctx.preparer ? " &nbsp;·&nbsp; Prepared by " + esc(ctx.preparer) : "") +
+        (ctx.dateStr ? " &nbsp;·&nbsp; " + esc(ctx.dateStr) : "") +
+        " &nbsp;·&nbsp; Content sourced from the Agave sync-docs</p>";
+      if (erp.overview) h += "<p>" + esc(erp.overview) + "</p>";
+
+      if (ctx.hasMap) {
+        h += "<h2>Data Flow Map</h2>";
+        h += "<p><img src='flowmap.png' width='690' alt='Procore / " + esc(erp.label) + " data flow map'/></p>";
+        h += "<p class='note'>Directions as configured in the ERP Connector Map at export time — including any Agave-configurable direction choices made for this client.</p>";
+      }
+
+      const lims = (corpus.limitations && corpus.limitations.length)
+        ? corpus.limitations
+        : (erp.thingsToKnow || []);
+      if (lims.length) {
+        h += "<h2>Known Limitations</h2><ul>";
+        lims.forEach((t) => (h += "<li>" + esc(t) + "</li>"));
+        h += "</ul>";
+      }
+
+      function rrTable(rows) {
+        if (!rows.length) return "";
+        let t = "<h2>Roles &amp; Responsibilities</h2>" +
+          "<table class='rr'><tr><th>Action — responsible for…</th><th>Name</th><th>Project Role</th><th>Permission</th></tr>";
+        rows.forEach((r) => {
+          t += "<tr><td>" + esc(r.action) + "</td><td>" + (r.name ? esc(r.name) : "&nbsp;") +
+            "</td><td>" + (r.role ? esc(r.role) : "&nbsp;") + "</td><td>" + (r.perm ? esc(r.perm) : "&nbsp;") + "</td></tr>";
+        });
+        return t + "</table>";
+      }
+      function entryTable(title, entries) {
+        if (!entries || !entries.length) return "";
+        let t = "<h3>" + esc(title) + "</h3>" +
+          "<table class='cfg2'><tr><th>Topic</th><th>Guidance (from the sync-docs)</th></tr>";
+        entries.forEach((e2) => {
+          t += "<tr><td>" + esc(e2.t) + "</td><td>" + (e2.x ? esc(e2.x) : "&nbsp;") + "</td></tr>";
+        });
+        return t + "</table>";
+      }
+
+      ctx.sections.forEach((s) => {
+        if (s.key === "connector-setup") {
+          h += "<h1>Connector Setup (Agave) <span class='lvl'>Company level</span></h1>";
+          h += rrTable(s.rows);
+          (corpus.general || []).forEach((g) => {
+            h += "<h2>" + esc(g.title) + "</h2>";
+            if (g.intro) h += "<p>" + esc(g.intro) + "</p>";
+            h += entryTable("Setup", g.setup);
+            h += entryTable("Configuration", g.configs);
+            h += entryTable("FAQs &amp; Common Errors", (g.errors || []).slice(0, 8));
+            if (g.url) h += "<p class='note'>Full guide: " + esc(g.url) + "</p>";
+          });
+          return;
+        }
+        const grp = ctx.byKey[s.key];
+        if (!grp) return;
+        h += "<h1>" + esc(grp.title) + " <span class='lvl'>" + esc(levelLabel(grp.level)) + "</span></h1>";
+        h += rrTable(s.rows);
+        grp.objects.forEach((o) => {
+          const d = o.doc || {};
+          h += "<h2>" + esc(o.label) +
+            (d.title && d.title !== o.label ? " — " + esc(d.title) + " in " + esc(erp.label) : "") +
+            " <span class='lvl2'>" + esc(o.tier === "company" ? "Company level" : "Project level") + "</span></h2>";
+          h += "<p><strong>Sync:</strong> " + esc(directionPhrase(o.link.direction, erp.label)) + ".</p>";
+          const notes = clientFacingNotes(o.link);
+          if (notes.length) {
+            h += "<ul>";
+            notes.forEach((n) => (h += "<li>" + esc(n) + "</li>"));
+            h += "</ul>";
+          }
+          if (d.intro) h += "<p>" + esc(d.intro) + "</p>";
+          h += entryTable("Setup &amp; Prerequisites", d.setup);
+          h += entryTable("Key Configurations", d.configs);
+          h += entryTable("FAQs &amp; Common Errors", (d.errors || []).slice(0, 8));
+          if ((d.errors || []).length > 8) {
+            h += "<p class='note'>" + ((d.errors || []).length - 8) + " more in the full guide.</p>";
+          }
+          if (d.url) h += "<p class='note'>Full guide: " + esc(d.url) + "</p>";
+        });
+      });
+
+      return sopDocShell(esc(ctx.client) + " Procore " + esc(erp.label) + " SOP", h);
+    }
+
+    async function generateSopCorpus(erp, corpus, client, preparer, dateStr) {
+      const groups = corpusGroupsFor(erp, corpus);
+      const byKey = {};
+      groups.forEach((g) => { byKey[g.key] = g; });
+      const sections = [];
+      sopToolsEl.querySelectorAll(".sop-tool").forEach((sec) => {
+        if (!sec.querySelector(".sop-tool-toggle").checked) return;
+        const rows = [];
+        sec.querySelectorAll(".sop-rows .sop-row:not(.sop-row-hdr)").forEach((r) => {
+          if (!r.querySelector(".sop-row-inc").checked) return;
+          const action = r.querySelector(".sop-act").value.trim();
+          if (!action) return;
+          rows.push({
+            action: action,
+            name: r.querySelector(".sop-name").value.trim(),
+            role: r.querySelector(".sop-role").value.trim(),
+            perm: r.querySelector(".sop-perm").value.trim()
+          });
+        });
+        sections.push({ key: sec.dataset.groupKey, rows: rows });
+      });
+      if (!sections.length) {
+        sopFootNote.textContent = "Include at least one tool section before generating.";
+        return;
+      }
+
+      sopFootNote.textContent = "Rendering flow map…";
+      let png = "";
+      try {
+        png = await svgToPngBase64(buildFlowMapSvg(erp));
+      } catch (e) {
+        // The document still generates without the image.
+      }
+      const html = buildSopCorpusHtml({
+        erp: erp, corpus: corpus, client: client, preparer: preparer,
+        dateStr: dateStr, sections: sections, byKey: byKey, hasMap: !!png
+      });
+      const payload = png ? mhtmlDoc(html, png) : "﻿" + html;
+      const blob = new Blob([payload], { type: "application/msword" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = client.replace(/[^\w \-]/g, "").trim() + " - Procore " + erp.label + " SOP.doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      sopFootNote.textContent = "Generated " + a.download + (png ? " (flow map embedded)" : "");
+    }
+
+    async function generateSop() {
       const erp = sopErpNode;
       if (!erp) return;
       const client = (document.getElementById("sop-client").value || "[Client]").trim() || "[Client]";
       const preparer = document.getElementById("sop-preparer").value.trim();
       const dateStr = document.getElementById("sop-date").value.trim();
+      // Corpus-based connectors generate the corpus document (with the
+      // embedded flow map); everything else keeps the template document.
+      const corpus = corpusFor(erp);
+      if (corpus) {
+        await generateSopCorpus(erp, corpus, client, preparer, dateStr);
+        return;
+      }
       const erpLinks = linksByErp[erp.id] || {};
 
       const sections = [];

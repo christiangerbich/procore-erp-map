@@ -3270,6 +3270,21 @@ body.is-locked { overflow: hidden; }
 }
 .config-wb-linkrow button:disabled { opacity: 0.45; cursor: not-allowed; }
 
+/* SOP modal: Company/Project level chip on corpus-based tool sections. */
+.sop-level-chip {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--color-metal, #566578);
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+.sop-level-chip.sop-level-company { background: var(--color-black); }
+
 /* Gray sub-group label rows inside the workbook table — mirrors the
  * official workbook's #E5E5E5 group bands. */
 .config-wb-table tr.config-wb-group td {
