@@ -119,7 +119,8 @@ function xmlEsc(s) {
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
-const COLS = ["A", "B", "C", "D", "E"];
+const COLS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+function colLetter(i) { return COLS[i] || String.fromCharCode(65 + i); }
 
 // Styles replicated from the source workbook (see build-workbook-template):
 // fonts all "Inter"; NO cell borders (the grid look is Sheets gridlines).
@@ -190,57 +191,52 @@ function contiguousRuns(rowNums) {
 }
 
 // Build one worksheet's XML from a template tab (+ optional value injection).
-// Returns { xml, dataRows } — dataRows are the 1-based rows whose column C is
-// a boolean checkbox cell (for the Sheets-API checkbox pass).
+// Column placement is by ROLE (tab.roles), never fixed letters — the tabs are
+// not uniform (PE/Resource are 5-col with Updated=C; CM/CM-Ent/PLM are 6-col
+// with Updated=D, Changed to=E, Notes=F). Returns { xml, dataRows } — dataRows
+// are the 1-based rows whose Updated cell is a boolean checkbox (for the
+// Sheets-API checkbox pass).
 function sheetXmlFor(tab, values) {
   const merges = [];
   const dataRowsC = [];
+  const roles = tab.roles || {};
+  const upIdx = roles.updated != null ? roles.updated : 2;
+  const chIdx = roles.changedTo != null ? roles.changedTo : 3;
+  const noIdx = roles.notes != null ? roles.notes : 4;
+  const ncols = tab.ncols || 5;
+  const lastCol = colLetter(ncols - 1);
   const rowsXml = tab.rows.map((row) => {
     const r = row.r;
     const ht = row.h ? ' ht="' + row.h + '" customHeight="1"' : "";
+    const v = row.v || [];
     let cells = "";
     if (row.k === "title") {
-      if (r === 1 && row.m) merges.push("A1:E2");
-      cells = textCell("A" + r, 0, row.a);
+      if (r === 1 && row.m) merges.push("A1:" + lastCol + "2");
+      cells = v.map((val, i) => textCell(colLetter(i) + r, 0, val)).join("");
     } else if (row.k === "header") {
-      const vals = [row.a, row.b, row.c, row.d, row.e];
-      cells = vals.map((v, i) => textCell(COLS[i] + r, 1, v)).join("");
+      cells = v.map((val, i) => textCell(colLetter(i) + r, 1, val)).join("");
     } else if (row.k === "banner" || row.k === "sub") {
-      // Fill spans A:E via per-cell styling (the source rarely merges these).
       const style = row.k === "banner" ? 2 : 3;
-      if (row.m) merges.push("A" + r + ":E" + r);
-      const vals = [row.a, row.b, row.c, row.d, row.e];
-      cells = vals.map((v, i) => textCell(COLS[i] + r, style, v)).join("");
+      if (row.m) merges.push("A" + r + ":" + lastCol + r);
+      cells = v.map((val, i) => textCell(colLetter(i) + r, style, val)).join("");
     } else {
-      // data row — C is the checkbox boolean; D/E may be overridden by the
-      // tracker's captured values for the exported tier's tab. Rows whose C
-      // holds literal text ("N/A") keep it verbatim — unless the SPC checked
-      // Updated, in which case their TRUE wins — and only boolean C cells
-      // join the checkbox validation range.
+      // data row — the Updated cell is a checkbox boolean; Changed to / Notes
+      // may be overridden by the tracker's captured values. An Updated cell
+      // holding literal text ("N/A") stays verbatim unless the SPC checked it.
       const inj = values ? values[r] : null;
-      const dVal = inj && inj.d != null && inj.d !== "" ? inj.d : row.d;
-      const eVal = inj && inj.e != null && inj.e !== "" ? inj.e : row.e;
-      let cCell;
-      const cRaw = row.c;
-      const cIsVerbatim = cRaw != null && cRaw !== "" && typeof cRaw !== "boolean";
-      if (cIsVerbatim && !(inj && inj.c)) {
-        // literal text ("N/A") or stray numbers in the source stay verbatim
-        cCell = valueCell("C" + r, 4, cRaw);
-      } else {
-        // Plain boolean — byte-for-byte what Google Sheets writes for a
-        // checkbox on xlsx export. The Sheets path upgrades these to real
-        // checkboxes after upload; the download path leaves them as
-        // TRUE/FALSE (one click in Sheets — select column C, Insert →
-        // Tick box — turns them into checked/unchecked boxes).
-        dataRowsC.push(r);
-        cCell = boolCell("C" + r, 4, inj ? !!inj.c : !!cRaw);
-      }
-      cells =
-        valueCell("A" + r, 4, row.a) +
-        valueCell("B" + r, 4, row.b) +
-        cCell +
-        valueCell("D" + r, 4, dVal) +
-        valueCell("E" + r, 4, eVal);
+      cells = v.map((val, i) => {
+        const ref = colLetter(i) + r;
+        if (i === upIdx) {
+          const cRaw = val;
+          const cIsVerbatim = cRaw != null && cRaw !== "" && typeof cRaw !== "boolean";
+          if (cIsVerbatim && !(inj && inj.c)) return valueCell(ref, 4, cRaw);
+          dataRowsC.push(r);
+          return boolCell(ref, 4, inj ? !!inj.c : !!cRaw);
+        }
+        if (inj && i === chIdx && inj.d != null && inj.d !== "") return valueCell(ref, 4, inj.d);
+        if (inj && i === noIdx && inj.e != null && inj.e !== "") return valueCell(ref, 4, inj.e);
+        return valueCell(ref, 4, val);
+      }).join("");
     }
     return '<row r="' + r + '"' + ht + ">" + cells + "</row>";
   });
@@ -268,20 +264,21 @@ ${colXml ? "<cols>" + colXml + "</cols>" : ""}
 ${mergeXml}
 <drawing r:id="rId1"/>
 </worksheet>`;
-  return { xml: xml, dataRows: dataRowsC };
+  return { xml: xml, dataRows: dataRowsC, updatedCol: upIdx };
 }
 
 // template: workbook-template.json content.
 // injection: { tabName, values: { rowNumber: {c,d,e} } } or null.
-// Returns { bytes, activeTabIndex, activeTabDataRows } — the last two describe
-// the injected tab's column-C checkbox rows so the Sheets path can set native
-// checkboxes there after upload.
+// Returns { bytes, activeTabIndex, activeTabDataRows, activeTabUpdatedCol } —
+// the last three describe the injected tab's checkbox rows + the Updated
+// column index so the Sheets path can set native checkboxes there.
 export function buildWorkbookXlsxBytes(template, injection) {
   const tabs = template.tabs;
   const logoBytes = b64ToBytes(template.logoPng);
   const files = [];
   let activeTabIndex = -1;
   let activeTabDataRows = [];
+  let activeTabUpdatedCol = 2;
 
   const overrides = tabs.map((_, i) =>
     '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
@@ -332,7 +329,7 @@ ${overrides}
     const n = i + 1;
     const values = injection && injection.tabName === tab.name ? injection.values : null;
     const built = sheetXmlFor(tab, values);
-    if (values) { activeTabIndex = i; activeTabDataRows = built.dataRows; }
+    if (values) { activeTabIndex = i; activeTabDataRows = built.dataRows; activeTabUpdatedCol = built.updatedCol; }
     files.push({ name: "xl/worksheets/sheet" + n + ".xml", text: built.xml });
     files.push({
       name: "xl/worksheets/_rels/sheet" + n + ".xml.rels",
@@ -355,7 +352,8 @@ ${overrides}
   return {
     bytes: zipStore(files),
     activeTabIndex: activeTabIndex,
-    activeTabDataRows: activeTabDataRows
+    activeTabDataRows: activeTabDataRows,
+    activeTabUpdatedCol: activeTabUpdatedCol
   };
 }
 
@@ -426,18 +424,21 @@ function getAccessToken(clientId) {
   }));
 }
 
-// Set native checkboxes on column C for the given 1-based data rows of the
-// sheet at gridSheetId, via one Sheets-API batchUpdate (BOOLEAN validation
-// over each contiguous run of rows). Best-effort: the sheet already exists,
-// so a failure here just means the user tick-boxes column C themselves.
-async function applyCheckboxes(spreadsheetId, gridSheetId, dataRows, token) {
+// Set native checkboxes on the Updated column (0-based colIndex) for the given
+// 1-based data rows of the sheet at gridSheetId, via one Sheets-API
+// batchUpdate (BOOLEAN validation over each contiguous run of rows). Applying
+// it over cells that already hold TRUE/FALSE turns them into checked/unchecked
+// boxes. Best-effort: the sheet already exists, so a failure here just means
+// the user tick-boxes the column themselves.
+async function applyCheckboxes(spreadsheetId, gridSheetId, dataRows, token, colIndex) {
   if (!dataRows || !dataRows.length) return;
+  const col = colIndex != null ? colIndex : 2;
   const requests = contiguousRuns(dataRows).map(([start, end]) => ({
     setDataValidation: {
       range: {
         sheetId: gridSheetId,
         startRowIndex: start - 1, endRowIndex: end,   // 0-based, end-exclusive
-        startColumnIndex: 2, endColumnIndex: 3        // column C
+        startColumnIndex: col, endColumnIndex: col + 1
       },
       rule: {
         condition: { type: "BOOLEAN" },
@@ -483,22 +484,26 @@ export function parseSpreadsheetId(url) {
 }
 
 // Post the tracker's captured values into the client's OWN linked workbook
-// copy (an existing Google Sheet) — additive writes only: checked rows go in
-// as TRUE (ticking the copy's native checkboxes), and non-empty Changed to /
-// Notes text is written; nothing is ever unchecked or cleared. Before
-// writing, column A of the tier tab is read and each target row's Discussion
-// Point must still match the official template — rows that don't match are
-// skipped, so an inserted/deleted row in the client's copy can't shift the
-// writes onto the wrong settings.
+// copy (an existing Google Sheet). Robust to layout drift:
+//   - target COLUMNS (Updated / Changed to / Notes) are resolved from the
+//     LINKED SHEET's own header row (by header text), not fixed letters — the
+//     official tabs already differ (5-col PE/Resource vs 6-col CM/CM-Ent/PLM),
+//     and a client's copy may differ again;
+//   - target ROWS are matched by Discussion Point text (column A must still
+//     match the official template at that row) so a shifted row is skipped,
+//     never mis-written;
+//   - writes are ADDITIVE: checked rows go in as TRUE, non-empty Changed to /
+//     Notes text is written, nothing is ever unchecked or cleared;
+//   - after writing, native checkboxes (BOOLEAN validation) are set on the
+//     Updated column for the written rows, so the TRUEs render as ticks.
 // opts: { clientId, spreadsheetUrl, tabName, template, values }
-// Resolves with { spreadsheetTitle, tab, rowsPosted, rowsSkipped, cells, url }.
+// Resolves { spreadsheetTitle, tab, rowsPosted, rowsSkipped, cells, checkboxes, url }.
 export async function postToLinkedWorkbook(opts) {
   const spreadsheetId = parseSpreadsheetId(opts.spreadsheetUrl);
   if (!spreadsheetId) throw new Error("That doesn't look like a Google Sheets link.");
   const tab = ((opts.template && opts.template.tabs) || []).find((t) => t.name === opts.tabName);
   if (!tab) throw new Error('No official template tab named "' + opts.tabName + '".');
 
-  // Rows worth posting: checked, or carrying Changed to / Notes text.
   const rows = [];
   Object.keys(opts.values || {}).forEach((k) => {
     const v = opts.values[k];
@@ -513,7 +518,6 @@ export async function postToLinkedWorkbook(opts) {
 
   const token = await getAccessToken(opts.clientId);
 
-  // The linked workbook must have the tier's tab.
   const metaResp = await fetch(
     "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId +
       "?fields=properties.title,sheets.properties(title,sheetId)",
@@ -531,8 +535,39 @@ export async function postToLinkedWorkbook(opts) {
     throw new Error('The linked workbook has no "' + opts.tabName + '" tab. Tabs found: ' + titles.slice(0, 220));
   }
 
-  // Safety rail: read column A once and verify each target row still matches.
   const q = "'" + opts.tabName.replace(/'/g, "''") + "'";
+  const squash = (s) => String(s == null ? "" : s).replace(/\s+/g, " ").trim().toLowerCase();
+
+  // Read the top block (all columns) to find the header row + resolve which
+  // column is Updated / Changed to / Notes IN THE LINKED SHEET.
+  const headResp = await fetch(
+    "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId + "/values/" +
+      encodeURIComponent(q + "!A1:J8"),
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!headResp.ok) throw new Error("Couldn't read the linked workbook header (" + headResp.status + ").");
+  const headRows = (await headResp.json()).values || [];
+  let hdrIdx = -1;
+  for (let i = 0; i < headRows.length; i++) {
+    if (squash((headRows[i] || [])[0]) === "discussion point") { hdrIdx = i; break; }
+  }
+  let upCol, chCol, noCol;
+  if (hdrIdx !== -1) {
+    const hdr = headRows[hdrIdx];
+    hdr.forEach((cell, c) => {
+      const h = squash(cell);
+      if (h === "updated") upCol = c;
+      else if (h === "changed to") chCol = c;
+      else if (h === "notes") noCol = c;
+    });
+  }
+  // Fall back to the official template's roles if the linked header is missing.
+  if (upCol == null) upCol = (tab.roles && tab.roles.updated != null) ? tab.roles.updated : 2;
+  if (chCol == null) chCol = (tab.roles && tab.roles.changedTo != null) ? tab.roles.changedTo : 3;
+  if (noCol == null) noCol = (tab.roles && tab.roles.notes != null) ? tab.roles.notes : 4;
+  const letter = (i) => String.fromCharCode(65 + i);
+
+  // Read column A of the linked sheet to verify each row still matches.
   const maxRow = rows[rows.length - 1];
   const colResp = await fetch(
     "https://sheets.googleapis.com/v4/spreadsheets/" + spreadsheetId + "/values/" +
@@ -540,22 +575,24 @@ export async function postToLinkedWorkbook(opts) {
     { headers: { Authorization: "Bearer " + token } }
   );
   if (!colResp.ok) throw new Error("Couldn't read the linked workbook (" + colResp.status + ").");
-  const colData = await colResp.json();
-  const colA = (colData.values || []).map((r) => (r && r[0] != null ? String(r[0]) : ""));
+  const colA = ((await colResp.json()).values || []).map((r) => (r && r[0] != null ? String(r[0]) : ""));
+
   const byRow = {};
   (tab.rows || []).forEach((r) => { byRow[r.r] = r; });
-  const squash = (s) => String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+  const discIdx = (tab.roles && tab.roles.discussion != null) ? tab.roles.discussion : 0;
 
   const data = [];
-  let posted = 0;
-  let skipped = 0;
+  const checkedRows = [];
+  let posted = 0, skipped = 0;
   rows.forEach((rn) => {
     const tRow = byRow[rn];
-    if (!tRow || squash(colA[rn - 1]) !== squash(tRow.a)) { skipped++; return; }
+    if (!tRow) { skipped++; return; }
+    const officialA = (tRow.v || [])[discIdx];
+    if (squash(colA[rn - 1]) !== squash(officialA)) { skipped++; return; }
     const v = opts.values[rn];
-    if (v.c) data.push({ range: q + "!C" + rn, values: [["TRUE"]] });
-    if (v.d != null && v.d !== "") data.push({ range: q + "!D" + rn, values: [[v.d]] });
-    if (v.e != null && v.e !== "") data.push({ range: q + "!E" + rn, values: [[v.e]] });
+    if (v.c) { data.push({ range: q + "!" + letter(upCol) + rn, values: [["TRUE"]] }); checkedRows.push(rn); }
+    if (v.d != null && v.d !== "") data.push({ range: q + "!" + letter(chCol) + rn, values: [[v.d]] });
+    if (v.e != null && v.e !== "") data.push({ range: q + "!" + letter(noCol) + rn, values: [[v.e]] });
     posted++;
   });
   if (!data.length) {
@@ -576,12 +613,23 @@ export async function postToLinkedWorkbook(opts) {
     throw new Error("Write failed (" + writeResp.status + "). " + detail.slice(0, 200));
   }
   const res = await writeResp.json();
+
+  // Turn the written TRUEs into native checkboxes on the Updated column.
+  let checkboxes = false;
+  try {
+    if (checkedRows.length) {
+      await applyCheckboxes(spreadsheetId, sheet.properties.sheetId, checkedRows, token, upCol);
+      checkboxes = true;
+    }
+  } catch (e) { /* leave as text TRUE; the write succeeded */ }
+
   return {
     spreadsheetTitle: (metaData.properties && metaData.properties.title) || "workbook",
     tab: opts.tabName,
     rowsPosted: posted,
     rowsSkipped: skipped,
     cells: res.totalUpdatedCells || data.length,
+    checkboxes: checkboxes,
     url: "https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/edit#gid=" + sheet.properties.sheetId
   };
 }
@@ -625,7 +673,7 @@ export async function exportWorkbookToGoogleSheets(opts) {
   try {
     const gridId = await sheetGridId(file.id, built.activeTabIndex, token);
     if (gridId != null) {
-      await applyCheckboxes(file.id, gridId, built.activeTabDataRows, token);
+      await applyCheckboxes(file.id, gridId, built.activeTabDataRows, token, built.activeTabUpdatedCol);
       checkboxes = true;
     }
   } catch (e) { /* leave checkboxes false; sheet still opens */ }

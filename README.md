@@ -164,9 +164,13 @@ values into the matching rows of the tier's tab in that existing Sheet
 (requires the same OAuth Client ID as above).
 
 Safety semantics:
-- **Additive only** — checked rows are written as `TRUE` (ticking the copy's
-  native checkboxes) and non-empty *Changed to* / *Notes* text is written;
-  nothing is ever unchecked or cleared, so manual edits in the Sheet survive.
+- **Additive only** — checked rows are written as `TRUE` and non-empty
+  *Changed to* / *Notes* text is written; nothing is ever unchecked or
+  cleared, so manual edits in the Sheet survive. Native checkboxes are then
+  set on the written rows, so the `TRUE`s render as ticks.
+- **Column-role aware** — the target Updated / Changed to / Notes columns are
+  resolved from the linked sheet's OWN header row, not fixed letters (the
+  official tabs already differ: 5-col PE/Resource vs 6-col CM/CM-Ent/PLM).
 - **Row-match rail** — before writing, column A of the tab is read and each
   target row's Discussion Point must still match the official template; rows
   that don't match are skipped and reported (an inserted/deleted row in the

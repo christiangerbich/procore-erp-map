@@ -17,7 +17,7 @@ Regenerate whenever the official workbook changes:
 Reads:  ~/Documents/PNPT TRAINING DOCS/PNPT Configuration Workbook _ NAMER.xlsx
 Writes: workbook-template.json (committed; loaded lazily by the app)
 """
-import base64, json, os, zipfile
+import base64, json, os, sys, zipfile
 import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -59,26 +59,69 @@ for ws in wb.worksheets:
         if m.min_col == 1 and m.max_col >= 5:
             merged.add(m.min_row)
 
+    # ------- resolve this tab's column layout by HEADER TEXT (row 3) -------
+    # Tabs are NOT uniform: PE + Resource tabs are 5-col
+    # (Updated=C, Changed to=D, Notes=E); Cost Management, CM Enterprise, and
+    # PLM are 6-col — an extra "Discussion Point / Decision Logic" column B
+    # shifts Updated=D, Changed to=E, Notes=F. Everything downstream keys off
+    # these resolved roles, never fixed letters.
+    header_row = None
+    for r in range(1, 8):
+        if str(ws.cell(row=r, column=1).value or "").strip().lower() == "discussion point":
+            header_row = r
+            break
+    roles = {}          # role -> 0-based column index
+    if header_row is not None:
+        for c in range(1, 12):
+            h = str(ws.cell(row=header_row, column=c).value or "").strip().lower()
+            if h == "discussion point" and "discussion" not in roles:
+                roles["discussion"] = c - 1
+            elif h == "discussion point / decision logic":
+                roles["decisionLogic"] = c - 1
+            elif h == "default setting":
+                roles["default"] = c - 1
+            elif h == "updated":
+                roles["updated"] = c - 1
+            elif h == "changed to":
+                roles["changedTo"] = c - 1
+            elif h == "notes":
+                roles["notes"] = c - 1
+        for req in ("discussion", "default", "updated", "changedTo", "notes"):
+            if req not in roles:
+                sys.exit("ABORT: tab %r missing header role %r (header row %d)" % (ws.title, req, header_row))
+        ncols = max(roles.values()) + 1
+    else:
+        # Non-tier placeholder tabs (Correspondence/Inspection/Action Plan/
+        # Workflows templates) — no standard header; keep verbatim, no roles.
+        ncols = 0
+        for r in range(1, ws.max_row + 1):
+            for c in range(1, 12):
+                if ws.cell(row=r, column=c).value not in (None, ""):
+                    ncols = max(ncols, c)
+        ncols = max(ncols, 1)
+
     last = 3
     for r in range(4, ws.max_row + 1):
-        if any(ws.cell(row=r, column=c).value not in (None, "") for c in range(1, 6)):
+        if any(ws.cell(row=r, column=c).value not in (None, "") for c in range(1, ncols + 1)):
             last = r
 
     widths = {}
-    for L in "ABCDEF":
+    for i in range(ncols):
+        L = chr(65 + i)
         d = ws.column_dimensions.get(L)
         if d is not None and d.width:
             widths[L] = round(float(d.width), 2)
 
+    up_idx = roles.get("updated", -1)
     rows = []
     for r in range(1, last + 1):
-        cells = [ws.cell(row=r, column=c).value for c in range(1, 6)]
+        cells = [ws.cell(row=r, column=c).value for c in range(1, ncols + 1)]
         a_cell = ws.cell(row=r, column=1)
         fill = a_cell.fill
         fg = rgb(fill.fgColor) if (fill is not None and fill.patternType == "solid") else None
         if r <= 2:
             kind = "title"
-        elif r == 3:
+        elif header_row is not None and r == header_row:
             kind = "header"
         elif fg == "FF000000":
             kind = "banner"
@@ -88,29 +131,20 @@ for ws in wb.worksheets:
             kind = "data"
         hdim = ws.row_dimensions.get(r)
         h = round(float(hdim.height), 2) if (hdim is not None and hdim.height) else None
-        cval = cells[2]
-        if kind == "data":
-            # data rows: C is the Updated checkbox -> boolean where the sheet
-            # has TRUE/FALSE; some rows carry literal text ("N/A") instead —
-            # keep it verbatim so the export matches exactly.
-            if isinstance(cval, bool):
-                ccell = cval
-            elif isinstance(cval, str) and cval.strip().upper() in ("TRUE", "FALSE"):
-                ccell = cval.strip().upper() == "TRUE"
+        # Normalize the Updated (checkbox) cell on data rows: boolean where the
+        # sheet has TRUE/FALSE, verbatim otherwise ("N/A").
+        v = []
+        for i, cv in enumerate(cells):
+            if kind == "data" and i == up_idx:
+                if isinstance(cv, bool):
+                    v.append(cv)
+                elif isinstance(cv, str) and cv.strip().upper() in ("TRUE", "FALSE"):
+                    v.append(cv.strip().upper() == "TRUE")
+                else:
+                    v.append(cv)  # None or verbatim text
             else:
-                ccell = cval  # None, or verbatim text like "N/A"
-        else:
-            # header/banner/sub/title rows: keep the raw text ("Updated" etc.)
-            ccell = cval if cval is not None else ""
-        row = {
-            "r": r,
-            "k": kind,
-            "a": cells[0] if cells[0] is not None else "",
-            "b": cells[1] if cells[1] is not None else "",
-            "c": ccell,
-            "d": cells[3] if cells[3] is not None else "",
-            "e": cells[4] if cells[4] is not None else "",
-        }
+                v.append(cv if cv is not None else "")
+        row = {"r": r, "k": kind, "v": v}
         if r in merged:
             row["m"] = True
         if h is not None:
@@ -120,6 +154,8 @@ for ws in wb.worksheets:
     tabs.append({
         "name": ws.title,
         "freeze": bool(ws.freeze_panes),
+        "ncols": ncols,
+        "roles": roles,          # role -> 0-based column index
         "widths": widths,
         "rows": rows,
     })

@@ -252,30 +252,41 @@ export function initConfigTracker(ctx) {
   const wbSectionsCache = {};
   function sectionsFromTemplateTab(tab) {
     if (wbSectionsCache[tab.name]) return wbSectionsCache[tab.name];
+    // Column roles vary by tab (5-col PE/Resource vs 6-col CM/CM-Ent/PLM);
+    // pull each field by its role index, never by fixed position.
+    const roles = tab.roles || {};
+    const iDisc = roles.discussion != null ? roles.discussion : 0;
+    const iDefault = roles.default != null ? roles.default : 1;
+    const iDecision = roles.decisionLogic;
+    const iChanged = roles.changedTo != null ? roles.changedTo : 3;
+    const iNotes = roles.notes != null ? roles.notes : 4;
+    const cell = (row, i) => (row.v && i != null ? row.v[i] : undefined);
     const sections = [];
     const seen = {};
     let cur = null;
     let group = "";
     (tab.rows || []).forEach((row) => {
+      const a = cell(row, iDisc);
       if (row.k === "banner") {
-        let key = slugKey(row.a);
+        let key = slugKey(a);
         if (seen[key]) { seen[key] += 1; key = key + "-" + seen[key]; } else { seen[key] = 1; }
-        cur = { key: key, name: row.a, settings: [] };
+        cur = { key: key, name: a || "", settings: [] };
         sections.push(cur);
         group = "";
       } else if (row.k === "sub") {
-        group = row.a;
-      } else if (row.k === "data" && row.a) {
+        group = a || "";
+      } else if (row.k === "data" && a) {
         if (!cur) {
           cur = { key: "general", name: "General", settings: [] };
           sections.push(cur);
         }
         cur.settings.push({
-          name: row.a,
-          default: row.b || "",
+          name: a,
+          default: cell(row, iDefault) || "",
+          decisionLogic: iDecision != null ? (cell(row, iDecision) || "") : "",
           group: group,
-          guidanceD: row.d || "",
-          guidanceE: row.e || "",
+          guidanceD: cell(row, iChanged) || "",
+          guidanceE: cell(row, iNotes) || "",
           row: row.r
         });
       }
