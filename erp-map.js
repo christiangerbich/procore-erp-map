@@ -1124,7 +1124,7 @@ export function initErpMap(ctx) {
       // Integration permissions matrix (Read Only never appears as an
       // allowed level for ERP-relevant actions; Direct Costs is Admin only).
       // Agave-Sync ERPs: full Read Only / Standard / Admin / None list.
-      if (erp && erp.via !== "agave" && Array.isArray(tool.procorePermissionOptions)) {
+      if (erp && erp.via !== "agave" && tool && Array.isArray(tool.procorePermissionOptions)) {
         return tool.procorePermissionOptions;
       }
       return sopTemplates.permissionOptions;
@@ -1172,6 +1172,25 @@ export function initErpMap(ctx) {
     }
     function corpusFor(erp) {
       return erp && sopCorpus ? sopCorpus[erp.id] || null : null;
+    }
+
+    // Procore-native ERP manuals (Things to Know / Diagrams / Tutorials / FAQ),
+    // distilled by tools/build-sop-procore.py. Loaded lazily alongside the
+    // Agave corpus; keyed by the ERP node id (13 covered — QBO + Workday keep
+    // the template SOP).
+    let sopProcore = null;
+    let sopProcorePromise = null;
+    function loadSopProcore() {
+      if (!sopProcorePromise) {
+        sopProcorePromise = fetch("sop-procore.json", JSON_FETCH)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null)
+          .then((c) => { sopProcore = c; return c; });
+      }
+      return sopProcorePromise;
+    }
+    function procoreCorpusFor(erp) {
+      return erp && sopProcore ? sopProcore[erp.id] || null : null;
     }
 
     // Procore-tool grouping for corpus SOPs (module id -> tool group);
@@ -1306,8 +1325,9 @@ export function initErpMap(ctx) {
     // color-coded direction cell reflecting the LIVE link direction
     // (including any Agave-configurable toggles flipped for this client).
     // Pure HTML — renders identically in Word and needs no embedded image.
-    function buildFlowTableHtml(erp, corpus) {
+    function buildFlowTableHtml(erp, corpus, syncLabel) {
       const esc = escapeHtml;
+      const label = syncLabel || "via Agave Sync";
       const erpLinks = linksByErp[erp.id] || {};
       const objects = corpus && corpus.objects ? corpus.objects : {};
       const mods = moduleNodes.filter((m) => erpLinks[m.id]);
@@ -1337,7 +1357,7 @@ export function initErpMap(ctx) {
 
       let h = "<table class='flow'>";
       h += "<tr><th style='width:38%'>Procore</th><th class='fdh' style='width:30%'>Sync Direction</th><th style='width:32%'>" +
-        esc(erp.label) + " (via Agave Sync)</th></tr>";
+        esc(erp.label) + " (" + esc(label) + ")</th></tr>";
       if (company.length) {
         h += "<tr class='fb'><td colspan='3'>Company Level</td></tr>" + bodyRows(company);
       }
@@ -1346,6 +1366,61 @@ export function initErpMap(ctx) {
       }
       h += "</table>";
       return h;
+    }
+
+    // ---- Procore-native ERP corpus mode ---------------------------------
+    // Same editable tool-group layout as the Agave corpus SOP (real sync
+    // directions per object), but the connector's depth comes from Procore's
+    // own product manual (Things to Know / Diagrams / Tutorials / FAQ) rather
+    // than per-object Agave pages. Company/Project tiers from data.json.
+    function renderSopProcoreMode(erp, pcorpus) {
+      const groups = corpusGroupsFor(erp, pcorpus);
+
+      // Connector setup — company level. Seed rows from connector-admin
+      // tutorials (the ones not tied to a specific tool group) plus a
+      // catch-all ERP Integrations tool configuration row.
+      const adminTuts = (pcorpus.tutorials || []).filter((t) => !t.group);
+      const setup = corpusSection("connector-setup", "Connector Setup (ERP Integrations)", "company");
+      const sync = document.createElement("p");
+      sync.className = "sop-tool-sync";
+      sync.textContent = "Company-level setup of Procore's ERP Integrations tool for " + erp.label +
+        " — confirm the sync schedule and accounting-approver workflow.";
+      setup.appendChild(sync);
+      const setupTable = corpusRowsTable(setup, erp);
+      setupTable.appendChild(makeRow(
+        "Configure the ERP Integrations tool for " + erp.label + " and confirm the sync schedule with the client", null, erp));
+      adminTuts.forEach((t) => {
+        setupTable.appendChild(makeRow("Complete '" + t.title + "'", null, erp));
+      });
+      sopToolsEl.appendChild(setup);
+
+      groups.forEach((grp) => {
+        const sec = corpusSection(grp.key, grp.title, grp.level);
+        const s = document.createElement("p");
+        s.className = "sop-tool-sync";
+        s.innerHTML = "Sync — " + grp.objects.map((o) =>
+          "<strong>" + escapeHtml(o.label) + "</strong>: " +
+          escapeHtml(directionPhrase(o.link.direction, erp.label))
+        ).join("; ") + ".";
+        sec.appendChild(s);
+        const table = corpusRowsTable(sec, erp);
+        grp.objects.forEach((o) => {
+          table.appendChild(makeRow(
+            "Own the " + o.label + " sync — " + directionPhrase(o.link.direction, erp.label) +
+            "; monitor errors and resolve blocked records", null, erp));
+        });
+        sopToolsEl.appendChild(sec);
+      });
+
+      const n = groups.length + 1;
+      const bits = [];
+      if ((pcorpus.thingsToKnow || []).length) bits.push(pcorpus.thingsToKnow.length + " things-to-know");
+      if ((pcorpus.dataFlow || []).length) bits.push(pcorpus.dataFlow.length + " workflows");
+      if ((pcorpus.tutorials || []).length) bits.push(pcorpus.tutorials.length + " tutorials");
+      if ((pcorpus.faq || []).length) bits.push(pcorpus.faq.length + " FAQs");
+      sopFootNote.textContent = n + " tool section" + (n !== 1 ? "s" : "") +
+        " · Procore ERP-manual content embeds in the document" +
+        (bits.length ? " (" + bits.join(", ") + ")" : "");
     }
 
     function renderSopTool(tool, erp, erpLinks) {
@@ -1405,6 +1480,13 @@ export function initErpMap(ctx) {
         renderSopCorpusMode(erp, corpus);
         return;
       }
+      // Procore-native connectors with a product manual get the manual-style
+      // corpus SOP; the rest fall through to the generic template SOP.
+      const pcorpus = procoreCorpusFor(erp);
+      if (pcorpus) {
+        renderSopProcoreMode(erp, pcorpus);
+        return;
+      }
       const erpLinks = linksByErp[erp.id] || {};
       const applicable = sopTemplates.tools.filter((t) => t.modules.some((m) => erpLinks[m]));
       if (!applicable.length) {
@@ -1418,8 +1500,8 @@ export function initErpMap(ctx) {
 
     async function openSopModal(erp) {
       // Corpus data loads once, lazily — needed before the first render so
-      // Agave connectors get the corpus-based sections.
-      await loadSopCorpus();
+      // Agave + Procore-native connectors get their corpus-based sections.
+      await Promise.all([loadSopCorpus(), loadSopProcore()]);
       // Populate the ERP picker once (lets the builder run from the top button
       // without first selecting a node).
       if (!sopPickerInit && sopErpPick) {
@@ -1726,6 +1808,126 @@ export function initErpMap(ctx) {
       sopFootNote.textContent = "Generated " + a.download;
     }
 
+    // ---- Procore-native manual-style SOP document -----------------------
+    function buildSopProcoreHtml(ctx) {
+      const esc = escapeHtml;
+      const erp = ctx.erp;
+      const pc = ctx.corpus;
+      let h = "";
+      h += "<h1 class='doc-title'>" + esc(ctx.client) + " — Procore + " + esc(erp.label) + "</h1>";
+      h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; ERP integration via Integration by Procore" +
+        (ctx.preparer ? " &nbsp;·&nbsp; Prepared by " + esc(ctx.preparer) : "") +
+        (ctx.dateStr ? " &nbsp;·&nbsp; " + esc(ctx.dateStr) : "") +
+        " &nbsp;·&nbsp; Content sourced from Procore's " + esc(pc.name || erp.label) + " product manual</p>";
+      if (pc.overview) h += "<p>" + esc(pc.overview) + "</p>";
+
+      const flowTable = buildFlowTableHtml(erp, pc, "via Integration by Procore");
+      if (flowTable) {
+        h += "<h2>Data Flow</h2>" + flowTable;
+        h += "<p class='note'>Directions as configured in the ERP Connector Map at export time.</p>";
+      }
+
+      // Things to Know — per Procore item (verbatim from the product manual).
+      if ((pc.thingsToKnow || []).length) {
+        h += "<h2>Things to Know</h2>";
+        h += "<table class='cfg2'><tr><th>Procore Item</th><th>Considerations, Limitations &amp; Requirements</th></tr>";
+        pc.thingsToKnow.forEach((t) => {
+          h += "<tr><td>" + esc(t.item) + "</td><td>" + esc(t.note) + "</td></tr>";
+        });
+        h += "</table>";
+      }
+
+      // How the sync works — set-up workflow narratives (Diagrams page).
+      if ((pc.dataFlow || []).length) {
+        h += "<h2>How the Sync Works</h2>";
+        pc.dataFlow.forEach((d) => {
+          h += "<h3>" + esc(d.title) + "</h3>";
+          if (d.text) h += "<p>" + esc(d.text) + "</p>";
+        });
+      }
+
+      // Roles & Responsibilities — the editable tool-group sections.
+      const tutByGroup = {};
+      (pc.tutorials || []).forEach((t) => {
+        (tutByGroup[t.group || "_setup"] = tutByGroup[t.group || "_setup"] || []).push(t);
+      });
+      ctx.sections.forEach((s) => {
+        const title = s.key === "connector-setup" ? "Connector Setup (ERP Integrations)" : (ctx.byKey[s.key] ? ctx.byKey[s.key].title : s.key);
+        const lvl = s.key === "connector-setup" ? "Company level"
+          : (ctx.byKey[s.key] ? levelLabel(ctx.byKey[s.key].level) : "");
+        h += "<h1>" + esc(title) + (lvl ? " <span class='lvl'>" + esc(lvl) + "</span>" : "") + "</h1>";
+        if (s.rows.length) {
+          h += "<h2>Roles &amp; Responsibilities</h2>" +
+            "<table class='rr'><tr><th>Action — responsible for…</th><th>Name</th><th>Project Role</th><th>Permission</th></tr>";
+          s.rows.forEach((r) => {
+            h += "<tr><td>" + esc(r.action) + "</td><td>" + (r.name ? esc(r.name) : "&nbsp;") +
+              "</td><td>" + (r.role ? esc(r.role) : "&nbsp;") + "</td><td>" + (r.perm ? esc(r.perm) : "&nbsp;") + "</td></tr>";
+          });
+          h += "</table>";
+        }
+        const gt = tutByGroup[s.key === "connector-setup" ? "_setup" : s.key];
+        if (gt && gt.length) {
+          h += "<p class='note'>Setup guides: " + gt.map((t) =>
+            esc(t.title) + (t.url ? " — " + esc(t.url) : "")).join("<br>") + "</p>";
+        }
+      });
+
+      // Common questions (FAQ list, links to the manual's troubleshooting page).
+      if ((pc.faq || []).length) {
+        h += "<h1>Common Questions &amp; Troubleshooting</h1><ul>";
+        pc.faq.forEach((q) => (h += "<li>" + esc(q) + "</li>"));
+        h += "</ul>";
+        if (pc.faqUrl) h += "<p class='note'>Answers: " + esc(pc.faqUrl) + "</p>";
+      }
+
+      const links = [];
+      if (pc.url) links.push("Product manual: " + esc(pc.url));
+      if (pc.permissionsUrl) links.push("Permissions matrix: " + esc(pc.permissionsUrl));
+      if (links.length) h += "<p class='note'>" + links.join("<br>") + "</p>";
+
+      return sopDocShell(esc(ctx.client) + " Procore " + esc(erp.label) + " SOP", h);
+    }
+
+    async function generateSopProcore(erp, pcorpus, client, preparer, dateStr) {
+      const groups = corpusGroupsFor(erp, pcorpus);
+      const byKey = {};
+      groups.forEach((g) => { byKey[g.key] = g; });
+      const sections = [];
+      sopToolsEl.querySelectorAll(".sop-tool").forEach((sec) => {
+        if (!sec.querySelector(".sop-tool-toggle").checked) return;
+        const rows = [];
+        sec.querySelectorAll(".sop-rows .sop-row:not(.sop-row-hdr)").forEach((r) => {
+          if (!r.querySelector(".sop-row-inc").checked) return;
+          const action = r.querySelector(".sop-act").value.trim();
+          if (!action) return;
+          rows.push({
+            action: action,
+            name: r.querySelector(".sop-name").value.trim(),
+            role: r.querySelector(".sop-role").value.trim(),
+            perm: r.querySelector(".sop-perm").value.trim()
+          });
+        });
+        sections.push({ key: sec.dataset.groupKey, rows: rows });
+      });
+      if (!sections.length) {
+        sopFootNote.textContent = "Include at least one tool section before generating.";
+        return;
+      }
+      const html = buildSopProcoreHtml({
+        erp: erp, corpus: pcorpus, client: client, preparer: preparer,
+        dateStr: dateStr, sections: sections, byKey: byKey
+      });
+      const blob = new Blob(["﻿", html], { type: "application/msword" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = client.replace(/[^\w \-]/g, "").trim() + " - Procore " + erp.label + " SOP.doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      sopFootNote.textContent = "Generated " + a.download;
+    }
+
     async function generateSop() {
       const erp = sopErpNode;
       if (!erp) return;
@@ -1737,6 +1939,11 @@ export function initErpMap(ctx) {
       const corpus = corpusFor(erp);
       if (corpus) {
         await generateSopCorpus(erp, corpus, client, preparer, dateStr);
+        return;
+      }
+      const pcorpus = procoreCorpusFor(erp);
+      if (pcorpus) {
+        await generateSopProcore(erp, pcorpus, client, preparer, dateStr);
         return;
       }
       const erpLinks = linksByErp[erp.id] || {};
