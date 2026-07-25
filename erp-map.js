@@ -1193,6 +1193,57 @@ export function initErpMap(ctx) {
       return erp && sopProcore ? sopProcore[erp.id] || null : null;
     }
 
+    // SmoothX (SmoothLink) connector knowledge base, distilled by
+    // tools/build-sop-smoothx.py. Same manual-style shape as the Procore-native
+    // corpus, so it reuses the same render/generate path (labels vary by
+    // erp.via). Covers the SmoothX connectors that have KB docs; the rest keep
+    // the template SOP.
+    let sopSmoothx = null;
+    let sopSmoothxPromise = null;
+    function loadSopSmoothx() {
+      if (!sopSmoothxPromise) {
+        sopSmoothxPromise = fetch("sop-smoothx.json", JSON_FETCH)
+          .then((r) => (r.ok ? r.json() : null))
+          .catch(() => null)
+          .then((c) => { sopSmoothx = c; return c; });
+      }
+      return sopSmoothxPromise;
+    }
+    // Manual-style corpus for a connector — Procore-native ERP manual OR the
+    // SmoothX KB. Returns null for Agave (handled by the per-object corpus) and
+    // for connectors with no manual (template SOP).
+    function manualCorpusFor(erp) {
+      if (!erp) return null;
+      if (erp.via === "smoothx") return sopSmoothx ? sopSmoothx[erp.id] || null : null;
+      return procoreCorpusFor(erp);
+    }
+    // Platform labels for the manual-style SOP (Procore ERP Integrations vs
+    // SmoothX). Keeps the render/generate/doc wording connector-appropriate.
+    function manualPlatform(erp) {
+      if (erp.via === "smoothx") {
+        return {
+          syncLabel: "via SmoothX",
+          setupTitle: "Connector Setup (SmoothX)",
+          setupText: "Company-level setup of the SmoothX integration for " + erp.label +
+            " — connect the accounts and confirm mapping before syncing.",
+          docSub: "integration via SmoothX",
+          sourceNote: "SmoothX knowledge base",
+          ttkHeading: "Setup &amp; Mapping Notes",
+          ttkCol1: "Topic", ttkCol2: "Guidance (from the SmoothX KB)",
+        };
+      }
+      return {
+        syncLabel: "via Integration by Procore",
+        setupTitle: "Connector Setup (ERP Integrations)",
+        setupText: "Company-level setup of Procore's ERP Integrations tool for " + erp.label +
+          " — confirm the sync schedule and accounting-approver workflow.",
+        docSub: "ERP integration via Integration by Procore",
+        sourceNote: "product manual",
+        ttkHeading: "Things to Know",
+        ttkCol1: "Procore Item", ttkCol2: "Considerations, Limitations &amp; Requirements",
+      };
+    }
+
     // Procore-tool grouping for corpus SOPs (module id -> tool group);
     // Company/Project level comes from data.json module tiers.
     const SOP_TOOL_GROUPS = [
@@ -1374,21 +1425,22 @@ export function initErpMap(ctx) {
     // own product manual (Things to Know / Diagrams / Tutorials / FAQ) rather
     // than per-object Agave pages. Company/Project tiers from data.json.
     function renderSopProcoreMode(erp, pcorpus) {
+      const plat = manualPlatform(erp);
       const groups = corpusGroupsFor(erp, pcorpus);
 
       // Connector setup — company level. Seed rows from connector-admin
       // tutorials (the ones not tied to a specific tool group) plus a
-      // catch-all ERP Integrations tool configuration row.
+      // catch-all connector configuration row.
       const adminTuts = (pcorpus.tutorials || []).filter((t) => !t.group);
-      const setup = corpusSection("connector-setup", "Connector Setup (ERP Integrations)", "company");
+      const setup = corpusSection("connector-setup", plat.setupTitle, "company");
       const sync = document.createElement("p");
       sync.className = "sop-tool-sync";
-      sync.textContent = "Company-level setup of Procore's ERP Integrations tool for " + erp.label +
-        " — confirm the sync schedule and accounting-approver workflow.";
+      sync.textContent = plat.setupText;
       setup.appendChild(sync);
       const setupTable = corpusRowsTable(setup, erp);
       setupTable.appendChild(makeRow(
-        "Configure the ERP Integrations tool for " + erp.label + " and confirm the sync schedule with the client", null, erp));
+        "Configure the " + (erp.via === "smoothx" ? "SmoothX integration" : "ERP Integrations tool") +
+        " for " + erp.label + " and confirm the sync setup with the client", null, erp));
       adminTuts.forEach((t) => {
         setupTable.appendChild(makeRow("Complete '" + t.title + "'", null, erp));
       });
@@ -1419,7 +1471,7 @@ export function initErpMap(ctx) {
       if ((pcorpus.tutorials || []).length) bits.push(pcorpus.tutorials.length + " tutorials");
       if ((pcorpus.faq || []).length) bits.push(pcorpus.faq.length + " FAQs");
       sopFootNote.textContent = n + " tool section" + (n !== 1 ? "s" : "") +
-        " · Procore ERP-manual content embeds in the document" +
+        " · " + plat.sourceNote + " content embeds in the document" +
         (bits.length ? " (" + bits.join(", ") + ")" : "");
     }
 
@@ -1480,9 +1532,9 @@ export function initErpMap(ctx) {
         renderSopCorpusMode(erp, corpus);
         return;
       }
-      // Procore-native connectors with a product manual get the manual-style
-      // corpus SOP; the rest fall through to the generic template SOP.
-      const pcorpus = procoreCorpusFor(erp);
+      // Procore-native ERPs (product manual) and SmoothX connectors (KB) get
+      // the manual-style corpus SOP; the rest fall through to the template SOP.
+      const pcorpus = manualCorpusFor(erp);
       if (pcorpus) {
         renderSopProcoreMode(erp, pcorpus);
         return;
@@ -1500,8 +1552,8 @@ export function initErpMap(ctx) {
 
     async function openSopModal(erp) {
       // Corpus data loads once, lazily — needed before the first render so
-      // Agave + Procore-native connectors get their corpus-based sections.
-      await Promise.all([loadSopCorpus(), loadSopProcore()]);
+      // Agave + Procore-native + SmoothX connectors get their corpus sections.
+      await Promise.all([loadSopCorpus(), loadSopProcore(), loadSopSmoothx()]);
       // Populate the ERP picker once (lets the builder run from the top button
       // without first selecting a node).
       if (!sopPickerInit && sopErpPick) {
@@ -1808,29 +1860,30 @@ export function initErpMap(ctx) {
       sopFootNote.textContent = "Generated " + a.download;
     }
 
-    // ---- Procore-native manual-style SOP document -----------------------
+    // ---- Manual-style SOP document (Procore-native ERP or SmoothX) ------
     function buildSopProcoreHtml(ctx) {
       const esc = escapeHtml;
       const erp = ctx.erp;
       const pc = ctx.corpus;
+      const plat = manualPlatform(erp);
       let h = "";
       h += "<h1 class='doc-title'>" + esc(ctx.client) + " — Procore + " + esc(erp.label) + "</h1>";
-      h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; ERP integration via Integration by Procore" +
+      h += "<p class='doc-sub'>Standard Operating Procedure &nbsp;·&nbsp; " + esc(plat.docSub) +
         (ctx.preparer ? " &nbsp;·&nbsp; Prepared by " + esc(ctx.preparer) : "") +
         (ctx.dateStr ? " &nbsp;·&nbsp; " + esc(ctx.dateStr) : "") +
-        " &nbsp;·&nbsp; Content sourced from Procore's " + esc(pc.name || erp.label) + " product manual</p>";
+        " &nbsp;·&nbsp; Content sourced from the " + esc(pc.name || erp.label) + " " + esc(plat.sourceNote) + "</p>";
       if (pc.overview) h += "<p>" + esc(pc.overview) + "</p>";
 
-      const flowTable = buildFlowTableHtml(erp, pc, "via Integration by Procore");
+      const flowTable = buildFlowTableHtml(erp, pc, plat.syncLabel);
       if (flowTable) {
         h += "<h2>Data Flow</h2>" + flowTable;
         h += "<p class='note'>Directions as configured in the ERP Connector Map at export time.</p>";
       }
 
-      // Things to Know — per Procore item (verbatim from the product manual).
+      // Things to Know / Setup notes — per item (verbatim from the corpus).
       if ((pc.thingsToKnow || []).length) {
-        h += "<h2>Things to Know</h2>";
-        h += "<table class='cfg2'><tr><th>Procore Item</th><th>Considerations, Limitations &amp; Requirements</th></tr>";
+        h += "<h2>" + plat.ttkHeading + "</h2>";
+        h += "<table class='cfg2'><tr><th>" + plat.ttkCol1 + "</th><th>" + plat.ttkCol2 + "</th></tr>";
         pc.thingsToKnow.forEach((t) => {
           h += "<tr><td>" + esc(t.item) + "</td><td>" + esc(t.note) + "</td></tr>";
         });
@@ -1852,7 +1905,7 @@ export function initErpMap(ctx) {
         (tutByGroup[t.group || "_setup"] = tutByGroup[t.group || "_setup"] || []).push(t);
       });
       ctx.sections.forEach((s) => {
-        const title = s.key === "connector-setup" ? "Connector Setup (ERP Integrations)" : (ctx.byKey[s.key] ? ctx.byKey[s.key].title : s.key);
+        const title = s.key === "connector-setup" ? plat.setupTitle : (ctx.byKey[s.key] ? ctx.byKey[s.key].title : s.key);
         const lvl = s.key === "connector-setup" ? "Company level"
           : (ctx.byKey[s.key] ? levelLabel(ctx.byKey[s.key].level) : "");
         h += "<h1>" + esc(title) + (lvl ? " <span class='lvl'>" + esc(lvl) + "</span>" : "") + "</h1>";
@@ -1881,7 +1934,7 @@ export function initErpMap(ctx) {
       }
 
       const links = [];
-      if (pc.url) links.push("Product manual: " + esc(pc.url));
+      if (pc.url) links.push((erp.via === "smoothx" ? "SmoothX KB: " : "Product manual: ") + esc(pc.url));
       if (pc.permissionsUrl) links.push("Permissions matrix: " + esc(pc.permissionsUrl));
       if (links.length) h += "<p class='note'>" + links.join("<br>") + "</p>";
 
@@ -1941,7 +1994,7 @@ export function initErpMap(ctx) {
         await generateSopCorpus(erp, corpus, client, preparer, dateStr);
         return;
       }
-      const pcorpus = procoreCorpusFor(erp);
+      const pcorpus = manualCorpusFor(erp);
       if (pcorpus) {
         await generateSopProcore(erp, pcorpus, client, preparer, dateStr);
         return;
