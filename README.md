@@ -68,7 +68,7 @@ file in the right-hand column — you almost never need to touch more than one.*
 | Mode toggle, hash deep links, data loading | `main.js` | Entry module; owns `setMode()` + routing. |
 | Cross-view utilities (hex geometry, zoom/pan, dialogs) | `shared.js` | Used by both graphs + the tracker dialogs. |
 | SOP Builder action templates (per ERP tool) | `sop-templates.json` | The "Generate Word document" modal (template mode). |
-| SOP Builder corpus content (Agave connectors) | regenerate `sop-agave.json` via `tools/build-sop-agave.py` | **Generated** from the local Agave sync-docs corpus. Corpus-mode SOPs embed a data-flow map image. |
+| SOP Builder corpus content (Agave connectors) | regenerate `sop-agave.json` via `tools/build-sop-agave.py` | **Generated** from the local Agave sync-docs corpus. Corpus-mode SOPs include a Word-native, Procore-branded data-flow table. |
 | The official Configuration Workbook (Build-phase rows + export) | regenerate `workbook-template.json` via `tools/build-workbook-template.py` | **Generated** from the official NAMER .xlsx — don't hand-edit. |
 | Search-finder corpus (the "Search connectors…" box) | `docs-index.json` | **Generated** — see [tools/](#toolsbuild-scripts). Don't hand-edit. |
 | Any styling | `styles.css` | One file, all modes (incl. print). Brand palette near the top as CSS vars. |

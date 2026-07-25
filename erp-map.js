@@ -1300,161 +1300,52 @@ export function initErpMap(ctx) {
         " from the Agave sync-docs corpus · flow map + configurations embed in the document";
     }
 
-    // ---- Flow map (SVG → PNG) -----------------------------------------
-    // A one-connector bipartite map reflecting the LIVE directions —
-    // Company-level and Project-level lanes, map color/dash conventions,
-    // arrowheads showing which way data moves.
-    function buildFlowMapSvg(erp) {
+    // ---- Data-flow table (Word-native, Procore-branded) ----------------
+    // A clean table replacing the old flow-map image: one row per synced
+    // object, grouped into Company-level / Project-level bands, with a
+    // color-coded direction cell reflecting the LIVE link direction
+    // (including any Agave-configurable toggles flipped for this client).
+    // Pure HTML — renders identically in Word and needs no embedded image.
+    function buildFlowTableHtml(erp, corpus) {
+      const esc = escapeHtml;
       const erpLinks = linksByErp[erp.id] || {};
+      const objects = corpus && corpus.objects ? corpus.objects : {};
       const mods = moduleNodes.filter((m) => erpLinks[m.id]);
+      if (!mods.length) return "";
       const company = mods.filter((m) => m.tier === "company");
       const project = mods.filter((m) => m.tier !== "company");
-      const ROW = 30, HDR = 26, TOP = 64, W = 920;
-      const leftX = 170, rightX = 620;
-      const rowsH = (company.length ? HDR + company.length * ROW + 10 : 0) +
-                    (project.length ? HDR + project.length * ROW : 0);
-      const H = TOP + rowsH + 56;
 
-      const svg = svgEl("svg", {
-        xmlns: "http://www.w3.org/2000/svg",
-        width: W, height: H, viewBox: "0 0 " + W + " " + H,
-        "font-family": "Arial, Helvetica, sans-serif"
-      });
-      svg.appendChild(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "#ffffff" }));
-      svg.appendChild(svgEl("text", {
-        x: W / 2, y: 28, "text-anchor": "middle", "font-size": 15,
-        "font-weight": "bold", fill: "#000"
-      }, "Procore ↔ " + erp.label + " — Data Flow (as configured)"));
-
-      const midY = TOP + rowsH / 2;
-      const hex = svgEl("polygon", { points: hexPoints(30), fill: "#566578" });
-      const g = svgEl("g", { transform: "translate(" + leftX + "," + midY + ")" });
-      g.appendChild(hex);
-      svg.appendChild(g);
-      svg.appendChild(svgEl("text", {
-        x: leftX, y: midY + 50, "text-anchor": "middle", "font-size": 13,
-        "font-weight": "bold", fill: "#000"
-      }, erp.label));
-      svg.appendChild(svgEl("text", {
-        x: leftX, y: midY + 66, "text-anchor": "middle", "font-size": 10, fill: "#566578"
-      }, "via Agave Sync"));
-
-      function arrow(x, y, dirLeft, color) {
-        const s = 6;
-        const pts = dirLeft
-          ? (x + s) + "," + (y - s / 1.4) + " " + x + "," + y + " " + (x + s) + "," + (y + s / 1.4)
-          : (x - s) + "," + (y - s / 1.4) + " " + x + "," + y + " " + (x - s) + "," + (y + s / 1.4);
-        svg.appendChild(svgEl("polyline", {
-          points: pts, fill: "none", stroke: color, "stroke-width": 2,
-          "stroke-linecap": "round", "stroke-linejoin": "round"
-        }));
+      function dirCell(dir) {
+        if (dir === "both")
+          return "<td class='fd fd-both'>&#8596;&nbsp; Bidirectional</td>";
+        if (dir === "to-erp")
+          return "<td class='fd fd-to'>&#8594;&nbsp; Procore to " + esc(erp.label) + "</td>";
+        return "<td class='fd fd-from'>&#8592;&nbsp; " + esc(erp.label) + " to Procore</td>";
       }
-
-      let y = TOP;
-      function lane(title, list) {
-        if (!list.length) return;
-        svg.appendChild(svgEl("text", {
-          x: rightX, y: y + 12, "font-size": 10.5, "font-weight": "bold",
-          fill: "#566578", "letter-spacing": "1"
-        }, title.toUpperCase()));
-        y += HDR;
-        list.forEach((m) => {
+      function bodyRows(list) {
+        return list.map((m) => {
           const link = erpLinks[m.id];
-          const cy = y + ROW / 2 - 4;
-          const color = link.direction === "from-erp" ? "#000000" : "#FF5200";
-          const line = svgEl("line", {
-            x1: leftX + 34, y1: midY, x2: rightX - 26, y2: cy,
-            stroke: color, "stroke-width": 1.8
-          });
-          if (link.direction !== "both") line.setAttribute("stroke-dasharray", "6 4");
-          svg.appendChild(line);
-          // Arrowheads at the receiving end(s): to-erp -> into the ERP,
-          // from-erp -> into the module, both -> both ends.
-          const ang = Math.atan2(cy - midY, (rightX - 26) - (leftX + 34));
-          if (link.direction === "to-erp" || link.direction === "both") {
-            arrow(leftX + 34, midY + Math.sin(ang) * 0, true, color);
-          }
-          if (link.direction === "from-erp" || link.direction === "both") {
-            arrow(rightX - 26, cy, false, color);
-          }
-          const mhx = svgEl("g", { transform: "translate(" + (rightX - 12) + "," + cy + ")" });
-          mhx.appendChild(svgEl("polygon", {
-            points: hexPoints(9),
-            fill: m.tier === "company" ? "#000000" : "#000000"
-          }));
-          if (m.tier === "company") {
-            mhx.appendChild(svgEl("polygon", { points: hexPoints(4), fill: "#FF5200" }));
-          }
-          svg.appendChild(mhx);
-          svg.appendChild(svgEl("text", {
-            x: rightX + 4, y: cy + 4, "font-size": 12, fill: "#000"
-          }, m.label));
-          y += ROW;
-        });
-        y += 10;
+          const doc = objects[m.id];
+          const erpName = (doc && doc.title) ? doc.title : m.label;
+          return "<tr>" +
+            "<td class='fp'>" + esc(m.label) + "</td>" +
+            dirCell(link.direction) +
+            "<td class='fe'>" + esc(erpName) + "</td>" +
+            "</tr>";
+        }).join("");
       }
-      lane("Company level", company);
-      lane("Project level", project);
 
-      // Legend
-      const ly = H - 18;
-      function legend(x, color, dash, label) {
-        const l = svgEl("line", { x1: x, y1: ly - 4, x2: x + 30, y2: ly - 4, stroke: color, "stroke-width": 2 });
-        if (dash) l.setAttribute("stroke-dasharray", "6 4");
-        svg.appendChild(l);
-        svg.appendChild(svgEl("text", { x: x + 36, y: ly, "font-size": 10, fill: "#333" }, label));
+      let h = "<table class='flow'>";
+      h += "<tr><th style='width:38%'>Procore</th><th class='fdh' style='width:30%'>Sync Direction</th><th style='width:32%'>" +
+        esc(erp.label) + " (via Agave Sync)</th></tr>";
+      if (company.length) {
+        h += "<tr class='fb'><td colspan='3'>Company Level</td></tr>" + bodyRows(company);
       }
-      legend(60, "#FF5200", false, "Bidirectional");
-      legend(240, "#FF5200", true, "Procore → " + erp.label);
-      legend(470, "#000000", true, erp.label + " → Procore");
-      return { svg: svg, width: W, height: H };
-    }
-
-    function svgToPngBase64(built) {
-      return new Promise((resolve, reject) => {
-        const xml = new XMLSerializer().serializeToString(built.svg);
-        const img = new Image();
-        img.onload = () => {
-          try {
-            const c = document.createElement("canvas");
-            c.width = built.width * 2;
-            c.height = built.height * 2;
-            const g2 = c.getContext("2d");
-            g2.fillStyle = "#ffffff";
-            g2.fillRect(0, 0, c.width, c.height);
-            g2.drawImage(img, 0, 0, c.width, c.height);
-            resolve(c.toDataURL("image/png").split(",")[1]);
-          } catch (e) { reject(e); }
-        };
-        img.onerror = () => reject(new Error("flow map raster failed"));
-        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
-      });
-    }
-
-    // Word-friendly single-file web archive: HTML part + PNG part. Word
-    // opens it as a .doc and renders the embedded flow map.
-    function mhtmlDoc(html, pngBase64) {
-      const B = "----=_NextPart_PNPT_SOP";
-      return [
-        "MIME-Version: 1.0",
-        'Content-Type: multipart/related; boundary="' + B + '"; type="text/html"',
-        "",
-        "--" + B,
-        'Content-Type: text/html; charset="utf-8"',
-        "Content-Location: sop.html",
-        "",
-        html,
-        "",
-        "--" + B,
-        "Content-Type: image/png",
-        "Content-Transfer-Encoding: base64",
-        "Content-Location: flowmap.png",
-        "",
-        pngBase64.replace(/(.{76})/g, "$1\r\n"),
-        "",
-        "--" + B + "--",
-        ""
-      ].join("\r\n");
+      if (project.length) {
+        h += "<tr class='fb'><td colspan='3'>Project Level</td></tr>" + bodyRows(project);
+      }
+      h += "</table>";
+      return h;
     }
 
     function renderSopTool(tool, erp, erpLinks) {
@@ -1673,7 +1564,18 @@ export function initErpMap(ctx) {
       "p.note{font-size:9pt;color:#566578;margin:4pt 0 0;}" +
       ".lvl{font-size:9pt;color:#FFFFFF;background:#566578;padding:1pt 6pt;font-weight:normal;}" +
       ".lvl2{font-size:8.5pt;color:#566578;font-weight:normal;}" +
-      "img{border:1pt solid #DDDDDD;}" +
+      // Data-flow table — Procore-branded (orange header, black level bands).
+      "table.flow{border-collapse:collapse;width:100%;margin:6pt 0 4pt;}" +
+      "table.flow th{background:#FF5200;color:#fff;border:1px solid #FF5200;font-size:10pt;padding:6pt 8pt;text-align:left;}" +
+      "table.flow th.fdh{text-align:center;}" +
+      "table.flow td{border:1px solid #E3E3E3;padding:5pt 9pt;font-size:10pt;vertical-align:middle;}" +
+      "table.flow tr.fb td{background:#000;color:#fff;font-weight:bold;font-size:8.5pt;letter-spacing:1pt;text-transform:uppercase;padding:4pt 8pt;}" +
+      "table.flow td.fp{font-weight:bold;color:#000;}" +
+      "table.flow td.fe{color:#1a1a1a;}" +
+      "table.flow td.fd{text-align:center;white-space:nowrap;font-weight:bold;font-size:9.5pt;}" +
+      "table.flow td.fd-to{color:#FF5200;}" +
+      "table.flow td.fd-from{color:#000;}" +
+      "table.flow td.fd-both{color:#FF5200;}" +
       "ul{margin:4pt 0 8pt;} li{margin:2pt 0;}";
     function sopDocShell(title, bodyHtml) {
       return "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
@@ -1701,9 +1603,10 @@ export function initErpMap(ctx) {
         " &nbsp;·&nbsp; Content sourced from the Agave sync-docs</p>";
       if (erp.overview) h += "<p>" + esc(erp.overview) + "</p>";
 
-      if (ctx.hasMap) {
-        h += "<h2>Data Flow Map</h2>";
-        h += "<p><img src='flowmap.png' width='690' alt='Procore / " + esc(erp.label) + " data flow map'/></p>";
+      const flowTable = buildFlowTableHtml(erp, corpus);
+      if (flowTable) {
+        h += "<h2>Data Flow</h2>";
+        h += flowTable;
         h += "<p class='note'>Directions as configured in the ERP Connector Map at export time — including any Agave-configurable direction choices made for this client.</p>";
       }
 
@@ -1806,19 +1709,13 @@ export function initErpMap(ctx) {
         return;
       }
 
-      sopFootNote.textContent = "Rendering flow map…";
-      let png = "";
-      try {
-        png = await svgToPngBase64(buildFlowMapSvg(erp));
-      } catch (e) {
-        // The document still generates without the image.
-      }
       const html = buildSopCorpusHtml({
         erp: erp, corpus: corpus, client: client, preparer: preparer,
-        dateStr: dateStr, sections: sections, byKey: byKey, hasMap: !!png
+        dateStr: dateStr, sections: sections, byKey: byKey
       });
-      const payload = png ? mhtmlDoc(html, png) : "﻿" + html;
-      const blob = new Blob([payload], { type: "application/msword" });
+      // Plain HTML .doc (BOM for Word's UTF-8 detection) — the data flow is a
+      // Word-native table now, so no embedded image / MHTML is needed.
+      const blob = new Blob(["﻿", html], { type: "application/msword" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = client.replace(/[^\w \-]/g, "").trim() + " - Procore " + erp.label + " SOP.doc";
@@ -1826,7 +1723,7 @@ export function initErpMap(ctx) {
       a.click();
       document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      sopFootNote.textContent = "Generated " + a.download + (png ? " (flow map embedded)" : "");
+      sopFootNote.textContent = "Generated " + a.download;
     }
 
     async function generateSop() {
