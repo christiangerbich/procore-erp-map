@@ -2,8 +2,10 @@
 """Distill the local Agave sync-docs corpus into sop-agave.json — the data
 behind the corpus-based SOP Builder for Agave connectors.
 
-For each supported ERP (Foundation first), every synced object's doc page is
-parsed into verbatim sections:
+Every Agave ERP node in data.json is covered. For each ERP we read which
+objects it syncs (data.json links), auto-resolve each object to its corpus
+doc page by keyword rules (folder filenames vary per ERP), and parse each
+page into verbatim sections:
   setup[]   — how-to / prerequisite / enablement sections
   configs[] — configuration topics & options
   errors[]  — FAQs and common error messages
@@ -13,8 +15,10 @@ paraphrased — and every object carries its sync-docs URL.
 
 Company/Project level tagging happens in the app (data.json module tiers).
 
-Usage:  python tools/build-sop-agave.py
-Reads:  ~/Documents/Procore MD Files/Agave/<folder>/
+Usage:  python tools/build-sop-agave.py [--dry-run]
+          --dry-run  print the per-ERP object->file resolution table and exit
+Reads:  data.json  (which objects each ERP syncs)
+        ~/Documents/Procore MD Files/Agave/<folder>/
 Writes: sop-agave.json (committed; lazy-loaded by the SOP Builder)
 """
 import io, json, os, re, sys
@@ -22,45 +26,92 @@ import io, json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(os.path.expanduser("~"), "Documents", "Procore MD Files", "Agave")
 OUT = os.path.join(ROOT, "sop-agave.json")
+SUFFIX = "  Agave Sync.md"
 
-# Per-ERP: corpus folder + module-id -> page file, general pages, limitations.
-ERPS = {
-    "foundation": {
-        "folder": "Procore and Foundation",
-        "objects": {
-            "vendors": "Vendors  Agave Sync.md",
-            "employees": "Employees  Agave Sync.md",
-            "cost-codes": "Cost Codes  Agave Sync.md",
-            "project-wbs": "Sub Jobs (Phases)  Agave Sync.md",
-            "jobs": "Projects (Jobs)  Agave Sync.md",
-            "budgets": "Budget Line Items (Budgets)  Agave Sync.md",
-            "budget-changes": "Budget Transfers  Agave Sync.md",
-            "subcontracts": "Subcontracts  Agave Sync.md",
-            "purchase-orders": "Purchase Orders  Agave Sync.md",
-            "direct-costs": "Job Costs (Direct Costs)  Agave Sync.md",
-            "sub-invoices": "AP Invoices  Agave Sync.md",
-            "owner-invoices": "AR Invoices (Owner Invoices)  Agave Sync.md",
-            "commitment-payments": "AP Payments  Agave Sync.md",
-            "prime-contracts": "Prime Contracts  Agave Sync.md",
-            "commitment-change-orders": "Subcontractor Change Orders  Agave Sync.md",
-            "prime-contract-change-orders": "Prime Contract Change Orders  Agave Sync.md",
-            "timecards": "Timecard Entries (Timesheets)  Agave Sync.md",
-        },
-        "general": [
-            ("authentication", "Authentication  Agave Sync.md"),
-            ("cost-types", "Cost Types (Cost Classes)  Agave Sync.md"),
-            ("company-cost-codes", "Company Cost Codes  Agave Sync.md"),
-            ("units-of-measure", "Units of Measure  Agave Sync.md"),
-        ],
-        "limitations": "Known Limitations  Agave Sync.md",
-    },
+# Agave ERP node id -> corpus folder. Folder names are irregular so map them.
+FOLDERS = {
+    "foundation": "Procore and Foundation",
+    "computerease": "Procore and ComputerEase",
+    "acumatica-agave": "Procore and Acumatica",
+    "quickbooks-desktop-agave": "Procore and QuickBooks Desktop",
+    "sage-100-agave": "Procore and Sage 100 Contractor",
+    "sage-intacct-agave": "Procore and Sage Intacct",
+    "viewpoint-spectrum-agave": "Procore and Spectrum",
+    "viewpoint-vista-agave": "Procore and Vista",
 }
+
+# module-id -> ordered filename patterns (most specific first). First pattern
+# that matches any (non-rejected) file in the folder wins; among files matching
+# the same pattern the first alphabetically is taken. Matched against the
+# filename with the "  Agave Sync.md" suffix stripped, case-insensitively.
+RULES = {
+    "vendors":                      [r"^Vendors\b"],
+    "employees":                    [r"^Employees\b"],
+    "cost-codes":                   [r"^Cost Codes\b", r"Cost Codes\b"],  # 2nd: Acumatica "Sub Jobs (...) and Cost Codes"
+    "project-wbs":                  [r"^Sub Jobs\b"],
+    "jobs":                         [r"^Projects\b"],
+    "budgets":                      [r"^Budget Line Items\b"],
+    "budget-changes":               [r"^Budget Transfers\b", r"^Budget Changes\b"],
+    "subcontracts":                 [r"^Subcontracts\b"],
+    "purchase-orders":              [r"^Purchase Orders$", r"^Purchase Orders \("],  # plain first, then Vista "(Commitments)"
+    "direct-costs":                 [r"^Job Costs \(Direct Costs\)", r"^Job Costs\b"],
+    "sub-invoices":                 [r"^AP Invoices\b"],
+    "owner-invoices":               [r"^AR Invoices\b"],
+    "commitment-payments":          [r"^AP Payments\b"],
+    "prime-contract-payments":      [r"^AR Payments\b"],
+    "prime-contracts":              [r"^Prime Contracts\b"],
+    "prime-contract-change-orders": [r"^Prime Contract Change Orders\b", r"^Prime Change Orders\b", r"^Change Orders\b"],
+    "commitment-change-orders":     [r"Subcontractor Change Orders\b", r"^Change Orders\b"],
+    "timecards":                    [r"^Timecard Entries\b"],
+}
+REJECT = {
+    "cost-codes":               [r"Company Cost Codes", r"Inactive Cost Code"],
+    "commitment-change-orders": [r"^Prime\b"],
+}
+# General connector pages: (key, pattern). Included when present in the folder.
+GENERAL_CANDIDATES = [
+    ("authentication",     r"Authentication\b"),
+    ("cost-types",         r"^Cost Types\b"),
+    ("company-cost-codes", r"^Company Cost Codes\b"),
+    ("units-of-measure",   r"^Units of Measure\b"),
+    ("tax-codes",          r"^Tax Codes\b"),
+    ("departments",        r"^Departments\b"),
+]
+LIMITATIONS_PAT = r"^Known Limitations\b"
+
+
+def base(fname):
+    return fname[:-len(SUFFIX)] if fname.endswith(SUFFIX) else re.sub(r"\.md$", "", fname)
+
+
+def resolve(patterns, files, reject=()):
+    """First file matching the highest-priority pattern and no reject pattern."""
+    rej = [re.compile(r, re.I) for r in reject]
+    for pat in patterns:
+        rx = re.compile(pat, re.I)
+        for f in sorted(files):
+            b = base(f)
+            if rx.search(b) and not any(r.search(b) for r in rej):
+                return f
+    return None
+
+
+def synced_modules():
+    d = json.load(io.open(os.path.join(ROOT, "data.json"), encoding="utf-8"))
+    agave = {n["id"] for n in d["nodes"] if n.get("via") == "agave"}
+    by = {}
+    for l in d["links"]:
+        if l["source"] in agave:
+            by.setdefault(l["source"], set()).add(l["target"])
+    return by
+
 
 MAX_TEXT = 700
 SKIP_H2 = re.compile(r"^(visual mapping|video tutorial|video tutorials|demonstration)s?$", re.I)
 # Setup = anchored how-to/enablement headings ("Exporting X…", "Enabling…",
-# "Installation", prerequisites). Plain FAQ titles that merely mention "sync"
-# stay configs/FAQs.
+# "Installation", prerequisites). Anchored at start so FAQ questions that merely
+# contain "sync to Procore" stay in the errors/FAQ bucket. "procore to X" catches
+# the reverse-direction section header used across the connector docs.
 SETUP_RE = re.compile(
     r"(pre-?requisite|^(exporting|importing|syncing|enabling|setting up|set up|installation)\b|"
     r"^how to (export|import|sync|enable|set)|^(procore to|foundation to)\b)", re.I)
@@ -194,36 +245,80 @@ def parse_limitations(path):
     return dedup
 
 
-result = {"_generated": "by tools/build-sop-agave.py from the local Agave sync-docs corpus"}
-for erp_key, spec in ERPS.items():
-    folder = os.path.join(CORPUS, spec["folder"])
-    objects = {}
-    for module_id, fname in spec["objects"].items():
-        p = os.path.join(folder, fname)
-        if not os.path.exists(p):
-            print("  MISSING page for %s/%s: %s" % (erp_key, module_id, fname))
+def build_spec(erp_key, module_ids, files):
+    """Resolve objects/general/limitations filenames for one ERP."""
+    objects, unresolved = {}, []
+    for mid in sorted(module_ids):
+        if mid not in RULES:
+            unresolved.append((mid, "(no rule)"))
             continue
-        objects[module_id] = parse_page(p)
+        f = resolve(RULES[mid], files, REJECT.get(mid, ()))
+        if f:
+            objects[mid] = f
+        else:
+            unresolved.append((mid, "(no file)"))
     general = []
-    for key, fname in spec["general"]:
-        p = os.path.join(folder, fname)
-        if not os.path.exists(p):
-            print("  MISSING general page: %s" % fname)
-            continue
-        g = parse_page(p)
-        g["key"] = key
-        general.append(g)
-    limitations = []
-    lim_path = os.path.join(folder, spec["limitations"])
-    if os.path.exists(lim_path):
-        limitations = parse_limitations(lim_path)
-    result[erp_key] = {"objects": objects, "general": general, "limitations": limitations}
-    n_setup = sum(len(o["setup"]) for o in objects.values())
-    n_cfg = sum(len(o["configs"]) for o in objects.values())
-    n_err = sum(len(o["errors"]) for o in objects.values())
-    print("%s: %d objects (%d setup / %d config / %d error entries), %d general pages, %d limitations" % (
-        erp_key, len(objects), n_setup, n_cfg, n_err, len(general), len(limitations)))
+    for key, pat in GENERAL_CANDIDATES:
+        f = resolve([pat], files)
+        if f:
+            general.append((key, f))
+    lim = resolve([LIMITATIONS_PAT], files)
+    return objects, general, lim, unresolved
 
-with io.open(OUT, "w", encoding="utf-8") as f:
-    json.dump(result, f, ensure_ascii=False, separators=(",", ":"))
-print("Wrote %s (%.0f KB)" % (OUT, os.path.getsize(OUT) / 1024.0))
+
+def main():
+    dry = "--dry-run" in sys.argv
+    by_module = synced_modules()
+
+    result = {"_generated": "by tools/build-sop-agave.py from the local Agave sync-docs corpus"}
+    any_unresolved = False
+    for erp_key, folder_name in FOLDERS.items():
+        folder = os.path.join(CORPUS, folder_name)
+        if not os.path.isdir(folder):
+            print("  MISSING folder for %s: %s" % (erp_key, folder))
+            continue
+        files = [f for f in os.listdir(folder) if f.lower().endswith(".md")]
+        module_ids = by_module.get(erp_key, set())
+        objects_map, general_map, lim_file, unresolved = build_spec(erp_key, module_ids, files)
+
+        if dry:
+            print("\n=== %s  (%s)  [%d synced objects] ===" % (erp_key, folder_name, len(module_ids)))
+            for mid in sorted(objects_map):
+                print("  %-30s -> %s" % (mid, base(objects_map[mid])))
+            for mid, why in unresolved:
+                any_unresolved = True
+                print("  %-30s -> !! UNRESOLVED %s" % (mid, why))
+            print("  general: %s" % ", ".join("%s=%s" % (k, base(f)) for k, f in general_map))
+            print("  limitations: %s" % (base(lim_file) if lim_file else "(none)"))
+            continue
+
+        objects = {}
+        for mid, fname in objects_map.items():
+            objects[mid] = parse_page(os.path.join(folder, fname))
+        general = []
+        for key, fname in general_map:
+            g = parse_page(os.path.join(folder, fname))
+            g["key"] = key
+            general.append(g)
+        limitations = parse_limitations(os.path.join(folder, lim_file)) if lim_file else []
+        result[erp_key] = {"objects": objects, "general": general, "limitations": limitations}
+        n_setup = sum(len(o["setup"]) for o in objects.values())
+        n_cfg = sum(len(o["configs"]) for o in objects.values())
+        n_err = sum(len(o["errors"]) for o in objects.values())
+        flag = "  [%d UNRESOLVED]" % len(unresolved) if unresolved else ""
+        print("%-26s %2d objects (%d setup / %d config / %d error), %d general, %d limitations%s" % (
+            erp_key, len(objects), n_setup, n_cfg, n_err, len(general), len(limitations), flag))
+        for mid, why in unresolved:
+            print("    UNRESOLVED %s %s" % (mid, why))
+
+    if dry:
+        print("\n%s" % ("!! some objects unresolved — add rules/overrides" if any_unresolved else "all objects resolved"))
+        return
+
+    with io.open(OUT, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, separators=(",", ":"))
+    print("Wrote %s (%.0f KB)" % (OUT, os.path.getsize(OUT) / 1024.0))
+
+
+if __name__ == "__main__":
+    main()
