@@ -859,6 +859,63 @@ export function initConfigTracker(ctx) {
       wrap.appendChild(desc);
     }
 
+    // Role brief — who does what this phase, SPC vs PM/PC, split into
+    // prep ("Before") and live ("On the call") duties. Sourced verbatim
+    // from the PNPT training docs (see phase.roleBrief.source).
+    if (phase.roleBrief) {
+      const rb = phase.roleBrief;
+      const card = document.createElement("div");
+      card.className = "config-rolebrief";
+      const head = document.createElement("p");
+      head.className = "config-rolebrief-eyebrow";
+      head.textContent = "Who does what — this phase";
+      card.appendChild(head);
+      const grid = document.createElement("div");
+      grid.className = "config-rolebrief-grid";
+      [["spc", "SPC"], ["pmpc", "PM/PC"]].forEach(([key, label]) => {
+        const role = rb[key];
+        if (!role) return;
+        const col = document.createElement("div");
+        col.className = "config-rolebrief-col config-rolebrief-" + key;
+        const chip = document.createElement("span");
+        chip.className = "config-rolebrief-chip";
+        chip.textContent = label;
+        col.appendChild(chip);
+        if (role.note) {
+          const note = document.createElement("p");
+          note.className = "config-rolebrief-note";
+          note.textContent = role.note;
+          col.appendChild(note);
+        }
+        [["before", rb.beforeLabel || "Before the call"],
+         ["call", rb.callLabel || "On the call"]].forEach(([bucket, bLabel]) => {
+          const items = role[bucket];
+          if (!items || !items.length) return;
+          const bh = document.createElement("p");
+          bh.className = "config-rolebrief-bucket";
+          bh.textContent = bLabel;
+          col.appendChild(bh);
+          const ul = document.createElement("ul");
+          ul.className = "config-rolebrief-list";
+          items.forEach((t) => {
+            const li = document.createElement("li");
+            li.textContent = t;
+            ul.appendChild(li);
+          });
+          col.appendChild(ul);
+        });
+        grid.appendChild(col);
+      });
+      card.appendChild(grid);
+      if (rb.source) {
+        const src = document.createElement("p");
+        src.className = "config-rolebrief-source";
+        src.textContent = "Source: " + rb.source;
+        card.appendChild(src);
+      }
+      wrap.appendChild(card);
+    }
+
     // NAMER source documents for this phase (Google Drive links).
     if (Array.isArray(phase.resources) && phase.resources.length) {
       const res = document.createElement("div");

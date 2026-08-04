@@ -3023,6 +3023,71 @@ body.is-locked { overflow: hidden; }
 }
 
 /* Validation Script — UAT checklist (Validate phase). */
+/* Role brief — SPC vs PM/PC duties per phase (before / on the call) */
+.config-rolebrief {
+  margin: 14px 0 18px;
+  max-width: 860px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px 14px 10px;
+  background: var(--color-surface, #fff);
+}
+.config-rolebrief-eyebrow {
+  margin: 0 0 10px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.config-rolebrief-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 720px) { .config-rolebrief-grid { grid-template-columns: 1fr; } }
+.config-rolebrief-col { min-width: 0; }
+.config-rolebrief-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 3px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.config-rolebrief-spc .config-rolebrief-chip { background: var(--color-orange, #FF5200); }
+.config-rolebrief-pmpc .config-rolebrief-chip { background: #000; }
+.config-rolebrief-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+.config-rolebrief-bucket {
+  margin: 10px 0 3px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+.config-rolebrief-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.config-rolebrief-list li { margin: 2px 0; }
+.config-rolebrief-source {
+  margin: 10px 0 0;
+  font-size: 10.5px;
+  color: var(--color-text-muted);
+}
+
 .config-validation { margin-top: 26px; max-width: 860px; }
 .config-validation > h3 { margin: 0 0 6px; font-family: "Inter Tight", sans-serif; font-size: 17px; font-weight: 800; }
 .config-validation-intro { margin: 0 0 10px; color: var(--color-text-muted); font-size: 13px; line-height: 1.5; }

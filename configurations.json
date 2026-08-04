@@ -7,6 +7,39 @@
       "eyebrow": "Phase 0",
       "owner": "PM / PC",
       "description": "System setup, internal pit stop, and project resourcing kick off the moment the project is assigned. Critical: SPCs must be resourced same day so the 4-hour consultation blocks can be scheduled at the kickoff call.",
+      "roleBrief": {
+        "beforeLabel": "Upon assignment",
+        "callLabel": "Pit stop & kickoff prep",
+        "source": "GPS Package Training deck (slides 19–22) · Package Delivery Guide (Project Setup, Internal Pit Stop)",
+        "spc": {
+          "note": "No per-project Initiation tasks — SPC involvement begins at the post-kickoff Delivery Pit Stop.",
+          "before": [
+            "Keep pre-tagged 4-hour blocks open so PMs/PCs can schedule sessions",
+            "Complete the four-session GPS package training series",
+            "Work from the Package Delivery Guide section for your current stage",
+            "Post questions and feedback to the FAQ doc and #gps_2026_packages"
+          ],
+          "call": []
+        },
+        "pmpc": {
+          "before": [
+            "Read the Certinia assignment; confirm budget, duration, dates and Order Form",
+            "Create Shared Drive folders and the #gps_accountname Slack channel (add team, AE, AM, CSE)",
+            "Set up the Smartsheet workspace: Implementation Plan, Validation Script, RAID log only",
+            "Submit SPC resource requests same day; copy-paste the package Forecast Curve into Certinia",
+            "No Project Notebook — keep all project notes in Slack",
+            "Use the updated Outreach templates and Gong Briefs"
+          ],
+          "call": [
+            "Run the internal pit stop with AE / CSE / AM (SMB: via Slack)",
+            "Verify goals, milestones, key dates, tools and projects; close gaps",
+            "Post pit stop questions and answers in the Slack channel",
+            "Send the kickoff-scheduling email via the Outreach template",
+            "Create the Kickoff Deck (Matik or Google template); send invites (client, CSE, AM commercial)",
+            "Add assigned resources to Smartsheet, Slack and Google Drive"
+          ]
+        }
+      },
       "tasks": [
         {
           "text": "Review project assignment in Certinia (budget, duration, package SKU)",
@@ -17,7 +50,7 @@
           "id": "init-create-project-folder-structure-in"
         },
         {
-          "text": "Create the project Slack channel and pin Implementation Plan + RAID log",
+          "text": "Create the #gps_accountname Slack channel; add delivery team, AE, AM, CSE (Plan + RAID get pinned at kickoff follow-up)",
           "id": "init-create-the-project-slack-channel"
         },
         {
@@ -25,15 +58,15 @@
           "id": "init-set-up-smartsheet-workspace-plan"
         },
         {
-          "text": "Update Outreach email templates for this package's touchpoints",
+          "text": "Use the updated Outreach email templates for this package's touchpoints",
           "id": "init-update-outreach-email-templates-for"
         },
         {
-          "text": "Update Gong Brief targeted to package touchpoints",
+          "text": "Use the updated Gong Briefs targeted to package touchpoints",
           "id": "init-update-gong-brief-targeted-to"
         },
         {
-          "text": "Run internal pit stop with AE / CSE / AM (commercial upmarket)",
+          "text": "Run internal pit stop with AE / CSE / AM (commercial upmarket: meeting; SMB: via Slack)",
           "id": "init-run-internal-pit-stop-with"
         },
         {
@@ -49,7 +82,7 @@
           "id": "init-send-the-kickoff-scheduling-email"
         },
         {
-          "text": "Customer self-paced: complete Procore Tool Certifications before discovery (front-loaded to accelerate configuration sessions)",
+          "text": "Customer self-paced: complete Procore Tool Certifications before discovery (assigned as kickoff homework; front-loaded to accelerate configuration sessions)",
           "id": "init-customer-self-paced-complete-procore"
         }
       ],
@@ -85,6 +118,37 @@
       "eyebrow": "Phase 1",
       "owner": "PM / PC + Customer",
       "description": "Rebranded from the Alignment Call. Highly prescriptive — introduce the package journey, set scope and deliverable expectations, and schedule every meeting on the call (discovery, consultations, configuration training, validation Q&A, closeout) before the customer leaves.",
+      "roleBrief": {
+        "callLabel": "On the call & follow-up",
+        "source": "Kickoff Call Script · Kickoff Call Template · GPS Package Training deck (slides 28–31) · PNPT FAQ (Q7–Q8)",
+        "spc": {
+          "note": "The SPC does not attend the kickoff call (FAQ Q8) — involvement starts at the post-kickoff Delivery Pit Stop.",
+          "before": [],
+          "call": [
+            "Attend the Delivery Pit Stop — scope, projects, timeline, goals, committee handoff",
+            "Confirm budget hours and timeline needed for each scope of work",
+            "Flag timeline, budget and travel/PVT risks"
+          ]
+        },
+        "pmpc": {
+          "before": [
+            "Email the main POC via the Outreach template; attach the package Slick",
+            "Create the kickoff deck (Matik or Google template)",
+            "Pre-fill What We Heard: goals, key dates, tools, projects",
+            "Verify goals, milestones, tools and projects with the AE at the internal pit stop",
+            "Insert Project Plan and RAID log links into the deck",
+            "Send calendar invites to the client, CSE and AM (commercial only)"
+          ],
+          "call": [
+            "Lead the kickoff: introductions, methodology, scope, Definition of Done",
+            "Schedule the entire project's meetings live — one 4-hour SPC block per day",
+            "Set 24-hour reschedule / cancellation expectations",
+            "Assign homework: certifications plus templates, forms, cost code structure",
+            "Follow up: Gong summary, RAID updates, email with deck PDF + plan and RAID links",
+            "Schedule and run the 15–30 min Delivery Pit Stop with SPC and AE"
+          ]
+        }
+      },
       "tasks": [
         {
           "text": "Send kickoff invite via Outreach template (attach the package Slick + agenda)",
@@ -163,7 +227,7 @@
           "id": "kick-run-the-delivery-pit-stop"
         }
       ],
-      "duration": "1.5 hours",
+      "duration": "1–1.5 hours (the Scheduling Tool invite books 1 hour)",
       "format": "Customer call",
       "structuredFrames": {
         "callFrame": "kickoffCallFrame",
@@ -195,12 +259,47 @@
       "eyebrow": "Phase 2",
       "owner": "SPC (PM/PC supports)",
       "description": "SPC-led workshop that maps current state to desired state and surfaces foundational architecture. Replaces the old Account Configuration call — the SPC is now responsible for the company-level architecture decisions previously surfaced by PM/PC.",
+      "roleBrief": {
+        "beforeLabel": "Before the workshop",
+        "callLabel": "Workshop & follow-up",
+        "source": "Discovery Workshop Deck · GPS Package Training deck (slides 31–35) · Package Delivery Guide (Discovery & Design)",
+        "spc": {
+          "before": [
+            "Join the 15–30 min Delivery Pit Stop scheduled by the PM/PC",
+            "Take the knowledge transfer: tools in scope, projects, timelines, goals, committee",
+            "Confirm budget and hours needed to complete your scope; flag risks",
+            "Review 'What We Heard' takeaways — build on them, never re-ask"
+          ],
+          "call": [
+            "Lead the 2-hour Discovery Workshop with client SMEs",
+            "Capture company setup: offices, business units, trades, WBS, permission templates",
+            "Review OOTB process flows; document gaps; introduce custom fields and fieldsets",
+            "Hold scope guardrails (e.g. 2 correspondence types, 5 inspection templates)",
+            "Prescribe solutions, challenge legacy processes, keep the MVP focus",
+            "Run Current/Desired State prompts on the recording; post summary + follow-up in GPS Slack"
+          ]
+        },
+        "pmpc": {
+          "before": [
+            "Schedule the 15–30 min Delivery Pit Stop with the SPC and delivery resources",
+            "Kick off the pit stop: products, priority tools, outcomes, timelines, committee",
+            "Confirm each resource's budget hours and schedule; log identified risks",
+            "Check committee certifications assigned at kickoff are progressing"
+          ],
+          "call": [
+            "Email the Discovery summary and updated deck to the customer",
+            "Maintain the Smartsheet RAID log; alert the customer to required actions",
+            "Run the 15–30 min check-in cadence tracking velocity, deliverables, risks",
+            "Own project admin: forecast, timecards, calendar, plan updates"
+          ]
+        }
+      },
       "tasks": [
         {
           "section": "Introductions & Alignment"
         },
         {
-          "text": "Run delivery pit stop with PM/PC before workshop — review 'What We Heard', budget, key risks, ProCore Committee, sales-side context",
+          "text": "Join PM/PC-led delivery pit stop (15–30 min) before workshop — knowledge transfer, budget, key risks, Procore Committee, sales-side context",
           "id": "disc-run-delivery-pit-stop-with"
         },
         {
@@ -216,7 +315,7 @@
           "id": "disc-discovery-workshop-walk-the-advise"
         },
         {
-          "text": "Discovery Workshop — Company Setup & Workflows section: offices, business units, trades, departments, permission groups",
+          "text": "Discovery Workshop — Company Setup & Workflows section: offices, business units, trades, WBS, permission templates",
           "id": "disc-discovery-workshop-company-setup-workf"
         },
         {
@@ -241,7 +340,7 @@
           "id": "disc-discovery-workshop-wrap-with-current"
         },
         {
-          "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) and send to customer",
+          "text": "Build Discovery Workshop Summary deliverable (Current State + Desired State PDF) — post in GPS Slack; PM/PC emails it to the customer",
           "id": "disc-build-discovery-workshop-summary-deliv"
         },
         {
@@ -253,7 +352,7 @@
           "id": "disc-flag-any-gap-risks-to"
         }
       ],
-      "duration": "2 hours (Core Tools Setup) + Discovery Workshop",
+      "duration": "2-hour Discovery Workshop (Discovery Call & Core Tools Setup combined)",
       "format": "Customer workshop (SPC-led)",
       "structuredFrames": {
         "pitStop": "deliveryPitStop",
@@ -275,6 +374,41 @@
       "eyebrow": "Phase 3",
       "owner": "SPC",
       "description": "4-hour consultation sessions paired with heads-down configuration. SPC walks the customer through tool overview → settings → permissions → templates/workflows → role-reversal sandbox, then configures the customer's Sandbox project and Standard Project Template. Every setting change is logged in the Configuration Workbook in real time.",
+      "roleBrief": {
+        "beforeLabel": "Before consultations",
+        "callLabel": "Consultations, config & check-ins",
+        "source": "GPS Package Training deck (slides 29, 43–52) · Package Delivery Guide (Build)",
+        "spc": {
+          "before": [
+            "Block billable time titled BILLABLE | CLIENT NAME | DELIVERABLE NAME (NAMER)",
+            "Set up the client's Sandbox Test Project before configuring",
+            "Enable Procore Explore items per discovery; clarify with the customer",
+            "Confirm the go-live date and whether active projects are added pre-configuration"
+          ],
+          "call": [
+            "Run every consultation through the six buckets — Tool Overview through Configure",
+            "Distinguish per-project settings from Standard Project Template settings",
+            "Map workflows (trigger, logic, roles); prefer granular permissions over full Admin",
+            "Log every change against defaults in the Configuration Workbook — live, plus 30 min post-call",
+            "Role reversal: have the client screen-share and create items in the Sandbox",
+            "Configure Company Admin and the STP within tool limits; paste builds into deliverable tabs"
+          ]
+        },
+        "pmpc": {
+          "before": [
+            "Keep the 6-week Certinia forecast accurate",
+            "Keep the Smartsheet Implementation Plan updated",
+            "Manage the calendar — never two 4-hour SPC meetings in one day",
+            "Submit and approve timecards — approvals due EOD Monday"
+          ],
+          "call": [
+            "Run check-ins at the agreed cadence: bi-weekly 15-min call or weekly email",
+            "Follow the agenda: project health (RYG), progress, RAID review, Q&A",
+            "No client bandwidth? Join the last 15 min of an SPC session and send the Implementation Update",
+            "Maintain the RAID log; follow up each check-in with the Gong summary to Slack"
+          ]
+        }
+      },
       "tasks": [
         {
           "section": "Consultation Prep"
@@ -320,11 +454,11 @@
           "section": "Wrap-Up & Follow-Up"
         },
         {
-          "text": "Send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID",
+          "text": "PM/PC: send client check-in at the agreed cadence (bi-weekly 15-min call or weekly Implementation Update email) — track Plan + RAID",
           "id": "build-send-client-check-in-at"
         }
       ],
-      "duration": "4 hours per tool-group consultation + ~2 hours heads-down configuration per group",
+      "duration": "3–4 hour consultations + 1–3 hour heads-down configuration blocks per tool group (package-specific)",
       "format": "Customer consultations + SPC heads-down",
       "structuredFrames": {
         "consultation": "consultationStructure",
@@ -351,8 +485,44 @@
       "key": "validate",
       "name": "Validate",
       "eyebrow": "Phase 4",
-      "owner": "SPC + Customer",
-      "description": "Configuration Training plus the customer-led validation pass. Walk the company-admin / permissions / directory / templates / standard project template top-down, then hand off the Configuration Workbook + Validation Script and run a Product Q&A meeting to address any gaps before closeout.",
+      "owner": "SPC + PM/PC + Customer",
+      "description": "Configuration Training plus the customer-led validation pass. The Configuration Workbook + Validation Script are provided to the customer first; then walk the company-admin / permissions / directory / templates / standard project template top-down and run a Product Q&A meeting to address any gaps before closeout.",
+      "roleBrief": {
+        "beforeLabel": "Before training & validation",
+        "callLabel": "Training, validation & Q&A",
+        "source": "GPS Package Training deck (slides 57–61) · Package Delivery Guide (Validation) · Configuration Training Outline",
+        "spc": {
+          "before": [
+            "Prep Configuration Training from the Configuration Training Outline",
+            "Finish configuration so the Workbook and Validation Script go out in tandem",
+            "Allocate 1 hour live + 30 min admin for the Product Q&A",
+            "Review the customer's validation notes to prep one-time adjustments"
+          ],
+          "call": [
+            "Lead Configuration Training — architecture plus every configured change",
+            "Walk the six areas top-down, including STP carry-over to new projects",
+            "Give the directory-import call to action — the customer owns the import",
+            "Lead the informal Product Q&A; review requested configuration changes",
+            "Execute one-time fixes within MVP scope; justify out-of-scope requests",
+            "Close the Q&A by securing configuration sign-off"
+          ]
+        },
+        "pmpc": {
+          "before": [
+            "Tailor the Smartsheet Validation Script — clear out non-scope packages",
+            "Send the Outreach validation email attaching the Workbook + Validation Script",
+            "Confirm the 1–2 week validation timeline with the customer",
+            "Schedule Configuration Training and Product Q&A up front with the plan"
+          ],
+          "call": [
+            "Drive validation to completion — pull the Product Q&A earlier if the customer stalls",
+            "Collect the completed script and notes ahead of the Product Q&A",
+            "Run 15–30 min check-ins: RYG health, deliverables, RAID review",
+            "Secure the written validation sign-off required for the Definition of Done",
+            "Keep the Certinia forecast, timecards and project plan current"
+          ]
+        }
+      },
       "tasks": [
         {
           "section": "Configuration Training"
@@ -366,7 +536,7 @@
           "id": "val-configuration-training-permissions-tem"
         },
         {
-          "text": "Configuration Training: Directory overview — customer owns the import (SPC does not import the directory; only WBS is in scope)",
+          "text": "Configuration Training: Directory overview — customer owns the import (SPC does not import the directory; only WBS — plus user import into Resource Management for RM packages — is in scope)",
           "id": "val-configuration-training-directory-overv"
         },
         {
@@ -376,6 +546,10 @@
         {
           "text": "Configuration Training: Workflows tool review",
           "id": "val-configuration-training-workflows-tool"
+        },
+        {
+          "text": "Configuration Training: Standard Project Template overview — what carries over to new projects",
+          "id": "val-config-training-stp-overview"
         },
         {
           "section": "In-Scope Tool Validation"
@@ -407,7 +581,7 @@
           "id": "val-confirm-validation-complete-with-custo"
         }
       ],
-      "duration": "Configuration Training: 1–2 hours (Enterprise may need 2× 2-hour blocks) + asynchronous customer testing + Product Q&A",
+      "duration": "Configuration Training: 1–2 hours (Enterprise may need 2× 2-hour blocks; Scheduling Tool invites book 1–3 hrs by package) + asynchronous customer testing + Product Q&A (1–1.5 hrs)",
       "format": "Customer training + customer-led validation + Q&A meeting",
       "structuredFrames": {
         "overview": "validationOverview",
@@ -434,7 +608,34 @@
       "name": "Closeout",
       "eyebrow": "Phase 5",
       "owner": "PM / PC",
-      "description": "Maps to the GPS deck \"Go-Live\" phase: customer goes live on projects, closeout deliverable produced, transition to CSE / Team. Definition of Done must be met before this phase opens.",
+      "description": "Maps to the GPS deck \"Go-Live\" phase: customer goes live on projects, closeout deliverable produced, transition to CSE / Team. The closeout call confirms the Definition of Done — validation sign-off was already secured in Validate.",
+      "roleBrief": {
+        "callLabel": "On the call & wrap-up",
+        "source": "Closeout Script · PNPT Closeout Deliverable · Package Delivery Guide (Closeout) · GPS Package Training deck (slides 64–65)",
+        "spc": {
+          "note": "No closeout role — the Delivery Guide excludes closeout from SPC responsibilities; the SPC's last touchpoint is the Product Q&A in Validate.",
+          "before": [],
+          "call": []
+        },
+        "pmpc": {
+          "before": [
+            "Build the Closeout Deliverable; pull summary sections from Gong",
+            "Verify the Definition of Done table — every scope item and artifact checked",
+            "Embed permanent links: plan, RAID, Drive folder, Workbook, validation sign-off",
+            "Run knowledge transfer with CSE and/or AM; post the Slack summary",
+            "Put all documentation in the Shared Drive; share the link with the account team",
+            "Schedule the closeout call with the CSE (SMB: CSE team; Commercial+: add the AM)"
+          ],
+          "call": [
+            "Open with the implementation summary; celebrate go-live",
+            "Review the Definition of Done; confirm delivered scope, workbook, certifications",
+            "Walk the Project Archive; hand remaining tasks to the client",
+            "Introduce the CSE by name; review tiered support (Live Chat first)",
+            "Send the deliverable for Executive Sponsor sign-off — the trigger for CSE handoff",
+            "Follow up with the Outreach template + deliverable PDF; drive the CSAT; finish systems closeout"
+          ]
+        }
+      },
       "tasks": [
         {
           "text": "Build the Project Closeout Document — pull Implementation Summary from Gong",
@@ -449,8 +650,12 @@
           "id": "close-closeout-document-definition-of-done"
         },
         {
-          "text": "Closeout Document: Essential links (Plan, RAID, Workbook, Discovery deck, Validation script)",
+          "text": "Closeout Document: Essential links (Plan, RAID, Shared Drive folder, Workbook, Discovery deck, Validation script)",
           "id": "close-closeout-document-essential-links-plan"
+        },
+        {
+          "text": "Send the Closeout Deliverable for Executive Sponsor sign-off — the official trigger for the CSE handoff",
+          "id": "close-exec-sponsor-signoff"
         },
         {
           "text": "Closeout Document: Remaining Tasks + Remaining Risks (from Plan + RAID)",
@@ -461,7 +666,7 @@
           "id": "close-closeout-document-consultant-recommend"
         },
         {
-          "text": "Run knowledge transfer with CSE / AM / Renewals Manager — meeting or Slack summary",
+          "text": "Run knowledge transfer with CSE and/or AM — meeting or Slack summary, completed before the closeout call",
           "id": "close-run-knowledge-transfer-with-cse"
         },
         {
@@ -477,7 +682,7 @@
           "id": "close-value-prop-csat-survey-bonus"
         },
         {
-          "text": "Close project in Certinia (timecards approved, budget reconciled)",
+          "text": "Close project in Certinia (all timecards approved — including your own — then close assignments)",
           "id": "close-close-project-in-certinia-timecards"
         },
         {
@@ -493,7 +698,7 @@
           "id": "close-final-slack-summary-in-account"
         }
       ],
-      "duration": "Closeout call + handoff",
+      "duration": "10-min closeout (start of a transition call) + handoff",
       "format": "Customer call + internal CSE knowledge transfer",
       "aka": "Go-Live",
       "structuredFrames": {
@@ -3954,8 +4159,8 @@
     "gapAnalysis": "Review the transcript to identify any gaps between Procore's 'Out of the Box' workflows and the client's specific business requirements. List any instances where the standard process flows will not work for the client. Based on these gaps, extract any requests or needs for 'Custom Fields' or 'Fieldsets' that must be built into the system to capture their required data."
   },
   "training": {
-    "name": "GPS Package Training — SPC Onboarding",
-    "subtitle": "The four-session internal training series every SPC completes on the GPS packages before delivering them.",
+    "name": "GPS Package Training — Delivery Team Series",
+    "subtitle": "The four-session internal training series for the delivery team (PMs, PCs, SPCs) on the GPS packages.",
     "pillars": [
       {
         "name": "I. Package Overview & Initiation",
@@ -4068,7 +4273,7 @@
   },
   "configureHeadsDown": {
     "name": "Configure (Heads-Down Work)",
-    "subtitle": "GPS Slides 49, 50, 51, 52. Order of operations after consultations, before configuration training.",
+    "subtitle": "GPS Slides 48–51. Order of operations after consultations, before configuration training.",
     "levels": [
       "Sandbox",
       "Company Level",
@@ -4507,7 +4712,7 @@
     ]
   },
   "spcResources": {
-    "name": "SPC Resources",
+    "name": "Team Resources",
     "subtitle": "Where the SPC goes for help — Slide 66.",
     "items": [
       {
@@ -4516,7 +4721,7 @@
       },
       {
         "name": "Forecasting Tables",
-        "description": "Per-package forecasting curve for Certinia resource forecasting (copy-paste at assignment)."
+        "description": "Per-package forecasting curve for Certinia resource forecasting — PM/PC copy-paste at assignment."
       },
       {
         "name": "FAQ & Feedback Document",
@@ -4700,7 +4905,7 @@
     "points": [
       {
         "name": "No more than one 4-hour meeting per SPC calendar per day",
-        "description": "Hard rule. A 4-hour block is a full morning or afternoon."
+        "description": "Hard rule."
       },
       {
         "name": "NAMER — SPCs block billable time",
@@ -4940,27 +5145,27 @@
     "items": [
       {
         "name": "Company Admin",
-        "description": "Now — foundational. Required for the implementation lead."
+        "description": "Now."
       },
       {
         "name": "Core Tools",
-        "description": "Now — RFIs, Submittals, Drawings, Daily Log, Observations."
+        "description": "Now."
       },
       {
         "name": "PM Tools",
-        "description": "Next — Inspections, Punch List, Meetings."
+        "description": "Next."
       },
       {
         "name": "Financial Mgmt",
-        "description": "Next — Budget, Prime Contracts, Commitments, Invoicing, Change Events."
+        "description": "Next."
       },
       {
         "name": "Quality + Safety",
-        "description": "Later — Inspections (deeper), Action Plans, Incidents."
+        "description": "Later."
       },
       {
         "name": "Preconstruction",
-        "description": "Later — Bidding, Estimating, Takeoff."
+        "description": "Later."
       }
     ]
   },
@@ -4976,7 +5181,7 @@
       {
         "key": "implementation-lead",
         "name": "Implementation Lead",
-        "description": "Manages implementation from the customer's side; coordinates schedule + Procore committee. Time commitment: 4–5 hours per week +."
+        "description": "Manages implementation from the customer's side; coordinates schedule + Procore committee. Time commitment: 4–5 hours per week."
       },
       {
         "key": "key-experts",
@@ -5121,7 +5326,7 @@
     "subtitle": "The client-facing User Acceptance Testing checklist (NAMER Validation Script). Foundation sections apply to every project; package sections shown match the selected package and tier. Each task links to its Procore support article.",
     "scriptUrl": "https://app.smartsheet.com/sheets/m26jgMWmgC9QpFhCcVX4QqgRrGCxH73MWvcQMwF1?view=grid",
     "owner": "PM/PC",
-    "responsibility": "Per the GPS Validation R&R (Package Training deck, slide 61): the PM/PC drives validation to completion and confirms the 1–2 week timeline — the script lives in the PM/PC's Smartsheet workspace. The SPC builds it alongside the Configuration Workbook and leads the Product Q&A; the customer tests the tools.",
+    "responsibility": "Per the GPS Validation R&R (Package Training deck, slide 61): the PM/PC drives validation to completion and confirms the 1–2 week timeline. The Validation Script is a pre-built regional Smartsheet template in the PM/PC's workspace — the PM/PC tailors it (clears out non-scope packages) and provides it to the customer in tandem with the SPC's Configuration Workbook. The SPC leads the Product Q&A; the customer tests the tools.",
     "sections": {
       "Account Configuration": [
         {
@@ -6924,7 +7129,6 @@
           "Cost Management"
         ],
         "enterprise": [
-          "Cost Management",
           "Cost Management Enterprise"
         ]
       },
@@ -6947,8 +7151,6 @@
           "Resource Planning"
         ],
         "rm-advanced": [
-          "Resource Tracking",
-          "Resource Planning",
           "Resource Management"
         ]
       },
