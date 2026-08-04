@@ -1559,6 +1559,27 @@ export function initConfigTracker(ctx) {
           vs.textContent = vc.subtitle;
           vWrap.appendChild(vs);
         }
+        // Link to the live Validation Script (Smartsheet).
+        if (vc.scriptUrl) {
+          const link = document.createElement("a");
+          link.href = vc.scriptUrl; link.target = "_blank"; link.rel = "noopener";
+          link.className = "config-validation-script-link";
+          link.textContent = "↗ Open the Validation Script (Smartsheet)";
+          vWrap.appendChild(link);
+        }
+        // Whose responsibility it is to send this + the phase's action items.
+        if (vc.responsibility || vc.owner) {
+          const rr = document.createElement("p");
+          rr.className = "config-validation-rr";
+          if (vc.owner) {
+            const badge = document.createElement("span");
+            badge.className = "config-validation-owner";
+            badge.textContent = vc.owner + " owns this";
+            rr.appendChild(badge);
+          }
+          if (vc.responsibility) rr.appendChild(document.createTextNode(" " + vc.responsibility));
+          vWrap.appendChild(rr);
+        }
         avail.forEach((secName) => {
           const nodes = vc.sections[secName];
           const store = (configState.validation[secName] = configState.validation[secName] || {});
@@ -2033,6 +2054,11 @@ export function initConfigTracker(ctx) {
     eb.className = "config-deliverables-eyebrow";
     dlEl.appendChild(eb);
 
+    const legend = document.createElement("p");
+    legend.className = "config-deliverables-legend";
+    legend.textContent = "The owner tag on each deliverable (SPC or PM/PC) is whose responsibility it is to prepare and send that deliverable — including the Validation Script — to the customer.";
+    dlEl.appendChild(legend);
+
     const pkg = activeConfigPackage();
     (pkg && pkg.deliverables ? pkg.deliverables : []).forEach((d) => {
       const card = document.createElement("div");
@@ -2055,10 +2081,13 @@ export function initConfigTracker(ctx) {
       nm.className = "config-deliverable-name";
       nm.textContent = d.name;
       row.appendChild(nm);
-      const ow = document.createElement("span");
-      ow.className = "config-deliverable-owner";
-      ow.textContent = d.owner || "";
-      row.appendChild(ow);
+      if (d.owner) {
+        const ow = document.createElement("span");
+        ow.className = "config-deliverable-owner";
+        ow.textContent = d.owner + " sends";
+        ow.title = d.owner + " is responsible for preparing and sending this deliverable to the customer.";
+        row.appendChild(ow);
+      }
       card.appendChild(row);
       if (d.description) {
         const desc = document.createElement("p");

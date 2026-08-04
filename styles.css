@@ -2186,6 +2186,16 @@ main {
   font-size: 9.5px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: #fff;
+  background: #000;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.config-deliverables-legend {
+  margin: 2px 0 12px;
+  font-size: 11.5px;
+  line-height: 1.45;
   color: var(--color-text-muted);
 }
 .config-deliverable-desc {
@@ -3015,7 +3025,27 @@ body.is-locked { overflow: hidden; }
 /* Validation Script — UAT checklist (Validate phase). */
 .config-validation { margin-top: 26px; max-width: 860px; }
 .config-validation > h3 { margin: 0 0 6px; font-family: "Inter Tight", sans-serif; font-size: 17px; font-weight: 800; }
-.config-validation-intro { margin: 0 0 14px; color: var(--color-text-muted); font-size: 13px; line-height: 1.5; }
+.config-validation-intro { margin: 0 0 10px; color: var(--color-text-muted); font-size: 13px; line-height: 1.5; }
+.config-validation-script-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 0 12px; padding: 7px 14px;
+  background: var(--color-orange, #FF5200); color: #fff;
+  font-family: "Inter Tight", sans-serif; font-size: 13px; font-weight: 700;
+  border-radius: 6px; text-decoration: none;
+}
+.config-validation-script-link:hover { filter: brightness(0.94); }
+.config-validation-rr {
+  margin: 0 0 16px; padding: 10px 12px;
+  background: rgba(255,82,0,0.06); border-left: 3px solid var(--color-orange, #FF5200);
+  border-radius: 4px; font-size: 12.5px; line-height: 1.55; color: var(--color-text);
+}
+.config-validation-owner {
+  display: inline-block; margin-right: 4px; padding: 1px 7px;
+  background: #000; color: #fff; border-radius: 3px;
+  font-family: "DM Mono", ui-monospace, monospace; font-size: 10px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  vertical-align: 1px;
+}
 .config-validation-section {
   border: 1px solid var(--color-border);
   border-radius: 8px;
