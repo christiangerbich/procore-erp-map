@@ -2056,7 +2056,7 @@ export function initConfigTracker(ctx) {
 
     const legend = document.createElement("p");
     legend.className = "config-deliverables-legend";
-    legend.textContent = "The owner tag on each deliverable (SPC or PM/PC) is whose responsibility it is to prepare and send that deliverable — including the Validation Script — to the customer.";
+    legend.textContent = "The owner tag on each deliverable (SPC or PM/PC) is who's responsible for getting that deliverable to the customer. Some are built by one role and driven to completion by another — e.g. the SPC builds the Validation Script, but the PM/PC drives validation to completion.";
     dlEl.appendChild(legend);
 
     const pkg = activeConfigPackage();
@@ -2085,7 +2085,7 @@ export function initConfigTracker(ctx) {
         const ow = document.createElement("span");
         ow.className = "config-deliverable-owner";
         ow.textContent = d.owner + " sends";
-        ow.title = d.owner + " is responsible for preparing and sending this deliverable to the customer.";
+        ow.title = d.owner + " is responsible for getting this deliverable to the customer.";
         row.appendChild(ow);
       }
       card.appendChild(row);

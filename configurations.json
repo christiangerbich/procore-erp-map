@@ -542,7 +542,7 @@
         {
           "key": "validation",
           "name": "Validation Script",
-          "owner": "SPC",
+          "owner": "PM/PC",
           "description": "Test script the customer uses for User Acceptance Testing (UAT)."
         },
         {
@@ -1860,7 +1860,7 @@
         {
           "key": "validation",
           "name": "Validation Script",
-          "owner": "SPC",
+          "owner": "PM/PC",
           "description": "Customer-facing UAT script — checklist organised by tool."
         },
         {
@@ -2541,7 +2541,7 @@
         {
           "key": "validation",
           "name": "Validation Script",
-          "owner": "SPC",
+          "owner": "PM/PC",
           "description": "Customer-facing UAT script — checklist organised by tool."
         },
         {
@@ -3157,7 +3157,7 @@
         {
           "key": "validation",
           "name": "Validation Script",
-          "owner": "SPC",
+          "owner": "PM/PC",
           "description": "Customer-facing UAT script — checklist organised by tool."
         },
         {
@@ -5120,8 +5120,8 @@
     "name": "Validation Script — UAT Checklist",
     "subtitle": "The client-facing User Acceptance Testing checklist (NAMER Validation Script). Foundation sections apply to every project; package sections shown match the selected package and tier. Each task links to its Procore support article.",
     "scriptUrl": "https://app.smartsheet.com/sheets/m26jgMWmgC9QpFhCcVX4QqgRrGCxH73MWvcQMwF1?view=grid",
-    "owner": "SPC",
-    "responsibility": "Send the Validation Script to the customer and lead the UAT walkthrough. All action items and deliverables coming out of this phase are the SPC's to send and track.",
+    "owner": "PM/PC",
+    "responsibility": "Per the GPS Validation R&R (Package Training deck, slide 61): the PM/PC drives validation to completion and confirms the 1–2 week timeline — the script lives in the PM/PC's Smartsheet workspace. The SPC builds it alongside the Configuration Workbook and leads the Product Q&A; the customer tests the tools.",
     "sections": {
       "Account Configuration": [
         {
