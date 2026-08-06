@@ -959,7 +959,27 @@ export function initConfigTracker(ctx) {
       head.className = "config-frame-head";
       const eb = document.createElement("p");
       eb.className = "config-frame-eyebrow";
-      eb.textContent = "GPS Frame";
+      // The eyebrow doubles as the citation: "<Doc> · <Slide/Section>",
+      // linked to the source document when a URL is registered in
+      // configData.sourceDocs. Falls back to the plain "GPS Frame" tag.
+      const src = frame.src && (configData.sourceDocs || {})[frame.src.doc];
+      if (src) {
+        const label = src.label + " · " + frame.src.loc;
+        if (src.url) {
+          const a = document.createElement("a");
+          a.className = "config-frame-src";
+          a.href = src.url;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.title = "Open " + src.label + " (" + frame.src.loc + ")";
+          a.textContent = label + " ↗";
+          eb.appendChild(a);
+        } else {
+          eb.textContent = label;
+        }
+      } else {
+        eb.textContent = "GPS Frame";
+      }
       head.appendChild(eb);
       const ttl = document.createElement("h4");
       ttl.className = "config-frame-title";
