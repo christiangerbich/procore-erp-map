@@ -5022,8 +5022,12 @@
     "subtitle": "Critical because of the accelerated timelines.",
     "points": [
       {
+        "name": "Standard workday: 8:00 AM – 4:00 PM",
+        "description": "Team norm — book all client sessions and billable blocks inside this window."
+      },
+      {
         "name": "No more than one 4-hour meeting per SPC calendar per day",
-        "description": "Hard rule."
+        "description": "Hard rule — within the 8 AM–4 PM workday, a 4-hour block is half the SPC's day."
       },
       {
         "name": "NAMER — SPCs block billable time",
