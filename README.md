@@ -70,6 +70,7 @@ file in the right-hand column — you almost never need to touch more than one.*
 | SOP Builder action templates (per ERP tool) | `sop-templates.json` | The "Generate Word document" modal (template mode). |
 | SOP Builder corpus content (Agave connectors) | regenerate `sop-agave.json` via `tools/build-sop-agave.py` | **Generated** from the local Agave sync-docs corpus. Corpus-mode SOPs include a Word-native, Procore-branded data-flow table. |
 | The official Configuration Workbook (Build-phase rows + export) | regenerate `workbook-template.json` via `tools/build-workbook-template.py` | **Generated** from the official NAMER .xlsx — don't hand-edit. |
+| Validation Script checklist, per-tier Client Project Plans, per-tier Scheduling Templates | regenerate via `tools/build-pnpt-delivery.py <plan-template.xlsx> <scheduling-tool.pdf>` | **Generated** into `configurations.json` (`validationChecklist`, `projectPlans`, `schedulingTemplates`) from the official Project Plan / RAID / Validation Script template and the Call Scheduling Tool — re-run when either changes. |
 | Search-finder corpus (the "Search connectors…" box) | `docs-index.json` | **Generated** — see [tools/](#toolsbuild-scripts). Don't hand-edit. |
 | Any styling | `styles.css` | One file, all modes (incl. print). Brand palette near the top as CSS vars. |
 | Password / login gate | `auth.js` | See [Access & password](#access--password). |
@@ -103,6 +104,7 @@ file in the right-hand column — you almost never need to touch more than one.*
 │   ├── build-docs-index.py
 │   ├── build-vertex-upload.py
 │   ├── build-workbook-template.py  # official workbook xlsx -> workbook-template.json
+│   ├── build-pnpt-delivery.py # plan template + scheduling tool -> configurations.json blocks
 │   ├── build-sop-agave.py     # Agave corpus -> sop-agave.json (corpus SOPs)
 │   ├── sync-support-site.py   # refresh local Procore support-doc mirror
 │   ├── sync-agave-docs.py     # refresh local Agave sync-docs mirror
@@ -128,9 +130,12 @@ The Build-phase **Configuration Workbook is the official "PNPT Configuration
 Workbook _ NAMER" row-for-row** — the UI and the export both derive from
 `workbook-template.json`, which `tools/build-workbook-template.py` generates
 from the official .xlsx. When the official workbook changes, re-run that
-script and commit the new template.
+script (pass the new file's path) and commit the new template. Tab names are
+kept verbatim (the 2026-11 file has stray spaces in some sheet names); tier
+mapping and linked-sheet posting match them whitespace-insensitively, and the
+"Updated" column is resolved by header text ("Updated" or "Updated/Covered").
 
-Two export paths, both producing the **full 13-tab official workbook** with
+Two export paths, both producing the **full 15-tab official workbook** with
 the client's Updated / Changed to / Notes filled into their tier's tab:
 
 - **Download .xlsx** (always available) — open Google Sheets → File → Import →

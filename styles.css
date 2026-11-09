@@ -2716,6 +2716,47 @@ main {
   white-space: nowrap;
 }
 
+/* Client Project Plan + Scheduling Template rows */
+.config-plan { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.config-plan-group {
+  margin: 10px 0 2px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.config-plan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+.config-plan-row.is-internal { border-style: dashed; opacity: 0.8; }
+.config-plan-main { min-width: 0; }
+.config-plan-task { margin: 0; font-size: 13px; font-weight: 600; }
+.config-plan-desc { margin: 2px 0 0; font-size: 12px; color: var(--color-text-muted); line-height: 1.45; }
+.config-plan-tags { display: flex; gap: 4px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.config-plan-chip {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+.config-plan-chip.is-meeting { background: rgba(255, 82, 0, 0.1); border-color: rgba(255, 82, 0, 0.35); color: var(--color-orange, #FF5200); }
+.config-plan-chip.is-deliverable { background: #000; border-color: #000; color: #fff; }
+.config-plan-chip.is-customer { border-color: var(--color-orange, #FF5200); color: var(--color-orange, #FF5200); }
+.config-plan-chip.is-duration { color: var(--color-text); }
+.config-plan-chip.is-commercial { background: #566578; border-color: #566578; color: #fff; }
+
 /* Per-package week-by-week timeline */
 .config-timeline {
   margin-top: 14px;

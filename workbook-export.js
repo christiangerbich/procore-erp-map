@@ -529,14 +529,16 @@ export async function postToLinkedWorkbook(opts) {
       : "Couldn't open the linked workbook (" + metaResp.status + "). Do you have edit access?");
   }
   const metaData = await metaResp.json();
-  const sheet = (metaData.sheets || []).find((s) => s.properties && s.properties.title === opts.tabName);
+  const squash = (s) => String(s == null ? "" : s).replace(/\s+/g, " ").trim().toLowerCase();
+  // Official sheet names carry stray leading/trailing spaces in some workbook
+  // revisions and not others, so a client's copy may differ from the template.
+  const sheet = (metaData.sheets || []).find((s) => s.properties && squash(s.properties.title) === squash(opts.tabName));
   if (!sheet) {
     const titles = (metaData.sheets || []).map((s) => s.properties.title).join(", ");
-    throw new Error('The linked workbook has no "' + opts.tabName + '" tab. Tabs found: ' + titles.slice(0, 220));
+    throw new Error('The linked workbook has no "' + opts.tabName.trim() + '" tab. Tabs found: ' + titles.slice(0, 220));
   }
 
-  const q = "'" + opts.tabName.replace(/'/g, "''") + "'";
-  const squash = (s) => String(s == null ? "" : s).replace(/\s+/g, " ").trim().toLowerCase();
+  const q = "'" + sheet.properties.title.replace(/'/g, "''") + "'";
 
   // Read the top block (all columns) to find the header row + resolve which
   // column is Updated / Changed to / Notes IN THE LINKED SHEET.
@@ -556,7 +558,7 @@ export async function postToLinkedWorkbook(opts) {
     const hdr = headRows[hdrIdx];
     hdr.forEach((cell, c) => {
       const h = squash(cell);
-      if (h === "updated") upCol = c;
+      if (h === "updated" || h === "updated/covered") upCol = c;
       else if (h === "changed to") chCol = c;
       else if (h === "notes") noCol = c;
     });

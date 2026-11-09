@@ -12,30 +12,46 @@ anchor. It is the single source of truth for BOTH:
     from it and injects the tracked values by exact row reference).
 
 Regenerate whenever the official workbook changes:
-  python tools/build-workbook-template.py
+  python tools/build-workbook-template.py [path/to/workbook.xlsx]
 
-Reads:  ~/Documents/PNPT TRAINING DOCS/PNPT Configuration Workbook _ NAMER.xlsx
+Reads:  the given .xlsx (default: ~/Documents/PNPT TRAINING DOCS/
+        PNPT Configuration Workbook _ NAMER (2026-11).xlsx)
 Writes: workbook-template.json (committed; loaded lazily by the app)
 """
 import base64, json, os, sys, zipfile
 import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-XLSX = os.path.join(os.path.expanduser("~"), "Documents", "PNPT TRAINING DOCS",
-                    "PNPT Configuration Workbook _ NAMER.xlsx")
+XLSX = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    os.path.expanduser("~"), "Documents", "PNPT TRAINING DOCS",
+    "PNPT Configuration Workbook _ NAMER (2026-11).xlsx")
 OUT = os.path.join(ROOT, "workbook-template.json")
 
-# Config Tracker tier key -> workbook tab name
+# Config Tracker tier key -> workbook tab name, matched whitespace-insensitively
+# (the official file has stray leading/trailing spaces in some sheet names and
+# a 31-char-truncated Owners name). The template keeps the VERBATIM sheet name
+# so exports and linked-sheet posts address the real tab.
 TIER_TABS = {
     "standard": "Cost Management",
     "enterprise": "Cost Management Enterprise",
     "pe-essentials": "Project Execution Essentials",
+    "pe-essentials-owners": "Project Execution Essentials (O",
     "pe-standard": "Project Execution",
     "pe-enterprise": "Project Execution Enterprise",
     "rm-tracking": "Resource Tracking",
     "rm-planning": "Resource Planning",
     "rm-advanced": "Resource Management",
     "plm-owners": "Project Lifecycle Management",
+    "materials": "Materials",
+}
+# Header text -> role. "Updated/Covered" replaced "Updated" in the 2026-11 file.
+HEADER_ROLES = {
+    "discussion point / decision logic": "decisionLogic",
+    "default setting": "default",
+    "updated": "updated",
+    "updated/covered": "updated",
+    "changed to": "changedTo",
+    "notes": "notes",
 }
 
 def rgb(color):
@@ -60,11 +76,11 @@ for ws in wb.worksheets:
             merged.add(m.min_row)
 
     # ------- resolve this tab's column layout by HEADER TEXT (row 3) -------
-    # Tabs are NOT uniform: PE + Resource tabs are 5-col
-    # (Updated=C, Changed to=D, Notes=E); Cost Management, CM Enterprise, and
-    # PLM are 6-col — an extra "Discussion Point / Decision Logic" column B
-    # shifts Updated=D, Changed to=E, Notes=F. Everything downstream keys off
-    # these resolved roles, never fixed letters.
+    # Tabs are NOT guaranteed uniform: most are 5-col (Updated=C, Changed
+    # to=D, Notes=E), but some revisions add a "Discussion Point / Decision
+    # Logic" column B that shifts everything right (CM/CM Enterprise did until
+    # 2026-11; PLM still does). Everything downstream keys off these resolved
+    # roles, never fixed letters.
     header_row = None
     for r in range(1, 8):
         if str(ws.cell(row=r, column=1).value or "").strip().lower() == "discussion point":
@@ -74,18 +90,11 @@ for ws in wb.worksheets:
     if header_row is not None:
         for c in range(1, 12):
             h = str(ws.cell(row=header_row, column=c).value or "").strip().lower()
+            h = " ".join(h.split())
             if h == "discussion point" and "discussion" not in roles:
                 roles["discussion"] = c - 1
-            elif h == "discussion point / decision logic":
-                roles["decisionLogic"] = c - 1
-            elif h == "default setting":
-                roles["default"] = c - 1
-            elif h == "updated":
-                roles["updated"] = c - 1
-            elif h == "changed to":
-                roles["changedTo"] = c - 1
-            elif h == "notes":
-                roles["notes"] = c - 1
+            elif h in HEADER_ROLES and HEADER_ROLES[h] not in roles:
+                roles[HEADER_ROLES[h]] = c - 1
         for req in ("discussion", "default", "updated", "changedTo", "notes"):
             if req not in roles:
                 sys.exit("ABORT: tab %r missing header role %r (header row %d)" % (ws.title, req, header_row))
@@ -165,9 +174,17 @@ for ws in wb.worksheets:
         sum(1 for x in rows if x["k"] == "sub"),
         sum(1 for x in rows if x["k"] == "data")))
 
+by_norm = {" ".join(t["name"].split()): t["name"] for t in tabs}
+tier_tabs = {}
+for tier, want in TIER_TABS.items():
+    actual = by_norm.get(" ".join(want.split()))
+    if not actual:
+        sys.exit("ABORT: no tab matching %r for tier %r. Tabs: %s" % (want, tier, list(by_norm)))
+    tier_tabs[tier] = actual
+
 template = {
-    "_generated": "by tools/build-workbook-template.py from 'PNPT Configuration Workbook _ NAMER.xlsx'",
-    "tierTabs": TIER_TABS,
+    "_generated": "by tools/build-workbook-template.py from %r" % os.path.basename(XLSX),
+    "tierTabs": tier_tabs,
     "logoPng": logo_b64,
     "drawingXml": drawing_xml,
     "tabs": tabs,

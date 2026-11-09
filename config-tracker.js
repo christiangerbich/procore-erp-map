@@ -214,6 +214,19 @@ export function initConfigTracker(ctx) {
     if (!pkg || !pkg.tiers) return null;
     return pkg.tiers.find((t) => t.key === configState.tierKey) || pkg.tiers[0] || null;
   }
+  // Phases that apply to the active tier. Packages like Materials (no
+  // Discovery) and Procore AI (Kickoff → Configuration → Closeout) list their
+  // phases on the tier; everything else runs the full methodology.
+  function activePhases() {
+    const tier = activeConfigTier();
+    const all = configData.phases || [];
+    if (!tier || !Array.isArray(tier.phases)) return all;
+    return all.filter((p) => tier.phases.indexOf(p.key) !== -1);
+  }
+  function phaseLabel(phase) {
+    const tier = activeConfigTier();
+    return (tier && tier.phaseLabels && tier.phaseLabels[phase.key]) || phase.name;
+  }
   // ---------------------------------------------------------------------
   // Official workbook template (workbook-template.json, generated 1:1 from
   // "PNPT Configuration Workbook _ NAMER.xlsx" by
@@ -341,6 +354,7 @@ export function initConfigTracker(ctx) {
     if (tier && tier.duration) parts.push(tier.duration);
     if (tier && tier.pricing && tier.pricing.comm != null) parts.push("COMM $" + tier.pricing.comm.toLocaleString());
     if (tier && tier.pricing && tier.pricing.smb  != null) parts.push("SMB $"  + tier.pricing.smb.toLocaleString());
+    if (tier && tier.note) parts.push(tier.note);
     stats.textContent = parts.join("  ·  ");
 
     // SPC roster selector — filter the client list to one consultant.
@@ -505,6 +519,24 @@ export function initConfigTracker(ctx) {
   // task rows, and the per-tool rows spliced in at the { perTool:true } anchor
   // (or appended under an auto "In-scope tools" section when there's no anchor).
   function phaseEntries(phase) {
+    // Tiers whose phases don't follow the standard methodology (Procore AI)
+    // run those phases off the official Client Project Plan rows instead.
+    const tier = activeConfigTier();
+    if (tier && (tier.planTaskPhases || []).indexOf(phase.key) !== -1) {
+      const plan = ((configData.projectPlans || {})[tier.key] || []).filter((p) => p.phase === phase.key);
+      const seen = {};
+      const rows = [{ section: "Official project plan" }];
+      plan.forEach((p) => p.items.forEach((it) => {
+        let id = "plan:" + phase.key + ":" + it.task.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        seen[id] = (seen[id] || 0) + 1;
+        if (seen[id] > 1) id += "-" + seen[id];
+        rows.push({
+          id: id,
+          text: (it.owner === "Customer" ? "Customer: " : "") + it.task + (it.desc ? " — " + it.desc : ""),
+        });
+      }));
+      return rows;
+    }
     const base = phase.tasks || [];
     const tools = perToolTasks(phase);
     const hasAnchor = base.some((e) => e && e.perTool);
@@ -756,7 +788,7 @@ export function initConfigTracker(ctx) {
   // Overall progress blends phase tasks AND deliverables into one item pool.
   function overallProgress() {
     let tasksDone = 0, tasksTotal = 0;
-    (configData.phases || []).forEach((p) => {
+    activePhases().forEach((p) => {
       const pp = phaseProgress(p.key);
       tasksDone += pp.done; tasksTotal += pp.total;
     });
@@ -786,7 +818,9 @@ export function initConfigTracker(ctx) {
     const cont = document.getElementById("config-phases");
     if (!cont) return;
     cont.innerHTML = "";
-    (configData.phases || []).forEach((phase) => {
+    const phases = activePhases();
+    if (phases.length && !phases.some((p) => p.key === configActivePhase)) configActivePhase = phases[0].key;
+    phases.forEach((phase) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "config-phase-btn" + (phase.key === configActivePhase ? " is-active" : "");
@@ -800,7 +834,7 @@ export function initConfigTracker(ctx) {
 
       const name = document.createElement("p");
       name.className = "config-phase-name";
-      name.textContent = phase.name;
+      name.textContent = phaseLabel(phase);
       btn.appendChild(name);
 
       const pp = phaseProgress(phase.key);
@@ -844,7 +878,7 @@ export function initConfigTracker(ctx) {
     wrap.className = "config-phase-detail";
 
     const h = document.createElement("h3");
-    h.textContent = phase.name;
+    h.textContent = phaseLabel(phase);
     wrap.appendChild(h);
 
     const owner = document.createElement("p");
@@ -852,17 +886,24 @@ export function initConfigTracker(ctx) {
     owner.textContent = (phase.eyebrow ? phase.eyebrow + " · " : "") + (phase.owner || "");
     wrap.appendChild(owner);
 
-    if (phase.description) {
+    // Tier overrides for packages whose phases don't follow the standard
+    // methodology (e.g. Procore AI's single configuration consultation):
+    // replace the phase description and drop the generic PE/CM frames.
+    const tierOv = activeConfigTier() || {};
+    const phaseDesc = (tierOv.phaseDescriptions || {})[phase.key] || phase.description;
+    const genericOff = (tierOv.genericFramesOff || []).indexOf(phase.key) !== -1;
+
+    if (phaseDesc) {
       const desc = document.createElement("p");
       desc.className = "config-phase-desc";
-      desc.textContent = phase.description;
+      desc.textContent = phaseDesc;
       wrap.appendChild(desc);
     }
 
     // Role brief — who does what this phase, SPC vs PM/PC, split into
     // prep ("Before") and live ("On the call") duties. Sourced verbatim
     // from the PNPT training docs (see phase.roleBrief.source).
-    if (phase.roleBrief) {
+    if (phase.roleBrief && !genericOff) {
       const rb = phase.roleBrief;
       const card = document.createElement("div");
       card.className = "config-rolebrief";
@@ -917,7 +958,7 @@ export function initConfigTracker(ctx) {
     }
 
     // NAMER source documents for this phase (Google Drive links).
-    if (Array.isArray(phase.resources) && phase.resources.length) {
+    if (Array.isArray(phase.resources) && phase.resources.length && !genericOff) {
       const res = document.createElement("div");
       res.className = "config-phase-resources";
       const rh = document.createElement("p");
@@ -1250,8 +1291,139 @@ export function initConfigTracker(ctx) {
     }
 
     // Phase-level structured frames (from phase.structuredFrames)
-    if (phase.structuredFrames) {
+    if (phase.structuredFrames && !genericOff) {
       Object.values(phase.structuredFrames).forEach(renderFrame);
+    }
+
+    // Frame shell whose eyebrow is the (linked) source citation.
+    function sourcedFrame(srcKey, loc, title, subtitle) {
+      const wrapEl = document.createElement("div");
+      wrapEl.className = "config-frame";
+      const head = document.createElement("div");
+      head.className = "config-frame-head";
+      const eb = document.createElement("p");
+      eb.className = "config-frame-eyebrow";
+      const src = (configData.sourceDocs || {})[srcKey];
+      const label = src ? src.label + (loc ? " · " + loc : "") : "Official source";
+      if (src && src.url) {
+        const a = document.createElement("a");
+        a.className = "config-frame-src";
+        a.href = src.url; a.target = "_blank"; a.rel = "noopener";
+        a.textContent = label + " ↗";
+        eb.appendChild(a);
+      } else {
+        eb.textContent = label;
+      }
+      head.appendChild(eb);
+      const ttl = document.createElement("h4");
+      ttl.className = "config-frame-title";
+      ttl.textContent = title;
+      head.appendChild(ttl);
+      if (subtitle) {
+        const sub = document.createElement("p");
+        sub.className = "config-frame-sub";
+        sub.textContent = subtitle;
+        head.appendChild(sub);
+      }
+      wrapEl.appendChild(head);
+      return wrapEl;
+    }
+    function chip(text, cls) {
+      const s = document.createElement("span");
+      s.className = "config-plan-chip " + cls;
+      s.textContent = text;
+      return s;
+    }
+
+    // Client Project Plan — this phase's rows from the official PC Project
+    // Plan template for the active tier (what goes into the client Smartsheet).
+    const planPhases = cfgTier && (configData.projectPlans || {})[cfgTier.key];
+    const planHere = (planPhases || []).filter((p) => p.phase === phase.key);
+    const planIsChecklist = (tierOv.planTaskPhases || []).indexOf(phase.key) !== -1;
+    if (planHere.length && !planIsChecklist) {
+      const wrapEl = sourcedFrame("projectPlan", cfgTier.name,
+        "Client Project Plan — " + phaseLabel(phase),
+        "The rows the PM/PC loads into the client's Smartsheet project plan for this phase.");
+      const list = document.createElement("div");
+      list.className = "config-plan";
+      let lastGroup = null;
+      planHere.forEach((ph) => ph.items.forEach((it) => {
+        if (it.group && it.group !== lastGroup) {
+          const g = document.createElement("p");
+          g.className = "config-plan-group";
+          g.textContent = it.group;
+          list.appendChild(g);
+        }
+        lastGroup = it.group || null;
+        const row = document.createElement("div");
+        row.className = "config-plan-row";
+        const main = document.createElement("div");
+        main.className = "config-plan-main";
+        const t = document.createElement("p");
+        t.className = "config-plan-task";
+        t.textContent = it.task;
+        main.appendChild(t);
+        if (it.desc) {
+          const dsc = document.createElement("p");
+          dsc.className = "config-plan-desc";
+          dsc.textContent = it.desc;
+          main.appendChild(dsc);
+        }
+        row.appendChild(main);
+        const tags = document.createElement("div");
+        tags.className = "config-plan-tags";
+        tags.appendChild(chip(it.type, "is-" + it.type.toLowerCase()));
+        if (it.owner) tags.appendChild(chip(it.owner, it.owner === "Customer" ? "is-customer" : "is-procore"));
+        row.appendChild(tags);
+        list.appendChild(row);
+      }));
+      wrapEl.appendChild(list);
+      wrap.appendChild(wrapEl);
+    }
+
+    // Kickoff phase: the tier's official call schedule (Call Scheduling Tool) —
+    // every invite to book, with duration and the tools each call covers.
+    if (phase.key === "kickoff" && cfgTier) {
+      const tpls = configData.schedulingTemplates || {};
+      const schedKey = tpls[cfgTier.key] ? cfgTier.key : cfgTier.schedulingFrom;
+      const calls = schedKey && tpls[schedKey];
+      if (calls && calls.length) {
+        const borrowed = schedKey !== cfgTier.key;
+        const wrapEl = sourcedFrame("schedulingTool", null,
+          "Scheduling Template — " + cfgTier.name,
+          borrowed
+            ? "The Scheduling Tool has no separate template for this tier — showing " +
+              (((cfgPkg.tiers || []).find((t) => t.key === schedKey) || {}).name || schedKey) + "."
+            : "Book every call at kickoff. Internal blocks go on the SPC/CCS calendar only.");
+        const list = document.createElement("div");
+        list.className = "config-plan";
+        calls.forEach((c) => {
+          const row = document.createElement("div");
+          row.className = "config-plan-row" + (c.internal ? " is-internal" : "");
+          const main = document.createElement("div");
+          main.className = "config-plan-main";
+          const t = document.createElement("p");
+          t.className = "config-plan-task";
+          t.textContent = c.title;
+          main.appendChild(t);
+          if (c.tools) {
+            const dsc = document.createElement("p");
+            dsc.className = "config-plan-desc";
+            dsc.textContent = "Covers: " + c.tools;
+            main.appendChild(dsc);
+          }
+          row.appendChild(main);
+          const tags = document.createElement("div");
+          tags.className = "config-plan-tags";
+          tags.appendChild(chip(c.duration, "is-duration"));
+          if (c.internal) tags.appendChild(chip("Internal", "is-internal"));
+          if (c.commercialOnly) tags.appendChild(chip("Commercial only", "is-commercial"));
+          row.appendChild(tags);
+          list.appendChild(row);
+        });
+        wrapEl.appendChild(list);
+        wrap.appendChild(wrapEl);
+      }
     }
 
     // Kickoff phase: render the week-by-week visual timeline. Per-tier
@@ -1621,7 +1793,8 @@ export function initConfigTracker(ctx) {
       const vc = configData.validationChecklist;
       const vmap = vc.map || {};
       const tierKey = cfgTier ? cfgTier.key : null;
-      const secNames = (vmap._universal || []).concat((vmap[cfgPkg.key] || {})[tierKey] || []);
+      const universal = (vmap._noUniversal || []).indexOf(tierKey) !== -1 ? [] : (vmap._universal || []);
+      const secNames = universal.concat((vmap[cfgPkg.key] || {})[tierKey] || []);
       const avail = secNames.filter((s) => vc.sections && vc.sections[s]);
       if (avail.length) {
         configState.validation = configState.validation || {};
@@ -1723,8 +1896,9 @@ export function initConfigTracker(ctx) {
       }
     }
 
-    // Configuration Workbook only appears on the Build phase.
-    if (phase.key === "build") {
+    // Configuration Workbook only appears on the Build phase (and only for
+    // packages that have a workbook tab).
+    if (phase.key === "build" && !tierOv.noWorkbook) {
       const wbWrap = document.createElement("div");
       wbWrap.className = "config-workbook";
 
@@ -1944,7 +2118,7 @@ export function initConfigTracker(ctx) {
       const intro = document.createElement("p");
       intro.className = "config-workbook-intro";
       intro.textContent =
-        "The official PNPT Configuration Workbook, row for row, for this tier. Tick 'Updated' for any setting you deviated from the default on, capture the new value, and add notes for the closeout deliverable. Export fills your entries into the official workbook file.";
+        "The official PNPT Configuration Workbook, row for row, for this tier. Tick 'Updated/Covered' for any setting you covered or changed from the default, capture the new value, and add notes for the closeout deliverable. Export fills your entries into the official workbook file.";
       const cbHint = document.createElement("p");
       cbHint.className = "config-workbook-hint";
       cbHint.textContent = gClientId
@@ -1991,7 +2165,7 @@ export function initConfigTracker(ctx) {
         table.className = "config-wb-table";
         const thead = document.createElement("thead");
         const trh = document.createElement("tr");
-        ["Setting / Decision", "Default", "Updated?", "Changed To / Notes"].forEach((t) => {
+        ["Setting / Decision", "Default", "Updated/Covered?", "Changed To / Notes"].forEach((t) => {
           const th = document.createElement("th"); th.textContent = t; trh.appendChild(th);
         });
         thead.appendChild(trh);
@@ -2051,7 +2225,7 @@ export function initConfigTracker(ctx) {
           const cb = document.createElement("input");
           cb.type = "checkbox";
           cb.checked = !!st.updated;
-          cb.setAttribute("aria-label", "Updated — " + setting.name);
+          cb.setAttribute("aria-label", "Updated/Covered — " + setting.name);
           cb.addEventListener("change", () => {
             configState.workbook[section.key] = configState.workbook[section.key] || {};
             const cur = configState.workbook[section.key][skey] || {};

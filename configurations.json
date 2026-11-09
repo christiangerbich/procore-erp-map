@@ -12,6 +12,14 @@
     "deliveryGuide": {
       "label": "Package Delivery Guide",
       "url": ""
+    },
+    "projectPlan": {
+      "label": "PNPT Project Plan Template",
+      "url": ""
+    },
+    "schedulingTool": {
+      "label": "PNPT Call Scheduling Tool",
+      "url": "https://docs.google.com/document/d/1ButN2crghcNcCCXDK4daSivr_L59KDOep9L57HuNXeI/edit"
     }
   },
   "phases": [
@@ -1709,6 +1717,54 @@
               }
             ]
           }
+        },
+        {
+          "key": "pe-essentials-owners",
+          "name": "Project Execution Essentials (Owners)",
+          "hours": 25,
+          "duration": "8 weeks",
+          "pricing": {
+            "comm": 6250,
+            "smb": 5000
+          },
+          "note": "Owners SKU of PE Essentials — same hours, duration and price; Owners tool list.",
+          "extraWorkbookSections": [],
+          "inScopeTools": [
+            "Drawings",
+            "Observations",
+            "Correspondence (up to 2 templates w/o workflow or 1 template with workflow)",
+            "Punch List",
+            "Inspections (up to 5 templates)"
+          ],
+          "toolList": [
+            {
+              "key": "drawings",
+              "name": "Drawings",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/drawings-project/diagrams"
+            },
+            {
+              "key": "observations",
+              "name": "Observations",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/observations-project/diagrams"
+            },
+            {
+              "key": "correspondence",
+              "name": "Correspondence",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/correspondence-project"
+            },
+            {
+              "key": "punch-list",
+              "name": "Punch List",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/punch-list-project/diagrams"
+            },
+            {
+              "key": "inspections",
+              "name": "Inspections",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/inspections-project/diagrams"
+            }
+          ],
+          "learningAudience": "Owners",
+          "schedulingFrom": "pe-essentials"
         },
         {
           "key": "pe-standard",
@@ -4165,6 +4221,215 @@
           }
         ]
       }
+    },
+    {
+      "key": "materials",
+      "name": "Materials",
+      "deliverables": [
+        {
+          "key": "workbook",
+          "name": "Configuration Workbook",
+          "owner": "SPC",
+          "description": "Configuration document with Procore default settings and the changes made through the consultative process (Materials tab)."
+        },
+        {
+          "key": "validation",
+          "name": "Validation Script",
+          "owner": "PM/PC",
+          "description": "Procore-provided testing script to facilitate client tool testing."
+        }
+      ],
+      "configurationScope": [
+        {
+          "key": "spt",
+          "name": "Standard Project Template Updates"
+        },
+        {
+          "key": "company-admin",
+          "name": "Company Admin Settings (custom fields)"
+        },
+        {
+          "key": "workflows",
+          "name": "Workflows"
+        },
+        {
+          "key": "templates",
+          "name": "Template Builds"
+        },
+        {
+          "key": "permissions",
+          "name": "Permissions"
+        }
+      ],
+      "toolDiscoveryPrompts": {
+        "questions": [
+          "How does the client track material requirements, orders, shipments and receipts today?",
+          "Should Materials connect to Commitments and Invoicing for this client?",
+          "Which material defects / quality issues must be captured on receipt?",
+          "Do they move stock between projects (inter-project transfers) or issue directly to work?",
+          "Who will use the Materials mobile app in the field?"
+        ]
+      },
+      "consultationAgenda": {
+        "name": "Materials Consultations (2 × 2-hour blocks)",
+        "subtitle": "Per the PNPT Call Scheduling Tool — Materials.",
+        "blocks": [
+          {
+            "time": "Consultation 1 · 2 hrs",
+            "kind": "Process Decided",
+            "topic": "Discovery, Settings, Connection to Commitments & Invoicing, Requirements, Orders, Shipments, Receipts, and Defects."
+          },
+          {
+            "time": "Consultation 2 · 2 hrs",
+            "kind": "Process Decided",
+            "topic": "Direct Issuing, Transfers, Adjustments, Inter-Project Transfers, and Mobile App."
+          }
+        ]
+      },
+      "assignedTo": {
+        "materials": {
+          "namer": "Project Coordinator (PC)"
+        }
+      },
+      "tiers": [
+        {
+          "key": "materials",
+          "name": "Materials",
+          "hours": null,
+          "duration": "8 weeks",
+          "pricing": null,
+          "phases": [
+            "initiation",
+            "kickoff",
+            "build",
+            "validate",
+            "closeout"
+          ],
+          "note": "No Discovery phase — the first consultation opens with Materials discovery.",
+          "extraWorkbookSections": [],
+          "inScopeTools": [
+            "Materials"
+          ],
+          "toolList": [
+            {
+              "key": "materials",
+              "name": "Materials",
+              "supportUrl": "https://v2.support.procore.com/product-manuals/materials-project/tutorials"
+            }
+          ],
+          "kickoffTimeline": {
+            "name": "Materials — 8 Week Timeline",
+            "subtitle": "The customer-facing visual on the MATERIALS kickoff deck.",
+            "totalWeeks": 8,
+            "weeks": [
+              {
+                "week": 1,
+                "items": [
+                  "Procore account created",
+                  "Project Kickoff",
+                  "Project Governance begins",
+                  "CUSTOMER completes Materials Tools Certification"
+                ]
+              },
+              {
+                "week": 4,
+                "items": [
+                  "Consultation",
+                  "PROCORE completes configurations",
+                  "Configuration Deliverable"
+                ]
+              },
+              {
+                "week": 6,
+                "items": [
+                  "Validation Script",
+                  "CUSTOMER validates configurations",
+                  "Product Q&A"
+                ]
+              },
+              {
+                "week": 8,
+                "items": [
+                  "Project Closeout"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "procore-ai",
+      "name": "Procore AI",
+      "deliverables": [
+        {
+          "key": "plan",
+          "name": "Implementation Project Plan",
+          "owner": "PM/PC",
+          "description": "Procore to provide the project plan."
+        },
+        {
+          "key": "ai-config-checklist",
+          "name": "Configuration Checklist",
+          "owner": "SPC",
+          "description": "Completed by the SPC during the Configuration Consultation."
+        },
+        {
+          "key": "prompt-testing",
+          "name": "Prompt Testing Checklist",
+          "owner": "SPC",
+          "description": "Shared by the SPC at the Configuration Consultation; completed by the customer across the pilot projects."
+        }
+      ],
+      "configurationScope": [],
+      "toolDiscoveryPrompts": {
+        "questions": [
+          "Which 3 pilot projects? (Procurement or construction phase — avoid preconstruction and closeout.)",
+          "Who are the 3 project champions and the 2 pilot agents?",
+          "Is the recommended committee in place: Exec Sponsor, PM, PE, Superintendent?"
+        ]
+      },
+      "assignedTo": {},
+      "tiers": [
+        {
+          "key": "procore-ai",
+          "name": "Procore AI",
+          "hours": null,
+          "duration": null,
+          "pricing": null,
+          "phases": [
+            "initiation",
+            "kickoff",
+            "build",
+            "closeout"
+          ],
+          "phaseLabels": {
+            "build": "Configuration"
+          },
+          "note": "Pilot-based: 3 pilot projects, 3 project champions, 2 pilot agents.",
+          "extraWorkbookSections": [],
+          "inScopeTools": [
+            "Procore AI"
+          ],
+          "toolList": [],
+          "noWorkbook": true,
+          "planTaskPhases": [
+            "kickoff",
+            "build",
+            "closeout"
+          ],
+          "genericFramesOff": [
+            "kickoff",
+            "build",
+            "closeout"
+          ],
+          "phaseDescriptions": {
+            "kickoff": "Kickoff aligns the Procore AI pilot: confirm the Procore Committee (recommended: Exec Sponsor, PM, PE, Superintendent), 3 pilot projects in the procurement or construction phase (avoid preconstruction and closeout), 3 project champions and 2 pilot agents, then schedule the Configuration Consultation.",
+            "build": "One Configuration Consultation: the SPC completes the Configuration Checklist and shares the Prompt Testing Checklist, which the customer completes across the pilot projects.",
+            "closeout": "Feedback & Closeout call — invite the AM/CSE and the SPC."
+          }
+        }
+      ]
     }
   ],
   "aiPrompts": {
@@ -5286,6 +5551,10 @@
       {
         "name": "Total time to complete",
         "description": "1–3 hours per product category."
+      },
+      {
+        "name": "Audience-specific learning paths",
+        "description": "The kickoff deck has separate Now / Next / Later paths for General Contractors, Specialty Contractors, and Owners — use the slide that matches the client."
       }
     ],
     "items": [
@@ -5505,69 +5774,69 @@
       "Account Configuration": [
         {
           "name": "Download Procore Imports App",
-          "url": "https://v2.support.procore.com/product-manuals/procore-imports",
+          "url": "https://support.procore.com/products/procore-imports",
           "doc": "Procore Imports"
         },
         {
           "name": "Populate Directory Import Template",
-          "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports",
+          "url": "https://support.procore.com/products/procore-imports/user-guide/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports",
           "doc": "Import Users & Vendors into your Company Level Directory Tool (Procore Imports)"
         },
         {
           "name": "Add a User Manually",
-          "url": "https://v2.support.procore.com/product-manuals/directory-company/tutorials/add-a-user-account-to-the-company-directory",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/directory/tutorials/add-a-user-account-to-the-company-directory",
           "doc": "Add a User Account to the Company Directory"
         },
         {
           "name": "Populate Cost Code Import Template (Non-ERP Clients)",
-          "url": "https://v2.support.procore.com/product-manuals/procore-imports",
+          "url": "https://support.procore.com/products/procore-imports/user-guide/company-admin/tutorials/prepare-cost-codes-for-import-to-the-procore-imports-app",
           "doc": "Prepare Cost Codes for Import to the Procore Imports App"
         },
         {
           "name": "Refine Permission Templates",
-          "url": "https://v2.support.procore.com/references/user-permissions-matrix-web",
+          "url": "https://support.procore.com/references/user-permissions-matrix-web",
           "doc": "User Permissions Matrix"
         },
         {
           "name": "Develop Document Folder Structure",
-          "url": "https://v2.support.procore.com/product-manuals/documents-project/tutorials/create-a-standard-project-folder-structure-for-the-documents-tool",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/documents/tutorials/create-a-standard-project-folder-structure-for-the-documents-tool",
           "doc": "Create a Standard Project Folder Structure for the Documents Tool"
         },
         {
           "name": "Install an App",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/install-app-from-marketplace",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/install-app-from-marketplace",
           "doc": "Install an App from the Procore Marketplace"
         },
         {
           "name": "View Certification Analytics",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/view-the-certification-dashboard",
           "doc": "View the Certification Dashboard"
         },
         {
           "name": "Upload a Company Logo",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/upload-a-company-logo"
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/upload-a-company-logo"
         },
         {
           "name": "Add an Office Location",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/add-an-office-location"
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/add-an-office-location"
         },
         {
           "name": "Configure Single Sign On",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/configure-single-sign-on-in-the-company-admin-tool",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/configure-single-sign-on-in-the-company-admin-tool",
           "doc": "Configure Single Sign On in the Company Admin Tool"
         },
         {
           "name": "Set Project Defaults",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/set-the-defaults-for-your-projects",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-the-defaults-for-your-projects",
           "doc": "Set the Defaults for Your Projects"
         },
         {
           "name": "Create a Default Project Fieldset",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-default-project-fieldset"
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-default-project-fieldset"
         },
         {
           "name": "Add a Custom Project Role",
-          "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/add-a-custom-project-role"
+          "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/add-a-custom-project-role"
         },
         {
           "name": "Prepare Custom Form Requests (Contract Documents, AIA, etc.)",
@@ -5578,64 +5847,67 @@
       "Project Setup": [
         {
           "name": "Create First Project in Procore",
-          "url": "https://v2.support.procore.com/product-manuals/portfolio-company",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/portfolio/tutorials/add-a-new-project",
           "doc": "Add a Project"
         },
         {
           "name": "Add/Invite Internal Team to the First Project",
-          "url": "https://v2.support.procore.com/product-manuals/directory-project/tutorials/bulk-add-users-and-companies-to-a-project-directory",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/directory/tutorials/bulk-add-users-and-companies-to-a-project-directory",
           "doc": "Bulk Add Users and Companies to a Project Directory"
         },
         {
           "name": "Download Procore Drive",
-          "url": "https://v2.support.procore.com/product-manuals/procore-drive",
+          "url": "https://support.procore.com/products/procore-drive",
           "doc": "Procore Drive"
         },
         {
           "name": "Upload Schedule",
-          "url": "https://v2.support.procore.com/product-manuals/procore-drive",
+          "url": "https://support.procore.com/products/procore-drive/user-guide/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive",
           "doc": "Integrate a Microsoft Project, Asta, or Phoenix Schedule using Procore Drive"
         },
         {
           "name": "Upload Schedule",
-          "url": "https://v2.support.procore.com/product-manuals/procore-drive",
+          "url": "https://support.procore.com/products/procore-drive/user-guide/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive",
           "doc": "Integrate a Primavera P6 Schedule using Procore Drive"
         },
         {
           "name": "Create a Lookahead Schedule",
-          "url": "https://v2.support.procore.com/product-manuals/schedule-project/tutorials/create-a-lookahead-schedule"
+          "url": "https://support.procore.com/products/online/user-guide/project-level/schedule/tutorials/create-a-lookahead-schedule"
         },
         {
           "name": "Add and Manage Subtasks for a Lookahead Schedule",
-          "url": "https://v2.support.procore.com/product-manuals/schedule-project/tutorials/add-and-manage-subtasks-for-a-lookahead-schedule"
+          "url": "https://support.procore.com/products/online/user-guide/project-level/schedule/tutorials/add-and-manage-subtasks-for-a-lookahead-schedule"
         },
         {
           "name": "Download the Procore for Outlook Plug-In",
-          "url": "https://support.procore.com/integrations/procore-outlook-addin#Activating_the_Add-in_in_Outlook-50587",
+          "url": "https://support.procore.com/integrations/procore-outlook-addin",
           "doc": "Procore for Outlook"
         },
         {
-          "name": "Review Choosing a Procore Company and Project\""
+          "name": "Review Choosing a Procore Company and Project\"",
+          "doc": "Same support article ^"
         },
         {
-          "name": "Review \"Working with Quick Create\"  and \"My Open Items\""
+          "name": "Review \"Working with Quick Create\" and \"My Open Items\"",
+          "doc": "Same support article ^"
         },
         {
           "name": "Upload Drawings to Project",
-          "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/drawings/tutorials/upload-drawings",
           "doc": "Upload Drawings"
         },
         {
           "name": "Upload Specifications to Project",
-          "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/upload-specifications",
+          "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/upload-specifications",
           "doc": "Upload Specifications"
         },
         {
-          "name": "Begin to Configure Tool Settings"
+          "name": "Begin to Configure Tool Settings",
+          "doc": "Helpful Tip: Configurations are found by clicking the orange cog in upper left corner in Procore Tool. Visit support.procore.com for detailed explanations of the configurations per tool."
         },
         {
           "name": "Review and edit tool configurations in Standard Project Template as needed",
-          "url": "https://v2.support.procore.com/product-manuals/portfolio-company/tutorials/configure-a-project-template",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/portfolio/tutorials/configure-a-project-template",
           "doc": "Configure a Project Template"
         }
       ],
@@ -5644,7 +5916,8 @@
           "name": "Drawings",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Upload, Review, and Publish Drawings",
@@ -5674,11 +5947,12 @@
           "name": "RFIs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
-              "name": "Create DRFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi",
+              "name": "Create RFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
               "doc": "Create an RFI"
             },
             {
@@ -5700,21 +5974,22 @@
           "name": "Submittals",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Manually Create Submittals",
-              "url": "https://v2.support.procore.com/product-manuals/submittals-project/tutorials/create-a-submittal",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
               "doc": "Create a Submittal"
             },
             {
               "name": "Create Submittal Registry from Specifications",
-              "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/generate-submittal-log",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
               "doc": "Generate Submittals from Specifications"
             },
             {
               "name": "Create Submittals Using Procore Imports",
-              "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
               "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
             }
           ]
@@ -5723,16 +5998,17 @@
           "name": "Observations",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Observation Template",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-company-level-observation-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
               "doc": "Create a Company Level Observation Template"
             },
             {
               "name": "Create an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/create-an-observation"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
             },
             {
               "name": "Respond to an Observation",
@@ -5749,11 +6025,12 @@
           "name": "Daily Log",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-ios",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
               "doc": "Manage Daily Logs on iOS (also available on Android)"
             },
             {
@@ -5771,7 +6048,8 @@
           "name": "Drawings",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Upload, Review, and Publish Drawings",
@@ -5801,11 +6079,12 @@
           "name": "RFIs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
-              "name": "Create DRFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi",
+              "name": "Create RFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
               "doc": "Create an RFI"
             },
             {
@@ -5827,26 +6106,27 @@
           "name": "Submittals",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Manually Create Submittals",
-              "url": "https://v2.support.procore.com/product-manuals/submittals-project/tutorials/create-a-submittal",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
               "doc": "Create a Submittal"
             },
             {
               "name": "Create Submittal Registry from Specifications",
-              "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/generate-submittal-log",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
               "doc": "Generate Submittals from Specifications"
             },
             {
               "name": "Create Submittals Using Procore Imports",
-              "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
               "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
             },
             {
               "name": "Create Custom Submittal Types",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-submittal-types"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
             }
           ]
         },
@@ -5854,16 +6134,17 @@
           "name": "Observations",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Observation Template",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-company-level-observation-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
               "doc": "Create a Company Level Observation Template"
             },
             {
               "name": "Create an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/create-an-observation"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
             },
             {
               "name": "Respond to an Observation",
@@ -5880,140 +6161,12 @@
           "name": "Daily Log",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-ios",
-              "doc": "Manage Daily Logs on iOS (also available on Android)"
-            },
-            {
-              "name": "View Pending Daily Log Entries",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-project/tutorials/view-pending-daily-log-entries/"
-            },
-            {
-              "name": "Approve or Reject Pending Daily Log Entries"
-            }
-          ]
-        },
-        {
-          "name": "Drawings",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Upload, Review, and Publish Drawings",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
-              "doc": "Upload Drawings"
-            },
-            {
-              "name": "Markup a Drawing",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
-              "doc": "Mark Up a Drawing"
-            },
-            {
-              "name": "Link Items to a Drawing",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
-            },
-            {
-              "name": "Upload Drawing Revisions",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
-            },
-            {
-              "name": "Compare Drawing Revisions",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
-            }
-          ]
-        },
-        {
-          "name": "RFIs",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Create DRFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi",
-              "doc": "Create an RFI"
-            },
-            {
-              "name": "Send to assignee(s)",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi/",
-              "doc": "Send as Open"
-            },
-            {
-              "name": "Choose an \"Official Response\" for an RFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/choose-an-official-response-for-an-rfi/"
-            },
-            {
-              "name": "Close an RFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/close-an-rfi/"
-            }
-          ]
-        },
-        {
-          "name": "Submittals",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Manually Create Submittals",
-              "url": "https://v2.support.procore.com/product-manuals/submittals-project/tutorials/create-a-submittal",
-              "doc": "Create a Submittal"
-            },
-            {
-              "name": "Create Submittal Registry from Specifications",
-              "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/generate-submittal-log",
-              "doc": "Generate Submittals from Specifications"
-            },
-            {
-              "name": "Create Submittals Using Procore Imports",
-              "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
-              "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
-            },
-            {
-              "name": "Create Custom Submittal Types",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-submittal-types"
-            }
-          ]
-        },
-        {
-          "name": "Observations",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Create Observation Template",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-company-level-observation-template",
-              "doc": "Create a Company Level Observation Template"
-            },
-            {
-              "name": "Create an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/create-an-observation"
-            },
-            {
-              "name": "Respond to an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
-            },
-            {
-              "name": "Close the Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
-              "doc": "Close an Observation"
-            }
-          ]
-        },
-        {
-          "name": "Daily Log",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-ios",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
               "doc": "Manage Daily Logs on iOS (also available on Android)"
             },
             {
@@ -6029,7 +6182,8 @@
           "name": "Correspondence",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Correspondence Item",
@@ -6045,7 +6199,8 @@
           "name": "Punch List",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Punch List Templates"
@@ -6070,16 +6225,17 @@
           "name": "Inspections",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-company/tutorials/create-a-company-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
               "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
             },
             {
               "name": "Create an Inspection",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-project/tutorials/create-a-project-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
               "doc": "Create a Project Level Inspection"
             }
           ]
@@ -6088,25 +6244,26 @@
           "name": "Bidding",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Bid Package",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/create-a-bid-package"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
             },
             {
               "name": "Search and Invite Bidders",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/search-for-and-invite-bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
               "doc": "Search for and Invite Bidders"
             },
             {
               "name": "Award Winning Bids - Convert to Subcontract",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
               "doc": "Award a Winning Bid and Convert it into a Subcontract"
             },
             {
               "name": "Award Winning Bids - Convert to Purchase Order",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
               "doc": "Award a Winning Bid and Convert it into a Purchase Order"
             }
           ]
@@ -6117,7 +6274,8 @@
           "name": "Drawings",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Upload, Review, and Publish Drawings",
@@ -6147,11 +6305,12 @@
           "name": "RFIs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
-              "name": "Create DRFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi",
+              "name": "Create RFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
               "doc": "Create an RFI"
             },
             {
@@ -6173,26 +6332,27 @@
           "name": "Submittals",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Manually Create Submittals",
-              "url": "https://v2.support.procore.com/product-manuals/submittals-project/tutorials/create-a-submittal",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
               "doc": "Create a Submittal"
             },
             {
               "name": "Create Submittal Registry from Specifications",
-              "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/generate-submittal-log",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
               "doc": "Generate Submittals from Specifications"
             },
             {
               "name": "Create Submittals Using Procore Imports",
-              "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
               "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
             },
             {
               "name": "Create Custom Submittal Types",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-submittal-types"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
             }
           ]
         },
@@ -6200,16 +6360,17 @@
           "name": "Observations",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Observation Template",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-company-level-observation-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
               "doc": "Create a Company Level Observation Template"
             },
             {
               "name": "Create an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/create-an-observation"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
             },
             {
               "name": "Respond to an Observation",
@@ -6226,11 +6387,12 @@
           "name": "Daily Log",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-ios",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
               "doc": "Manage Daily Logs on iOS (also available on Android)"
             },
             {
@@ -6246,7 +6408,8 @@
           "name": "Correspondence",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Correspondence Item",
@@ -6262,7 +6425,8 @@
           "name": "Punch List",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Punch List Templates"
@@ -6287,16 +6451,17 @@
           "name": "Inspections",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-company/tutorials/create-a-company-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
               "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
             },
             {
               "name": "Create an Inspection",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-project/tutorials/create-a-project-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
               "doc": "Create a Project Level Inspection"
             }
           ]
@@ -6305,25 +6470,26 @@
           "name": "Bidding",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Bid Package",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/create-a-bid-package"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
             },
             {
               "name": "Search and Invite Bidders",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/search-for-and-invite-bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
               "doc": "Search for and Invite Bidders"
             },
             {
               "name": "Award Winning Bids - Convert to Subcontract",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
               "doc": "Award a Winning Bid and Convert it into a Subcontract"
             },
             {
               "name": "Award Winning Bids - Convert to Purchase Order",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
               "doc": "Award a Winning Bid and Convert it into a Purchase Order"
             }
           ]
@@ -6332,42 +6498,43 @@
           "name": "BIM & Coordination Issues",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Publish Drawings",
-              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/publish-drawings"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/drawings/tutorials/publish-drawings"
             },
             {
               "name": "Associate a Model with a Procore Project",
-              "url": "https://v2.support.procore.com/product-manuals/coordination-issues-project"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/associate-a-model-with-a-procore-project"
             },
             {
               "name": "Publish a Model",
-              "url": "https://v2.support.procore.com/product-manuals/models-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/publish-a-model-to-procore",
               "doc": "Publish a Model to Procore"
             },
             {
               "name": "Edit a Model",
-              "url": "https://v2.support.procore.com/product-manuals/models-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/edit-information-for-a-model",
               "doc": "Edit Information for a Model"
             },
             {
               "name": "Setup 2D Dynamic Views",
-              "url": "https://v2.support.procore.com/product-manuals/models-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/models/tutorials/getting-started-guide-for-dynamic-2d-views-in-the-models-tool",
               "doc": "Getting Started Guide for Dynamic 2D Views in the Models Tool"
             },
             {
               "name": "Create 2D Dynamic Views for Models (iOS)",
-              "url": "https://support.procore.com/procore-mobile-ios/user-guide/models-ios/tutorials/view-models-ios#To_Create_Dynamic_2D_Views"
+              "url": "https://support.procore.com/procore-mobile-ios/user-guide/models-ios/tutorials/view-models-ios"
             },
             {
               "name": "Create a Coordination Issue",
-              "url": "https://v2.support.procore.com/product-manuals/coordination-issues-project/tutorials/create-a-coordination-issue"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/create-a-coordination-issue"
             },
             {
               "name": "Add or Manage Comments on a Coordination Issue",
-              "url": "https://v2.support.procore.com/product-manuals/coordination-issues-project"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/coordination-issues/tutorials/add-or-manage-comments-on-a-coordination-issue"
             }
           ]
         }
@@ -6377,16 +6544,17 @@
           "name": "Budget",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Import/Create a Budget",
-              "url": "https://v2.support.procore.com/product-manuals/budget-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
               "doc": "Import a Budget"
             },
             {
               "name": "Review and Create Company Custom Budget Views",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
               "doc": "Set up a New Budget View"
             },
             {
@@ -6403,11 +6571,12 @@
           "name": "Prime Contract",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Prime Contract with an SOV",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
               "doc": "Create a Prime Contract"
             },
             {
@@ -6421,10 +6590,11 @@
           ]
         },
         {
-          "name": "Commitments (Subcontracts & Direct Costs)",
+          "name": "Commitments & Direct Costs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Subcontract",
@@ -6444,30 +6614,31 @@
           "name": "Change Events | Change Orders",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Change Event",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
             },
             {
               "name": "Send RFQs",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-rfqs-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
               "doc": "Create an RFQ"
             },
             {
               "name": "Create a Prime PCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
               "doc": "Create a Prime Potential CO (PCO)"
             },
             {
               "name": "Create a PCCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-prime-contract-change-order-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
               "doc": "Create a Prime Contract CO (PCCO)"
             },
             {
               "name": "Create a CCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
               "doc": "Create a Commitment CO (CCO)"
             }
           ]
@@ -6476,26 +6647,27 @@
           "name": "Invoicing",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Subcontractor Billing Period and Invite for Invoicing",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
               "doc": "Start a New Billing Period and Send Invoice Emails"
             },
             {
               "name": "Create a Subcontractor Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
               "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
             },
             {
               "name": "Review Subcontractor Invoices",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
               "doc": "Review Invoices"
             },
             {
               "name": "Create Owner Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
               "doc": "Create an Owner Invoice"
             }
           ]
@@ -6506,16 +6678,17 @@
           "name": "Budget",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Import/Create a Budget",
-              "url": "https://v2.support.procore.com/product-manuals/budget-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
               "doc": "Import a Budget"
             },
             {
               "name": "Review and Create Company Custom Budget Views",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
               "doc": "Set up a New Budget View"
             },
             {
@@ -6532,11 +6705,12 @@
           "name": "Prime Contract",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Prime Contract with an SOV",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
               "doc": "Create a Prime Contract"
             },
             {
@@ -6550,10 +6724,11 @@
           ]
         },
         {
-          "name": "Commitments (Subcontracts & Direct Costs)",
+          "name": "Commitments & Direct Costs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Subcontract",
@@ -6573,30 +6748,31 @@
           "name": "Change Events | Change Orders",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Change Event",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
             },
             {
               "name": "Send RFQs",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-rfqs-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
               "doc": "Create an RFQ"
             },
             {
               "name": "Create a Prime PCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
               "doc": "Create a Prime Potential CO (PCO)"
             },
             {
               "name": "Create a PCCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-prime-contract-change-order-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
               "doc": "Create a Prime Contract CO (PCCO)"
             },
             {
               "name": "Create a CCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
               "doc": "Create a Commitment CO (CCO)"
             }
           ]
@@ -6605,26 +6781,27 @@
           "name": "Invoicing",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Subcontractor Billing Period and Invite for Invoicing",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
               "doc": "Start a New Billing Period and Send Invoice Emails"
             },
             {
               "name": "Create a Subcontractor Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
               "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
             },
             {
               "name": "Review Subcontractor Invoices",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
               "doc": "Review Invoices"
             },
             {
               "name": "Create Owner Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
               "doc": "Create an Owner Invoice"
             }
           ]
@@ -6633,40 +6810,41 @@
           "name": "Cost Catalog | Bid Board | Takeoff | Estimating",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Build out Cost Catalog",
-              "url": "https://v2.support.procore.com/product-manuals/cost-catalog-company/tutorials/import-cost-catalog-items",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/cost-catalog/tutorials/import-cost-catalog-items",
               "doc": "Import Cost Catalog Items"
             },
             {
               "name": "Create Assemblies for Cost Catalog",
-              "url": "https://v2.support.procore.com/product-manuals/cost-catalog-company/tutorials/create-assemblies-for-a-cost-catalog"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/cost-catalog/tutorials/create-assemblies-for-a-cost-catalog"
             },
             {
               "name": "Set the Drawing Scale for Takeoffs",
-              "url": "https://v2.support.procore.com/product-manuals/estimating-project/tutorials/set-the-drawing-scale-for-takeoffs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/set-the-drawing-scale-for-takeoffs",
               "doc": "Create Assemblies for a Cost Catalog"
             },
             {
               "name": "Add Takeoffs for a Project",
-              "url": "https://v2.support.procore.com/product-manuals/estimating-project/tutorials/add-takeoffs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/add-takeoffs",
               "doc": "Add Takeoffs"
             },
             {
               "name": "Manage Takeoffs for a Project",
-              "url": "https://v2.support.procore.com/product-manuals/estimating-project/tutorials/manage-takeoffs",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/manage-takeoffs",
               "doc": "Manage Takeoffs"
             },
             {
               "name": "Generate Bid Estimates in Esticom",
-              "url": "https://v2.support.procore.com/product-manuals/estimating-project/tutorials/generate-bid-estimates",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/generate-bid-estimates",
               "doc": "Generate Bid Estimates"
             },
             {
               "name": "Send won estimates to Procore's Budget Tool",
-              "url": "https://v2.support.procore.com/product-manuals/estimating-project/tutorials/send-an-estimate-to-the-budget",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/estimating/tutorials/send-an-estimate-to-the-budget",
               "doc": "Send an Estimate to the Budget"
             },
             {
@@ -6681,7 +6859,8 @@
           "name": "Equipment",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Setup Equipment Tool",
@@ -6702,7 +6881,8 @@
           "name": "Timesheets",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Classificiations",
@@ -6735,7 +6915,8 @@
           "name": "T&M Tickets",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a T&M Ticket",
@@ -6758,34 +6939,31 @@
       ],
       "Resource Planning": [
         {
-          "name": "Resource Planning (Workforce Planning)",
-          "items": [
-            {
-              "name": "Review Configuration Settings"
-            },
-            {
-              "name": "Import Resource Planning Data",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/import-resource-planning-data"
-            },
-            {
-              "name": "Create a request",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company",
-              "doc": "Create a Workforce Request"
-            },
-            {
-              "name": "Create an assignment",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company",
-              "doc": "Create a Workforce Assignment"
-            },
-            {
-              "name": "Create a Saved View",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company"
-            },
-            {
-              "name": "Review the totals Dashboard",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/view-the-totals-dashboard"
-            }
-          ]
+          "name": "Review Configuration Settings",
+          "doc": "Use the Configuration Workbook to identify and validate changes made."
+        },
+        {
+          "name": "Import Resource Planning Data",
+          "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/import-resource-planning-data"
+        },
+        {
+          "name": "Create a request",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-request",
+          "doc": "Create a Workforce Request"
+        },
+        {
+          "name": "Create an assignment",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-assignment",
+          "doc": "Create a Workforce Assignment"
+        },
+        {
+          "name": "Create a Saved View",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-saved-views-in-workforce-planning"
+        },
+        {
+          "name": "Review the totals Dashboard",
+          "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/view-the-totals-dashboard",
+          "doc": "Review the Totals Dashboard"
         }
       ],
       "Resource Management": [
@@ -6793,7 +6971,8 @@
           "name": "Equipment",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Setup Equipment Tool",
@@ -6811,10 +6990,61 @@
           ]
         },
         {
+          "name": "Materials",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Setup Materials in a Project",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/project-setup/",
+              "doc": "Project Setup"
+            },
+            {
+              "name": "Create Materials Requirements",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-materials-requirements"
+            },
+            {
+              "name": "Import Purchase Orders",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/import-purchase-orders/"
+            },
+            {
+              "name": "Create a Shipment",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-shipment/"
+            },
+            {
+              "name": "Create a Receipt",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-receipt/"
+            },
+            {
+              "name": "Review and Finalize Receipts",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/review-and-finalize-receipts/"
+            },
+            {
+              "name": "Issue Materials",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/issue-materials/"
+            },
+            {
+              "name": "Resolve Defects",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/resolving-defects/"
+            },
+            {
+              "name": "Create a Transfer",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-transfer/"
+            },
+            {
+              "name": "Create an Adjustment",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-an-adjustment"
+            }
+          ]
+        },
+        {
           "name": "Timesheets",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Classificiations",
@@ -6847,7 +7077,8 @@
           "name": "T&M Tickets",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a T&M Ticket",
@@ -6868,10 +7099,11 @@
           ]
         },
         {
-          "name": "Resource Planning (Workforce Planning)",
+          "name": "Resource Planning",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Import Resource Planning Data",
@@ -6879,21 +7111,22 @@
             },
             {
               "name": "Create a request",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-request",
               "doc": "Create a Workforce Request"
             },
             {
               "name": "Create an assignment",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-a-workforce-assignment",
               "doc": "Create a Workforce Assignment"
             },
             {
               "name": "Create a Saved View",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/create-saved-views-in-workforce-planning"
             },
             {
               "name": "Review the totals Dashboard",
-              "url": "https://v2.support.procore.com/product-manuals/resource-planning-company/tutorials/view-the-totals-dashboard"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/workforce-planning/tutorials/view-the-totals-dashboard",
+              "doc": "Review the Totals Dashboard"
             }
           ]
         },
@@ -6901,7 +7134,8 @@
           "name": "360 Reporting",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Report",
@@ -6917,7 +7151,8 @@
           "name": "Analytics",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Getting Started with Analytics 2.0",
@@ -6928,13 +7163,11 @@
       ],
       "Project Lifecycle Management": [
         {
-          "name": "Project Execution"
-        },
-        {
           "name": "Drawings",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Upload, Review, and Publish Drawings",
@@ -6964,11 +7197,12 @@
           "name": "RFIs",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
-              "name": "Create DRFI",
-              "url": "https://v2.support.procore.com/product-manuals/rfi-project/tutorials/create-an-rfi",
+              "name": "Create RFI",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
               "doc": "Create an RFI"
             },
             {
@@ -6990,26 +7224,27 @@
           "name": "Submittals",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Manually Create Submittals",
-              "url": "https://v2.support.procore.com/product-manuals/submittals-project/tutorials/create-a-submittal",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/submittals/tutorials/create-a-submittal",
               "doc": "Create a Submittal"
             },
             {
               "name": "Create Submittal Registry from Specifications",
-              "url": "https://v2.support.procore.com/product-manuals/specifications-project/tutorials/generate-submittal-log",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/specifications/tutorials/generate-submittal-log",
               "doc": "Generate Submittals from Specifications"
             },
             {
               "name": "Create Submittals Using Procore Imports",
-              "url": "https://v2.support.procore.com/product-manuals/procore-imports/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+              "url": "https://support.procore.com/products/procore-imports/user-guide/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
               "doc": "Import Submittals into your Project Level Submittals Tool (Procore Imports)"
             },
             {
               "name": "Create Custom Submittal Types",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-submittal-types"
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-custom-submittal-types"
             }
           ]
         },
@@ -7017,16 +7252,17 @@
           "name": "Observations",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Observation Template",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-a-company-level-observation-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
               "doc": "Create a Company Level Observation Template"
             },
             {
               "name": "Create an Observation",
-              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/create-an-observation"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
             },
             {
               "name": "Respond to an Observation",
@@ -7043,11 +7279,12 @@
           "name": "Daily Log",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Daily Log Entry (from Laptop or Mobile App)",
-              "url": "https://v2.support.procore.com/product-manuals/daily-log-ios",
+              "url": "https://support.procore.com/products/procore-mobile-iphone-ipad/user-guide/daily-log-ios",
               "doc": "Manage Daily Logs on iOS (also available on Android)"
             },
             {
@@ -7063,7 +7300,8 @@
           "name": "Correspondence",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Correspondence Item",
@@ -7079,7 +7317,8 @@
           "name": "Punch List",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Punch List Templates"
@@ -7104,16 +7343,17 @@
           "name": "Inspections",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-company/tutorials/create-a-company-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
               "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
             },
             {
               "name": "Create an Inspection",
-              "url": "https://v2.support.procore.com/product-manuals/inspections-project/tutorials/create-a-project-level-inspection-template",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
               "doc": "Create a Project Level Inspection"
             }
           ]
@@ -7122,29 +7362,27 @@
           "name": "Bidding",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Bid Package",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/create-a-bid-package"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
             },
             {
               "name": "Search and Invite Bidders",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/search-for-and-invite-bidders",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
               "doc": "Search for and Invite Bidders"
             },
             {
               "name": "Award Winning Bids - Convert to Subcontract",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
               "doc": "Award a Winning Bid and Convert it into a Subcontract"
             },
             {
               "name": "Award Winning Bids - Convert to Purchase Order",
-              "url": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
               "doc": "Award a Winning Bid and Convert it into a Purchase Order"
-            },
-            {
-              "name": "Cost Management | Analytics | 360 Reporting"
             }
           ]
         },
@@ -7152,16 +7390,17 @@
           "name": "Budget",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Import/Create a Budget",
-              "url": "https://v2.support.procore.com/product-manuals/budget-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/budget/tutorials/import-a-budget-csv",
               "doc": "Import a Budget"
             },
             {
               "name": "Review and Create Company Custom Budget Views",
-              "url": "https://v2.support.procore.com/product-manuals/admin-company",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/set-up-a-new-budget-view",
               "doc": "Set up a New Budget View"
             },
             {
@@ -7178,11 +7417,12 @@
           "name": "Prime Contract",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Prime Contract with an SOV",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-prime-contract",
               "doc": "Create a Prime Contract"
             },
             {
@@ -7199,7 +7439,8 @@
           "name": "Commitments (Subcontracts & Direct Costs)",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Subcontract",
@@ -7219,30 +7460,31 @@
           "name": "Change Events | Change Orders",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Change Event",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project"
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-change-event-next-gen"
             },
             {
               "name": "Send RFQs",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-rfqs-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-rfqs-from-a-change-event-next-gen",
               "doc": "Create an RFQ"
             },
             {
               "name": "Create a Prime PCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-potential-change-order-next-gen",
               "doc": "Create a Prime Potential CO (PCO)"
             },
             {
               "name": "Create a PCCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-prime-contract-change-order-from-a-change-event",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-prime-contract-change-order-from-a-change-event-next-gen",
               "doc": "Create a Prime Contract CO (PCCO)"
             },
             {
               "name": "Create a CCO",
-              "url": "https://v2.support.procore.com/product-manuals/change-events-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/change-events-next-gen/Tutorials/create-a-cco-from-a-change-event-next-gen",
               "doc": "Create a Commitment CO (CCO)"
             }
           ]
@@ -7251,26 +7493,27 @@
           "name": "Invoicing",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create Subcontractor Billing Period and Invite for Invoicing",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/start-a-new-billing-period-and-send-requisition-emails",
               "doc": "Start a New Billing Period and Send Invoice Emails"
             },
             {
               "name": "Create a Subcontractor Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/create-a-requisition",
               "doc": "Create a Subcontractor Invoice on Behalf of a Sub"
             },
             {
               "name": "Review Subcontractor Invoices",
-              "url": "https://v2.support.procore.com/product-manuals/commitments-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/commitments/tutorials/review-requisitions",
               "doc": "Review Invoices"
             },
             {
               "name": "Create Owner Invoice",
-              "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/prime-contract/tutorials/create-a-payment-application",
               "doc": "Create an Owner Invoice"
             }
           ]
@@ -7279,7 +7522,8 @@
           "name": "360 Reporting",
           "items": [
             {
-              "name": "Review Configuration Settings"
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
             },
             {
               "name": "Create a Report",
@@ -7291,12 +7535,189 @@
             }
           ]
         }
+      ],
+      "Project Execution Essentials (Owners)": [
+        {
+          "name": "Drawings",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Upload, Review, and Publish Drawings",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawings/",
+              "doc": "Upload Drawings"
+            },
+            {
+              "name": "Markup a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/mark-up-a-drawing/",
+              "doc": "Mark Up a Drawing"
+            },
+            {
+              "name": "Link Items to a Drawing",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/link-items-on-a-drawing/"
+            },
+            {
+              "name": "Upload Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/upload-drawing-revisions/"
+            },
+            {
+              "name": "Compare Drawing Revisions",
+              "url": "https://v2.support.procore.com/product-manuals/drawings-project/tutorials/compare-drawing-revisions/"
+            }
+          ]
+        },
+        {
+          "name": "Observations",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Create Observation Template",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/admin/tutorials/create-a-company-level-observation-template",
+              "doc": "Create a Company Level Observation Template"
+            },
+            {
+              "name": "Create an Observation",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/observations/tutorials/create-an-observation"
+            },
+            {
+              "name": "Respond to an Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/respond-to-an-observation/"
+            },
+            {
+              "name": "Close the Observation",
+              "url": "https://v2.support.procore.com/product-manuals/observations-project/tutorials/close-an-observation/",
+              "doc": "Close an Observation"
+            }
+          ]
+        },
+        {
+          "name": "Correspondence",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Create a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/create-a-correspondence-item/"
+            },
+            {
+              "name": "Respond to a Correspondence Item",
+              "url": "https://v2.support.procore.com/product-manuals/correspondence-project/tutorials/respond-to-a-correspondence-item"
+            }
+          ]
+        },
+        {
+          "name": "Punch List",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Create Punch List Templates"
+            },
+            {
+              "name": "Create a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/create-a-punch-list-item/",
+              "doc": "Create a Punch List Items"
+            },
+            {
+              "name": "Notify Assignees of Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/notify-assignees-of-punch-list-items",
+              "doc": "Notify Assignees of Punch List Items"
+            },
+            {
+              "name": "Respond to a Punch List Item",
+              "url": "https://v2.support.procore.com/product-manuals/punch-list-project/tutorials/respond-to-a-punch-list-item"
+            }
+          ]
+        },
+        {
+          "name": "Inspections",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Collect Existing Inspection (Checklists) Templates + Build in Procore at Company Level",
+              "url": "https://support.procore.com/products/online/user-guide/company-level/inspections/tutorials/create-a-company-level-inspection-template",
+              "doc": "Create a Company Level Inspection Template (use Quick Add Feature to quickly copy and paste)"
+            },
+            {
+              "name": "Create an Inspection",
+              "url": "https://support.procore.com/products/online/user-guide/project-level/inspections/tutorials/create-a-project-level-inspection-template",
+              "doc": "Create a Project Level Inspection"
+            }
+          ]
+        }
+      ],
+      "Materials": [
+        {
+          "name": "Materials",
+          "items": [
+            {
+              "name": "Review Configuration Settings",
+              "doc": "Use the Configuration Workbook to identify and validate changes made."
+            },
+            {
+              "name": "Setup Materials in a Project",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/project-setup/",
+              "doc": "Project Setup"
+            },
+            {
+              "name": "Create Materials Requirements",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-materials-requirements"
+            },
+            {
+              "name": "Import Purchase Orders",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/import-purchase-orders/"
+            },
+            {
+              "name": "Create a Shipment",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-shipment/"
+            },
+            {
+              "name": "Create a Receipt",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-receipt/"
+            },
+            {
+              "name": "Review and Finalize Receipts",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/review-and-finalize-receipts/"
+            },
+            {
+              "name": "Issue Materials",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/issue-materials/"
+            },
+            {
+              "name": "Resolve Defects",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/resolving-defects/"
+            },
+            {
+              "name": "Create a Transfer",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-a-transfer/"
+            },
+            {
+              "name": "Create an Adjustment",
+              "url": "https://v2.support.procore.com/process-guides/materials-user-guide-without-project-financials/create-an-adjustment"
+            }
+          ]
+        }
       ]
     },
     "map": {
       "_universal": [
         "Account Configuration",
         "Project Setup"
+      ],
+      "_noUniversal": [
+        "materials"
       ],
       "cost-management": {
         "standard": [
@@ -7309,6 +7730,9 @@
       "project-execution": {
         "pe-essentials": [
           "Project Execution Essentials"
+        ],
+        "pe-essentials-owners": [
+          "Project Execution Essentials (Owners)"
         ],
         "pe-standard": [
           "Project Execution"
@@ -7332,11 +7756,2530 @@
         "plm-owners": [
           "Project Lifecycle Management"
         ]
+      },
+      "materials": {
+        "materials": [
+          "Materials"
+        ]
       }
     }
   },
   "export": {
     "_comment": "Set googleClientId to a Google OAuth 2.0 Client ID (Web application, this site's origin authorized) to enable the direct 'Export to Google Sheets' button on the Config Tracker workbook. Leave empty to keep the .xlsx download + File-Import flow.",
     "googleClientId": "919289340972-vf22hte51j8q7l73vfbo28v1a16tgvqa.apps.googleusercontent.com"
+  },
+  "projectPlans": {
+    "pe-essentials": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "PC to provide Project Plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "SPC led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "task": "Consultation: Drawings, RFIs, Submittals, Observations, Daily Log",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to Configuration Deliverable",
+            "owner": "Procore"
+          },
+          {
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Task",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "pe-essentials-owners": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "SPC led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "task": "Consultation: Core Platform, Drawings, Observations, Correspondence, Punch List, Inspections",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Task",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "pe-standard": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Discovery Workshop Call I - Core Setup + Drawings, RFIs, Submittals,Daily Log, Correspondence",
+            "type": "Meeting",
+            "desc": "SPC led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Drawings, RFIs, Submittals,Daily Log, Correspondence",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Inspections, Observations, Punch List, Bidding",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, Consultant recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "pe-enterprise": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all project meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "Procore led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Drawings, RFIs, Submittals,Daily Log, Correspondence",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Inspections, Observations , Punch List, Bidding",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase III",
+            "task": "Consultation: BIM, Design Coordination",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Analytics Setup",
+            "type": "Task"
+          },
+          {
+            "group": "Phase IV",
+            "task": "(If not yet acquired) Acquire Power BI licenses",
+            "type": "Task",
+            "desc": "1. PowerBI to be acquired outside of Procore. 2. Ensure proper permission levels are available for client to set up their PowerBI workspace",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Kickoff Call with Analytics Resource",
+            "type": "Meeting",
+            "desc": "1. Review and agree on the scope of the engagement and implementation process. 2. Confirm Power BI licenses and requirements",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Activation Call - Report Deployment and overview",
+            "type": "Meeting",
+            "desc": "AIS leads the Activation call to confirm technical setup, token and deliverable feasibility.",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Procore Analytics Product Deep Dive",
+            "type": "Meeting",
+            "desc": "This call is a consulting call to discuss how to navigate the Analytics tool, where to find reports, and how to use the reporting tools available, as well as answer any questions the customer may have. The consulting call agenda could vary depending on what the customer's goals are with Analytics. The number of calls and cadence to be determined with Analytics Resource based on what was decided in the alignment and/or discovery calls",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Analytics End User Validation",
+            "type": "Task",
+            "desc": "Validate the completed work against the approved documentation and facilitate any end-user testing. 1. Minor customizations include but are not limited to: - Report consolidation, setting filters, hiding pages, adjusting visuals, and making modifications to existing content 2. Major customizations (not included) would consist of adding new pages or content to the reports and must be scoped.",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Task",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, Consultant recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "standard": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Meeting",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "SPC led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          },
+          {
+            "task": "Technical Discovery Call (Commercial Only)",
+            "type": "Meeting",
+            "desc": "CCS led discovery call to review PDF exports required to execute contracts with Cost Management Tools",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Budget, Contracts, Change Management",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Invoicing & Workflows, Fin Reports",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "CCS PDF Mapping Document (Commercial Only)",
+            "type": "Deliverable",
+            "desc": "Document outlining PDF Mapping for updated PDF Contract",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Contract Customization Validation and Training (Commercial Only)",
+            "type": "Meeting",
+            "desc": "Dedicated time to review your Customized PDF solution, address any remaining questions on your configurations and design, and confirm you are ready for rollout.",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "enterprise": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all project meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "SPC led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          },
+          {
+            "task": "Technical Discovery Call (Commercial Only)",
+            "type": "Meeting",
+            "desc": "CCS led discovery call to review PDF exports required to execute contracts with Cost Management Tools",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Budget, Contracts, Change Management",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Invoicing & Workflows, Estimating",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase III",
+            "task": "Consultation: Reports",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Analytics Setup",
+            "type": "Task"
+          },
+          {
+            "group": "Phase IV",
+            "task": "(If not yet acquired) Acquire Power BI licenses",
+            "type": "Task",
+            "desc": "1. PowerBI to be acquired outside of Procore. 2. Ensure proper permission levels are available for client to set up their PowerBI workspace",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Kickoff Call with Analytics Resource",
+            "type": "Meeting",
+            "desc": "1. Review and agree on the scope of the engagement and implementation process. 2. Confirm Power BI licenses and requirements",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Activation Call - Report Deployment and overview",
+            "type": "Meeting",
+            "desc": "The AIS leads the Activation call to confirm technical setup, token and deliverable feasibility.",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Procore Analytics Product Deep Dive",
+            "type": "Meeting",
+            "desc": "This call is a consulting call to discuss how to navigate the analytics tool, where to find reports, and how to use the reporting tools available, as well as answer any questions the customer may have. The consulting call agenda could vary depending on what the customer's goals are with Analytics. The number of calls and cadence to be determined with Analytics Resource based on what was decided in the alignment and/or discovery calls",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "CCS PDF Mapping Document (Commercial Only)",
+            "type": "Deliverable",
+            "desc": "Document outlining PDF Mapping for updated PDF Contract",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Contract Customization Validation and Training (Commercial Only)",
+            "type": "Meeting",
+            "desc": "Dedicated time to review your Customized PDF solution, address any remaining questions on your configurations and design, and confirm you are ready for rollout.",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Analytics End User Validation",
+            "type": "Task",
+            "desc": "Validate the completed work against the approved documentation and facilitate any end-user testing. 1. Minor customizations include but are not limited to: - Report consolidation, setting filters, hiding pages, adjusting visuals, and making modifications to existing content 2. Major customizations (not included) would consist of adding new pages or content to the reports and must be scoped.",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, Consultant recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "plm-owners": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all project meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "Procore led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Budget, Contracts, Change Management",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Invoicing & Workflows, Estimating",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase III",
+            "task": "Consultation: Bidding, Correspondence, Estimating",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Consultation: Drawings, RFIs, Submittals, Action Plans, schedule, Punch List",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase V",
+            "task": "Analytics Setup",
+            "type": "Task"
+          },
+          {
+            "group": "Phase V",
+            "task": "(If not yet acquired) Acquire Power BI licenses",
+            "type": "Task",
+            "desc": "1. PowerBI to be acquired outside of Procore. 2. Ensure proper permission levels are available for client to set up their PowerBI workspace",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase V",
+            "task": "Kickoff Call with Analytics Resource",
+            "type": "Meeting",
+            "desc": "1. Review and agree on the scope of the engagement and implementation process. 2. Confirm Power BI licenses and requirements",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase V",
+            "task": "Activation Call - Report Deployment and overview",
+            "type": "Meeting",
+            "desc": "The AIS leads the Activation call to confirm technical setup, token and deliverable feasibility.",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase V",
+            "task": "Procore Analytics Product Deep Dive #1",
+            "type": "Meeting",
+            "desc": "This call is a consulting call to discuss how to navigate the analytics tool, where to find reports, and how to use the reporting tools available, as well as answer any questions the customer may have. The consulting call agenda could vary depending on what the customer's goals are with Analytics. The number of calls and cadence to be determined with Analytics Resource based on what was decided in the alignment and/or discovery calls",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Analytics End User Validation",
+            "type": "Task",
+            "desc": "Validate the completed work against the approved documentation and facilitate any end-user testing. 1. Minor customizations include but are not limited to: - Report consolidation, setting filters, hiding pages, adjusting visuals, and making modifications to existing content 2. Major customizations (not included) would consist of adding new pages or content to the reports and must be scoped.",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "rm-tracking": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "Procore led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "task": "Consultation: Equipment, Timecard, T&M Tickets, Timesheets",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validate Configurations per deliverables and validation script",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "rm-planning": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all Project Meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "Procore led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "task": "Consultation: Resource Planning",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "Procore SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Deliverable",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validate Configurations per deliverables and validation script",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "rm-advanced": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Choosing your Procore Committee",
+            "owner": "Customer"
+          },
+          {
+            "task": "Schedule all project meetings",
+            "type": "Task",
+            "desc": "Schedule all upcoming meetings with PC/SPC",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "discovery",
+        "items": [
+          {
+            "task": "Complete Company Admin Certification",
+            "type": "Task",
+            "desc": "Procore Admin Certification",
+            "owner": "Customer"
+          },
+          {
+            "task": "Discovery & Core Setup Call",
+            "type": "Meeting",
+            "desc": "Procore led discovery intended to surface a customer's business processes and strategy to inform required configuration",
+            "owner": "Procore"
+          },
+          {
+            "task": "Discovery Deliverable",
+            "type": "Deliverable",
+            "desc": "Summary of Discovery Session: Current and Desired State",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "group": "Phase I",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase I",
+            "task": "Consultation: Timesheet, Crews, T&M Tickets, Equipment",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase I",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase II",
+            "task": "Consultation: Resource Planning",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase II",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete Certification Training",
+            "type": "Task",
+            "desc": "Link relevant certification training",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase III",
+            "task": "Consultation: Materials",
+            "type": "Meeting",
+            "desc": "SPC to lead working session to review the tools, process and workflows. Consultative guidance on smart practices, configuration settings and permissions based on desired business process and value",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase III",
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Analytics Setup",
+            "type": "Task"
+          },
+          {
+            "group": "Phase IV",
+            "task": "(If not yet acquired) Acquire Power BI licenses",
+            "type": "Task",
+            "desc": "1. PowerBI to be acquired outside of Procore. 2. Ensure proper permission levels are available for client to set up their PowerBI workspace",
+            "owner": "Customer"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Kickoff Call with Analytics Resource",
+            "type": "Meeting",
+            "desc": "1. Review and agree on the scope of the engagement and implementation process. 2. Confirm Power BI licenses and requirements",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Activation Call - Report Deployment and overview",
+            "type": "Meeting",
+            "desc": "The AIS leads the Activation call to confirm technical setup, token and deliverable feasibility.",
+            "owner": "Procore"
+          },
+          {
+            "group": "Phase IV",
+            "task": "Procore Analytics Product Deep Dive",
+            "type": "Meeting",
+            "desc": "This call is a consulting call to discuss how to navigate the analytics tool, where to find reports, and how to use the reporting tools available, as well as answer any questions the customer may have. The consulting call agenda could vary depending on what the customer's goals are with Analytics. The number of calls and cadence to be determined with Analytics Resource based on what was decided in the alignment and/or discovery calls",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "validate",
+        "items": [
+          {
+            "task": "Configuration Training",
+            "type": "Meeting",
+            "desc": "SPC will lead a training on the configuration architecture of Procore and review changes made due to deviations from the default settings",
+            "owner": "Procore"
+          },
+          {
+            "task": "Validation Script",
+            "type": "Task",
+            "desc": "PC to provide testing/validation guide to customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Configurations per configuration workbook & validation script, test tools in scope",
+            "type": "Task",
+            "desc": "Client's Procore committee and project team(s) will use designated Procore tools based on the key decisions made to validate process and gather feedback from the team",
+            "owner": "Customer"
+          },
+          {
+            "task": "Analytics End User Validation",
+            "type": "Task",
+            "desc": "Validate the completed work against the approved documentation and facilitate any end-user testing. 1. Minor customizations include but are not limited to: - Report consolidation, setting filters, hiding pages, adjusting visuals, and making modifications to existing content 2. Major customizations (not included) would consist of adding new pages or content to the reports and must be scoped.",
+            "owner": "Customer"
+          },
+          {
+            "task": "Product Q&A",
+            "type": "Meeting",
+            "desc": "Q&A session with the SPC to address any remaining questions on tools in scope",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Provide Closeout Document",
+            "type": "Deliverable",
+            "desc": "A summary of the project's performance, lessons learned, SPC recommendations",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "procore-ai": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          },
+          {
+            "task": "Confirm Procore Committee",
+            "type": "Task",
+            "desc": "Recommended Committee: Exec Sponsor, PM, PE, Superintendent",
+            "owner": "Customer"
+          },
+          {
+            "task": "Confirm 3 Pilot Projects",
+            "type": "Task",
+            "desc": "Pilot Project Criteria: - Projects in procurement or construction phase - Avoid projects in preconstruction or closeout due to reduced activity level",
+            "owner": "Customer"
+          },
+          {
+            "task": "Identify 3 Project Champions",
+            "type": "Task",
+            "owner": "Customer"
+          },
+          {
+            "task": "Identify 2 Pilot Agents",
+            "type": "Task",
+            "owner": "Customer"
+          },
+          {
+            "task": "Review Scope and Package Deliverables",
+            "type": "Task",
+            "owner": "Procore"
+          },
+          {
+            "task": "Schedule Configuration Consultation",
+            "type": "Task",
+            "owner": "Procore"
+          },
+          {
+            "task": "Project Plan Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide Project plan",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Configuration Consultation",
+            "type": "Meeting",
+            "desc": "Procore SPC completes Configuration Checklist & shares Prompt Testing Checklist with the customer",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete Prompt Testing Checklist",
+            "type": "Task",
+            "owner": "Customer"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Feedback & Closeout Call",
+            "type": "Meeting",
+            "desc": "Invite AM/CSE and SPC",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ],
+    "materials": [
+      {
+        "phase": "kickoff",
+        "items": [
+          {
+            "task": "Project Kickoff Call",
+            "type": "Meeting",
+            "desc": "Implementation Kick Off Call to review Procore's implementation process, determine outcomes and goals for the engagement",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "build",
+        "items": [
+          {
+            "task": "Consultation: Materials",
+            "type": "Meeting",
+            "desc": "The Consultation Call is a collaborative working session where your SPC leads discussions to align your operational processes with Procore’s industry-proven best practices. During this block, we will review your specific workflows, determine the correct configuration settings, and make critical decisions regarding your templates and permission architecture. Tools Covered: Materials (Discovery, Settings, Connection to Commitments &amp; Invoicing, Requirements, Orders, Shipments, Receipts, and Defects)",
+            "owner": "Procore"
+          },
+          {
+            "task": "Consultation: Materials",
+            "type": "Meeting",
+            "desc": "The Consultation Call is a collaborative working session where your SPC leads discussions to align your operational processes with Procore’s industry-proven best practices. During this block, we will review your specific workflows, determine the correct configuration settings, and make critical decisions regarding your templates and permission architecture. Tools Covered: Materials (Direct Issuing, Transfers, Adjustments, Inter-Project Transfers, and Mobile App)",
+            "owner": "Procore"
+          },
+          {
+            "task": "Complete account configuration",
+            "type": "Task",
+            "desc": "Refer to configuration deliverable",
+            "owner": "Procore"
+          },
+          {
+            "task": "Configuration Deliverable",
+            "type": "Deliverable",
+            "desc": "Procore to provide a document outlining changes made to customer's Procore account",
+            "owner": "Procore"
+          }
+        ]
+      },
+      {
+        "phase": "closeout",
+        "items": [
+          {
+            "task": "Project Closeout Call",
+            "type": "Meeting",
+            "desc": "Call led by PC to review project outcomes, lessons learned, recommendations and transition to CSE",
+            "owner": "Procore"
+          }
+        ]
+      }
+    ]
+  },
+  "schedulingTemplates": {
+    "pe-essentials": [
+      {
+        "title": "Project Kickoff",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery Workshop",
+        "duration": "2 Hours",
+        "tools": "Drawings, RFIs, Submittals, Observations, Daily Log"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Drawings, RFIs, Submittals, Observations, Daily Log"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "1.5 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 minutes"
+      }
+    ],
+    "pe-standard": [
+      {
+        "title": "Project Kickoff",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery Workshop",
+        "duration": "2 Hours",
+        "tools": "Drawings, RFIs, Submittals,Daily Log, Correspondence"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Drawings, RFIs, Submittals,Daily Log, Correspondence"
+      },
+      {
+        "title": "Discovery Workshop",
+        "duration": "2 Hours",
+        "tools": "Inspections, Observations , Punch List, Bidding"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Inspections, Observations , Punch List, Bidding"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "2 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1 Hours"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 minutes"
+      }
+    ],
+    "pe-enterprise": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery Workshop",
+        "duration": "3 Hours",
+        "tools": "Drawings, RFIs, Submittals, Daily Log, Correspondence, Inspections, Observations, Punch List, Bidding, Reports"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Drawings, RFIs, Submittals, Daily Log, Correspondence"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Inspections, Observations, Punch List, Bidding, Reports"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "2 Hours",
+        "tools": "BIM, Design Coordination"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Analytics Kickoff",
+        "duration": "0.5 Hours"
+      },
+      {
+        "title": "Activation Call",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Analytics Product Deep Dive",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "3 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1.5 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1.5 Hours"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 mins"
+      }
+    ],
+    "standard": [
+      {
+        "title": "Kickoff Call",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery Workshop",
+        "duration": "2 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events/Orders, Invoicing, Direct Costs"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "3 hour",
+        "internal": true
+      },
+      {
+        "title": "Contract Customization Technical Discovery Call (after SPC Discovery — week 6)",
+        "duration": "1 hour",
+        "tools": "ONE Prime Contract or Commitment, Purchase Order, Change Order, Invoice",
+        "commercialOnly": true
+      },
+      {
+        "title": "Form Creation",
+        "duration": "3.5 hours",
+        "internal": true,
+        "commercialOnly": true
+      },
+      {
+        "title": "Contract Customization Validation and Training",
+        "duration": "30 Minutes",
+        "commercialOnly": true
+      },
+      {
+        "title": "Configuration Work and PDF mapping document",
+        "duration": "0.5 hour",
+        "internal": true,
+        "commercialOnly": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Invoicing, Workflows, Reports"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "3 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 min"
+      }
+    ],
+    "enterprise": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Procore Discovery Workshop",
+        "duration": "2 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events/Orders, Invoicing, Direct Costs, Estimating"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "3 hour",
+        "internal": true
+      },
+      {
+        "title": "Contract Customization Technical Discovery Call (after SPC Discovery — week 6)",
+        "duration": "1 hour",
+        "tools": "ONE Prime Contract or Commitment, Purchase Order, Change Order, Invoice",
+        "commercialOnly": true
+      },
+      {
+        "title": "Form Creation",
+        "duration": "3.5 hours",
+        "internal": true,
+        "commercialOnly": true
+      },
+      {
+        "title": "Contract Customization Validation and Training",
+        "duration": "30 Minutes",
+        "commercialOnly": true
+      },
+      {
+        "title": "Configuration Work and PDF mapping document",
+        "duration": "0.5 hour",
+        "internal": true,
+        "commercialOnly": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Estimating, Invoicing, Workflows"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "3 hour",
+        "internal": true
+      },
+      {
+        "title": "Procore Consultation| Reports",
+        "duration": "2 Hours",
+        "tools": "Reports"
+      },
+      {
+        "title": "Consultation",
+        "duration": "2 hour",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "2 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "2 Hours"
+      },
+      {
+        "title": "Analytics Kickoff",
+        "duration": "0.5 Hours"
+      },
+      {
+        "title": "Activation Call",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Analytics Product Deep Dive",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 min"
+      }
+    ],
+    "rm-tracking": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "30 mins"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery & Consultation",
+        "duration": "3 Hours",
+        "tools": "Timesheet, Crews, T&M, Equipment"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "1.5 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "0.5 Hours"
+      }
+    ],
+    "rm-planning": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "30 mins"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery",
+        "duration": "1 Hour",
+        "tools": "Resource Planning"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Resource Planning"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "2 hours",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "1 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 mins"
+      }
+    ],
+    "rm-advanced": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery",
+        "duration": "2Hours",
+        "tools": "Timesheet, Crews, T&M, Equipment, Resource Planning, Reports"
+      },
+      {
+        "title": "Consultation",
+        "duration": "3 Hours",
+        "tools": "Timesheet, Crews, T&M, Equipment"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Resource Planning, Reports"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 hours",
+        "tools": "Materials (Discovery, Settings, Connection to Commitments &amp; Invoicing, Requirements, Orders, Shipments, Receipts, Defects, Direct Issuing, Transfers, Adjustments, Inter-Project Transfers &; Mobile App"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "4 hours",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1.5 Hours"
+      },
+      {
+        "title": "Analytics Kickoff",
+        "duration": "0.5 Hours"
+      },
+      {
+        "title": "Activation Call",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Analytics Product Deep Dive",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 minutes"
+      }
+    ],
+    "plm-owners": [
+      {
+        "title": "Project Kickoff Call",
+        "duration": "1 hour"
+      },
+      {
+        "title": "Weekly Check-In Call (Optional)",
+        "duration": "15 Minutes"
+      },
+      {
+        "title": "Discovery",
+        "duration": "2 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events/Orders, Invoicing, Direct Costs"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "WBS, Prime Contracts, Commitments, Budget, Change Events"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "3 hour",
+        "internal": true
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Invoicing, Direct Costs, Workflows, Reports"
+      },
+      {
+        "title": "Configuration Work",
+        "duration": "3 hour",
+        "internal": true
+      },
+      {
+        "title": "Discovery",
+        "duration": "2 Hours",
+        "tools": "Drawings, Correspondence, Action Plans, Punch List, Bidding"
+      },
+      {
+        "title": "Consultation",
+        "duration": "4 Hours",
+        "tools": "Drawings, Correspondence, Action Plans, Punch List, Bidding"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "3 hours",
+        "internal": true
+      },
+      {
+        "title": "Configuration Training",
+        "duration": "2 Hours"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "2 Hours"
+      },
+      {
+        "title": "Analytics Kickoff",
+        "duration": "0.5 Hours"
+      },
+      {
+        "title": "Activation Call",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Analytics Product Deep Dive",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "30 min"
+      }
+    ],
+    "materials": [
+      {
+        "title": "Materials Consultation",
+        "duration": "2 hours",
+        "tools": "Materials (Discovery, Settings, Connection to Commitments &amp; Invoicing, Requirements, Orders, Shipments, Receipts, and Defects)"
+      },
+      {
+        "title": "Materials Consultation",
+        "duration": "2 hours",
+        "tools": "Materials (Direct Issuing, Transfers, Adjustments, Inter-Project Transfers, and Mobile App)"
+      },
+      {
+        "title": "Product Q&A",
+        "duration": "1 Hour"
+      },
+      {
+        "title": "Configuration Work (Internal)",
+        "duration": "1 hour",
+        "internal": true
+      },
+      {
+        "title": "Project Closeout Call",
+        "duration": "15 min"
+      }
+    ]
   }
 }
